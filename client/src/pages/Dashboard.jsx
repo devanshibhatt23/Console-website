@@ -237,6 +237,31 @@ export default function Dashboard() {
     }
   }
 
+  async function handleDeleteResume() {
+    if (!window.confirm("Are you sure you want to remove your resume?")) return;
+    setSuccessMsg("");
+    setErrorMsg("");
+    setUploading(true);
+
+    try {
+      if (profile?.resume_url) {
+        await deleteResume(profile.resume_url);
+      }
+
+      await updateProfile(user.id, {
+        resume_url: null,
+      });
+
+      setResumeSignedUrl("");
+      setSuccessMsg("Resume removed successfully.");
+      if (refreshProfile) await refreshProfile();
+    } catch (err) {
+      setErrorMsg("Failed to remove resume: " + err.message);
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function handleAddComment(e) {
     e.preventDefault();
     if (!newCommentText.trim()) return;
@@ -577,22 +602,39 @@ export default function Dashboard() {
                   </svg>
                   <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-h)" }}>my_resume.pdf</span>
                 </div>
-                <a
-                  href={resumeSignedUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    padding: "6px 12px",
-                    borderRadius: "4px",
-                    background: "var(--accent)",
-                    color: "#fff",
-                    fontSize: "12px",
-                    fontWeight: "600",
-                    textDecoration: "none",
-                  }}
-                >
-                  View / Download
-                </a>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <a
+                    href={resumeSignedUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      background: "var(--accent)",
+                      color: "#fff",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      textDecoration: "none",
+                    }}
+                  >
+                    View / Download
+                  </a>
+                  <button
+                    onClick={handleDeleteResume}
+                    style={{
+                      padding: "6px 12px",
+                      borderRadius: "4px",
+                      background: "rgba(239, 68, 68, 0.1)",
+                      border: "1px solid rgba(239, 68, 68, 0.3)",
+                      color: "#ef4444",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             )}
           </div>

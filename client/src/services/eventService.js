@@ -21,3 +21,12 @@ export async function createEvent(event) {
 
   return data;
 }
+
+export async function deleteEvent(eventId) {
+  const { error } = await supabase
+    .from("events")
+    .delete()
+    .eq("id", eventId);
+
+  if (error) throw error;
+}

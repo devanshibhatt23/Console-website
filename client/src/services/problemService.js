@@ -5,13 +5,16 @@ import { supabase } from "../lib/supabase.js";
  * @returns {Promise<Object|null>}
  */
 export async function getPOTD() {
-  const today = new Date().toISOString().split("T")[0];
+  const localDate = new Date();
+  const year = localDate.getFullYear();
+  const month = String(localDate.getMonth() + 1).padStart(2, '0');
+  const day = String(localDate.getDate()).padStart(2, '0');
+  const today = `${year}-${month}-${day}`;
   
+  // Call the atomic database function to assign or get today's POTD
   const { data, error } = await supabase
-    .from("problems")
-    .select("*")
-    .eq("date", today)
-    .maybeSingle(); // Returns null instead of throwing if no rows are found
+    .rpc("assign_today_potd", { today_date: today })
+    .maybeSingle();
 
   if (error) throw error;
 
@@ -67,4 +70,17 @@ export async function getProblems() {
   if (error) throw error;
 
   return data;
+}
+
+/**
+ * Deletes a problem - Admin only
+ * @param {string} problemId - UUID of the problem to delete
+ */
+export async function deleteProblem(problemId) {
+  const { error } = await supabase
+    .from("problems")
+    .delete()
+    .eq("id", problemId);
+
+  if (error) throw error;
 }

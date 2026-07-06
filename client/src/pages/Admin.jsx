@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getEvents, createEvent } from "../services/eventService";
-import { getProblems, createProblem } from "../services/problemService";
+import { getEvents, createEvent, deleteEvent } from "../services/eventService";
+import { getProblems, createProblem, deleteProblem } from "../services/problemService";
 import { uploadEventImage } from "../services/storageService";
+
+function getLocalDateString() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -28,7 +33,7 @@ export default function Admin() {
   
   // POTD Form fields
   const [potdTitle, setPotdTitle] = useState("");
-  const [potdDate, setPotdDate] = useState(new Date().toISOString().split("T")[0]);
+  const [potdDate, setPotdDate] = useState(getLocalDateString());
   const [potdDifficulty, setPotdDifficulty] = useState("Medium");
   const [potdDescription, setPotdDescription] = useState("");
   const [potdSolution, setPotdSolution] = useState("");
@@ -167,7 +172,7 @@ export default function Admin() {
 
       // Clear POTD form fields
       setPotdTitle("");
-      setPotdDate(new Date().toISOString().split("T")[0]);
+      setPotdDate(getLocalDateString());
       setPotdDifficulty("Medium");
       setPotdDescription("");
       setPotdSolution("");
@@ -178,6 +183,32 @@ export default function Admin() {
       setErrorMsg("Failed to publish POTD: " + err.message);
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function handleDeleteEvent(eventId) {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+    setSuccessMsg("");
+    setErrorMsg("");
+    try {
+      await deleteEvent(eventId);
+      setSuccessMsg("Event deleted successfully.");
+      await loadEvents();
+    } catch (err) {
+      setErrorMsg("Failed to delete event: " + err.message);
+    }
+  }
+
+  async function handleDeleteProblem(problemId) {
+    if (!window.confirm("Are you sure you want to delete this problem?")) return;
+    setSuccessMsg("");
+    setErrorMsg("");
+    try {
+      await deleteProblem(problemId);
+      setSuccessMsg("Problem deleted successfully.");
+      await loadProblems();
+    } catch (err) {
+      setErrorMsg("Failed to delete problem: " + err.message);
     }
   }
 
@@ -395,7 +426,23 @@ export default function Admin() {
                       />
                     )}
                     <div style={{ flex: 1 }}>
-                      <h3 style={{ margin: "0 0 5px", fontSize: "17px", color: "var(--text-h)", fontWeight: "600" }}>{evt.title}</h3>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                        <h3 style={{ margin: "0 0 5px", fontSize: "17px", color: "var(--text-h)", fontWeight: "600" }}>{evt.title}</h3>
+                        <button
+                          onClick={() => handleDeleteEvent(evt.id)}
+                          style={{
+                            padding: "3px 8px",
+                            fontSize: "11px",
+                            background: "rgba(239, 68, 68, 0.1)",
+                            border: "1px solid rgba(239, 68, 68, 0.3)",
+                            color: "#ef4444",
+                            borderRadius: "4px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
                       <p style={{ fontSize: "13px", color: "var(--accent)", fontWeight: "600", marginBottom: "4px", fontFamily: "var(--mono)" }}>
                         📅 {new Date(evt.event_date).toLocaleString()}
                       </p>
@@ -520,29 +567,45 @@ export default function Admin() {
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
                       <h3 style={{ margin: "0", fontSize: "17px", color: "var(--text-h)", fontWeight: "600" }}>{prob.title}</h3>
-                      <span
-                        style={{
-                          fontSize: "11px",
-                          fontWeight: "700",
-                          textTransform: "uppercase",
-                          padding: "2px 8px",
-                          borderRadius: "4px",
-                          background:
-                            prob.difficulty === "Easy"
-                              ? "rgba(34, 197, 94, 0.15)"
-                              : prob.difficulty === "Hard"
-                              ? "rgba(239, 68, 68, 0.15)"
-                              : "rgba(234, 179, 8, 0.15)",
-                          color:
-                            prob.difficulty === "Easy"
-                              ? "#22c55e"
-                              : prob.difficulty === "Hard"
-                              ? "#ef4444"
-                              : "#eab308",
-                        }}
-                      >
-                        {prob.difficulty}
-                      </span>
+                      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                        <button
+                          onClick={() => handleDeleteProblem(prob.id)}
+                          style={{
+                            padding: "3px 8px",
+                            fontSize: "11px",
+                            background: "rgba(239, 68, 68, 0.1)",
+                            border: "1px solid rgba(239, 68, 68, 0.3)",
+                            color: "#ef4444",
+                            borderRadius: "4px",
+                            cursor: "pointer"
+                          }}
+                        >
+                          Delete
+                        </button>
+                        <span
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            textTransform: "uppercase",
+                            padding: "2px 8px",
+                            borderRadius: "4px",
+                            background:
+                              prob.difficulty === "Easy"
+                                ? "rgba(34, 197, 94, 0.15)"
+                                : prob.difficulty === "Hard"
+                                ? "rgba(239, 68, 68, 0.15)"
+                                : "rgba(234, 179, 8, 0.15)",
+                            color:
+                              prob.difficulty === "Easy"
+                                ? "#22c55e"
+                                : prob.difficulty === "Hard"
+                                ? "#ef4444"
+                                : "#eab308",
+                          }}
+                        >
+                          {prob.difficulty}
+                        </span>
+                      </div>
                     </div>
                     
                     <p style={{ fontSize: "13px", color: "var(--accent)", fontWeight: "600", marginBottom: "8px", fontFamily: "var(--mono)" }}>
