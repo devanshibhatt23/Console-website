@@ -28,7 +28,7 @@ export default function Admin() {
   
   // POTD Form fields
   const [potdTitle, setPotdTitle] = useState("");
-  const [potdDate, setPotdDate] = useState("");
+  const [potdDate, setPotdDate] = useState(new Date().toISOString().split("T")[0]);
   const [potdDifficulty, setPotdDifficulty] = useState("Medium");
   const [potdDescription, setPotdDescription] = useState("");
   const [potdSolution, setPotdSolution] = useState("");
@@ -167,7 +167,7 @@ export default function Admin() {
 
       // Clear POTD form fields
       setPotdTitle("");
-      setPotdDate("");
+      setPotdDate(new Date().toISOString().split("T")[0]);
       setPotdDifficulty("Medium");
       setPotdDescription("");
       setPotdSolution("");
