@@ -4,20 +4,20 @@
 The CONSOLE Club Platform is a comprehensive, interactive, and minimalist web application designed to foster a competitive coding culture within the college. It will serve as a centralized hub for leaderboards, resources, daily challenges, event updates, and student profiles.
 
 ## 2. Technology Stack
-*   **Frontend:** React (via Vite for fast builds), Tailwind CSS (for minimalist, custom styling), Framer Motion (for subtle micro-animations)
-*   **Backend:** Node.js with Express.js
-*   **Database:** MongoDB (using Mongoose for ODM)
-*   **Authentication & RBAC:** Clerk (highly suitable for React/Express with built-in RBAC)
+*   **Frontend:** React (via Vite for fast builds), Tailwind CSS (for minimalist styling), Framer Motion (for micro-animations).
+*   **Backend-as-a-Service (BaaS):** Supabase (provides PostgreSQL Database, Authentication, and Storage).
+*   **Development Environment:** Docker & Supabase CLI (for running the complete Supabase stack locally, ensuring environment parity across the team).
 *   **Third-Party APIs (Future Scope):** Codeforces API, LeetCode GraphQL (unofficial/scraped), CodeChef API (if available/scraped) for dynamic stat updates.
 
 ## 3. Role-Based Access Control (RBAC) Architecture
-Utilizing Clerk's organization/role features or custom metadata, we will enforce the following roles:
-*   **Super_Admin:** Full control. Can assign 'Admin' roles, manage all content, edit any profile, delete comments, and access administrative dashboards.
-*   **Admin:** Content managers. Can post new POTDs, update resources, add events, and moderate discussion threads/comments. Cannot manage other admins.
-*   **Member:** Standard user. Can view all public pages, edit their own profile, submit POTD solutions, and participate in discussion threads. Requires college email ID for registration (enforced via Clerk allowlists or email domain validation).
+Utilizing Supabase Authentication and PostgreSQL Row Level Security (RLS), we will enforce the following roles:
+*   **Super_Admin:** Full control. Can manage all content and access administrative capabilities. (Role stored in a custom `user_roles` table or JWT claims).
+*   **Admin:** Content managers. Can post new POTDs, update resources, add events, and moderate discussion threads/comments. 
+*   **Member:** Standard user. Can view all public pages, edit their own profile, submit POTD solutions, and participate in discussion threads. Requires college email ID for registration (enforced via Supabase Auth email allowlists).
+*   *Security Note:* All tables will have strict RLS policies ensuring users can only edit their own data, while Admins have broader write access.
 
 ## 4. Directory & Folder Structure
-We will use a monorepo-style structure to keep the frontend and backend together for easier local development.
+By leveraging Supabase, we eliminate the need for a custom Express backend. The repository will contain the React client and Supabase configurations.
 
 ```text
 console-website/
@@ -26,78 +26,73 @@ console-website/
 │   ├── src/
 │   │   ├── assets/             # Global CSS, fonts
 │   │   ├── components/         # Reusable UI components (Buttons, Cards, Navbar)
-│   │   ├── contexts/           # React Contexts (Theme, Auth state wrapper if needed)
-│   │   ├── hooks/              # Custom React hooks (e.g., useFetch)
-│   │   ├── layouts/            # Page layouts (e.g., MainLayout, DashboardLayout)
+│   │   ├── hooks/              # Custom React hooks (e.g., useAuth, useSupabase)
+│   │   ├── layouts/            # Page layouts
 │   │   ├── pages/              # Route components (Home, Leaderboard, Profile, POTD)
-│   │   ├── services/           # API call logic (Axios/Fetch instances)
+│   │   ├── lib/                # Supabase client initialization (supabase.js)
 │   │   ├── utils/              # Helper functions (date formatting, validators)
 │   │   ├── App.jsx             # Main application component & Routing
 │   │   └── main.jsx            # Entry point
+│   ├── Dockerfile              # Frontend Docker configuration (dev)
 │   ├── package.json
 │   └── vite.config.js
 │
-├── server/                     # Express Backend
-│   ├── config/                 # Environment variables, DB connection
-│   ├── controllers/            # Request handling logic (userController, potdController)
-│   ├── middlewares/            # Clerk Auth validation, RBAC checks, Error handling
-│   ├── models/                 # Mongoose schemas (User, Problem, Comment, Event)
-│   ├── routes/                 # Express routes mapping to controllers
-│   ├── services/               # Complex business logic, external API fetching (CF, LeetCode)
-│   ├── utils/                  # Helper functions
-│   ├── index.js                # Server entry point
-│   └── package.json
+├── supabase/                   # Supabase Configuration & Migrations
+│   ├── migrations/             # SQL files for database schema and RLS policies
+│   ├── seed.sql                # Initial mock data for local development
+│   └── config.toml             # Local Supabase settings
 │
 ├── .gitignore
+├── docker-compose.yml          # Multi-container orchestration for the React Frontend (Supabase runs via its CLI/Docker under the hood)
 ├── README.md
 └── plan.md                     # Project documentation (this file)
 ```
 
-## 5. High-Level Database Schema (MongoDB)
-*   **User:** Clerk ID, College Email, Name, College ID, Branch, Social Handles (CF, LC, CC, LinkedIn, GitHub), Skills (Array), Resume URL, Daily Heatmap Data, Role (mapped from Clerk).
-*   **POTD (Problem of the Day):** Date, Title, Difficulty, Description, Solution (hidden until next day).
-*   **Submission (POTD):** UserID, POTDID, Submission Time, Status (Correct/Incorrect), Attempts.
-*   **Comment/Discussion:** UserID, TargetID (POTD/Contest), Content, Timestamp.
-*   **Event:** Title, Date, Venue, Description, Image URL.
-*   **Resource:** Category (DSA, ML, Web3), Title, URL, Description.
+## 5. High-Level Database Schema (PostgreSQL)
+*   **users (auth.users):** Managed by Supabase (Email, Password, Auth Provider).
+*   **profiles:** UUID (refs auth.users), Name, College ID, Branch, Social Handles (CF, LC, CC, LinkedIn, GitHub), Skills (Array/JSON), Resume_URL, Role (Member/Admin).
+*   **problems (POTD):** ID, Date, Title, Difficulty, Description, Solution (hidden until next day).
+*   **submissions:** ID, User_ID (refs profiles), Problem_ID, Submission_Time, Status, Attempts.
+*   **comments:** ID, User_ID (refs profiles), Target_ID (refs problems/events), Content, Created_At.
+*   **events:** ID, Title, Date, Venue, Description, Image_URL.
+*   **resources:** ID, Category, Title, URL, Description.
 
 ## 6. Implementation Roadmap (10-Day Sprint)
-*Note: With a 3-member team, tasks should be highly parallelized. Assign one person to Frontend, one to Backend/DB, and one to Integration/Auth.*
+*Note: With a 3-member team, tasks should be highly parallelized.*
 
-### Day 1-2: Foundation & Authentication
-*   **Setup:** Initialize the Git repository, folder structure, and install core dependencies.
-*   **Database:** Configure MongoDB Atlas and build the core Mongoose schemas (User, Problem).
-*   **Auth:** Integrate Clerk, enforce `@college_domain.edu` sign-ups, and establish RBAC middleware.
-*   **Base UI:** Setup Vite + React + Tailwind CSS and build the main layout (Navbar, Footer, Routing).
+### Day 1-2: Foundation & Local Environment
+*   **Setup:** Initialize the Git repository, define lockfiles (`package-lock.json`), and set up Vite/React.
+*   **Supabase Local Dev:** Install Supabase CLI and Docker. Initialize the local Supabase project (`supabase init`, `supabase start`) so all 3 members have identical local databases.
+*   **Auth & Schema:** Configure Supabase Auth (restrict to `@college_domain.edu`). Write initial SQL migrations for the `profiles` table and set up basic RLS policies.
+*   **Base UI:** Build the main React layout (Navbar, Footer, Routing) with Tailwind CSS.
 
 ### Day 3-4: User Profiles & Leaderboard Core
-*   **Profiles:** Develop the Profile page (frontend forms for skills, handles, resume upload) and the corresponding backend API to save data.
-*   **Leaderboard (V1):** Build the Leaderboard UI and backend endpoints. Initially use manual data or basic mock data.
+*   **Profiles:** Develop the Profile page UI. Connect it to Supabase to let users update their handles, skills, and upload resumes (via Supabase Storage).
+*   **Leaderboard (V1):** Build the Leaderboard UI. Fetch user profiles from Supabase. Initially use manual data or basic mock data.
 *   **API Research:** One team member investigates fetching Codeforces/LeetCode data while others build the UI.
 
 ### Day 5-6: POTD & Static Content
-*   **POTD:** Create the Admin UI to post daily problems. Build the Member UI to view them and submit status. Add the POTD daily leaderboard logic.
+*   **Database Design:** Write SQL migrations for `problems` and `submissions` tables with proper RLS (only Admins can insert problems).
+*   **POTD:** Create the Admin UI to post daily problems. Build the Member UI to view them and submit status. 
 *   **Content Pages:** Build the static/semi-dynamic pages for Resources, First-Year Tech Guide, Career Hub, Events, and FAQs.
 
 ### Day 7-8: Interactive Features & Community
-*   **Discussions:** Implement discussion threads and commenting functionality under POTDs.
-*   **Search:** Develop a search bar and backend query logic for users to look up other profiles.
-*   **Integration:** Ensure Clerk RBAC is actively protecting admin actions (like posting POTDs or deleting comments).
+*   **Discussions:** Implement real-time discussion threads under POTDs using Supabase real-time subscriptions.
+*   **Search:** Develop a search bar to query the `profiles` table for users to look up other peers.
+*   **Security Audit:** Ensure all RLS policies in Supabase are watertight (users can't delete others' comments, etc.).
 
 ### Day 9-10: Polish, Testing & Deployment
-*   **UI/UX:** Apply the minimalist design theme fully. Add subtle Framer Motion animations. Ensure mobile responsiveness.
-*   **Testing:** End-to-end testing of user flows (Sign up -> Edit Profile -> View POTD -> Comment).
-*   **Deploy:** Deploy Frontend (Vercel/Netlify) and Backend (Render/Railway). Connect the custom domain.
+*   **UI/UX:** Apply the minimalist design theme fully. Add Framer Motion animations. Ensure mobile responsiveness.
+*   **Testing:** End-to-end testing of user flows (Sign up -> Edit Profile -> View POTD -> Comment) against the local Supabase instance.
+*   **Deploy:** Deploy the local Supabase project to the Supabase Cloud. Deploy the React frontend to Vercel/Netlify connected to the production Supabase instance.
 
 ## 7. Deployment Plan
-*   **Frontend Deployment:** **Vercel** or **Netlify**. Both offer seamless CI/CD integration with GitHub, excellent performance for React/Vite apps, and easy environment variable management.
-*   **Backend Deployment:** **Render** or **Railway**. Cost-effective, easy to deploy Node.js/Express applications, and provides automated deployments from GitHub.
-*   **Database:** **MongoDB Atlas** (Cloud). Use the free tier initially, scalable as the platform grows.
-*   **Media/File Storage (Resumes, Event Images):** **Cloudinary** or **AWS S3** (accessed via backend or signed URLs) to avoid bloating the database.
-*   **Domain:** Purchase a custom domain (e.g., `consoleclub.in`) and map subdomains (e.g., `api.consoleclub.in` for backend).
+*   **Frontend Deployment:** **Vercel** or **Netlify**. Both offer seamless CI/CD integration with GitHub.
+*   **Backend, Auth & Database:** **Supabase Cloud**. Push local migrations to the hosted Supabase project. It automatically handles the PostgreSQL database, API, Auth, and Storage.
+*   **Domain:** Purchase a custom domain (e.g., `consoleclub.in`) and link it to the Vercel frontend. Supabase handles its own API URLs, which can also be mapped to a custom domain on Pro tiers if needed.
 
 ## 8. Next Steps to Begin Development
 1.  Initialize the Git repository.
-2.  Set up the Clerk application in the Clerk Dashboard.
-3.  Set up a new MongoDB cluster.
-4.  Run `npm init` / `npm create vite@latest` to bootstrap the folders.
+2.  Install Docker Desktop and the Supabase CLI (`npm install -g supabase`).
+3.  Run `supabase init` and `supabase start` to spin up the local backend environment.
+4.  Run `npm create vite@latest client -- --template react` to bootstrap the frontend.
