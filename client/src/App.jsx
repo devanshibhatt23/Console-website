@@ -1,14 +1,22 @@
-import { supabase } from "./lib/supabase";
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  console.log(supabase);
-
   return (
-    <div>
-      <h1>Supabase Connected 🚀</h1>
-      <p>Console Website Setup Successful</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
