@@ -1,18 +1,15 @@
 import { supabase } from "../lib/supabase";
 
-// Sign Up
-export async function signUp(email, password) {
-  return await supabase.auth.signUp({
-    email,
-    password,
-  });
-}
-
-// Login
-export async function signIn(email, password) {
-  return await supabase.auth.signInWithPassword({
-    email,
-    password,
+// Google OAuth Login / Signup
+export async function signInWithGoogle() {
+  return await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin + '/dashboard',
+      queryParams: {
+        hd: 'mnit.ac.in', // UI level restriction
+      }
+    }
   });
 }
 
