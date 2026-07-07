@@ -24,22 +24,22 @@ const getYearFromEmail = (email) => {
 
 // --- PLATFORM API FETCHERS ---
 
-const fetchCodeforces = async (handles) => {
-    if (handles.length === 0) return [];
+const fetchCodeforces = async (handle) => {
     try {
-        const response = await axios.get(`https://codeforces.com/api/user.info?handles=${handles.join(';')}`);
-        if (response.data.status === 'OK') {
-            return response.data.result.map(user => ({
+        const response = await axios.get(`https://codeforces.com/api/user.info?handles=${handle}`);
+        if (response.data.status === 'OK' && response.data.result.length > 0) {
+            const user = response.data.result[0];
+            return {
                 handle: user.handle,
                 rating: user.rating || 0,
                 maxRating: user.maxRating || 0,
                 rank: user.rank || 'Unrated'
-            }));
+            };
         }
-        return [];
+        return null;
     } catch (error) {
-        console.error("Codeforces API Error:", error.message);
-        return [];
+        console.error(`Codeforces API Error for ${handle}:`, error.message);
+        return null;
     }
 };
 
@@ -127,12 +127,13 @@ app.get('/api/leaderboard', async (req, res) => {
         });
 
         // 2. Fetch data from platforms
-        const [cfData, lcResults, ccResults] = await Promise.all([
-            fetchCodeforces(cfHandles),
+        const [cfResults, lcResults, ccResults] = await Promise.all([
+            Promise.all(cfHandles.map(h => fetchCodeforces(h))),
             Promise.all(lcHandles.map(h => fetchLeetcode(h))),
             Promise.all(ccHandles.map(h => fetchCodechef(h)))
         ]);
 
+        const cfData = cfResults.filter(r => r !== null);
         const lcData = lcResults.filter(r => r !== null);
         const ccData = ccResults.filter(r => r !== null);
 
