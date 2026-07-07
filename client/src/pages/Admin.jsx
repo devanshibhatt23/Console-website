@@ -516,13 +516,13 @@ export default function Admin() {
               </div>
 
               <div style={{ marginBottom: "25px" }}>
-                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Solution Code / Text (optional)</label>
-                <textarea
-                  placeholder="Insert solution code template or explanation details (will be hidden from standard users until next day)..."
-                  rows="4"
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Problem Link (LC/CF URL)</label>
+                <input
+                  type="url"
+                  placeholder="https://leetcode.com/problems/..."
                   value={potdSolution}
                   onChange={(e) => setPotdSolution(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", fontFamily: "var(--mono)", resize: "none" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", fontFamily: "var(--mono)" }}
                 />
               </div>
 
