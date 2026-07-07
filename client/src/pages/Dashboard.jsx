@@ -182,7 +182,7 @@ export default function Dashboard() {
         codeforces_handle: codeforcesHandle.trim() || null,
         leetcode_handle: leetcodeHandle.trim() || null,
         codechef_handle: codechefHandle.trim() || null,
-        is_public: isPublic,
+        is_public: true,
       });
 
       setSuccessMsg("Profile details updated successfully!");
@@ -406,12 +406,6 @@ export default function Dashboard() {
               <span style={{ fontSize: "15px", fontWeight: "500", color: "var(--text-h)" }}>{user?.email}</span>
             </div>
 
-            <div style={{ marginBottom: "25px" }}>
-              <span style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)" }}>Portal Role</span>
-              <span style={{ display: "inline-block", fontSize: "12px", fontWeight: "700", background: "var(--accent-bg)", color: "var(--accent)", padding: "2px 8px", borderRadius: "4px", marginTop: "4px" }}>
-                {profile?.role?.toUpperCase() || "MEMBER"}
-              </span>
-            </div>
 
             <form onSubmit={handleUpdateProfile}>
               <div style={{ marginBottom: "15px" }}>
@@ -491,21 +485,6 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div style={{ marginBottom: "25px", display: "flex", alignItems: "center", gap: "10px" }}>
-                <input
-                  type="checkbox"
-                  id="profile-visibility-toggle"
-                  checked={isPublic}
-                  onChange={(e) => setIsPublic(e.target.checked)}
-                  style={{ width: "18px", height: "18px", cursor: "pointer" }}
-                />
-                <label
-                  htmlFor="profile-visibility-toggle"
-                  style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-h)", cursor: "pointer" }}
-                >
-                  Make my profile public (visible to other members)
-                </label>
-              </div>
 
               <button
                 type="submit"
@@ -531,59 +510,61 @@ export default function Dashboard() {
           <div style={{ padding: "30px", borderRadius: "12px", border: "1px solid var(--border)", background: "var(--code-bg)", display: "flex", flexDirection: "column", height: "fit-content" }}>
             <h2 style={{ fontSize: "20px", marginBottom: "20px", borderBottom: "1px solid var(--border)", paddingBottom: "10px" }}>Resume / CV</h2>
             <p style={{ fontSize: "14px", color: "var(--text)", marginBottom: "20px" }}>
-              Upload your resume in PDF format. It will be stored securely and will be accessible to administrators for placement and review purposes.
+              Upload your resume in PDF format.
             </p>
 
-            <div
-              style={{
-                border: "2px dashed var(--border)",
-                borderRadius: "8px",
-                padding: "30px 20px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "var(--bg)",
-                marginBottom: "20px",
-              }}
-            >
-              {uploading ? (
-                <span style={{ fontSize: "15px", fontWeight: "600", color: "var(--accent)" }}>Uploading file, please wait...</span>
-              ) : (
-                <>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text)" strokeWidth="1.5" style={{ marginBottom: "15px" }}>
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="17 8 12 3 7 8" />
-                    <line x1="12" y1="3" x2="12" y2="15" />
-                  </svg>
-                  <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleResumeUpload}
-                    style={{ display: "none" }}
-                    id="resume-file-input"
-                  />
-                  <label
-                    htmlFor="resume-file-input"
-                    style={{
-                      padding: "10px 20px",
-                      borderRadius: "6px",
-                      background: "var(--accent-bg)",
-                      color: "var(--accent)",
-                      fontWeight: "600",
-                      cursor: "pointer",
-                      fontSize: "14px",
-                      border: "1px solid var(--accent-border)",
-                    }}
-                  >
-                    Choose PDF File
-                  </label>
-                  <span style={{ fontSize: "12px", color: "var(--text)", marginTop: "8px" }}>PDF formats only (Max 2MB)</span>
-                </>
-              )}
-            </div>
+            {!profile?.resume_url && (
+              <div
+                style={{
+                  border: "2px dashed var(--border)",
+                  borderRadius: "8px",
+                  padding: "30px 20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "var(--bg)",
+                  marginBottom: "20px",
+                }}
+              >
+                {uploading ? (
+                  <span style={{ fontSize: "15px", fontWeight: "600", color: "var(--accent)" }}>Uploading file, please wait...</span>
+                ) : (
+                  <>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text)" strokeWidth="1.5" style={{ marginBottom: "15px" }}>
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <input
+                      type="file"
+                      accept=".pdf"
+                      onChange={handleResumeUpload}
+                      style={{ display: "none" }}
+                      id="resume-file-input"
+                    />
+                    <label
+                      htmlFor="resume-file-input"
+                      style={{
+                        padding: "10px 20px",
+                        borderRadius: "6px",
+                        background: "var(--accent-bg)",
+                        color: "var(--accent)",
+                        fontWeight: "600",
+                        cursor: "pointer",
+                        fontSize: "14px",
+                        border: "1px solid var(--accent-border)",
+                      }}
+                    >
+                      Choose PDF File
+                    </label>
+                    <span style={{ fontSize: "12px", color: "var(--text)", marginTop: "8px" }}>PDF formats only (Max 2MB)</span>
+                  </>
+                )}
+              </div>
+            )}
 
-            {resumeSignedUrl && (
+            {profile?.resume_url && (
               <div
                 style={{
                   padding: "15px",
@@ -600,25 +581,58 @@ export default function Dashboard() {
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
                   </svg>
-                  <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-h)" }}>my_resume.pdf</span>
+                  <span style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-h)" }}>
+                    {profile.resume_url.split('/').pop().replace(/_\d+\.pdf$/i, '.pdf')}
+                  </span>
                 </div>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <a
-                    href={resumeSignedUrl}
-                    target="_blank"
-                    rel="noreferrer"
+                <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                  {resumeSignedUrl ? (
+                    <a
+                      href={resumeSignedUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        padding: "6px 12px",
+                        borderRadius: "4px",
+                        background: "var(--accent)",
+                        color: "#fff",
+                        fontSize: "12px",
+                        fontWeight: "600",
+                        textDecoration: "none",
+                      }}
+                    >
+                      View
+                    </a>
+                  ) : (
+                    <span style={{ fontSize: "12px", color: "var(--text)", padding: "6px 12px" }}>
+                      Loading Link...
+                    </span>
+                  )}
+                  
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleResumeUpload}
+                    style={{ display: "none" }}
+                    id="resume-file-replace"
+                  />
+                  <label
+                    htmlFor="resume-file-replace"
                     style={{
                       padding: "6px 12px",
                       borderRadius: "4px",
-                      background: "var(--accent)",
-                      color: "#fff",
+                      background: "transparent",
+                      border: "1px solid var(--border)",
+                      color: "var(--text)",
                       fontSize: "12px",
                       fontWeight: "600",
-                      textDecoration: "none",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
-                    View / Download
-                  </a>
+                    Replace
+                  </label>
                   <button
                     onClick={handleDeleteResume}
                     style={{
@@ -683,107 +697,27 @@ export default function Dashboard() {
                       {potd.difficulty}
                     </span>
                   </div>
-                  
-                  <p style={{ color: "var(--accent)", fontSize: "13px", fontWeight: "600", fontFamily: "var(--mono)", marginBottom: "20px" }}>
+                            <p style={{ color: "var(--accent)", fontSize: "13px", fontWeight: "600", fontFamily: "var(--mono)", marginBottom: "8px" }}>
                     📅 Challenge Date: {potd.date}
                   </p>
+                  
+                  <p style={{ color: "var(--text)", fontSize: "13px", fontFamily: "var(--mono)", marginBottom: "15px" }}>
+                    🕒 Uploaded at: {new Date(potd.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </p>
+
+                  {potd.solution && (
+                    <a 
+                      href={potd.solution} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      style={{ display: "inline-block", color: "#3b82f6", fontWeight: "600", marginBottom: "20px", textDecoration: "underline" }}
+                    >
+                      Today's problem
+                    </a>
+                  )}
 
                   <div style={{ fontSize: "15px", lineHeight: "160%", color: "var(--text-h)", whiteSpace: "pre-wrap", borderTop: "1px solid var(--border)", paddingTop: "15px" }}>
                     {potd.description}
-                  </div>
-                </div>
-
-                {/* Submissions Section */}
-                <div style={{ padding: "30px", borderRadius: "12px", border: "1px solid var(--border)", background: "var(--code-bg)" }}>
-                  <h3 style={{ fontSize: "18px", margin: "0 0 15px", color: "var(--text-h)", borderBottom: "1px solid var(--border)", paddingBottom: "10px" }}>Log Your Solution</h3>
-                  
-                  <form onSubmit={handleSolutionSubmit} style={{ display: "flex", gap: "20px", alignItems: "flex-end", flexWrap: "wrap" }}>
-                    <div style={{ flex: 1, minWidth: "150px" }}>
-                      <label style={{ display: "block", fontSize: "11px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Status</label>
-                      <select
-                        value={submissionStatus}
-                        onChange={(e) => setSubmissionStatus(e.target.value)}
-                        style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", outline: "none" }}
-                      >
-                        <option value="Correct">Correct</option>
-                        <option value="Incorrect">Incorrect</option>
-                      </select>
-                    </div>
-
-                    <div style={{ width: "100px" }}>
-                      <label style={{ display: "block", fontSize: "11px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Attempts</label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={submissionAttempts}
-                        onChange={(e) => setSubmissionAttempts(parseInt(e.target.value) || 1)}
-                        style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }}
-                      />
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={submittingSolution}
-                      style={{
-                        padding: "10px 24px",
-                        borderRadius: "6px",
-                        border: "none",
-                        background: "var(--accent)",
-                        color: "#fff",
-                        fontWeight: "600",
-                        cursor: "pointer",
-                        height: "40px",
-                        opacity: submittingSolution ? 0.7 : 1,
-                      }}
-                    >
-                      {submittingSolution ? "Submitting..." : "Submit Log"}
-                    </button>
-                  </form>
-
-                  {/* Submission logs list */}
-                  <div style={{ marginTop: "25px" }}>
-                    <h4 style={{ fontSize: "14px", margin: "0 0 10px", color: "var(--text)" }}>Your Previous Submissions:</h4>
-                    {mySubmissions.length === 0 ? (
-                      <p style={{ fontSize: "13px", color: "var(--text)" }}>No submissions logged yet.</p>
-                    ) : (
-                      <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "150px", overflowY: "auto" }}>
-                        {mySubmissions.map((sub) => (
-                          <div
-                            key={sub.id}
-                            style={{
-                              padding: "10px 15px",
-                              borderRadius: "6px",
-                              border: "1px solid var(--border)",
-                              background: "var(--bg)",
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              fontSize: "13px",
-                            }}
-                          >
-                            <span style={{ fontWeight: "600", color: "var(--text-h)" }}>
-                              {sub.problems?.title || "POTD"}
-                            </span>
-                            <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-                              <span
-                                style={{
-                                  fontWeight: "700",
-                                  color: sub.status === "Correct" ? "#22c55e" : "#ef4444",
-                                }}
-                              >
-                                {sub.status}
-                              </span>
-                              <span style={{ color: "var(--text)", fontFamily: "var(--mono)" }}>
-                                Attempts: {sub.attempts}
-                              </span>
-                              <span style={{ color: "var(--text)", fontSize: "11px" }}>
-                                {new Date(sub.submission_time).toLocaleDateString()}
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -807,6 +741,9 @@ export default function Dashboard() {
                 background: "var(--code-bg)",
               }}
             >
+              <div style={{ padding: "10px", marginBottom: "15px", borderRadius: "8px", background: "rgba(239, 68, 68, 0.05)", border: "1px solid rgba(239, 68, 68, 0.2)", fontSize: "12px", color: "var(--text)", lineHeight: "1.5" }}>
+                <span style={{ fontWeight: "700", color: "#ef4444" }}>Note:</span> Any user who sends any inappropriate message will be permanently banned from the website. Only discuss questions, methods, and approaches here. Do not share the whole code here.
+              </div>
               {/* Chat Message Box */}
               <div
                 style={{
@@ -833,11 +770,15 @@ export default function Dashboard() {
                       <div
                         key={cmt.id}
                         style={{
-                          padding: "12px 15px",
-                          borderRadius: "10px",
-                          background: "var(--bg)",
-                          border: "1px solid var(--border)",
+                          padding: "10px 14px",
+                          borderRadius: "12px",
+                          background: isOwner ? "var(--accent-bg)" : "var(--bg)",
+                          border: `1px solid ${isOwner ? "var(--accent-border)" : "var(--border)"}`,
                           position: "relative",
+                          alignSelf: isOwner ? "flex-end" : "flex-start",
+                          maxWidth: "85%",
+                          borderBottomRightRadius: isOwner ? "2px" : "12px",
+                          borderBottomLeftRadius: isOwner ? "12px" : "2px",
                         }}
                       >
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
@@ -915,7 +856,7 @@ export default function Dashboard() {
                     background: "var(--accent)",
                     color: "#fff",
                     fontWeight: "600",
-                    cursor: "pointer",
+                    cursor: (addingComment || !newCommentText.trim()) ? "not-allowed" : "pointer",
                     opacity: (addingComment || !newCommentText.trim()) ? 0.7 : 1,
                   }}
                 >
@@ -924,6 +865,14 @@ export default function Dashboard() {
               </form>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Live Leaderboard Placeholder */}
+      {activeSection === "potd" && (
+        <div style={{ marginTop: "40px", padding: "30px", borderRadius: "12px", border: "1px dashed var(--border)", background: "var(--code-bg)", textAlign: "center" }}>
+          <h2 style={{ fontSize: "20px", marginBottom: "10px", color: "var(--text-h)" }}>Live Leaderboard</h2>
+          <p style={{ color: "var(--text)", fontSize: "14px", margin: "0" }}>Live Leaderboard section will be added later.</p>
         </div>
       )}
 
