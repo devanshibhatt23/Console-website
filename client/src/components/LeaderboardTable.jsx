@@ -21,7 +21,8 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
                 <thead>
                     <tr>
                         <th scope="col" style={{ width: '80px', textAlign: 'center' }}>Rank</th>
-                        <th scope="col">Developer</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Handle</th>
                         <th scope="col" style={{ textAlign: 'right' }}>{scoreLabel}</th>
                     </tr>
                 </thead>
@@ -36,23 +37,26 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
                                     </div>
                                 </td>
                                 <td>
-                                    <div className="user-info-cell">
-                                        <div className="user-name">{user.name}</div>
-                                        <a 
-                                            href={getProfileUrl(user.handle)} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer" 
-                                            className="user-handle"
-                                            title={`View ${user.name}'s profile on ${platformId.includes('codeforces') ? 'Codeforces' : 'LeetCode'}`}
-                                        >
-                                            @{user.handle}
-                                            <svg className="external-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                                <polyline points="15 3 21 3 21 9"></polyline>
-                                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                                            </svg>
-                                        </a>
+                                    <div className="user-name" style={{ fontWeight: '600', color: 'var(--text-h)' }}>
+                                        {user.name || "Anonymous"}
                                     </div>
+                                </td>
+                                <td>
+                                    <a 
+                                        href={getProfileUrl(user.handle)} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="user-handle"
+                                        title={`View ${user.name || "user"}'s profile on ${platformId.includes('codeforces') ? 'Codeforces' : 'LeetCode'}`}
+                                        style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                                    >
+                                        @{user.handle}
+                                        <svg className="external-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: '14px', height: '14px' }}>
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
                                 </td>
                                 <td style={{ textAlign: 'right' }}>
                                     <span className="score-pill">
