@@ -32,6 +32,7 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [resumeSignedUrl, setResumeSignedUrl] = useState("");
   const [skillsText, setSkillsText] = useState("");
+  const [collegeId, setCollegeId] = useState("");
   const [branch, setBranch] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
@@ -58,6 +59,7 @@ export default function Dashboard() {
   // Sync state with profile once loaded
   useEffect(() => {
     if (profile) {
+      setCollegeId(profile.college_id || "");
       setBranch(profile.branch || "");
       setGithubUrl(profile.github_url || "");
       setLinkedinUrl(profile.linkedin_url || "");
@@ -166,6 +168,13 @@ export default function Dashboard() {
     e.preventDefault();
     setSuccessMsg("");
     setErrorMsg("");
+
+    // Validate College ID is provided (required for year-based leaderboard)
+    if (!collegeId.trim()) {
+      setErrorMsg("College ID is required.");
+      return;
+    }
+
     setUpdatingProfile(true);
 
     try {
@@ -175,6 +184,7 @@ export default function Dashboard() {
         .filter((s) => s.length > 0);
 
       await updateProfile(user.id, {
+        college_id: collegeId.trim(),
         branch: branch.trim(),
         github_url: githubUrl.trim(),
         linkedin_url: linkedinUrl.trim(),
@@ -408,6 +418,23 @@ export default function Dashboard() {
 
 
             <form onSubmit={handleUpdateProfile}>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>
+                  College ID <span style={{ color: "#ef4444" }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. 2026BTCS001"
+                  value={collegeId}
+                  onChange={(e) => setCollegeId(e.target.value)}
+                  required
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: `1px solid ${!collegeId.trim() ? "#ef4444" : "var(--border)"}`, background: "var(--bg)", color: "var(--text-h)" }}
+                />
+                <span style={{ fontSize: "11px", color: "var(--text)", marginTop: "4px", display: "block" }}>
+                  Your college roll number starting with your batch year (e.g. 2026BTCS001). Used to determine your year on the leaderboard.
+                </span>
+              </div>
+
               <div style={{ marginBottom: "15px" }}>
                 <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Branch</label>
                 <input
