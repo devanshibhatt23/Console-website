@@ -32,6 +32,7 @@ export default function Dashboard() {
   const [uploading, setUploading] = useState(false);
   const [resumeSignedUrl, setResumeSignedUrl] = useState("");
   const [skillsText, setSkillsText] = useState("");
+  const [name, setName] = useState("");
   const [collegeId, setCollegeId] = useState("");
   const [branch, setBranch] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
@@ -59,6 +60,7 @@ export default function Dashboard() {
   // Sync state with profile once loaded
   useEffect(() => {
     if (profile) {
+      setName(profile.name || "");
       setCollegeId(profile.college_id || "");
       setBranch(profile.branch || "");
       setGithubUrl(profile.github_url || "");
@@ -66,7 +68,6 @@ export default function Dashboard() {
       setSkillsText(profile.skills ? profile.skills.join(", ") : "");
       setCodeforcesHandle(profile.codeforces_handle || "");
       setLeetcodeHandle(profile.leetcode_handle || "");
-      setCodechefHandle(profile.codechef_handle || "");
       setIsPublic(profile.is_public !== false); // Defaults to true
       
       if (profile.resume_url) {
@@ -169,9 +170,9 @@ export default function Dashboard() {
     setSuccessMsg("");
     setErrorMsg("");
 
-    // Validate College ID is provided (required for year-based leaderboard)
-    if (!collegeId.trim()) {
-      setErrorMsg("College ID is required.");
+    // Validate Name is provided (required to complete profile)
+    if (!name.trim()) {
+      setErrorMsg("Name is required to complete your profile.");
       return;
     }
 
@@ -184,14 +185,13 @@ export default function Dashboard() {
         .filter((s) => s.length > 0);
 
       await updateProfile(user.id, {
-        college_id: collegeId.trim(),
+        name: name.trim(),
         branch: branch.trim(),
         github_url: githubUrl.trim(),
         linkedin_url: linkedinUrl.trim(),
         skills: skillsArray,
         codeforces_handle: codeforcesHandle.trim() || null,
         leetcode_handle: leetcodeHandle.trim() || null,
-        codechef_handle: codechefHandle.trim() || null,
         is_public: true,
       });
 
@@ -410,28 +410,56 @@ export default function Dashboard() {
           {/* Profile form */}
           <div style={{ padding: "30px", borderRadius: "12px", border: "1px solid var(--border)", background: "var(--code-bg)" }}>
             <h2 style={{ fontSize: "20px", marginBottom: "20px", borderBottom: "1px solid var(--border)", paddingBottom: "10px" }}>About You</h2>
-            
-            <div style={{ marginBottom: "15px" }}>
-              <span style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)" }}>Email Address</span>
-              <span style={{ fontSize: "15px", fontWeight: "500", color: "var(--text-h)" }}>{user?.email}</span>
-            </div>
 
+            {/* Profile completion banner */}
+            {!profile?.name && (
+              <div style={{ padding: "12px", marginBottom: "20px", borderRadius: "6px", background: "rgba(251, 191, 36, 0.1)", border: "1px solid rgba(251, 191, 36, 0.3)", color: "#fbbf24", fontSize: "14px" }}>
+                ⚠️ Please enter your <strong>Name</strong> to complete your profile and access the rest of the website.
+              </div>
+            )}
 
             <form onSubmit={handleUpdateProfile}>
+              {/* Name — Required */}
               <div style={{ marginBottom: "15px" }}>
                 <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>
-                  College ID <span style={{ color: "#ef4444" }}>*</span>
+                  Full Name <span style={{ color: "#ef4444" }}>*</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. 2026BTCS001"
-                  value={collegeId}
-                  onChange={(e) => setCollegeId(e.target.value)}
+                  placeholder="Your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
-                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: `1px solid ${!collegeId.trim() ? "#ef4444" : "var(--border)"}`, background: "var(--bg)", color: "var(--text-h)" }}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: `1px solid ${!name.trim() ? "#ef4444" : "var(--border)"}`, background: "var(--bg)", color: "var(--text-h)" }}
+                />
+              </div>
+
+              {/* Email — Read Only */}
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={profile?.email || user?.email || ""}
+                  disabled
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text)", opacity: 0.6, cursor: "not-allowed" }}
+                />
+              </div>
+
+              {/* College ID — Auto-filled, Read Only */}
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>
+                  College ID
+                </label>
+                <input
+                  type="text"
+                  value={collegeId}
+                  disabled
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text)", opacity: 0.6, cursor: "not-allowed" }}
                 />
                 <span style={{ fontSize: "11px", color: "var(--text)", marginTop: "4px", display: "block" }}>
-                  Your college roll number starting with your batch year (e.g. 2026BTCS001). Used to determine your year on the leaderboard.
+                  Auto-filled from your email. Used to determine your year on the leaderboard.
                 </span>
               </div>
 
@@ -490,16 +518,7 @@ export default function Dashboard() {
                 />
               </div>
 
-              <div style={{ marginBottom: "15px" }}>
-                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>CodeChef Handle</label>
-                <input
-                  type="text"
-                  placeholder="CodeChef Username"
-                  value={codechefHandle}
-                  onChange={(e) => setCodechefHandle(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }}
-                />
-              </div>
+
 
               <div style={{ marginBottom: "25px" }}>
                 <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Skills (comma separated)</label>
