@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Leaderboard from "./pages/Leaderboard";
+import POTDLeaderboard from "./pages/POTDLeaderboard";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
