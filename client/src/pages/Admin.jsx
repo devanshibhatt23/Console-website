@@ -158,12 +158,22 @@ export default function Admin() {
     setSubmitting(true);
 
     try {
+      const solutionUrl = potdSolution.trim();
+      let platform = null;
+      if (solutionUrl.toLowerCase().includes("leetcode.com")) {
+        platform = "leetcode";
+      } else if (solutionUrl.toLowerCase().includes("codeforces.com")) {
+        platform = "codeforces";
+      }
+
       const potdPayload = {
         title: potdTitle.trim(),
         date: potdDate, // Format: YYYY-MM-DD
         difficulty: potdDifficulty,
         description: potdDescription.trim(),
-        solution: potdSolution.trim() || null,
+        solution: solutionUrl || null,
+        platform: platform,
+        posted_at: new Date().toISOString()
       };
 
       await createProblem(potdPayload);

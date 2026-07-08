@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Leaderboard from "./pages/Leaderboard";
+import POTDLeaderboard from "./pages/POTDLeaderboard";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />
         </Route>
 
         {/* Admin Routes */}
@@ -30,6 +32,7 @@ function App() {
         </Route>
 
         {/* 404 */}
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

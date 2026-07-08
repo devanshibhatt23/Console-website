@@ -4,9 +4,9 @@ This guide covers everything you need to know to run the Console Website locally
 
 ## Project Architecture
 The project now consists of three main parts:
-1. **Frontend (`/client`)**: React + Vite (Port `5173`)
-2. **Backend Server (`/server`)**: Node.js + Express (Port `5000`) - *Handles external API fetching (Codeforces, LeetCode) to bypass CORS and rate limits.*
-3. **Database**: Supabase (PostgreSQL)
+1. **Frontend (`/client`)**: React + Vite (Port `5173`) - *Includes the main Leaderboard and the new POTD Leaderboard pages.*
+2. **Backend Server (`/server`)**: Node.js + Express (Port `5000`) - *Handles external API fetching (Codeforces, LeetCode info, and automated recent submissions for POTD solve verification) to bypass CORS and rate limits.*
+3. **Database**: Supabase (PostgreSQL) - *Stores problems, profiles, submissions, and cached leaderboards.*
 
 ---
 
@@ -93,8 +93,42 @@ The backend is required to fetch live Codeforces and LeetCode ratings without hi
 
 ---
 
+## 🚀 Step 4: POTD Leaderboard Setup & Local Testing
+
+To run and test the new Problem of the Day (POTD) Leaderboard locally:
+
+1. **Apply the Migration**:
+   - Open your Supabase project dashboard -> SQL Editor -> Create a new query.
+   - Copy the contents of the database migration file [20260708000000_potd_leaderboard.sql](file:///c:/Users/prart/Console-website/supabase/migrations/20260708000000_potd_leaderboard.sql) into the SQL editor and click **Run**.
+
+2. **Start the Backend Server**:
+   - Navigate to `/server` and run:
+     ```bash
+     node index.js
+     ```
+   - On startup, the backend server will automatically connect to Supabase, query Codeforces and LeetCode API submissions for active POTDs, record successful solves to the database, and compile the POTD cache.
+
+3. **Verify the Point Calculation System**:
+   - The backend computes developer scores based on speed and completion quality:
+     - **Base Points**: 100 points per solved POTD.
+     - **Speed Bonus**: Up to 50 points extra, linearly scaling down to 0 over 24 hours from when the POTD was posted. Full 50 points are awarded if solved before or at the moment of the post.
+     - **Ties**: Resolved primarily by total points, then total number of POTDs solved, and finally by the developer who reached their last solve earliest (ascending order of the last solve timestamp).
+
+4. **Verify Endpoint outputs**:
+   - Trigger a live fetch to update rankings: `GET http://localhost:5000/api/potd/leaderboard-live`
+   - Observe the returned payload contains `score` (points) and `questions` (solved count) separated correctly and sorted according to the priorities above.
+
+5. **Verify on the Frontend**:
+   - Start the React client in `/client` via `npm run dev`.
+   - Open `http://localhost:5173/` and navigate to **Problem of the Day** on your Developer Hub.
+   - Verify that the compact **Overall POTD Leaderboard** displays Rank, Developer, Score (e.g. `150 pts` badge), and Streak, and applies Gold, Silver, and Bronze highlights to the top 3 rows.
+   - Click **View All** to navigate to `/potd-leaderboard`. Verify that it displays: Rank, Developer Name, Handles, Total Score, POTDs Solved, and Streak columns.
+
+---
+
 ## 📝 Recent Major Changes
 
 1. **Premium Leaderboard UI**: Completely redesigned `/leaderboard` with dark mode, glassmorphism, glowing text, and smooth staggering animations.
 2. **College ID Field**: Added a required **College ID** field (e.g. `2026BTCS001`) to the Dashboard profile section. This is used by the backend to automatically filter students into "First Year", "Second Year", etc., tabs on the leaderboard.
 3. **API Rate Limit Fixes**: Removed CodeChef entirely due to the unreliable 402 proxy errors. Implemented a 30-minute persistent Supabase cache (`leaderboard_cache` table) for Codeforces and LeetCode to completely eliminate 429 errors when multiple users refresh the page.
+4. **POTD Point & Score System**: Upgraded the Problem of the Day (POTD) leaderboard (`/potd-leaderboard` and `GET /api/potd/leaderboard-live`) from simply counting solved problems (1 point per solve) to a dynamic scoring model. It awards **100 base points** + up to **50 speed bonus points** depending on how quickly the challenge was solved after its publish time. The UI displays highlighted score badges, gold/silver/bronze highlights for top 3 rows, and ranks developers by their overall score with proper tie-breaking logic. Allows anonymous developers with missing name fields in their profile to still be ranked on the leaderboard.
