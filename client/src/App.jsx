@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Leaderboard from "./pages/Leaderboard";
 import POTDLeaderboard from "./pages/POTDLeaderboard";
+import POTD from "./pages/POTD";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,8 +22,10 @@ function App() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/problem-of-the-day" element={<POTD />} />
           <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />
         </Route>
 
@@ -32,7 +35,6 @@ function App() {
         </Route>
 
         {/* 404 */}
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
