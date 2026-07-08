@@ -16,7 +16,7 @@ export default function Home() {
         </header>
 
         <div className="home-grid">
-          <Link to="/dashboard" className="home-card">
+          <Link to="/profile" className="home-card">
             <div className="home-card-icon">👤</div>
             <h2 className="home-card-title">My Profile</h2>
             <p className="home-card-desc">Manage your handles, resume, and details.</p>
@@ -28,7 +28,7 @@ export default function Home() {
             <p className="home-card-desc">See where you stand among your peers.</p>
           </Link>
 
-          <Link to="/dashboard" className="home-card">
+          <Link to="/problem-of-the-day" className="home-card">
             <div className="home-card-icon">🔥</div>
             <h2 className="home-card-title">POTD & Discussions</h2>
             <p className="home-card-desc">Solve the Problem of the Day and discuss.</p>
