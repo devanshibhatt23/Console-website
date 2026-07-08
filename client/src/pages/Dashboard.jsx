@@ -181,21 +181,40 @@ export default function Dashboard() {
           <h1 style={{ fontSize: "32px", margin: "0 0 5px", letterSpacing: "-0.5px" }}>My Profile</h1>
           <p style={{ color: "var(--text)", fontSize: "14px" }}>Manage your profile details, handles, and resume</p>
         </div>
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: "8px 16px",
-            borderRadius: "6px",
-            background: "transparent",
-            border: "1px solid var(--border)",
-            color: "var(--text-h)",
-            cursor: "pointer",
-            fontSize: "14px",
-            fontWeight: "500",
-          }}
-        >
-          Sign Out
-        </button>
+        <div style={{ display: "flex", gap: "10px" }}>
+          {profile?.name && (
+            <button
+              onClick={() => navigate("/")}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "6px",
+                background: "var(--accent)",
+                border: "none",
+                color: "#fff",
+                cursor: "pointer",
+                fontSize: "14px",
+                fontWeight: "600",
+              }}
+            >
+              Go to Home
+            </button>
+          )}
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: "8px 16px",
+              borderRadius: "6px",
+              background: "transparent",
+              border: "1px solid var(--border)",
+              color: "var(--text-h)",
+              cursor: "pointer",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          >
+            Sign Out
+          </button>
+        </div>
       </div>
 
       {/* Messages */}
