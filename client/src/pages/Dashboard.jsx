@@ -359,7 +359,7 @@ export default function Dashboard() {
       </div>
 
       {/* Sub-tabs menu */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "30px", borderBottom: "1px solid var(--border)" }}>
+      <div style={{ display: "flex", gap: "10px", marginBottom: "30px", borderBottom: "1px solid var(--border)", flexWrap: "wrap" }}>
         <button
           onClick={() => { setActiveSection("profile"); setSuccessMsg(""); setErrorMsg(""); }}
           style={{
@@ -390,6 +390,82 @@ export default function Dashboard() {
         >
           Problem of the Day (POTD)
         </button>
+        <a
+          href="/resources"
+          style={{
+            padding: "10px 20px",
+            background: "transparent",
+            border: "none",
+            borderBottom: "none",
+            color: "var(--text)",
+            cursor: "pointer",
+            fontSize: "15px",
+            fontWeight: "600",
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          📚 Resources
+        </a>
+        <a
+          href="/tech-guide"
+          style={{
+            padding: "10px 20px",
+            background: "transparent",
+            border: "none",
+            borderBottom: "none",
+            color: "var(--text)",
+            cursor: "pointer",
+            fontSize: "15px",
+            fontWeight: "600",
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          🗺️ Tech Guide
+        </a>
+        <a
+          href="/placement-playbook"
+          style={{
+            padding: "10px 20px",
+            background: "transparent",
+            border: "none",
+            borderBottom: "none",
+            color: "var(--text)",
+            cursor: "pointer",
+            fontSize: "15px",
+            fontWeight: "600",
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          🏆 Placement Playbook
+        </a>
+        <a
+          href="/leaderboard"
+          style={{
+            padding: "10px 20px",
+            background: "transparent",
+            border: "none",
+            borderBottom: "none",
+            color: "var(--text)",
+            cursor: "pointer",
+            fontSize: "15px",
+            fontWeight: "600",
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          🏆 Leaderboard
+        </a>
       </div>
 
       {/* Messages */}
