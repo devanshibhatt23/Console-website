@@ -9,6 +9,7 @@ import Resources from "./pages/Resources";
 import ResourceDomain from "./pages/ResourceDomain";
 import TechGuide from "./pages/TechGuide";
 import PlacementPlaybook from "./pages/PlacementPlaybook";
+import POTDLeaderboard from "./pages/POTDLeaderboard";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/resources/:domain" element={<ResourceDomain />} />
         <Route path="/tech-guide" element={<TechGuide />} />
         <Route path="/placement-playbook" element={<PlacementPlaybook />} />
+        <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
