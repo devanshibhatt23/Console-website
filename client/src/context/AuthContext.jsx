@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
 const AuthContext = createContext();
@@ -8,6 +8,20 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchProfile = useCallback(async (userId) => {
+    const { data } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", userId)
+      .single();
+    setProfile(data);
+  }, []);
+
+  // Exposed so Dashboard can re-fetch after saving
+  const refreshProfile = useCallback(async () => {
+    if (user) await fetchProfile(user.id);
+  }, [user, fetchProfile]);
+
   useEffect(() => {
     async function loadUser() {
       const {
@@ -16,14 +30,7 @@ export function AuthProvider({ children }) {
 
       if (session?.user) {
         setUser(session.user);
-
-        const { data } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-
-        setProfile(data);
+        await fetchProfile(session.user.id);
       }
 
       setLoading(false);
@@ -36,14 +43,7 @@ export function AuthProvider({ children }) {
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         setUser(session.user);
-
-        const { data } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
-
-        setProfile(data);
+        await fetchProfile(session.user.id);
       } else {
         setUser(null);
         setProfile(null);
@@ -51,7 +51,7 @@ export function AuthProvider({ children }) {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [fetchProfile]);
 
   return (
     <AuthContext.Provider
@@ -59,6 +59,7 @@ export function AuthProvider({ children }) {
         user,
         profile,
         loading,
+        refreshProfile,
       }}
     >
       {children}
