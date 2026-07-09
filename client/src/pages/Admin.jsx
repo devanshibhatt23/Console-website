@@ -4,6 +4,8 @@ import { useAuth } from "../context/AuthContext";
 import { getEvents, createEvent, deleteEvent } from "../services/eventService";
 import { getProblems, createProblem, deleteProblem } from "../services/problemService";
 import { uploadEventImage } from "../services/storageService";
+import { getResources, createResource, deleteResource } from "../services/resourceService";
+import { DOMAINS } from "../data/resourcesData";
 
 function getLocalDateString() {
   const d = new Date();
@@ -14,7 +16,7 @@ export default function Admin() {
   const navigate = useNavigate();
   const { profile, loading: authLoading } = useAuth();
   
-  // Navigation tabs: 'events' or 'potd'
+  // Navigation tabs: 'events', 'potd', 'resources'
   const [activeTab, setActiveTab] = useState("events");
   
   // Lists
@@ -38,6 +40,17 @@ export default function Admin() {
   const [potdDescription, setPotdDescription] = useState("");
   const [potdSolution, setPotdSolution] = useState("");
   
+  // Resources state
+  const [resources, setResources] = useState([]);
+  const [loadingResources, setLoadingResources] = useState(false);
+  const [resDomain, setResDomain] = useState("cpp-programming");
+  const [resWeek, setResWeek] = useState(1);
+  const [resOrder, setResOrder] = useState(1);
+  const [resTitle, setResTitle] = useState("");
+  const [resUrl, setResUrl] = useState("");
+  const [resDescription, setResDescription] = useState("");
+  const [resType, setResType] = useState("article");
+
   // Action indicators
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -52,6 +65,7 @@ export default function Admin() {
       } else {
         loadEvents();
         loadProblems();
+        loadResources();
       }
     }
   }, [profile, authLoading]);
@@ -77,6 +91,59 @@ export default function Admin() {
       console.error("Error loading POTDs:", err.message);
     } finally {
       setLoadingProblems(false);
+    }
+  }
+
+  async function loadResources() {
+    try {
+      setLoadingResources(true);
+      const data = await getResources();
+      setResources(data || []);
+    } catch (err) {
+      console.error("Error loading resources:", err.message);
+    } finally {
+      setLoadingResources(false);
+    }
+  }
+
+  async function handleCreateResource(e) {
+    e.preventDefault();
+    setSubmitting(true);
+    setSuccessMsg("");
+    setErrorMsg("");
+    try {
+      await createResource({
+        domain: resDomain,
+        category: resDomain,
+        title: resTitle,
+        url: resUrl,
+        description: resDescription,
+        week_number: resWeek,
+        order_in_week: resOrder,
+        type: resType,
+      });
+      setSuccessMsg(`Resource "${resTitle}" added successfully!`);
+      setResTitle("");
+      setResUrl("");
+      setResDescription("");
+      setResWeek(1);
+      setResOrder(1);
+      await loadResources();
+    } catch (err) {
+      setErrorMsg("Failed to add resource: " + err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleDeleteResource(id) {
+    if (!window.confirm("Delete this resource? This cannot be undone.")) return;
+    try {
+      await deleteResource(id);
+      setResources((prev) => prev.filter((r) => r.id !== id));
+      setSuccessMsg("Resource deleted.");
+    } catch (err) {
+      setErrorMsg("Failed to delete resource: " + err.message);
     }
   }
 
@@ -287,6 +354,21 @@ export default function Admin() {
         >
           POTD Publisher
         </button>
+        <button
+          onClick={() => { setActiveTab("resources"); setSuccessMsg(""); setErrorMsg(""); }}
+          style={{
+            padding: "10px 20px",
+            background: "transparent",
+            border: "none",
+            borderBottom: activeTab === "resources" ? "2px solid var(--accent)" : "none",
+            color: activeTab === "resources" ? "var(--accent)" : "var(--text)",
+            cursor: "pointer",
+            fontSize: "15px",
+            fontWeight: "600",
+          }}
+        >
+          📚 Resources
+        </button>
       </div>
 
       {/* Messages */}
@@ -301,7 +383,7 @@ export default function Admin() {
         </div>
       )}
 
-      {activeTab === "events" ? (
+      {activeTab === "events" && (
         /* Event Manager Tab */
         <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1.8fr", gap: "40px" }}>
           {/* Create Event Section */}
@@ -469,7 +551,8 @@ export default function Admin() {
             )}
           </div>
         </div>
-      ) : (
+      )}
+      {activeTab === "potd" && (
         /* POTD Publisher Tab */
         <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1.8fr", gap: "40px" }}>
           {/* Create POTD Section */}
@@ -625,6 +708,105 @@ export default function Admin() {
                     <p style={{ fontSize: "13px", color: "var(--text)", lineHeight: "140%", whiteSpace: "pre-wrap" }}>
                       {prob.description.length > 200 ? prob.description.slice(0, 200) + "..." : prob.description}
                     </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+      {activeTab === "resources" && (
+        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1.8fr", gap: "40px" }}>
+          {/* Create Resource Form */}
+          <div style={{ padding: "30px", borderRadius: "12px", border: "1px solid var(--border)", background: "var(--code-bg)" }}>
+            <h2 style={{ fontSize: "20px", marginBottom: "20px", borderBottom: "1px solid var(--border)", paddingBottom: "10px" }}>Add Resource</h2>
+            <form onSubmit={handleCreateResource}>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Domain</label>
+                <select
+                  value={resDomain}
+                  onChange={(e) => setResDomain(e.target.value)}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", fontSize: "14px" }}
+                >
+                  {DOMAINS.map((d) => (
+                    <option key={d.id} value={d.id}>{d.icon} {d.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "15px" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Module #</label>
+                  <input type="number" min="1" max="12" value={resWeek} onChange={(e) => setResWeek(Number(e.target.value))}
+                    style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Order</label>
+                  <input type="number" min="1" max="20" value={resOrder} onChange={(e) => setResOrder(Number(e.target.value))}
+                    style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }} />
+                </div>
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Type</label>
+                <select value={resType} onChange={(e) => setResType(e.target.value)}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", fontSize: "14px" }}>
+                  <option value="video">▶ Video</option>
+                  <option value="article">📄 Article</option>
+                  <option value="exercise">💪 Exercise</option>
+                  <option value="docs">📚 Docs</option>
+                  <option value="tool">🔧 Tool</option>
+                </select>
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Title *</label>
+                <input type="text" required placeholder="Resource title" value={resTitle} onChange={(e) => setResTitle(e.target.value)}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }} />
+              </div>
+              <div style={{ marginBottom: "15px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>URL *</label>
+                <input type="url" required placeholder="https://..." value={resUrl} onChange={(e) => setResUrl(e.target.value)}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }} />
+              </div>
+              <div style={{ marginBottom: "20px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Description</label>
+                <textarea placeholder="Short description..." value={resDescription} onChange={(e) => setResDescription(e.target.value)} rows={3}
+                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", resize: "vertical", fontFamily: "inherit", fontSize: "14px" }} />
+              </div>
+              <button type="submit" disabled={submitting}
+                style={{ width: "100%", padding: "12px", borderRadius: "8px", background: "var(--accent)", color: "#fff", border: "none", fontSize: "15px", fontWeight: "700", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.7 : 1 }}>
+                {submitting ? "Adding..." : "Add Resource"}
+              </button>
+            </form>
+          </div>
+
+          {/* Resources List */}
+          <div style={{ padding: "30px", borderRadius: "12px", border: "1px solid var(--border)", background: "var(--code-bg)" }}>
+            <h2 style={{ fontSize: "20px", marginBottom: "20px", borderBottom: "1px solid var(--border)", paddingBottom: "10px" }}>
+              DB Resources ({resources.length})
+            </h2>
+            {loadingResources ? (
+              <p style={{ color: "var(--text)", fontSize: "14px" }}>Loading...</p>
+            ) : resources.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "40px 0", color: "var(--text)" }}>
+                <p style={{ fontSize: "14px" }}>No resources in DB yet.</p>
+                <p style={{ fontSize: "12px", marginTop: "8px" }}>Seed data is used as fallback for users.</p>
+              </div>
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxHeight: "500px", overflowY: "auto" }}>
+                {resources.map((res) => (
+                  <div key={res.id} style={{ padding: "14px", borderRadius: "8px", border: "1px solid var(--border)", background: "var(--bg)", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "4px", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "11px", fontWeight: "700", padding: "2px 8px", borderRadius: "4px", background: "var(--accent-bg)", color: "var(--accent)" }}>{res.domain}</span>
+                        <span style={{ fontSize: "11px", color: "var(--text)" }}>Mod {res.week_number} · #{res.order_in_week}</span>
+                        <span style={{ fontSize: "11px", color: "var(--text)" }}>{res.type}</span>
+                      </div>
+                      <p style={{ fontSize: "14px", fontWeight: "600", color: "var(--text-h)", margin: "0 0 2px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{res.title}</p>
+                      <a href={res.url} target="_blank" rel="noreferrer" style={{ fontSize: "12px", color: "var(--accent)", textDecoration: "none" }}>↗ Open link</a>
+                    </div>
+                    <button onClick={() => handleDeleteResource(res.id)}
+                      style={{ padding: "6px 10px", borderRadius: "6px", border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#ef4444", cursor: "pointer", fontSize: "12px", flexShrink: 0 }}>
+                      Delete
+                    </button>
                   </div>
                 ))}
               </div>
