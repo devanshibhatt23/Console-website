@@ -34,10 +34,16 @@ export default function Home() {
             <p className="home-card-desc">Solve the Problem of the Day and discuss.</p>
           </Link>
 
-          <Link to="/" className="home-card">
+          <Link to="/resources" className="home-card">
             <div className="home-card-icon">📚</div>
             <h2 className="home-card-title">Resources</h2>
             <p className="home-card-desc">Curated guides and competitive programming materials.</p>
+          </Link>
+
+          <Link to="/tech-guide" className="home-card">
+            <div className="home-card-icon">🗺️</div>
+            <h2 className="home-card-title">Tech Guide</h2>
+            <p className="home-card-desc">Step-by-step roadmaps for your software engineering journey.</p>
           </Link>
         </div>
       </div>
