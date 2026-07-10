@@ -39,6 +39,12 @@ export default function Home() {
             <h2 className="home-card-title">Resources</h2>
             <p className="home-card-desc">Curated guides and competitive programming materials.</p>
           </Link>
+
+          <Link to="/events" className="home-card">
+            <div className="home-card-icon">📅</div>
+            <h2 className="home-card-title">Events</h2>
+            <p className="home-card-desc">Explore previous Console Club events.</p>
+          </Link>
         </div>
       </div>
     </div>

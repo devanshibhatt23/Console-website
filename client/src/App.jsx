@@ -9,6 +9,7 @@ import POTDLeaderboard from "./pages/POTDLeaderboard";
 import POTD from "./pages/POTD";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
+import Events from "./pages/Events";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/problem-of-the-day" element={<POTD />} />
           <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />
+          <Route path="/events" element={<Events />} />
         </Route>
 
         {/* Admin Routes */}
