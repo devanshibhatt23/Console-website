@@ -33,11 +33,10 @@ export default function ProtectedRoute({ requireAdmin = false }) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  // 3. Admin Verification -> Check if route requires admin and user is admin
   if (requireAdmin) {
     const isAdmin = profile?.role === "admin" || profile?.role === "super_admin";
     if (!isAdmin) {
-      return <Navigate to="/" replace />; // Send unauthorized users home
+      return <Navigate to="/home" replace />; // Send unauthorized users home
     }
   }
 

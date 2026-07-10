@@ -13,6 +13,7 @@ import TechGuide from "./pages/TechGuide";
 import PlacementPlaybook from "./pages/PlacementPlaybook";
 import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
+import Landing from "./pages/Landing";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -20,11 +21,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
