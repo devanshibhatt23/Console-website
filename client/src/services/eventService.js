@@ -30,3 +30,17 @@ export async function deleteEvent(eventId) {
 
   if (error) throw error;
 }
+
+export async function getEventsWithImages() {
+  const { data, error } = await supabase
+    .from("events")
+    .select(`
+      *,
+      event_images (*)
+    `)
+    .order("event_date", { ascending: false });
+
+  if (error) throw error;
+
+  return data;
+}
