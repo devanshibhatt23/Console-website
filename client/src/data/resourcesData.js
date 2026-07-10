@@ -24,14 +24,22 @@ export const MODULE_TITLES = {
     9: "STL & Advanced Topics",
   },
   "dsa": {
-    1: "Arrays & Strings",
-    2: "Linked Lists",
-    3: "Stacks & Queues",
-    4: "Trees & Heaps",
-    5: "Graphs",
-    6: "Recursion & Dynamic Programming",
-    7: "Sorting & Binary Search",
-    8: "Advanced Data Structures",
+    1: "Level 0: How to Prepare & Roadmaps",
+    2: "Basics & Fundamentals",
+    3: "Sorting Techniques",
+    4: "Arrays",
+    5: "Binary Search",
+    6: "Strings",
+    7: "Linked Lists",
+    8: "Recursion & Backtracking",
+    9: "Bit Manipulation",
+    10: "Stacks & Queues",
+    11: "Sliding Window & Two Pointers",
+    12: "Heaps",
+    13: "Greedy Algorithms",
+    14: "Binary Trees & BSTs",
+    15: "Graphs",
+    16: "Dynamic Programming",
   },
   "web-development": {
     1: "HTML & CSS Fundamentals",
@@ -88,7 +96,7 @@ export const DOMAINS = [
     color: "#22c55e",
     gradient: "linear-gradient(135deg, #064e3b, #22c55e)",
     description: "Build problem-solving skills with DSA fundamentals",
-    totalWeeks: 8,
+    totalWeeks: 16,
   },
   {
     id: "web-development",
@@ -216,72 +224,72 @@ export const RESOURCES_BY_DOMAIN = {
     { week: 9, order: 12, title: "Exception Handling in C++", type: "article", url: "https://www.learncpp.com/cpp-tutorial/basic-exception-handling/", description: "try, catch, throw — handle runtime errors gracefully" },
   ],
 
-  "dsa": [
-    // Module 1 – Arrays, Strings & Hashing
-    { week: 1, order: 1, title: "Introduction to DSA & Time Complexity", type: "video", url: "https://www.youtube.com/watch?v=8hly31xKli0", description: "Why DSA matters, Big-O notation, space/time complexity" },
-    { week: 1, order: 2, title: "Arrays – Theory & Problems", type: "article", url: "https://www.geeksforgeeks.org/array-data-structure/", description: "Array operations, complexity analysis" },
-    { week: 1, order: 3, title: "Two Pointer & Sliding Window Patterns", type: "video", url: "https://www.youtube.com/watch?v=MK-NZ4hN7rs", description: "Common array patterns used in interviews" },
-    { week: 1, order: 4, title: "Hashing & Hash Maps", type: "video", url: "https://www.youtube.com/watch?v=KyUTuwz_b7Q", description: "Hash tables, collision handling, unordered_map in C++" },
-    { week: 1, order: 5, title: "Striver's A2Z DSA Sheet", type: "tool", url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2/", description: "The most comprehensive structured DSA sheet — your main reference" },
-    { week: 1, order: 6, title: "String Problems on LeetCode", type: "exercise", url: "https://leetcode.com/tag/string/", description: "LeetCode — String manipulation and pattern problems" },
-    { week: 1, order: 7, title: "NeetCode Arrays & Hashing Video", type: "video", url: "https://www.youtube.com/watch?v=1XWmyfV4oDQ", description: "NeetCode — Arrays & Hashing walkthrough with solutions" },
+      "dsa": [
+    // Module 1 - Level 0: How to Prepare & Roadmaps
+    { week: 1, order: 1, title: "Striver's A2Z DSA Sheet", type: "tool", url: "https://takeuforward.org/strivers-a2z-dsa-course/strivers-a2z-dsa-course-sheet-2", description: "The definitive structured DSA roadmap - your main guide." },
+    { week: 1, order: 2, title: "Apna College DSA Roadmap", type: "video", url: "https://www.youtube.com/watch?v=kWE-0Y5v68k", description: "Complete strategy and roadmap by Shraddha Didi & Aman Bhaiya." },
+    { week: 1, order: 3, title: "Love Babbar DSA Sheet", type: "tool", url: "https://www.geeksforgeeks.org/dsa/dsa-sheet-by-love-babbar/", description: "The legendary 450 DSA questions sheet." },
 
-    // Module 2 – Linked Lists
-    { week: 2, order: 1, title: "Singly Linked Lists – Build from Scratch", type: "video", url: "https://www.youtube.com/watch?v=Hj_rA0dhr2I", description: "Node structure, insert, delete, traverse" },
-    { week: 2, order: 2, title: "Doubly & Circular Linked Lists", type: "article", url: "https://www.geeksforgeeks.org/data-structures/linked-list/doubly-linked-list/", description: "DLL and CLL concepts and operations" },
-    { week: 2, order: 3, title: "Fast & Slow Pointer (Floyd's Cycle)", type: "article", url: "https://www.geeksforgeeks.org/detect-loop-in-a-linked-list/", description: "Detect cycles, find middle node" },
-    { week: 2, order: 4, title: "Linked List LeetCode Problems", type: "exercise", url: "https://leetcode.com/tag/linked-list/", description: "Reverse, merge sorted lists, remove nth node" },
-    { week: 2, order: 5, title: "Linked List Full Course (Striver)", type: "video", url: "https://www.youtube.com/watch?v=70tx7KcMROc", description: "TUF — Complete linked list series with problems" },
+    // Module 2 - Basics & Fundamentals
+    { week: 2, order: 1, title: "Striver's Basics & STL (A2Z Playlist)", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", description: "Basics of C++/Java, time complexity, and STL walkthrough." },
+    { week: 2, order: 2, title: "Striver's C++ STL in 1 Video", type: "video", url: "https://www.youtube.com/watch?v=RRVYpIUr5NE", description: "Master the Standard Template Library in one single tutorial." },
+    { week: 2, order: 3, title: "C++ Basics Playlist (Love Babbar)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtXdFs6bLnx0cZpWjH2Z", description: "Learn the absolute basics of C++ programming." },
 
-    // Module 3 – Stacks, Queues & Bit Manipulation
-    { week: 3, order: 1, title: "Stacks – LIFO (Implement & Applications)", type: "video", url: "https://www.youtube.com/watch?v=KcT3aVgrrpU", description: "Stack using arrays and linked lists, balanced brackets" },
-    { week: 3, order: 2, title: "Queues, Deques & Priority Queue", type: "article", url: "https://www.geeksforgeeks.org/queue-data-structure/", description: "FIFO, priority queues, deque operations" },
-    { week: 3, order: 3, title: "Monotonic Stack Problems", type: "exercise", url: "https://leetcode.com/tag/monotonic-stack/", description: "Next greater element, stock span, largest rectangle" },
-    { week: 3, order: 4, title: "Bit Manipulation Essentials", type: "video", url: "https://www.youtube.com/watch?v=NLKQEOgBAnw", description: "AND, OR, XOR, left/right shift, set/clear/toggle bits" },
-    { week: 3, order: 5, title: "Bit Manipulation Problems", type: "exercise", url: "https://leetcode.com/tag/bit-manipulation/", description: "Count bits, single number, power of two" },
-    { week: 3, order: 6, title: "Stack & Queue Full Series (Striver)", type: "video", url: "https://www.youtube.com/watch?v=GYptUgnIM_I", description: "TUF — Complete Stack & Queue series with problems" },
+    // Module 3 - Sorting Techniques
+    { week: 3, order: 1, title: "Striver's Sorting Section (A2Z Playlist)", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", description: "Selection, Bubble, Insertion, Merge, and Quick Sort algorithms." },
+    { week: 3, order: 2, title: "Sorting Algorithms Playlist (CodeHelp)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtXdFs6bLnx0cZpWjH2Z", description: "Sorting algorithm concepts & implementations by Love Babbar." },
 
-    // Module 4 – Trees & Heaps
-    { week: 4, order: 1, title: "Binary Trees – All Traversals", type: "video", url: "https://www.youtube.com/watch?v=fAAZixBzIAI", description: "Inorder, preorder, postorder, level order" },
-    { week: 4, order: 2, title: "Binary Search Trees – BST", type: "article", url: "https://www.geeksforgeeks.org/binary-search-tree-data-structure/", description: "BST insert, search, delete, validate BST" },
-    { week: 4, order: 3, title: "Heaps & Priority Queues", type: "video", url: "https://www.youtube.com/watch?v=t0Cq6tVNRBA", description: "Min heap, max heap, heap sort, heapify" },
-    { week: 4, order: 4, title: "AVL Trees & Balanced BSTs", type: "article", url: "https://www.geeksforgeeks.org/avl-tree-set-1-insertion/", description: "Self-balancing trees, rotations" },
-    { week: 4, order: 5, title: "Tree LeetCode Problems", type: "exercise", url: "https://leetcode.com/tag/tree/", description: "LCA, diameter, max depth, path sum" },
-    { week: 4, order: 6, title: "Trees Full Course (Striver)", type: "video", url: "https://www.youtube.com/watch?v=_ANrF3FJm7I", description: "TUF — Complete Binary Tree series" },
+    // Module 4 - Arrays
+    { week: 4, order: 1, title: "Striver's Arrays Section (A2Z Playlist)", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", description: "Array fundamentals to hard FAANG interview questions." },
+    { week: 4, order: 2, title: "Arrays Playlist (Love Babbar)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtXdMr6rPh4IDexB5NIA", description: "Excellent array problem solving sessions." },
 
-    // Module 5 – Graphs
-    { week: 5, order: 1, title: "Graph Representation & DFS/BFS", type: "video", url: "https://www.youtube.com/watch?v=gXgEDyodOJU", description: "Adjacency list/matrix, DFS, BFS" },
-    { week: 5, order: 2, title: "Shortest Path: Dijkstra & Bellman-Ford", type: "article", url: "https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/", description: "Weighted graph shortest path algorithms" },
-    { week: 5, order: 3, title: "Topological Sort & Cycle Detection", type: "article", url: "https://www.geeksforgeeks.org/topological-sorting/", description: "DFS-based and Kahn's BFS-based toposort" },
-    { week: 5, order: 4, title: "Floyd-Warshall (All Pairs Shortest Path)", type: "article", url: "https://www.geeksforgeeks.org/floyd-warshall-algorithm-dp-16/", description: "All pairs shortest path in O(V³)" },
-    { week: 5, order: 5, title: "Graph LeetCode Problems", type: "exercise", url: "https://leetcode.com/tag/graph/", description: "Number of islands, course schedule, word ladder" },
-    { week: 5, order: 6, title: "Graph Full Series (Striver)", type: "video", url: "https://www.youtube.com/watch?v=M3KkpZXGDYs", description: "TUF — Complete graph algorithms playlist" },
+    // Module 5 - Binary Search
+    { week: 5, order: 1, title: "Striver's Binary Search Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0pMFvwWEPEmZbdzFng_pB1-", description: "Detailed Binary Search on 1D, 2D arrays and search-on-answers." },
+    { week: 5, order: 2, title: "Binary Search Playlist (Aditya Verma)", type: "video", url: "https://www.youtube.com/playlist?list=PL_z_8CaSLPW1xkswkNDwL_T6D28W1Y57P", description: "Aditya Verma's legendary take on Binary Search variations." },
 
-    // Module 6 – Recursion, Backtracking & Dynamic Programming
-    { week: 6, order: 1, title: "Recursion & Backtracking Deep Dive", type: "video", url: "https://www.youtube.com/watch?v=ngCos392W4w", description: "N-queens, subset sum, permutations, sudoku" },
-    { week: 6, order: 2, title: "Dynamic Programming – Intro (Memoization vs Tabulation)", type: "video", url: "https://www.youtube.com/watch?v=oBt53YbR9Kk", description: "Top-down vs bottom-up DP" },
-    { week: 6, order: 3, title: "Classic DP: Knapsack, LCS, LIS", type: "exercise", url: "https://leetcode.com/tag/dynamic-programming/", description: "0/1 knapsack, longest common subsequence, LIS" },
-    { week: 6, order: 4, title: "DP on Strings & Grids", type: "article", url: "https://www.geeksforgeeks.org/top-20-dynamic-programming-interview-questions/", description: "Edit distance, unique paths, coin change" },
-    { week: 6, order: 5, title: "AtCoder DP Educational Contest", type: "exercise", url: "https://atcoder.jp/contests/dp", description: "26 classic DP problems — the best DP practice set" },
-    { week: 6, order: 6, title: "DP Full Series (Striver)", type: "video", url: "https://www.youtube.com/watch?v=FfXoiwwnxFw", description: "TUF — Complete Dynamic Programming series" },
+    // Module 6 - Strings
+    { week: 6, order: 1, title: "Striver's Strings Section (A2Z Playlist)", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", description: "Complete string manipulation and pattern matching." },
 
-    // Module 7 – Sorting, Searching & String Algorithms
-    { week: 7, order: 1, title: "Sorting Algorithms (Merge, Quick, Heap)", type: "video", url: "https://www.youtube.com/watch?v=pkkFqlG0Hds", description: "Comparison sorts, stability, time complexity" },
-    { week: 7, order: 2, title: "Binary Search – Template & Variations", type: "article", url: "https://www.geeksforgeeks.org/binary-search/", description: "Classic binary search and search on answer pattern" },
-    { week: 7, order: 3, title: "Binary Search Practice", type: "exercise", url: "https://leetcode.com/tag/binary-search/", description: "Search in rotated array, find peak, koko eating bananas" },
-    { week: 7, order: 4, title: "KMP String Matching Algorithm", type: "article", url: "https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/", description: "Efficient pattern matching in O(n+m)" },
-    { week: 7, order: 5, title: "Sorting Visualizer (VisuAlgo)", type: "tool", url: "https://visualgo.net/en/sorting", description: "Watch sorting algorithms animate step-by-step interactively" },
+    // Module 7 - Linked Lists
+    { week: 7, order: 1, title: "Striver's Linked List Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0p4ozDR_kJJk0nb1wTbOPx_", description: "Singly, Doubly, and hard Linked List problems." },
+    { week: 7, order: 2, title: "Linked List Playlist (Love Babbar)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTr54_GL_SSQDz1keAEx_Ivs", description: "Very detailed LL concepts and interview questions." },
 
-    // Module 8 – Advanced Data Structures
-    { week: 8, order: 1, title: "Tries (Prefix Trees)", type: "video", url: "https://www.youtube.com/watch?v=AXjmTQ8LEoI", description: "Build a trie, autocomplete, word search" },
-    { week: 8, order: 2, title: "Segment Trees (Range Queries)", type: "article", url: "https://cp-algorithms.com/data_structures/segment_tree.html", description: "Range sum/min/max queries and point updates" },
-    { week: 8, order: 3, title: "Disjoint Set Union (Union-Find)", type: "article", url: "https://www.geeksforgeeks.org/union-find/", description: "DSU with path compression and union by rank" },
-    { week: 8, order: 4, title: "NeetCode DSA Roadmap", type: "tool", url: "https://neetcode.io/roadmap", description: "Comprehensive DSA practice roadmap — track your LeetCode progress" },
-    { week: 8, order: 5, title: "CSES Problem Set", type: "exercise", url: "https://cses.fi/problemset/list/", description: "300 quality problems — the best structured competitive practice set" },
-    { week: 8, order: 6, title: "Fenwick Tree (Binary Indexed Tree)", type: "article", url: "https://cp-algorithms.com/data_structures/fenwick.html", description: "BIT for fast prefix sums and range updates" },
+    // Module 8 - Recursion & Backtracking
+    { week: 8, order: 1, title: "Striver's Recursion Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9", description: "Recursion & Backtracking from beginner to advanced." },
+    { week: 8, order: 2, title: "Recursion Playlist (Aditya Verma)", type: "video", url: "https://www.youtube.com/playlist?list=PL_z_8CaSLPWdeOznilMo7GZpWJ_zU-8U4", description: "The best recursion playlist to build strong logical foundations." },
+
+    // Module 9 - Bit Manipulation
+    { week: 9, order: 1, title: "Striver's Bit Manipulation Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0rnqhcgjsKANqrFZIGmX9iP", description: "Learn tricks and techniques with binary operators." },
+    { week: 9, order: 2, title: "Bit Manipulation (Love Babbar)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtXdFs6bLnx0cZpWjH2Z", description: "Master bitwise operators for interviews." },
+
+    // Module 10 - Stacks & Queues
+    { week: 10, order: 1, title: "Striver's Stacks & Queues Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oSO572kQ7KCSvCUh1AdILj", description: "Comprehensive coverage of stack/queue patterns." },
+    { week: 10, order: 2, title: "Stacks Playlist (Aditya Verma)", type: "video", url: "https://www.youtube.com/playlist?list=PL_z_8CaSLPWdeOshneZ8S9V4MuUW938Zz", description: "Aditya Verma's legendary Stack playlist (NGR, NGL, MAH, etc)." },
+
+    // Module 11 - Sliding Window & Two Pointers
+    { week: 11, order: 1, title: "Striver's Two Pointer & Sliding Window", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0q7qhIAQhU9bV9T8jR-14ZJ", description: "Learn Two Pointer and Sliding Window algorithms." },
+    { week: 11, order: 2, title: "Sliding Window Playlist (Aditya Verma)", type: "video", url: "https://www.youtube.com/playlist?list=PL_z_8CaSLPWeM8BDJmIYDaoQ5zuwyxnfj", description: "Master the fixed and variable size sliding window patterns." },
+
+    // Module 12 - Heaps
+    { week: 12, order: 1, title: "Striver's Heaps Section (A2Z Playlist)", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz", description: "Understanding Min Heap, Max Heap, and Priority Queue." },
+    { week: 12, order: 2, title: "Heaps Playlist (Aditya Verma)", type: "video", url: "https://www.youtube.com/playlist?list=PL_z_8CaSLPWdeOznilMo8Sj5pM8Jv-KK-", description: "Aditya Verma's legendary heap identification and problem-solving." },
+
+    // Module 13 - Greedy Algorithms
+    { week: 13, order: 1, title: "Striver's Greedy Algorithms Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0po52OqBEEwOqJ7yPqP9Qx8", description: "Learn to identify and solve greedy strategy problems." },
+
+    // Module 14 - Binary Trees & BSTs
+    { week: 14, order: 1, title: "Striver's Trees Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0q8Hkd7bK2Bpryj2xVJk8Vk", description: "The most exhaustive Binary Tree and BST playlist." },
+    { week: 14, order: 2, title: "Binary Trees Playlist (Love Babbar)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsToJ9zCR0zn_BscwW0M8G9zU", description: "Alternative detailed series on Tree data structures." },
+
+    // Module 15 - Graphs
+    { week: 15, order: 1, title: "Striver's Graphs Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0oE3gA41TKO2H5bHpPd7fzn", description: "The ultimate 50-video Graph series (BFS, DFS, Shortest Paths, DSU)." },
+    { week: 15, order: 2, title: "Graphs Playlist (Love Babbar)", type: "video", url: "https://www.youtube.com/playlist?list=PLDzeHZWIZsTobi35C3I-tKB3tKDX6cgXn", description: "Excellent graph algorithms playlist." },
+
+    // Module 16 - Dynamic Programming
+    { week: 16, order: 1, title: "Striver's Dynamic Programming Playlist", type: "video", url: "https://www.youtube.com/playlist?list=PLgUwDviBIf0qUlt5H_kiKYaNSqJ81P89X", description: "Modern DP series with space optimization strategies." },
+    { week: 16, order: 2, title: "Dynamic Programming Playlist (Aditya Verma)", type: "video", url: "https://www.youtube.com/playlist?list=PL_z_8CaSLPWekqhdCPmFohncHwz8TY2Go", description: "The best DP playlist on YouTube. Period. Knapsack, LCS, MCM." },
   ],
-
-  "web-development": [
+"web-development": [
     // Module 1 – HTML, CSS & Git (Absolute Essentials)
     { week: 1, order: 1, title: "Git & GitHub Crash Course", type: "video", url: "https://www.youtube.com/watch?v=RGOj5yH7evk", description: "Version control — the #1 skill every developer needs from day one" },
     { week: 1, order: 2, title: "HTML5 Fundamentals", type: "article", url: "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML", description: "Semantic HTML, forms, accessibility basics" },

@@ -50,10 +50,15 @@ export default function ResourceDomain() {
         getUserProgress(user.id).catch(() => new Set()),
       ]);
 
-      setResources(dbResources || []);
+      let fetchedResources = dbResources || [];
+      if (fetchedResources.length === 0) {
+        fetchedResources = RESOURCES_BY_DOMAIN[domainId] || [];
+      }
+      setResources(fetchedResources);
       setCompletedIds(progress || new Set());
     } catch (err) {
       console.error("Error loading domain resources:", err);
+      setResources(RESOURCES_BY_DOMAIN[domainId] || []);
     } finally {
       setLoading(false);
     }
