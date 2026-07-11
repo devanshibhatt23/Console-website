@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getEvents, createEvent, deleteEvent } from "../services/eventService";
+import { getEventsWithImages, createEvent, deleteEvent, addEventImages, deleteEventImage } from "../services/eventService";
 import { getProblems, createProblem, deleteProblem } from "../services/problemService";
 import { uploadEventImage } from "../services/storageService";
 import { getResources, createResource, deleteResource } from "../services/resourceService";
@@ -32,6 +32,10 @@ export default function Admin() {
   const [eventDescription, setEventDescription] = useState("");
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
+  
+  // Gallery images form fields
+  const [uploadedGalleryUrls, setUploadedGalleryUrls] = useState([]);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
   
   // POTD Form fields
   const [potdTitle, setPotdTitle] = useState("");
@@ -73,7 +77,7 @@ export default function Admin() {
   async function loadEvents() {
     try {
       setLoadingEvents(true);
-      const data = await getEvents();
+      const data = await getEventsWithImages();
       setEvents(data || []);
     } catch (err) {
       console.error("Error loading events:", err.message);
@@ -171,6 +175,32 @@ export default function Admin() {
     }
   }
 
+  async function handleGalleryFilesChange(e) {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const files = Array.from(e.target.files);
+
+    const invalidFile = files.find(file => !file.type.startsWith("image/"));
+    if (invalidFile) {
+      setErrorMsg("All selected files must be valid image files (PNG/JPG).");
+      return;
+    }
+
+    setUploadingGallery(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const uploadPromises = files.map(file => uploadEventImage(file));
+      const urls = await Promise.all(uploadPromises);
+      setUploadedGalleryUrls(prev => [...prev, ...urls]);
+      setSuccessMsg(`${urls.length} gallery image(s) uploaded successfully!`);
+    } catch (err) {
+      setErrorMsg("Gallery upload failed: " + err.message);
+    } finally {
+      setUploadingGallery(false);
+    }
+  }
+
   async function handleCreateEvent(e) {
     e.preventDefault();
     setSuccessMsg("");
@@ -192,9 +222,18 @@ export default function Admin() {
         image_url: uploadedImageUrl || null,
       };
 
-      await createEvent(eventPayload);
+      const createdEvents = await createEvent(eventPayload);
+      const newEventId = createdEvents?.[0]?.id;
+
+      if (newEventId && uploadedGalleryUrls.length > 0) {
+        const galleryPayload = uploadedGalleryUrls.map(url => ({
+          event_id: newEventId,
+          image_url: url
+        }));
+        await addEventImages(galleryPayload);
+      }
       
-      setSuccessMsg("New event scheduled successfully!");
+      setSuccessMsg("New event scheduled with gallery successfully!");
       
       // Clear event form fields
       setEventTitle("");
@@ -202,11 +241,55 @@ export default function Admin() {
       setEventVenue("");
       setEventDescription("");
       setUploadedImageUrl("");
+      setUploadedGalleryUrls([]);
       
       // Reload events list
       await loadEvents();
     } catch (err) {
       setErrorMsg("Failed to schedule event: " + err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleDeleteGalleryImage(imageId) {
+    try {
+      await deleteEventImage(imageId);
+      setSuccessMsg("Gallery image removed successfully.");
+      await loadEvents();
+    } catch (err) {
+      setErrorMsg("Failed to remove gallery image: " + err.message);
+    }
+  }
+
+  async function handleAddGalleryImageToEvent(e, eventId) {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const files = Array.from(e.target.files);
+
+    const invalidFile = files.find(file => !file.type.startsWith("image/"));
+    if (invalidFile) {
+      setErrorMsg("All files must be valid images (PNG/JPG).");
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const uploadPromises = files.map(file => uploadEventImage(file));
+      const urls = await Promise.all(uploadPromises);
+
+      const galleryPayload = urls.map(url => ({
+        event_id: eventId,
+        image_url: url
+      }));
+
+      await addEventImages(galleryPayload);
+      setSuccessMsg(`Added ${urls.length} image(s) to the gallery!`);
+      await loadEvents();
+    } catch (err) {
+      setErrorMsg("Failed to add image(s) to gallery: " + err.message);
     } finally {
       setSubmitting(false);
     }
@@ -435,10 +518,8 @@ export default function Admin() {
                   onChange={(e) => setEventDescription(e.target.value)}
                   style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", resize: "none" }}
                 />
-              </div>
-
-              {/* Event banner upload */}
-              <div style={{ marginBottom: "25px" }}>
+              <              {/* Event banner upload */}
+              <div style={{ marginBottom: "20px" }}>
                 <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Event Banner Image</label>
                 <input
                   type="file"
@@ -469,9 +550,65 @@ export default function Admin() {
                 </div>
               </div>
 
+              {/* Event gallery uploads */}
+              <div style={{ marginBottom: "25px" }}>
+                <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Event Gallery Photos (Multiple)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleGalleryFilesChange}
+                  style={{ display: "none" }}
+                  id="gallery-images-input"
+                />
+                <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                  <label
+                    htmlFor="gallery-images-input"
+                    style={{
+                      padding: "8px 16px",
+                      borderRadius: "6px",
+                      background: "var(--accent-bg)",
+                      color: "var(--accent)",
+                      border: "1px solid var(--accent-border)",
+                      cursor: "pointer",
+                      fontSize: "13px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {uploadingGallery ? "Uploading..." : "Upload Gallery Photos"}
+                  </label>
+                  {uploadedGalleryUrls.length > 0 && (
+                    <span style={{ fontSize: "13px", color: "green", fontWeight: "500" }}>✓ {uploadedGalleryUrls.length} image(s) attached</span>
+                  )}
+                </div>
+
+                {uploadedGalleryUrls.length > 0 && (
+                  <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "12px" }}>
+                    {uploadedGalleryUrls.map((url, i) => (
+                      <div key={i} style={{ position: "relative", width: "50px", height: "50px", borderRadius: "6px", overflow: "hidden", border: "1px solid var(--border)" }}>
+                        <img src={url} alt={`Gallery temp ${i}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <button
+                          type="button"
+                          onClick={() => setUploadedGalleryUrls(prev => prev.filter((_, idx) => idx !== i))}
+                          style={{
+                            position: "absolute", top: "2px", right: "2px",
+                            background: "rgba(239, 68, 68, 0.9)", color: "#fff", border: "none",
+                            borderRadius: "50%", width: "14px", height: "14px",
+                            fontSize: "8px", cursor: "pointer", display: "flex",
+                            alignItems: "center", justifyContent: "center"
+                          }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <button
                 type="submit"
-                disabled={submitting || uploadingImage}
+                disabled={submitting || uploadingImage || uploadingGallery}
                 style={{
                   width: "100%",
                   padding: "12px",
@@ -480,14 +617,14 @@ export default function Admin() {
                   background: "var(--accent)",
                   color: "#fff",
                   fontWeight: "600",
-                  cursor: (submitting || uploadingImage) ? "not-allowed" : "pointer",
-                  opacity: (submitting || uploadingImage) ? 0.7 : 1,
+                  cursor: (submitting || uploadingImage || uploadingGallery) ? "not-allowed" : "pointer",
+                  opacity: (submitting || uploadingImage || uploadingGallery) ? 0.7 : 1,
                 }}
               >
                 {submitting ? "Scheduling Event..." : "Publish Event"}
               </button>
             </form>
-          </div>
+          </div>     </div>
 
           {/* Existing Events List */}
           <div>
@@ -507,44 +644,111 @@ export default function Admin() {
                       border: "1px solid var(--border)",
                       background: "var(--code-bg)",
                       display: "flex",
+                      flexDirection: "column",
                       gap: "15px",
                     }}
                   >
-                    {evt.image_url && (
-                      <img
-                        src={evt.image_url}
-                        alt={evt.title}
-                        style={{ width: "90px", height: "90px", objectFit: "cover", borderRadius: "6px", border: "1px solid var(--border)" }}
-                      />
-                    )}
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                        <h3 style={{ margin: "0 0 5px", fontSize: "17px", color: "var(--text-h)", fontWeight: "600" }}>{evt.title}</h3>
-                        <button
-                          onClick={() => handleDeleteEvent(evt.id)}
+                    <div style={{ display: "flex", gap: "15px" }}>
+                      {evt.image_url && (
+                        <img
+                          src={evt.image_url}
+                          alt={evt.title}
+                          style={{ width: "90px", height: "90px", objectFit: "cover", borderRadius: "6px", border: "1px solid var(--border)" }}
+                        />
+                      )}
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                          <h3 style={{ margin: "0 0 5px", fontSize: "17px", color: "var(--text-h)", fontWeight: "600" }}>{evt.title}</h3>
+                          <button
+                            onClick={() => handleDeleteEvent(evt.id)}
+                            style={{
+                              padding: "3px 8px",
+                              fontSize: "11px",
+                              background: "rgba(239, 68, 68, 0.1)",
+                              border: "1px solid rgba(239, 68, 68, 0.3)",
+                              color: "#ef4444",
+                              borderRadius: "4px",
+                              cursor: "pointer"
+                            }}
+                          >
+                            Delete Event
+                          </button>
+                        </div>
+                        <p style={{ fontSize: "13px", color: "var(--accent)", fontWeight: "600", marginBottom: "4px", fontFamily: "var(--mono)" }}>
+                          📅 {new Date(evt.event_date).toLocaleString()}
+                        </p>
+                        <p style={{ fontSize: "13px", color: "var(--text-h)", fontWeight: "500", marginBottom: "8px" }}>
+                          📍 {evt.venue}
+                        </p>
+                        {evt.description && (
+                          <p style={{ fontSize: "13px", color: "var(--text)", lineHeight: "140%" }}>{evt.description}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Manage event gallery photos */}
+                    <div style={{ borderTop: "1px solid var(--border)", paddingTop: "12px", marginTop: "5px" }}>
+                      <h4 style={{ fontSize: "13px", fontWeight: "600", color: "var(--text-h)", marginBottom: "8px" }}>
+                        Event Gallery ({evt.event_images?.length || 0} photos)
+                      </h4>
+                      
+                      {/* List of existing gallery images */}
+                      {evt.event_images && evt.event_images.length > 0 ? (
+                        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: "12px" }}>
+                          {evt.event_images.map((img) => (
+                            <div key={img.id} style={{ position: "relative", width: "65px", height: "65px", borderRadius: "6px", overflow: "hidden", border: "1px solid var(--border)" }}>
+                              <img src={img.image_url} alt="Gallery item" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteGalleryImage(img.id)}
+                                style={{
+                                  position: "absolute", top: "2px", right: "2px",
+                                  background: "rgba(239, 68, 68, 0.95)", color: "#fff", border: "none",
+                                  borderRadius: "50%", width: "16px", height: "16px",
+                                  fontSize: "9px", cursor: "pointer", display: "flex",
+                                  alignItems: "center", justifyContent: "center"
+                                }}
+                                title="Delete from gallery"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p style={{ fontSize: "12px", color: "var(--text)", marginBottom: "12px" }}>No photos in gallery.</p>
+                      )}
+
+                      {/* Add photos to existing event */}
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={(e) => handleAddGalleryImageToEvent(e, evt.id)}
+                          style={{ display: "none" }}
+                          id={`add-gallery-photos-${evt.id}`}
+                        />
+                        <label
+                          htmlFor={`add-gallery-photos-${evt.id}`}
                           style={{
-                            padding: "3px 8px",
-                            fontSize: "11px",
-                            background: "rgba(239, 68, 68, 0.1)",
-                            border: "1px solid rgba(239, 68, 68, 0.3)",
-                            color: "#ef4444",
+                            display: "inline-flex",
+                            padding: "6px 12px",
                             borderRadius: "4px",
-                            cursor: "pointer"
+                            background: "var(--social-bg)",
+                            border: "1px solid var(--border)",
+                            color: "var(--text-h)",
+                            fontSize: "12px",
+                            fontWeight: "600",
+                            cursor: "pointer",
+                            transition: "background 0.2s"
                           }}
                         >
-                          Delete
-                        </button>
+                          + Add Photos to Gallery
+                        </label>
                       </div>
-                      <p style={{ fontSize: "13px", color: "var(--accent)", fontWeight: "600", marginBottom: "4px", fontFamily: "var(--mono)" }}>
-                        📅 {new Date(evt.event_date).toLocaleString()}
-                      </p>
-                      <p style={{ fontSize: "13px", color: "var(--text-h)", fontWeight: "500", marginBottom: "8px" }}>
-                        📍 {evt.venue}
-                      </p>
-                      {evt.description && (
-                        <p style={{ fontSize: "13px", color: "var(--text)", lineHeight: "140%" }}>{evt.description}</p>
-                      )}
                     </div>
+
                   </div>
                 ))}
               </div>
