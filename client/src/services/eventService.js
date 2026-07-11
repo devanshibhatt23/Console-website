@@ -44,3 +44,23 @@ export async function getEventsWithImages() {
 
   return data;
 }
+
+export async function addEventImages(images) {
+  const { data, error } = await supabase
+    .from("event_images")
+    .insert(images)
+    .select();
+
+  if (error) throw error;
+
+  return data;
+}
+
+export async function deleteEventImage(imageId) {
+  const { error } = await supabase
+    .from("event_images")
+    .delete()
+    .eq("id", imageId);
+
+  if (error) throw error;
+}
