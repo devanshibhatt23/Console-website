@@ -35,6 +35,7 @@ function App() {
           <Route path="/resources/:domain" element={<ResourceDomain />} />
           <Route path="/tech-guide" element={<TechGuide />} />
           <Route path="/placement-playbook" element={<PlacementPlaybook />} />
+          <Route path="/events" element={<Events />} />
         </Route>
 
         {/* Admin Routes */}
