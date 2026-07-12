@@ -15,6 +15,8 @@ import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SearchUsers from "./pages/SearchUsers";
+import ProfileView from "./pages/ProfileView";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/search" element={<SearchUsers />} />
+          <Route path="/profile/:userId" element={<ProfileView />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/problem-of-the-day" element={<POTD />} />
           <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />

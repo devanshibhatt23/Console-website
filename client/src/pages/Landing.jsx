@@ -228,7 +228,7 @@ export default function Landing() {
       <section id="gallery" className="landing-section gallery-section">
         <div className="gallery-header">
           <h2 className="section-title">Life at <span className="gradient-text">CONSOLE</span></h2>
-          <p className="section-subtitle">Moments from our coding sessions, hackathons, and meetups</p>
+          <p className="section-subtitle">Moments from our tech sessions, hackathons, and meetups</p>
         </div>
         <div className="infinite-scroller-container">
           <div className="scroll-row left-to-right">

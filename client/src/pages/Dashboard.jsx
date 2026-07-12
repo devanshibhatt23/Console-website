@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { uploadResume, getResumeUrl, deleteResume } from "../services/storageService";
-import { updateProfile } from "../services/ProfileService";
+import { updateProfile, deriveCollegeIdFromEmail } from "../services/ProfileService";
 import { signOut } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +15,6 @@ export default function Dashboard() {
   const [skillsText, setSkillsText] = useState("");
   const [name, setName] = useState("");
   const [collegeId, setCollegeId] = useState("");
-  const [branch, setBranch] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [codeforcesHandle, setCodeforcesHandle] = useState("");
@@ -28,14 +27,22 @@ export default function Dashboard() {
   // Sync state with profile once loaded
   useEffect(() => {
     if (profile) {
+      const derivedCollegeId = deriveCollegeIdFromEmail(user?.email || profile?.email || "");
+      const nextCollegeId = derivedCollegeId || profile.college_id || "";
+
       setName(profile.name || "");
-      setCollegeId(profile.college_id || "");
-      setBranch(profile.branch || "");
+      setCollegeId(nextCollegeId);
       setGithubUrl(profile.github_url || "");
       setLinkedinUrl(profile.linkedin_url || "");
       setSkillsText(profile.skills ? profile.skills.join(", ") : "");
       setCodeforcesHandle(profile.codeforces_handle || "");
       setLeetcodeHandle(profile.leetcode_handle || "");
+
+      if (derivedCollegeId && user?.id && profile.college_id !== derivedCollegeId) {
+        updateProfile(user.id, { college_id: derivedCollegeId })
+          .then(() => setCollegeId(derivedCollegeId))
+          .catch((err) => console.warn("Unable to sync college ID:", err.message));
+      }
 
       if (profile.resume_url) {
         loadResumeUrl(profile.resume_url);
@@ -43,7 +50,7 @@ export default function Dashboard() {
         setResumeSignedUrl("");
       }
     }
-  }, [profile]);
+  }, [profile, user?.email, user?.id]);
 
   async function loadResumeUrl(path) {
     try {
@@ -79,7 +86,6 @@ export default function Dashboard() {
 
       await updateProfile(user.id, {
         name: name.trim(),
-        branch: branch.trim(),
         github_url: githubUrl.trim(),
         linkedin_url: linkedinUrl.trim(),
         skills: skillsArray,
@@ -287,16 +293,7 @@ export default function Dashboard() {
               </span>
             </div>
 
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Branch</label>
-              <input
-                type="text"
-                placeholder="e.g. Computer Science"
-                value={branch}
-                onChange={(e) => setBranch(e.target.value)}
-                style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)" }}
-              />
-            </div>
+
 
             <div style={{ marginBottom: "15px" }}>
               <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>GitHub Profile URL</label>
