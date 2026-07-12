@@ -63,4 +63,16 @@ export async function deleteEventImage(imageId) {
     .eq("id", imageId);
 
   if (error) throw error;
+}
+
+export async function updateEvent(eventId, updates) {
+  const { data, error } = await supabase
+    .from("events")
+    .update(updates)
+    .eq("id", eventId)
+    .select();
+
+  if (error) throw error;
+
+  return data;
 }
