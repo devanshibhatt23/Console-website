@@ -56,7 +56,7 @@ function getEventDisplayDate(title, eventDate) {
     return { day: "11", month: "APR", year: "2026" };
   }
 
-  if (!eventDate) return { day: "--", month: "---", year: "----" };
+  if (!eventDate) return { day: "?", month: "???", year: "????" };
   try {
     const d = new Date(eventDate);
     const day = String(d.getDate()).padStart(2, "0");
@@ -451,23 +451,19 @@ export default function Events() {
             CONSOLE CLUB
           </div>
 
+          {/* Updated heading with orange-pink gradient per branding requirements */}
           <h1 className="ev-hero-title">
-            Our <span className="ev-hero-highlight">Events</span>
+            <span className="ev-hero-highlight-brand">Console</span>{" "}
+            <span className="ev-hero-highlight">Events</span>
           </h1>
 
+          {/* Updated hero description */}
           <p className="ev-hero-sub">
-            From hackathons to workshops — relive every moment that made Console Club legendary.
+            From hackathons to workshops - relive moments that shaped the community.
           </p>
-
-          {!isLoading && !error && events.length > 0 && <StatsBar events={events} />}
         </div>
 
-        <div className="ev-hero-scroll">
-          <span>Scroll to explore</span>
-          <div className="ev-scroll-indicator">
-            <div className="ev-scroll-dot" />
-          </div>
-        </div>
+        {/* Scroll indicator removed as per requirements */}
       </section>
 
       {/* ── Main Section ── */}
@@ -494,10 +490,10 @@ export default function Events() {
           <>
             {/* Timeline Subheader */}
             <div className="ev-timeline-intro">
-              <span className="ev-intro-tag">OUR JOURNEY</span>
-              <h2 className="ev-intro-title">A Timeline of Impact</h2>
+              {/* OUR JOURNEY tag removed; timeline heading and description updated */}
+              <h2 className="ev-intro-title">Timeline of Our Journey</h2>
               <p className="ev-intro-subtitle">
-                Every event is a step towards building a stronger, smarter and more collaborative developer community.
+                Travel with us through time - story of Console, told one event at a time.
               </p>
             </div>
 
@@ -535,30 +531,7 @@ export default function Events() {
         )}
       </main>
 
-      {/* ── Coming Soon Banner Section ── */}
-      {!isLoading && !error && (
-        <section className="ev-coming-soon-sec">
-          <div className="ev-coming-soon-card">
-            <div className="ev-coming-soon-left">
-              <div className="ev-coming-soon-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                  <line x1="16" y1="2" x2="16" y2="6" />
-                  <line x1="8" y1="2" x2="8" y2="6" />
-                  <line x1="3" y1="10" x2="21" y2="10" />
-                </svg>
-              </div>
-              <div className="ev-coming-soon-text">
-                <h3>More events coming soon!</h3>
-                <p>Stay tuned for more exciting workshops, hackathons and tech talks.</p>
-              </div>
-            </div>
-            <a href="/signup" className="ev-coming-soon-btn">
-              Join Our Community <span className="ev-btn-arrow">→</span>
-            </a>
-          </div>
-        </section>
-      )}
+      {/* Community / Join section removed as per requirements */}
 
       {/* ── Lightbox Overlay ── */}
       {lightbox && (
