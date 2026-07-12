@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { getEventsWithImages, createEvent, deleteEvent, addEventImages, deleteEventImage } from "../services/eventService";
+import { getEventsWithImages, createEvent, deleteEvent, addEventImages, deleteEventImage, updateEvent } from "../services/eventService";
 import { getProblems, createProblem, deleteProblem } from "../services/problemService";
 import { uploadEventImage } from "../services/storageService";
 import { getResources, createResource, deleteResource } from "../services/resourceService";
@@ -152,6 +152,10 @@ export default function Admin() {
   }
 
   async function handleImageFileChange(e) {
+    if (!navigator.onLine) {
+      setErrorMsg("Network Error: You appear to be offline. Please check your connection.");
+      return;
+    }
     if (!e.target.files || e.target.files.length === 0) return;
     const file = e.target.files[0];
     
@@ -176,6 +180,10 @@ export default function Admin() {
   }
 
   async function handleGalleryFilesChange(e) {
+    if (!navigator.onLine) {
+      setErrorMsg("Network Error: You appear to be offline. Please check your connection.");
+      return;
+    }
     if (!e.target.files || e.target.files.length === 0) return;
     const files = Array.from(e.target.files);
 
@@ -203,6 +211,10 @@ export default function Admin() {
 
   async function handleCreateEvent(e) {
     e.preventDefault();
+    if (!navigator.onLine) {
+      setErrorMsg("Network Error: You appear to be offline. Please check your connection.");
+      return;
+    }
     setSuccessMsg("");
     setErrorMsg("");
 
@@ -290,6 +302,35 @@ export default function Admin() {
       await loadEvents();
     } catch (err) {
       setErrorMsg("Failed to add image(s) to gallery: " + err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleUpdateEventBanner(e, eventId) {
+    if (!navigator.onLine) {
+      setErrorMsg("Network Error: You appear to be offline. Please check your connection.");
+      return;
+    }
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+
+    if (!file.type.startsWith("image/")) {
+      setErrorMsg("Please choose a valid image file (PNG/JPG).");
+      return;
+    }
+
+    setSubmitting(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+
+    try {
+      const publicUrl = await uploadEventImage(file);
+      await updateEvent(eventId, { image_url: publicUrl });
+      setSuccessMsg("Event banner updated successfully!");
+      await loadEvents();
+    } catch (err) {
+      setErrorMsg("Failed to update event banner: " + err.message);
     } finally {
       setSubmitting(false);
     }
@@ -516,10 +557,12 @@ export default function Admin() {
                   rows="4"
                   value={eventDescription}
                   onChange={(e) => setEventDescription(e.target.value)}
-                  style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", resize: "none" }}
-                />
-              <              {/* Event banner upload */}
-              <div style={{ marginBottom: "20px" }}>
+                style={{ width: "100%", padding: "10px", borderRadius: "6px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-h)", resize: "none" }}
+              />
+            </div>
+
+            {/* Event banner upload */}
+            <div style={{ marginBottom: "20px" }}>
                 <label style={{ display: "block", fontSize: "12px", fontWeight: "600", textTransform: "uppercase", color: "var(--text)", marginBottom: "6px" }}>Event Banner Image</label>
                 <input
                   type="file"
@@ -624,7 +667,7 @@ export default function Admin() {
                 {submitting ? "Scheduling Event..." : "Publish Event"}
               </button>
             </form>
-          </div>     </div>
+          </div>
 
           {/* Existing Events List */}
           <div>
@@ -649,13 +692,41 @@ export default function Admin() {
                     }}
                   >
                     <div style={{ display: "flex", gap: "15px" }}>
-                      {evt.image_url && (
-                        <img
-                          src={evt.image_url}
-                          alt={evt.title}
-                          style={{ width: "90px", height: "90px", objectFit: "cover", borderRadius: "6px", border: "1px solid var(--border)" }}
+                      {/* Banner preview + change button */}
+                      <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center" }}>
+                        {evt.image_url ? (
+                          <img
+                            src={evt.image_url}
+                            alt={evt.title}
+                            style={{ width: "90px", height: "90px", objectFit: "cover", borderRadius: "6px", border: "1px solid var(--border)" }}
+                          />
+                        ) : (
+                          <div style={{ width: "90px", height: "90px", borderRadius: "6px", border: "1px dashed var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", color: "var(--text)", textAlign: "center", padding: "4px" }}>
+                            No Banner
+                          </div>
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => handleUpdateEventBanner(e, evt.id)}
+                          style={{ display: "none" }}
+                          id={`change-banner-${evt.id}`}
                         />
-                      )}
+                        <label
+                          htmlFor={`change-banner-${evt.id}`}
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: "600",
+                            color: "var(--accent)",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            whiteSpace: "nowrap"
+                          }}
+                        >
+                          {evt.image_url ? "Change Banner" : "Add Banner"}
+                        </label>
+                      </div>
+
                       <div style={{ flex: 1 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                           <h3 style={{ margin: "0 0 5px", fontSize: "17px", color: "var(--text-h)", fontWeight: "600" }}>{evt.title}</h3>
