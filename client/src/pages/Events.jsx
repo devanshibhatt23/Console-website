@@ -145,8 +145,7 @@ function StatsBar({ events }) {
   );
   // Using high values from mockup for professional aesthetic
   const cEvents = useCountUp(6, 1200, inView);
-  const cWorkshops = useCountUp(18, 1400, inView);
-  const cStudents = useCountUp(500, 1600, inView);
+  const cStudents = useCountUp(500, 1400, inView);
 
   return (
     <div ref={ref} className="ev-stats-card">
@@ -160,17 +159,6 @@ function StatsBar({ events }) {
           </svg>
           <span className="ev-stat-number">{cEvents}+</span>
           <span className="ev-stat-desc">Events Hosted</span>
-        </div>
-        <div className="ev-stat-divider" />
-        <div className="ev-stat-item">
-          <svg className="ev-stat-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-          <span className="ev-stat-number">{cWorkshops}+</span>
-          <span className="ev-stat-desc">Workshops Conducted</span>
         </div>
         <div className="ev-stat-divider" />
         <div className="ev-stat-item">
