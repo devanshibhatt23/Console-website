@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
     if (!data || data.length === 0) {
@@ -37,9 +38,15 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
                                     </div>
                                 </td>
                                 <td>
-                                    <div className="user-name" style={{ fontWeight: '600', color: 'var(--text-h)' }}>
-                                        {user.name || "Anonymous"}
-                                    </div>
+                                    {user.id ? (
+                                        <Link to={`/profile/${user.id}`} className="user-name" style={{ fontWeight: '600', color: 'var(--accent)', textDecoration: 'none' }}>
+                                            {user.name || "Anonymous"}
+                                        </Link>
+                                    ) : (
+                                        <div className="user-name" style={{ fontWeight: '600', color: 'var(--text-h)' }}>
+                                            {user.name || "Anonymous"}
+                                        </div>
+                                    )}
                                 </td>
                                 <td>
                                     <a 
