@@ -29,3 +29,4 @@ dist-ssr
 !.env.example
 client/supabase/.temp/
 client/supabase/.temp/
+client/supabase/.temp/
