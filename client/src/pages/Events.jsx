@@ -19,7 +19,20 @@ function getOrderIndex(title) {
 }
 
 function sortEvents(events) {
-  return [...events].sort((a, b) => getOrderIndex(a.title) - getOrderIndex(b.title));
+  return [...events].sort((a, b) => {
+    const idxA = getOrderIndex(a.title);
+    const idxB = getOrderIndex(b.title);
+    
+    // If both are predefined legacy events, keep their requested order
+    if (idxA < EVENT_ORDER.length && idxB < EVENT_ORDER.length) {
+      return idxA - idxB;
+    }
+    
+    // Otherwise, sort chronologically based on the event_date field
+    const dateA = new Date(a.event_date || 0);
+    const dateB = new Date(b.event_date || 0);
+    return dateA - dateB;
+  });
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
