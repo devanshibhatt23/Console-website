@@ -306,13 +306,13 @@ const refreshLeaderboardCache = async () => {
 
             if (p.codeforces_handle) {
                 const stat = cfData.find(c => c.handle.toLowerCase() === p.codeforces_handle.toLowerCase());
-                if (stat) leaderboards.codeforces.push({ name: p.name, handle: stat.handle, rating: stat.rating, year });
+                if (stat) leaderboards.codeforces.push({ id: p.id, name: p.name, handle: stat.handle, rating: stat.rating, year });
             }
             if (p.leetcode_handle) {
                 const stat = lcData.find(c => c.handle.toLowerCase() === p.leetcode_handle.toLowerCase());
                 if (stat) {
-                    leaderboards.leetcode_rating.push({ name: p.name, handle: stat.handle, rating: stat.rating, year });
-                    leaderboards.leetcode_questions.push({ name: p.name, handle: stat.handle, questions: stat.totalQuestions, year });
+                    leaderboards.leetcode_rating.push({ id: p.id, name: p.name, handle: stat.handle, rating: stat.rating, year });
+                    leaderboards.leetcode_questions.push({ id: p.id, name: p.name, handle: stat.handle, questions: stat.totalQuestions, year });
                 }
             }
         });
