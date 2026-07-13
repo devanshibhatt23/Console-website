@@ -1,0 +1,44 @@
+Make the following changes in both landing page (public page) and home page (protected page):
+Font for headings - Montserrat, description - Inter
+In the navbar, in the left side, write CONSOLE with logo on its left- </> 
+Both should have the color gradient - #F2994A → #F0405C
+ 	In the right side, all the sections like about, gallery, etc, on hovered, or on scrolling down to that section, that particular section in the navbar should change their color gradient to mixture of both - #F2994A and #F0405C, and should glow with orange underline.
+Add a ‘home’ section in the navbar in the first position.
+The ‘welcome to console’ part will be home section.
+Change the horizontal blue and red laser light in the background to colors-  #F2994A and #F0405C
+The login and profile button on the landing and home page’s navbar (respectively) should be with rounded borders, and gradient of colors  #F2994A and #F0405C. Hovering on the buttons and other sections on the nav bar- subtle scale-up (transform: scale(1.02)), border glow
+
+Remove the text- system initialized. Ready to build
+Remove the text- building mnit’s coding culture
+Instead of ‘console’ heading, write- Welcome to (above), CONSOLE (below). Color gradient - #F2994A and #F0405C
+Increase its font size to double the current size.
+On hovering on ‘CONSOLE’, add letter scramble effect, and add a glow behind the text.
+Remove the text - one terminal, infinite possibilities - and instead write - ‘Tech Community of MNIT’
+Make the join the tribe and explore buttons smaller in size, with rounded corners, and change ‘join the tribe’ to ‘Join the community’. And remove the ‘join the tribe’ button on the home page (which is accessible after login), keep the color gradient of both buttons the same - #F2994A 
+Remove the technologies we love section and also the ‘scroll’ text shown above it.
+Below that is the about section, so on scrolling to that part, the ‘about’ in the navbar should automatically glow up as if its hovered on, same with all other sections.
+Remove the text- from not just a club, to we are the terminal where ideas compile into reality. And instead write the following text in the middle of the page, with the last line in color-#F2994A : 
+A tech community to learn and grow, together.
+A place where people brainstorm, build and push each other forward.
+We aim at developing skills that actually shape careers - not just DSA, but teamwork, problem-solving, networking, and the ability to take an idea from concept to execution.
+We keep the community up with what's next in tech, and offer mentorship, provide resources and a platform to grow alongside your peers.
+You think you need any experience to join? You don't! Just show up curious - We will take it from there!
+On hovering over the cards build, learn and compete, make the individual background colors a little brighter than original.
+In build card - remove the line - we turn caffeine into code.
+In learn card - replace ‘demysify’ with ‘break down’
+In compete card - write - Hackathons, contests, and competitions - We show up prepared to compete against the best and rise up stronger than before.
+In the gallery section- the heading ‘life at console’, console is not visible, make the color of whole heading - #F2994A and #F0405C, and increase its size
+Next is the team section- make the color of the cover profile of all users- #F2994A
+
+After that archive one is the events section. Remove archive and where the magic happened text, write ‘Events’ heading instead with same font and color as all above headings, in the cards below show the 3 events only from the events page - CONCODE, Git-Wars, and Confluence. Show these 3 cards only, remove the fire emoji and completed successfully from all events displayed. And on hovering on an event card, make its borders rounded with orange glow.
+And on the right most side of the events heading, have a redirect option - ‘View all events’. On clicking on it, it should redirect to the /events page. On hovering, it should have a glow and show subtle scale-up (transform: scale(1.02))
+Next ‘learn and grow’ is a combined section- remove the remove the emojis in cards, also remove the last card- placement playbook. Add another card in first position- Leaderboard, with description- Track top performers and see where you stand among your peers.
+Resources description- Explore collection of tools, docs, and tutorials to master new technologies.
+Increase the font size of headings in cards, and make their color same as other headings. And on hovering on the cards, the card should have rounded borders with orange glow.
+After that add a section- Frequently Asked questions. This section should be exactly same as the frequently asked questions in the website - https://www.console.net.in/
+Refer to this and ensure the section is exactly same.
+Remove the whole join the console part, along with discord, linkedin, etc. cards and also the subscribe (stay updated) part
+Instead write heading ‘Let’s Connect’ with same size and color as all headings and add two cards below, Linkedin and Instagram.
+In the footer, change the blue glow to orange glow, also change ‘console’ to orange-pink, and remove the discord, github, twitter icons. And add the same links in the quick links section as it is displayed on the nav bar, remove the resources part in right side.
+
+

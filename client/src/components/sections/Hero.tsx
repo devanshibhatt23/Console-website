@@ -1,65 +1,69 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { ParticlesProvider, Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { motion } from 'framer-motion';
-import { Terminal, ChevronRight } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 import GridGlow from './GridGlow';
 import ConstellationDraw from './ConstellationDraw';
+import { useAuth } from '../../context/AuthContext';
 
-// ── Role cycler ──────────────────────────────────────────────────────────────
-// "We are hackers" -> erase -> "dreamers" -> "innovators" -> ... looping
-// typewriter, styled in the fire gradient to match the CTA accent.
-const ROLE_WORDS = ['hackers', 'dreamers', 'innovators', 'builders', 'creators'];
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>[]{}';
 
-function RoleCycler() {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [text, setText] = useState('');
-  const [phase, setPhase] = useState<'typing' | 'pausing' | 'deleting'>('typing');
+function useScramble(originalText: string) {
+  const [displayText, setDisplayText] = useState(originalText);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isScrambling = useRef(false);
+
+  const scramble = useCallback(() => {
+    if (isScrambling.current) return;
+    isScrambling.current = true;
+    let iteration = 0;
+    const maxIterations = originalText.length * 4;
+
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setDisplayText(
+        originalText
+          .split('')
+          .map((char, i) => {
+            if (i < Math.floor(iteration / 4)) return originalText[i];
+            return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          })
+          .join('')
+      );
+      iteration++;
+      if (iteration > maxIterations) {
+        clearInterval(intervalRef.current!);
+        setDisplayText(originalText);
+        isScrambling.current = false;
+      }
+    }, 28);
+  }, [originalText]);
 
   useEffect(() => {
-    const currentWord = ROLE_WORDS[wordIndex];
-    let timeout: ReturnType<typeof setTimeout>;
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
-    if (phase === 'typing') {
-      if (text.length < currentWord.length) {
-        timeout = setTimeout(() => setText(currentWord.slice(0, text.length + 1)), 90);
-      } else {
-        timeout = setTimeout(() => setPhase('deleting'), 1400);
-      }
-    } else {
-      if (text.length > 0) {
-        timeout = setTimeout(() => setText(text.slice(0, -1)), 45);
-      } else {
-        setWordIndex((i) => (i + 1) % ROLE_WORDS.length);
-        setPhase('typing');
-      }
-    }
-
-    return () => clearTimeout(timeout);
-  }, [text, phase, wordIndex]);
-
-  return (
-    <span className="text-gradient-fire font-bold">
-      {text}
-      <span className="inline-block w-[2px] h-[0.9em] bg-primary ml-1 animate-pulse align-middle" />
-    </span>
-  );
+  return { displayText, scramble };
 }
 
-// ── Hero Section ─────────────────────────────────────────────────────────────
 export default function Hero() {
-  const titleText = "CONSOLE";
+  const { user } = useAuth();
+  const { displayText, scramble } = useScramble('CONSOLE');
+  const [isHoveringConsole, setIsHoveringConsole] = useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.3 },
+      transition: { staggerChildren: 0.12, delayChildren: 0.3 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
@@ -72,10 +76,9 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-32 pb-48"
     >
-      {/* Grid + scanline glow — terminal/HUD-native background treatment */}
       <GridGlow />
 
-      {/* Particles — constellation network */}
+      {/* Particles */}
       <div className="absolute inset-0 z-0">
         <ParticlesProvider init={async (engine) => await loadSlim(engine)}>
           <Particles
@@ -89,12 +92,12 @@ export default function Hero() {
                 modes: { grab: { distance: 140, links: { opacity: 0.5 } } },
               },
               particles: {
-                color: { value: '#6366F1' },
+                color: { value: '#F2994A' },
                 links: {
-                  color: '#06b6d4',
+                  color: '#F0405C',
                   distance: 150,
                   enable: true,
-                  opacity: 0.2,
+                  opacity: 0.15,
                   width: 1,
                 },
                 move: {
@@ -109,7 +112,7 @@ export default function Hero() {
                   density: { enable: true, width: 800 },
                   value: 40,
                 },
-                opacity: { value: 0.3 },
+                opacity: { value: 0.25 },
                 shape: { type: 'circle' },
                 size: { value: { min: 1, max: 2 } },
               },
@@ -120,117 +123,118 @@ export default function Hero() {
         </ParticlesProvider>
       </div>
 
-      {/* Radial Gradient Overlay */}
+      {/* Radial overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/50 to-black z-0" />
 
-      {/* Draw-your-own-constellation — drag to trace nodes/links that match
-          the ambient particle network, then hang suspended and slowly fade */}
       <ConstellationDraw />
 
-      {/* Content — pointer-events disabled on the wrapper so drags pass
-          through to the canvas above; re-enabled only on real controls */}
       <div className="relative z-10 container mx-auto px-6 text-center pointer-events-none">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-4xl mx-auto flex flex-col items-center"
+          className="max-w-5xl mx-auto flex flex-col items-center"
         >
-          <motion.div
+          {/* Welcome to */}
+          <motion.p
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 font-mono text-xs text-secondary mb-8 backdrop-blur-md mt-10"
+            className="text-xl md:text-2xl font-inter font-medium text-white/70 mb-2 mt-10 tracking-wide"
           >
-            <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-            System initialized. Ready to build.
-          </motion.div>
+            Welcome to
+          </motion.p>
 
-          {/* Group 1: Main Title Area */}
-          <div className="flex flex-col items-center mb-16">
-            <motion.p
-              variants={itemVariants}
-              className="uppercase tracking-[0.3em] md:tracking-[0.4em] text-xs md:text-sm text-white/60 font-mono mb-4 font-medium"
+          {/* CONSOLE — scramble on hover + glow */}
+          <div className="relative flex flex-col items-center mb-10">
+            <h1
+              className="font-montserrat font-black tracking-tighter leading-none pb-2 cursor-default pointer-events-auto select-none transition-all duration-300"
+              style={{
+                fontSize: 'clamp(5rem, 16vw, 14rem)',
+                background: 'linear-gradient(90deg, #F2994A 0%, #F0405C 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: isHoveringConsole
+                  ? 'drop-shadow(0 0 40px rgba(242,153,74,0.7)) drop-shadow(0 0 80px rgba(240,64,92,0.5))'
+                  : 'drop-shadow(0 4px 12px rgba(0,0,0,0.8))',
+              }}
+              onMouseEnter={() => {
+                setIsHoveringConsole(true);
+                scramble();
+              }}
+              onMouseLeave={() => setIsHoveringConsole(false)}
             >
-              Building MNIT's Coding Culture
-            </motion.p>
-
-            <h1 className="text-7xl md:text-[8rem] lg:text-[10rem] xl:text-[11rem] font-black tracking-tighter flex justify-center flex-nowrap overflow-hidden leading-none pb-2 w-full">
-              {titleText.split('').map((char, index) => (
-                <motion.span
-                  key={index}
-                  variants={{
-                    hidden: { opacity: 0, y: 50, rotateX: -90 },
-                    visible: {
-                      opacity: 1,
-                      y: 0,
-                      rotateX: 0,
-                      transition: { duration: 0.8, ease: 'easeOut' },
-                    },
-                  }}
-                  className={index > 3 ? 'text-gradient-fire' : 'text-white'}
-                >
-                  {char}
-                </motion.span>
-              ))}
+              {displayText}
             </h1>
+
+            {/* Glow orb behind CONSOLE on hover */}
+            <div
+              className="absolute inset-0 -z-10 blur-3xl rounded-full transition-opacity duration-500 pointer-events-none"
+              style={{
+                background: 'radial-gradient(ellipse at center, rgba(242,153,74,0.25) 0%, rgba(240,64,92,0.15) 50%, transparent 70%)',
+                opacity: isHoveringConsole ? 1 : 0,
+              }}
+            />
           </div>
 
-          {/* Group 2: Subtitle Area */}
-          <div className="flex flex-col items-center mb-20 gap-4">
-            <motion.p
-              variants={itemVariants}
-              className="text-xl md:text-2xl lg:text-3xl font-mono font-medium text-white"
-            >
-              We are <RoleCycler />
-            </motion.p>
+          {/* Subtitle */}
+          <motion.p
+            variants={itemVariants}
+            className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 mb-14 tracking-wide"
+          >
+            Tech Community of MNIT
+          </motion.p>
 
-            <motion.p
-              variants={itemVariants}
-              className="text-base md:text-lg lg:text-xl font-mono text-muted-foreground/80 max-w-2xl text-center leading-relaxed"
-            >
-              One Terminal, Infinite Possibilities.
-            </motion.p>
-          </div>
-
-          {/* Group 3: CTA Buttons */}
+          {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row justify-center gap-8 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row justify-center gap-5 w-full sm:w-auto pointer-events-auto"
           >
-            <a
-              href="#community"
-              data-testid="cta-join-tribe"
-              className="group relative px-8 py-4 bg-primary text-white font-mono font-medium rounded overflow-hidden glow-indigo flex items-center justify-center gap-2 pointer-events-auto"
-            >
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-              <span className="relative z-10 flex items-center gap-2">
-                Join the Tribe{' '}
-                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </a>
+            {/* Join the community — hidden when logged in */}
+            {!user && (
+              <a
+                href="#community"
+                className="group relative px-6 py-3 text-white font-inter font-semibold rounded-full overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02]"
+                style={{
+                  background: 'linear-gradient(135deg, #F2994A, #F0405C)',
+                  boxShadow: '0 4px 20px rgba(242,153,74,0.35)',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    '0 6px 28px rgba(242,153,74,0.55)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    '0 4px 20px rgba(242,153,74,0.35)';
+                }}
+              >
+                Join the community
+              </a>
+            )}
+
+            {/* Explore Console */}
             <a
               href="#about"
-              data-testid="cta-explore"
-              className="px-8 py-4 bg-white/5 border border-white/10 text-white font-mono font-medium rounded hover:bg-white/10 transition-colors flex items-center justify-center gap-2 pointer-events-auto"
+              className="px-6 py-3 bg-white/5 border border-white/15 text-white font-inter font-medium rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2"
+              style={{
+                boxShadow: '0 0 0 1px rgba(255,255,255,0.08)',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  '0 0 12px rgba(242,153,74,0.25), 0 0 0 1px rgba(242,153,74,0.3)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(242,153,74,0.3)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  '0 0 0 1px rgba(255,255,255,0.08)';
+                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)';
+              }}
             >
-              <Terminal className="w-4 h-4 text-secondary" />
+              <Terminal className="w-4 h-4" style={{ color: '#F2994A' }} />
               <span>Explore Console</span>
             </a>
           </motion.div>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-          Scroll
-        </span>
-        <div className="w-[1px] h-12 bg-gradient-to-b from-primary/50 to-transparent" />
-      </motion.div>
     </section>
   );
 }
