@@ -3,14 +3,14 @@ import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const quickLinks = [
-  { label: 'Home', href: '/#hero', isHash: true },
-  { label: 'About', href: '/#about', isHash: true },
-  { label: 'Gallery', href: '/#gallery', isHash: true },
-  { label: 'Team', href: '/#team', isHash: true },
-  { label: 'Events', href: '/events', isHash: false },
-  { label: 'Leaderboard', href: '/leaderboard', isHash: false },
-  { label: 'Resources', href: '/resources', isHash: false },
-  { label: 'Tech Guide', href: '/tech-guide', isHash: false },
+  { label: 'home', href: '/#hero', isHash: true },
+  { label: 'about', href: '/#about', isHash: true },
+  { label: 'gallery', href: '/#gallery', isHash: true },
+  { label: 'team', href: '/#team', isHash: true },
+  { label: 'events', href: '/events', isHash: false },
+  { label: 'leaderboard', href: '/leaderboard', isHash: false },
+  { label: 'resources', href: '/resources', isHash: false },
+  { label: 'tech guide', href: '/tech-guide', isHash: false },
 ];
 
 export default function Footer() {

@@ -291,7 +291,7 @@ export default function Navbar() {
           {user ? (
             <Link
               to="/profile"
-              className="ml-3 px-5 py-2 rounded-full font-mono text-sm uppercase tracking-wider text-white transition-all duration-200 hover:scale-[1.02] flex items-center gap-2 nav-cta-btn"
+              className="ml-3 px-5 py-2 rounded-full font-mono text-sm tracking-wider text-white transition-all duration-200 hover:scale-[1.02] flex items-center gap-2 nav-cta-btn"
               style={{
                 background: 'linear-gradient(90deg, #F2994A, #F0405C)',
                 boxShadow: '0 0 0 1px rgba(242,153,74,0.4)',
@@ -305,12 +305,12 @@ export default function Navbar() {
                   '0 0 0 1px rgba(242,153,74,0.4)';
               }}
             >
-              Profile
+              profile
             </Link>
           ) : (
             <Link
               to="/login"
-              className="ml-3 px-5 py-2 rounded-full font-mono text-sm uppercase tracking-wider text-white transition-all duration-200 hover:scale-[1.02] nav-cta-btn"
+              className="ml-3 px-5 py-2 rounded-full font-mono text-sm tracking-wider text-white transition-all duration-200 hover:scale-[1.02] nav-cta-btn"
               style={{
                 background: 'linear-gradient(90deg, #F2994A, #F0405C)',
                 boxShadow: '0 0 0 1px rgba(242,153,74,0.4)',
@@ -324,7 +324,7 @@ export default function Navbar() {
                   '0 0 0 1px rgba(242,153,74,0.4)';
               }}
             >
-              Login
+              login
             </Link>
           )}
         </nav>
@@ -382,19 +382,19 @@ export default function Navbar() {
               <Link
                 to="/profile"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-6 py-3 rounded-full font-mono text-center mt-3 uppercase tracking-wider text-white"
+                className="px-6 py-3 rounded-full font-mono text-center mt-3 tracking-wider text-white"
                 style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
               >
-                Profile
+                profile
               </Link>
             ) : (
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-6 py-3 rounded-full font-mono text-center mt-3 uppercase tracking-wider text-white"
+                className="px-6 py-3 rounded-full font-mono text-center mt-3 tracking-wider text-white"
                 style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
               >
-                Login
+                login
               </Link>
             )}
           </motion.nav>

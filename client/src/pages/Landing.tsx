@@ -235,10 +235,18 @@ export default function Landing() {
         {/* Learn & Grow */}
         <section id="learn-grow" className="landing-section py-20 bg-black">
           <div className="container mx-auto px-6 max-w-5xl text-center">
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-5">
-              Learn & <span className="text-gradient-fire">Grow</span>
+            <h2
+              className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
+              style={{
+                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Learn &amp; Grow
             </h2>
-            <p className="text-muted-foreground font-inter" style={{ marginBottom: '60px' }}>
+            <p className="text-muted-foreground font-inter mb-12">
               Everything you need to level up your skills and career.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -294,10 +302,18 @@ export default function Landing() {
           />
           <div className="container mx-auto px-6 max-w-3xl relative z-10">
             <div className="text-center mb-14">
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-5">
-                Frequently Asked <span className="text-gradient-fire">Questions</span>
+              <h2
+                className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
+                style={{
+                  background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Frequently Asked Questions
               </h2>
-              <p className="text-muted-foreground font-inter" style={{ marginBottom: '60px' }}>
+              <p className="text-muted-foreground font-inter mb-4">
                 Everything you want to know about Console.
               </p>
             </div>

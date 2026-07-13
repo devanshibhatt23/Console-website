@@ -162,7 +162,7 @@ export default function Hero() {
           </motion.h2>
 
           {/* CONSOLE — Montserrat bold gradient, scramble on hover + glow */}
-          <div className="relative flex flex-col items-center w-full" style={{ marginTop: '0px', marginBottom: '24px' }}>
+          <div className="relative flex flex-col items-center w-full" style={{ marginTop: '12px', marginBottom: '24px' }}>
             <h1
               className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center"
               style={{
@@ -201,7 +201,7 @@ export default function Hero() {
           <motion.p
             variants={itemVariants}
             className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 tracking-wide"
-            style={{ marginBottom: '80px' }}
+            style={{ marginBottom: '48px' }}
           >
             Tech Community of MNIT
           </motion.p>
