@@ -8,8 +8,9 @@ import { supabase } from "../lib/supabase";
  */
 export async function uploadResume(userId, file) {
   const fileExt = file.name.split(".").pop();
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const filePath = `${userId}/${safeName}_${Date.now()}.${fileExt}`;
+  const baseName = file.name.replace(/\.[^/.]+$/, "");
+  const safeBaseName = baseName.replace(/[^a-zA-Z0-9.-]/g, "_");
+  const filePath = `${userId}/${safeBaseName}_${Date.now()}.${fileExt}`;
 
   const { data, error } = await supabase.storage
     .from("resumes")
@@ -26,10 +27,10 @@ export async function uploadResume(userId, file) {
 /**
  * Generates a temporary signed URL to view/download the resume
  * @param {string} filePath - The path saved in profiles.resume_url
- * @param {number} expiresIn - Expiry time in seconds (1 year)
+ * @param {number} expiresIn - Expiry time in seconds (default 1 year)
  * @returns {Promise<string>} - Temporary signed URL
  */
-export async function getResumeUrl(filePath, expiresIn = 365*24*60*60) {
+export async function getResumeUrl(filePath, expiresIn = 31536000) {
   const { data, error } = await supabase.storage
     .from("resumes")
     .createSignedUrl(filePath, expiresIn);
