@@ -45,7 +45,7 @@ export default function Community() {
           <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
             Let's Connect
           </h2>
-          <p className="text-lg text-muted-foreground font-inter mb-20">
+          <p className="text-lg text-muted-foreground font-inter mb-24">
             Follow us and stay in the loop with everything happening at Console.
           </p>
 

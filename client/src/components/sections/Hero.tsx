@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { ParticlesProvider, Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { motion } from 'framer-motion';
@@ -213,8 +214,8 @@ export default function Hero() {
           >
             {/* Join the community — hidden when logged in */}
             {!user && (
-              <a
-                href="#community"
+              <Link
+                to="/login"
                 className="group relative px-6 py-3 text-white font-inter font-semibold rounded-full overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02]"
                 style={{
                   background: 'linear-gradient(135deg, #F2994A, #F0405C)',
@@ -230,7 +231,7 @@ export default function Hero() {
                 }}
               >
                 Join the community
-              </a>
+              </Link>
             )}
 
             {/* Explore Console */}

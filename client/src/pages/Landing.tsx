@@ -230,7 +230,7 @@ export default function Landing() {
             <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
               Learn &amp; Grow
             </h2>
-            <p className="text-muted-foreground font-inter mb-12">
+            <p className="text-muted-foreground font-inter mb-16">
               Everything you need to level up your skills and career.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
