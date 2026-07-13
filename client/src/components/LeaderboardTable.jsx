@@ -124,7 +124,7 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
                     ) : (
                         filteredData.map((user, index) => (
                             <LeaderboardRow
-                                key={user.handle || user.id || index}
+                                key={`${platformId}-${user.handle || user.id || index}`}
                                 user={user}
                                 index={index}
                                 scoreKey={scoreKey}

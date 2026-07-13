@@ -40,10 +40,9 @@
 
 /* Table container */
 .lb-table-container {
-    background: #0A0A0A;
-    border: 1px solid #2A2A2A;
-    border-radius: 1rem;
-    overflow: hidden;
+    background: transparent;
+    border: none;
+    border-radius: 0;
 }
 
 .lb-header-row {
@@ -52,7 +51,9 @@
     align-items: center;
     padding: 1rem 1.5rem;
     background: #111111;
-    border-bottom: 1px solid #2A2A2A;
+    border: 1px solid #2A2A2A;
+    border-radius: 0.85rem;
+    margin-bottom: 0.6rem;
     text-transform: uppercase;
     font-size: 0.72rem;
     font-weight: 600;
@@ -68,6 +69,7 @@
 .lb-body {
     display: flex;
     flex-direction: column;
+    gap: 0.6rem;
 }
 
 /* Row link wrapper */
@@ -89,8 +91,10 @@
     align-items: center;
     padding: 1.1rem 1.5rem;
     background: #1A1A1A;
-    border-bottom: 1px solid #2A2A2A;
+    border: 1px solid #2A2A2A;
     border-left: 3px solid transparent;
+    border-radius: 0.85rem;
+    overflow: hidden;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.25s ease,
                 border-color 0.25s ease,
@@ -102,10 +106,6 @@
 
 .lb-row[data-in='true'] {
     animation: lbRowIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.lb-row-link:last-child .lb-row {
-    border-bottom: none;
 }
 
 .lb-row-link:hover .lb-row {
@@ -228,18 +228,6 @@
         gap: 0.6rem;
         padding: 1rem 1.1rem;
         border-radius: 0.75rem;
-        margin-bottom: 0.6rem;
-        border-bottom: none;
-    }
-
-    .lb-table-container {
-        background: transparent;
-        border: none;
-        border-radius: 0;
-    }
-
-    .lb-row-link:last-child .lb-row {
-        margin-bottom: 0;
     }
 
     .lb-cell-rank {

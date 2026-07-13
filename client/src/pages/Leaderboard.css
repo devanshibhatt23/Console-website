@@ -18,12 +18,22 @@
 }
 
 .leaderboard-title {
-  font-size: 3rem;
+  display: inline-block;
+  font-size: 4rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   margin-bottom: 0.75rem;
-  color: #FFFFFF;
   line-height: 1.2;
+  background: linear-gradient(90deg, #F2994A, #F0405C);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: filter 0.35s ease;
+  cursor: default;
+}
+
+.leaderboard-title:hover {
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.55)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.35));
 }
 
 .leaderboard-subtitle {
@@ -31,6 +41,64 @@
   color: #8A8A8A;
   max-width: 600px;
   margin: 0 auto;
+}
+
+.subtitle-codeforces {
+  color: #F0405C;
+  font-weight: 700;
+}
+
+.subtitle-leetcode {
+  color: #F2994A;
+  font-weight: 700;
+}
+
+/* Stats Cards */
+.stats-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 180px;
+  padding: 1.5rem 1.75rem;
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  border-radius: 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: transparent;
+  background: linear-gradient(#1A1A1A, #1A1A1A) padding-box,
+              linear-gradient(90deg, #F2994A, #F0405C) border-box;
+  box-shadow: 0 0 22px rgba(242, 153, 74, 0.3), 0 0 22px rgba(240, 64, 92, 0.25);
+}
+
+.stat-card-icon {
+  display: inline-flex;
+  margin-bottom: 0.25rem;
+}
+
+.stat-card-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-card-label {
+  font-size: 0.85rem;
+  color: #8A8A8A;
 }
 
 /* Platform Tabs */
@@ -58,15 +126,20 @@
 }
 
 .platform-tab:hover {
-  border-color: #FDA62A;
+  border-color: transparent;
+  background: linear-gradient(#1A1A1A, #1A1A1A) padding-box,
+              linear-gradient(90deg, #F2994A, #F0405C) border-box;
+  color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(242, 153, 74, 0.25), 0 0 20px rgba(240, 64, 92, 0.2);
   transform: translateY(-2px);
 }
 
 .platform-tab.active {
-  background: rgba(253, 166, 42, 0.12);
-  border-color: #FDA62A;
+  border-color: transparent;
+  background: linear-gradient(rgba(242, 153, 74, 0.14), rgba(240, 64, 92, 0.14)) padding-box,
+              linear-gradient(90deg, #F2994A, #F0405C) border-box;
   color: #FFFFFF;
-  box-shadow: 0 0 20px rgba(253, 166, 42, 0.2);
+  box-shadow: 0 0 24px rgba(242, 153, 74, 0.3), 0 0 24px rgba(240, 64, 92, 0.25);
 }
 
 .platform-tab-label {
@@ -103,15 +176,18 @@
 }
 
 .year-tab:hover {
-  border-color: #FDA62A;
+  border-color: transparent;
+  background: linear-gradient(#1A1A1A, #1A1A1A) padding-box,
+              linear-gradient(90deg, #F2994A, #F0405C) border-box;
   color: #FFFFFF;
+  box-shadow: 0 0 18px rgba(242, 153, 74, 0.3), 0 0 18px rgba(240, 64, 92, 0.25);
 }
 
 .year-tab.active {
-  background: #FDA62A;
+  background: linear-gradient(90deg, #F2994A, #F0405C);
   color: #0A0A0A;
-  border-color: #FDA62A;
-  box-shadow: 0 4px 15px rgba(253, 166, 42, 0.35);
+  border-color: transparent;
+  box-shadow: 0 4px 18px rgba(242, 153, 74, 0.35), 0 4px 18px rgba(240, 64, 92, 0.3);
 }
 
 /* Loading */
