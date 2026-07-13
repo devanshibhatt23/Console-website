@@ -1,10 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import TrackMode from "../components/resources/TrackMode";
-import LibraryMode from "../components/resources/LibraryMode";
-import { DOMAINS, RESOURCES_BY_DOMAIN } from "../data/resourcesData";
-import { getResources, getUserProgress, toggleProgress } from "../services/resourceService";
+import { roadmapsData } from "../data/roadmapsData";
 import "./Resources.css";
 
 export default function ResourceDomain() {
@@ -12,170 +9,262 @@ export default function ResourceDomain() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
 
-  // Mode: 'track' or 'library'
-  const [mode, setMode] = useState(() => {
-    return localStorage.getItem(`res-mode-${domainId}`) || "track";
-  });
+  // Find track data
+  const track = roadmapsData[domainId];
 
-  const [loading, setLoading] = useState(true);
-  const [resources, setResources] = useState([]);
-  const [completedIds, setCompletedIds] = useState(new Set());
-
-  // Find domain metadata
-  const domain = DOMAINS.find((d) => d.id === domainId);
-
+  // Redirect to directory if track not found or user not authenticated
   useEffect(() => {
-    if (!authLoading && !user) navigate("/");
+    if (!authLoading && !user) {
+      navigate("/login");
+    }
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
-    if (!domain) {
+    if (!track) {
       navigate("/resources");
-      return;
     }
-    if (user) loadData();
-  }, [user, domainId]);
+  }, [track, navigate]);
+
+  // Load progress from localStorage
+  const [completedModules, setCompletedModules] = useState({});
 
   useEffect(() => {
-    localStorage.setItem(`res-mode-${domainId}`, mode);
-  }, [mode, domainId]);
-
-  // Removed localStorage progress tracking since we now use DB strictly
-
-  async function loadData() {
-    try {
-      setLoading(true);
-      const [dbResources, progress] = await Promise.all([
-        getResources(domainId).catch(() => []),
-        getUserProgress(user.id).catch(() => new Set()),
-      ]);
-
-      setResources(dbResources || []);
-      setCompletedIds(progress || new Set());
-    } catch (err) {
-      console.error("Error loading domain resources:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleToggle(resource, isCompleted) {
-    // Optimistic update in React state
-    setCompletedIds((prev) => {
-      const next = new Set(prev);
-      if (isCompleted) next.delete(resource.id);
-      else next.add(resource.id);
-      return next;
-    });
-
-
-    // Real DB resource: save to Supabase
-    try {
-      await toggleProgress(user.id, resource.id, isCompleted);
-    } catch (err) {
-      console.error("Error saving progress:", err);
-      // Rollback on error
-      setCompletedIds((prev) => {
-        const next = new Set(prev);
-        if (isCompleted) next.add(resource.id);
-        else next.delete(resource.id);
-        return next;
+    if (track) {
+      const saved = {};
+      track.modules.forEach((mod) => {
+        const key = `roadmap-progress-${track.id}-${mod.id}`;
+        saved[mod.id] = localStorage.getItem(key) === "true";
       });
+      setCompletedModules(saved);
     }
-  }
+  }, [track]);
 
-  if (!domain) return null;
+  if (!track) return null;
 
-  const completedCount = resources.filter((r) => completedIds.has(r.id)).length;
-  const totalCount = resources.length;
-  const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  // Toggle completion of a module
+  const toggleModule = (modId) => {
+    const nextState = !completedModules[modId];
+    setCompletedModules((prev) => ({
+      ...prev,
+      [modId]: nextState,
+    }));
+    localStorage.setItem(`roadmap-progress-${track.id}-${modId}`, String(nextState));
+  };
+
+  // Calculate progress stats
+  const totalModules = track.modules.length;
+  const completedCount = Object.values(completedModules).filter(Boolean).length;
+  const progressPercent = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
   return (
-    <div className="resource-domain-page">
-      {/* Header */}
-      <div className="domain-page-header">
+    <div className="resources-page dark" style={{ "--track-color": track.color }}>
+      <div className="resources-bg-glow" />
+
+      {/* Navigation / Breadcrumb */}
+      <div className="resources-nav-bar">
         <button
-          className="domain-back-btn"
           onClick={() => navigate("/resources")}
-          aria-label="Back to all domains"
+          className="resources-back-home-btn"
         >
-          ← Back
+          <span className="btn-icon">←</span> Back to Roadmaps
         </button>
-        <div className="domain-page-title-area">
-          <span className="domain-page-icon">{domain.icon}</span>
-          <div>
-            <h1 className="domain-page-name">{domain.name}</h1>
-            <p className="domain-page-sub">{domain.description}</p>
-          </div>
-        </div>
       </div>
 
-      {/* Overall Progress */}
-      <div className="domain-overall-progress">
-        <div className="domain-progress-info">
-          <p className="domain-progress-label">Overall Progress</p>
-          <div className="domain-progress-bar-track">
-            <div
-              className="domain-progress-bar-fill"
-              style={{ width: `${pct}%`, background: domain.gradient }}
+      {/* Track Detail Header */}
+      <div className="track-detail-header">
+        <div className="track-header-left">
+          <div className="track-header-icon-wrap">
+            <span className="track-header-icon">{track.icon}</span>
+          </div>
+          <div>
+            <h1 className="track-title-main">{track.title}</h1>
+            <p className="track-subtitle-main">{track.subtitle}</p>
+          </div>
+        </div>
+        <p className="track-description-text">{track.intro}</p>
+      </div>
+
+      {/* Progress & Tools Dashboard */}
+      <div className="track-dashboard-grid">
+        {/* Progress Tracker Card */}
+        <div className="track-dashboard-card progress-card">
+          <h3 className="card-label">Track Progress</h3>
+          <div className="progress-value-container">
+            <span className="progress-number">{completedCount}</span>
+            <span className="progress-total">/ {totalModules} Modules</span>
+          </div>
+          
+          <div className="progress-bar-container">
+            <div 
+              className="progress-bar-fill" 
+              style={{ width: `${progressPercent}%` }}
             />
           </div>
+          <div className="progress-percent-label">{progressPercent}% Completed</div>
         </div>
-        <div className="domain-progress-stats">
-          <div className="domain-progress-count" style={{ color: domain.color }}>
-            {completedCount}
-          </div>
-          <div className="domain-progress-total">of {totalCount} completed</div>
+
+        {/* Tools Card */}
+        <div className="track-dashboard-card tools-card">
+          <h3 className="card-label">Required Tools</h3>
+          <p className="tools-text">{track.generalTools}</p>
+        </div>
+
+        {/* Prefer Reading Alternative Card */}
+        <div className="track-dashboard-card reading-card">
+          <h3 className="card-label">📖 Prefer Reading?</h3>
+          <ul className="reading-list-links">
+            {track.preferReading.map((item, idx) => (
+              <li key={idx}>
+                <a 
+                  href={item.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="reading-link-item"
+                >
+                  <span className="link-title">{item.label}</span>
+                  {item.desc && <span className="link-desc"> — {item.desc}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      {/* Mode Toggle */}
-      <div className="mode-toggle" role="tablist" aria-label="View mode">
-        <button
-          id="mode-track"
-          className={`mode-toggle-btn ${mode === "track" ? "active" : ""}`}
-          onClick={() => setMode("track")}
-          role="tab"
-          aria-selected={mode === "track"}
-        >
-          <span className="mode-icon">🗺️</span>
-          Track Mode
-        </button>
-        <button
-          id="mode-library"
-          className={`mode-toggle-btn ${mode === "library" ? "active" : ""}`}
-          onClick={() => setMode("library")}
-          role="tab"
-          aria-selected={mode === "library"}
-        >
-          <span className="mode-icon">📖</span>
-          Library Mode
-        </button>
-      </div>
-
-      {/* Content */}
-      {loading ? (
-        <div className="resources-loading">
-          <div className="resources-spinner" />
-          <p>Loading resources...</p>
+      {/* General Tips Section if present */}
+      {track.generalTips && track.generalTips.length > 0 && (
+        <div className="general-tips-container">
+          <h3 className="tips-title">💡 Pro Tips for this Track</h3>
+          <ul className="tips-list">
+            {track.generalTips.map((tip, idx) => (
+              <li key={idx} className="tip-item">{tip}</li>
+            ))}
+          </ul>
         </div>
-      ) : mode === "track" ? (
-        <TrackMode
-          resources={resources}
-          completedIds={completedIds}
-          onToggle={handleToggle}
-          domainColor={domain.color}
-          domainIcon={domain.icon}
-        />
-      ) : (
-        <LibraryMode
-          resources={resources}
-          completedIds={completedIds}
-          onToggle={handleToggle}
-          domainColor={domain.color}
-          domainId={domainId}
-        />
       )}
+
+      {/* Stepper Timeline Header */}
+      <div className="timeline-section-title">
+        <h2>Learning Journey</h2>
+        <p>Complete each module and tick off your progress as you learn.</p>
+      </div>
+
+      {/* Stepper / Timeline Layout */}
+      <div className="roadmap-stepper-timeline">
+        <div className="timeline-connector-line" />
+
+        {track.modules.map((mod, idx) => {
+          const isCompleted = !!completedModules[mod.id];
+          return (
+            <div 
+              key={mod.id} 
+              className={`timeline-step-block ${isCompleted ? "completed" : ""}`}
+            >
+              {/* Stepper Node Indicator */}
+              <div 
+                className={`timeline-node ${isCompleted ? "completed" : ""}`}
+                onClick={() => toggleModule(mod.id)}
+                title={isCompleted ? "Mark incomplete" : "Mark complete"}
+              >
+                <span className="node-num">{mod.id}</span>
+                {isCompleted && <span className="node-checkmark">✓</span>}
+              </div>
+
+              {/* Module Content Card */}
+              <div className="timeline-card">
+                <div className="module-card-header">
+                  <div className="module-info-title-wrap">
+                    <span className="module-scope-label">Module {mod.id}</span>
+                    <h3 className="module-title">{mod.title}</h3>
+                  </div>
+                  {/* Action checkbox */}
+                  <button 
+                    onClick={() => toggleModule(mod.id)}
+                    className={`module-complete-toggle-btn ${isCompleted ? "active" : ""}`}
+                  >
+                    {isCompleted ? "✓ Completed" : "Mark Complete"}
+                  </button>
+                </div>
+
+                <div className="module-card-body">
+                  {/* Learn Section */}
+                  <div className="module-section learn-section">
+                    <h4>📚 What You'll Learn</h4>
+                    <ul className="learn-checklist">
+                      {mod.learn.map((pt, i) => (
+                        <li key={i}>{pt}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Study Material Section */}
+                  <div className="module-section resources-section">
+                    <h4>🔗 Learning Resources</h4>
+                    <div className="resources-links-container">
+                      {/* Videos */}
+                      {mod.videos.map((vid, i) => (
+                        <div key={i} className="resource-link-row video-type">
+                          <span className="link-type-icon">📺</span>
+                          <div className="link-info">
+                            {vid.url ? (
+                              <a 
+                                href={vid.url} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="resource-url"
+                              >
+                                {vid.track ? <span className="track-badge">{vid.track}</span> : null}
+                                <span className="url-text">{vid.text}</span>
+                                <span className="external-arrow">↗</span>
+                              </a>
+                            ) : (
+                              <span className="non-link-text">{vid.text}</span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Readings */}
+                      {mod.readings.map((rd, i) => (
+                        <div key={i} className="resource-link-row reading-type">
+                          <span className="link-type-icon">📖</span>
+                          <div className="link-info">
+                            <a 
+                              href={rd.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="resource-url"
+                            >
+                              <span className="url-text">{rd.text}</span>
+                              <span className="external-arrow">↗</span>
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Practice Section */}
+                  <div className="module-section practice-section">
+                    <h4>💻 Hands-on Practice</h4>
+                    <p className="practice-text">{mod.practice}</p>
+                  </div>
+
+                  {/* Checkpoint Section */}
+                  <div className="module-section checkpoint-section">
+                    <h4>🎯 Move On Checkpoint</h4>
+                    <div className="checkpoint-card">
+                      <span className="checkpoint-icon">🏁</span>
+                      <p className="checkpoint-text">
+                        <strong>Move on when:</strong> {mod.checkpoint}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
