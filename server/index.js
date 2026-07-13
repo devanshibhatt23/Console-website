@@ -5,7 +5,7 @@ const axios = require('axios');
 const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
@@ -993,8 +993,7 @@ app.post('/api/verify/confirm', async (req, res) => {
             const verificationSub = recentSubmissions.find(sub => 
                 sub.contestId === 4 && 
                 sub.index === 'A' &&
-                sub.timestamp >= timestamp && // Must be submitted after clicking verify
-                (Date.now() - sub.timestamp) <= 5 * 60 * 1000 // Must be within the last 5 minutes
+                Math.abs(Date.now() - sub.timestamp) <= 10 * 60 * 1000 // Within 10 minutes of current server time (resistant to clock drift)
             );
             if (verificationSub) {
                 verified = true;
@@ -1015,7 +1014,7 @@ app.post('/api/verify/confirm', async (req, res) => {
         } else {
             return res.status(400).json({ 
                 error: cleanPlatform === 'leetcode' 
-                    ? `Verification code not found in bio. Please make sure to add "${code}" to your LeetCode profile about/bio section.` 
+                    ? `Verification code not found in ReadMe. Please make sure to add "${code}" to your LeetCode profile's ReadMe section.` 
                     : `No recent submission found for Codeforces problem 4A (Watermelon). Please submit the problem and try again.` 
             });
         }
