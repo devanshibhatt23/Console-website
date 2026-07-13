@@ -8,8 +8,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Leaderboard from "./pages/Leaderboard";
