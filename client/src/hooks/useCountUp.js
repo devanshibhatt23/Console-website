@@ -1,35 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Animates a number counting up from 0 to `value` once `start` becomes true.
+ * Animates a number counting up to `value` once `start` becomes true.
  * Uses requestAnimationFrame with an ease-out curve.
+ *
+ * The animation's starting point is tracked in a ref (not derived from
+ * refs mutated only on a "first run" flag) so the effect is safe under
+ * React 18 StrictMode's dev-only double-invoke: if the first invocation's
+ * animation frame is cancelled before it ever paints, the second
+ * invocation still sees the true last-painted value and schedules a fresh
+ * frame — it can never get stuck at a stale 0.
  */
 export const useCountUp = (value, start, duration = 1200) => {
     const target = Number(value) || 0;
     const [displayValue, setDisplayValue] = useState(0);
+    const displayValueRef = useRef(0);
     const rafRef = useRef(null);
-    const hasAnimatedOnce = useRef(false);
-    const prevTarget = useRef(target);
 
     useEffect(() => {
         if (!start) {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+            displayValueRef.current = 0;
             setDisplayValue(0);
             return;
         }
 
-        // Once the entrance animation has already played, any later change to
-        // `value` (e.g. switching platform/year tabs) should snap or animate
-        // from the *current* displayed value straight to the new target,
-        // rather than being ignored — stale scores are a correctness bug.
-        const targetChanged = prevTarget.current !== target;
-        prevTarget.current = target;
+        const from = displayValueRef.current;
 
-        if (hasAnimatedOnce.current && !targetChanged) {
+        if (from === target) {
             return;
         }
-
-        const from = hasAnimatedOnce.current ? displayValue : 0;
-        hasAnimatedOnce.current = true;
 
         const startTime = performance.now();
 
@@ -37,11 +37,14 @@ export const useCountUp = (value, start, duration = 1200) => {
             const elapsed = now - startTime;
             const progress = Math.min(elapsed / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3); // ease-out-cubic
-            setDisplayValue(Math.round(from + eased * (target - from)));
+            const next = Math.round(from + eased * (target - from));
+            displayValueRef.current = next;
+            setDisplayValue(next);
 
             if (progress < 1) {
                 rafRef.current = requestAnimationFrame(tick);
             } else {
+                displayValueRef.current = target;
                 setDisplayValue(target);
             }
         };
@@ -51,8 +54,7 @@ export const useCountUp = (value, start, duration = 1200) => {
         return () => {
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [start, target]);
+    }, [start, target, duration]);
 
     return displayValue;
 };
