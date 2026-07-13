@@ -1,181 +1,191 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import TrackMode from "../components/resources/TrackMode";
-import LibraryMode from "../components/resources/LibraryMode";
-import { DOMAINS, RESOURCES_BY_DOMAIN } from "../data/resourcesData";
-import { getResources, getUserProgress, toggleProgress } from "../services/resourceService";
+import { roadmapsData } from "../data/roadmapsData";
 import "./Resources.css";
 
 export default function ResourceDomain() {
   const { domain: domainId } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-
-  // Mode: 'track' or 'library'
-  const [mode, setMode] = useState(() => {
-    return localStorage.getItem(`res-mode-${domainId}`) || "track";
-  });
-
-  const [loading, setLoading] = useState(true);
-  const [resources, setResources] = useState([]);
-  const [completedIds, setCompletedIds] = useState(new Set());
-
-  // Find domain metadata
-  const domain = DOMAINS.find((d) => d.id === domainId);
+  const track = roadmapsData[domainId];
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/");
+    if (!authLoading && !user) navigate("/login");
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
-    if (!domain) {
-      navigate("/resources");
-      return;
-    }
-    if (user) loadData();
-  }, [user, domainId]);
+    if (!authLoading && !track) navigate("/resources");
+  }, [track, authLoading, navigate]);
+
+  const [completedModules, setCompletedModules] = useState({});
 
   useEffect(() => {
-    localStorage.setItem(`res-mode-${domainId}`, mode);
-  }, [mode, domainId]);
-
-  // Removed localStorage progress tracking since we now use DB strictly
-
-  async function loadData() {
-    try {
-      setLoading(true);
-      const [dbResources, progress] = await Promise.all([
-        getResources(domainId).catch(() => []),
-        getUserProgress(user.id).catch(() => new Set()),
-      ]);
-
-      setResources(dbResources || []);
-      setCompletedIds(progress || new Set());
-    } catch (err) {
-      console.error("Error loading domain resources:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleToggle(resource, isCompleted) {
-    // Optimistic update in React state
-    setCompletedIds((prev) => {
-      const next = new Set(prev);
-      if (isCompleted) next.delete(resource.id);
-      else next.add(resource.id);
-      return next;
-    });
-
-
-    // Real DB resource: save to Supabase
-    try {
-      await toggleProgress(user.id, resource.id, isCompleted);
-    } catch (err) {
-      console.error("Error saving progress:", err);
-      // Rollback on error
-      setCompletedIds((prev) => {
-        const next = new Set(prev);
-        if (isCompleted) next.add(resource.id);
-        else next.delete(resource.id);
-        return next;
+    if (track) {
+      const saved = {};
+      track.modules.forEach((mod) => {
+        saved[mod.id] = localStorage.getItem(`rp-${track.id}-${mod.id}`) === "true";
       });
+      setCompletedModules(saved);
     }
-  }
+  }, [track]);
 
-  if (!domain) return null;
+  if (!track) return null;
 
-  const completedCount = resources.filter((r) => completedIds.has(r.id)).length;
-  const totalCount = resources.length;
-  const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const toggleModule = (modId) => {
+    const next = !completedModules[modId];
+    setCompletedModules((prev) => ({ ...prev, [modId]: next }));
+    localStorage.setItem(`rp-${track.id}-${modId}`, String(next));
+  };
+
+  const totalModules = track.modules.length;
+  const completedCount = Object.values(completedModules).filter(Boolean).length;
+  const progressPercent = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
   return (
-    <div className="resource-domain-page">
-      {/* Header */}
-      <div className="domain-page-header">
-        <button
-          className="domain-back-btn"
-          onClick={() => navigate("/resources")}
-          aria-label="Back to all domains"
-        >
-          ← Back
-        </button>
-        <div className="domain-page-title-area">
-          <span className="domain-page-icon">{domain.icon}</span>
-          <div>
-            <h1 className="domain-page-name">{domain.name}</h1>
-            <p className="domain-page-sub">{domain.description}</p>
+    <div className="res-page" style={{ "--track-color": track.color }}>
+      <div className="res-bg-glow" />
+
+      <div className="res-layout">
+        {/* Navigation */}
+        <div className="res-topbar">
+          <button onClick={() => navigate("/resources")} className="res-back-btn">
+            <span>←</span> All Roadmaps
+          </button>
+        </div>
+
+        {/* Track Header */}
+        <div className="rd-header">
+          <div className="rd-header-top">
+            <div className="rd-title-block">
+              <p className="rd-label">{track.subtitle}</p>
+              <h1 className="rd-title">{track.title}</h1>
+              <p className="rd-intro">{track.intro}</p>
+            </div>
+
+            {/* Inline Progress */}
+            <div className="rd-progress-block">
+              <div className="rd-progress-nums">
+                <span className="rd-prog-done">{completedCount}</span>
+                <span className="rd-prog-sep">/</span>
+                <span className="rd-prog-total">{totalModules}</span>
+              </div>
+              <div className="rd-progress-bar">
+                <div className="rd-progress-fill" style={{ width: `${progressPercent}%` }} />
+              </div>
+              <p className="rd-progress-label">{progressPercent}% complete</p>
+            </div>
+          </div>
+
+          {/* Compact Info Strip — replaces 3 cards */}
+          <div className="rd-info-strip">
+            <div className="rd-info-row">
+              <span className="rd-info-key">Tools</span>
+              <span className="rd-info-val">{track.generalTools}</span>
+            </div>
+            <div className="rd-info-divider" />
+            <div className="rd-info-row">
+              <span className="rd-info-key">Reading</span>
+              <span className="rd-info-val rd-reading-links">
+                {track.preferReading.map((item, i) => (
+                  <span key={i}>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="rd-reading-link">
+                      {item.label}
+                    </a>
+                    {i < track.preferReading.length - 1 && <span className="rd-link-sep"> · </span>}
+                  </span>
+                ))}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Overall Progress */}
-      <div className="domain-overall-progress">
-        <div className="domain-progress-info">
-          <p className="domain-progress-label">Overall Progress</p>
-          <div className="domain-progress-bar-track">
-            <div
-              className="domain-progress-bar-fill"
-              style={{ width: `${pct}%`, background: domain.gradient }}
-            />
-          </div>
-        </div>
-        <div className="domain-progress-stats">
-          <div className="domain-progress-count" style={{ color: domain.color }}>
-            {completedCount}
-          </div>
-          <div className="domain-progress-total">of {totalCount} completed</div>
+        {/* Stepper Timeline */}
+        <div className="rd-timeline">
+          <div className="rd-spine" />
+
+          {track.modules.map((mod) => {
+            const done = !!completedModules[mod.id];
+            return (
+              <div key={mod.id} className={`rd-step ${done ? "done" : ""}`}>
+                {/* Node */}
+                <button
+                  className={`rd-node ${done ? "done" : ""}`}
+                  onClick={() => toggleModule(mod.id)}
+                  title={done ? "Mark incomplete" : "Mark complete"}
+                >
+                  {done ? <span className="rd-node-check">✓</span> : <span className="rd-node-num">{mod.id}</span>}
+                </button>
+
+                {/* Card */}
+                <div className="rd-card">
+                  {/* Card Header */}
+                  <div className="rd-card-head">
+                    <div>
+                      <p className="rd-mod-label">Module {mod.id}</p>
+                      <h3 className="rd-mod-title">{mod.title}</h3>
+                    </div>
+                    <button
+                      className={`rd-toggle-btn ${done ? "done" : ""}`}
+                      onClick={() => toggleModule(mod.id)}
+                    >
+                      {done ? "Completed" : "Mark done"}
+                    </button>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="rd-card-body">
+                    {/* Learn */}
+                    <div className="rd-section">
+                      <p className="rd-section-label">Learn</p>
+                      <ul className="rd-learn-list">
+                        {mod.learn.map((pt, i) => (
+                          <li key={i}>{pt}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Resources */}
+                    <div className="rd-section">
+                      <p className="rd-section-label">Resources</p>
+                      <div className="rd-res-list">
+                        {mod.videos.map((v, i) => (
+                          <div key={i} className="rd-res-row">
+                            <span className="rd-res-type rd-res-video">Video</span>
+                            <a href={v.url} target="_blank" rel="noopener noreferrer" className="rd-res-link">
+                              {v.text} <span className="rd-ext-icon">↗</span>
+                            </a>
+                          </div>
+                        ))}
+                        {mod.readings.map((r, i) => (
+                          <div key={i} className="rd-res-row">
+                            <span className="rd-res-type rd-res-read">Read</span>
+                            <a href={r.url} target="_blank" rel="noopener noreferrer" className="rd-res-link">
+                              {r.text} <span className="rd-ext-icon">↗</span>
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Practice */}
+                    <div className="rd-section">
+                      <p className="rd-section-label">Practice</p>
+                      <p className="rd-practice-text">{mod.practice}</p>
+                    </div>
+
+                    {/* Checkpoint */}
+                    <div className="rd-checkpoint">
+                      <span className="rd-checkpoint-label">Move on when —</span>
+                      <span className="rd-checkpoint-text">{mod.checkpoint}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-
-      {/* Mode Toggle */}
-      <div className="mode-toggle" role="tablist" aria-label="View mode">
-        <button
-          id="mode-track"
-          className={`mode-toggle-btn ${mode === "track" ? "active" : ""}`}
-          onClick={() => setMode("track")}
-          role="tab"
-          aria-selected={mode === "track"}
-        >
-          <span className="mode-icon">🗺️</span>
-          Track Mode
-        </button>
-        <button
-          id="mode-library"
-          className={`mode-toggle-btn ${mode === "library" ? "active" : ""}`}
-          onClick={() => setMode("library")}
-          role="tab"
-          aria-selected={mode === "library"}
-        >
-          <span className="mode-icon">📖</span>
-          Library Mode
-        </button>
-      </div>
-
-      {/* Content */}
-      {loading ? (
-        <div className="resources-loading">
-          <div className="resources-spinner" />
-          <p>Loading resources...</p>
-        </div>
-      ) : mode === "track" ? (
-        <TrackMode
-          resources={resources}
-          completedIds={completedIds}
-          onToggle={handleToggle}
-          domainColor={domain.color}
-          domainIcon={domain.icon}
-        />
-      ) : (
-        <LibraryMode
-          resources={resources}
-          completedIds={completedIds}
-          onToggle={handleToggle}
-          domainColor={domain.color}
-          domainId={domainId}
-        />
-      )}
     </div>
   );
 }
