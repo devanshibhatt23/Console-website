@@ -1,116 +1,69 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import DomainCard from "../components/resources/DomainCard";
-import { DOMAINS, RESOURCES_BY_DOMAIN } from "../data/resourcesData";
-import { getResources, getUserProgress } from "../services/resourceService";
+import { roadmapsData } from "../data/roadmapsData";
 import "./Resources.css";
 
 export default function Resources() {
   const navigate = useNavigate();
-  const { user, profile, loading: authLoading } = useAuth();
-
-  const [loading, setLoading] = useState(true);
-  const [completedIds, setCompletedIds] = useState(new Set());
-  const [dbResources, setDbResources] = useState([]);
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate("/");
+      navigate("/login");
     }
   }, [user, authLoading, navigate]);
 
-  useEffect(() => {
-    if (user) {
-      loadData();
-    }
-  }, [user]);
-
-  async function loadData() {
-    try {
-      setLoading(true);
-      const [resources, progress] = await Promise.all([
-        getResources().catch(() => []),
-        getUserProgress(user.id).catch(() => new Set()),
-      ]);
-      setDbResources(resources || []);
-      setCompletedIds(progress);
-    } catch (err) {
-      console.error("Error loading resources:", err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  // Compute per-domain progress
-  function getDomainProgress(domainId) {
-    const dbDomainResources = dbResources.filter((r) => r.domain === domainId);
-
-    return {
-      total: dbDomainResources.length,
-      completed: dbDomainResources.filter((r) => completedIds.has(r.id)).length,
-    };
-  }
+  const tracks = Object.values(roadmapsData);
 
   return (
-    <div className="resources-page" style={{ position: "relative" }}>
-      {/* Back to Dashboard Button */}
-      <button
-        onClick={() => navigate("/")}
-        style={{
-          position: "absolute",
-          top: "24px",
-          left: "24px",
-          padding: "8px 16px",
-          borderRadius: "8px",
-          border: "1px solid var(--res-card-border, rgba(255,255,255,0.08))",
-          background: "var(--res-card-bg, rgba(22, 23, 29, 0.85))",
-          color: "var(--res-text, #e8e9ed)",
-          cursor: "pointer",
-          zIndex: 10,
-          fontWeight: "600",
-          fontSize: "14px",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "6px"
-        }}
-      >
-        ← Back to Home
-      </button>
+    <div className="res-page">
+      <div className="res-bg-glow" />
 
-      {/* Header */}
-      <div className="resources-header">
-        <div className="resources-header-badge">
-          📚 Tech Guide
+      <div className="res-layout">
+        {/* Navigation */}
+        <div className="res-topbar">
+          <button onClick={() => navigate("/")} className="res-back-btn">
+            <span>←</span> Dashboard
+          </button>
         </div>
-        <h1>Learning Domains</h1>
-        <p>
-          Pick a domain and start your journey. Track your progress, unlock
-          resources, and level up your skills.
-        </p>
+
+        {/* Header */}
+        <div className="res-header">
+          <p className="res-header-label">Learning Roadmaps</p>
+          <h1 className="res-header-title">Pick a Track</h1>
+          <p className="res-header-sub">
+            Structured, module-by-module roadmaps built from the best free resources. 
+            Each track follows a fixed progression — no fluff, no detours.
+          </p>
+        </div>
+
+        {/* Vertical Track List */}
+        <div className="res-track-list">
+          {tracks.map((track, idx) => (
+            <button
+              key={track.id}
+              className="res-track-row"
+              style={{ "--track-color": track.color }}
+              onClick={() => navigate(`/resources/${track.id}`)}
+            >
+              <span className="res-track-num">
+                {String(idx + 1).padStart(2, "0")}
+              </span>
+
+              <div className="res-track-info">
+                <span className="res-track-name">{track.title}</span>
+                <span className="res-track-sub">{track.subtitle}</span>
+              </div>
+
+              <div className="res-track-right">
+                <span className="res-track-scope">{track.scope}</span>
+                <span className="res-track-arrow">→</span>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
-
-      {/* Domain Grid */}
-      {loading ? (
-        <div className="resources-loading">
-          <div className="resources-spinner" />
-          <p>Loading your progress...</p>
-        </div>
-      ) : (
-        <div className="domain-grid">
-          {DOMAINS.map((domain) => {
-            const { total, completed } = getDomainProgress(domain.id);
-            return (
-              <DomainCard
-                key={domain.id}
-                domain={domain}
-                completed={completed}
-                total={total}
-              />
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }
