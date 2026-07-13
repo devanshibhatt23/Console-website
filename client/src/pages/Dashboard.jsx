@@ -190,7 +190,7 @@ export default function Dashboard() {
         <div style={{ display: "flex", gap: "10px" }}>
           {profile?.name && (
             <button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               style={{
                 padding: "8px 16px",
                 borderRadius: "6px",
@@ -202,7 +202,7 @@ export default function Dashboard() {
                 fontWeight: "600",
               }}
             >
-              Go to Home
+              Back to Home
             </button>
           )}
           <button

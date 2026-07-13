@@ -59,7 +59,7 @@ const Leaderboard = () => {
         <div className="leaderboard-container" style={{ position: "relative" }}>
             {/* Back Button */}
             <button
-                onClick={() => navigate("/home")}
+                onClick={() => navigate("/")}
                 style={{
                     position: "absolute",
                     top: "24px",
@@ -78,7 +78,7 @@ const Leaderboard = () => {
                     gap: "6px"
                 }}
             >
-                ← Back to Dashboard
+                ← Back to Home
             </button>
 
             <div className="leaderboard-content" style={{ paddingTop: "60px" }}>
