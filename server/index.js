@@ -141,13 +141,13 @@ const fetchLeetcodeRecentAcSubmissions = async (handle) => {
     }
 };
 
-const fetchCodeforcesRecentSubmissions = async (handle) => {
+const fetchCodeforcesRecentSubmissions = async (handle, onlyCorrect = true) => {
     if (!handle || handle.trim() === '') return [];
     try {
         const response = await axios.get(`https://codeforces.com/api/user.status?handle=${handle}&from=1&count=50`);
         if (response.data.status === 'OK') {
             return response.data.result.map(sub => {
-                if (sub.verdict !== 'OK') return null;
+                if (onlyCorrect && sub.verdict !== 'OK') return null;
                 return {
                     contestId: sub.problem.contestId,
                     index: sub.problem.index?.toUpperCase(),
@@ -897,6 +897,158 @@ app.get('/api/potd/today-ranking', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch today POTD ranking' });
     }
 });
+
+// --- HANDLE VERIFICATION SYSTEM ---
+
+const verificationSessions = new Map();
+
+const fetchLeetcodeBio = async (handle) => {
+    if (!handle || handle.trim() === '') return '';
+    try {
+        const query = `
+            query getUserProfile($username: String!) {
+                matchedUser(username: $username) {
+                    profile {
+                        aboutMe
+                    }
+                }
+            }
+        `;
+        const response = await axios.post('https://leetcode.com/graphql/', {
+            query,
+            variables: { username: handle }
+        }, { headers: { 'Content-Type': 'application/json' } });
+
+        const data = response.data.data;
+        if (!data || !data.matchedUser || !data.matchedUser.profile) return '';
+        return data.matchedUser.profile.aboutMe || '';
+    } catch (error) {
+        console.error(`LeetCode Bio API Error for ${handle}:`, error.message);
+        return '';
+    }
+};
+
+app.post('/api/verify/request', async (req, res) => {
+    const { userId, platform, handle } = req.body;
+    if (!userId || !platform || !handle) {
+        return res.status(400).json({ error: 'Missing required parameters' });
+    }
+
+    const cleanPlatform = platform.toLowerCase();
+    const cleanHandle = handle.trim();
+    const sessionKey = `${userId}-${cleanPlatform}`;
+
+    if (cleanPlatform === 'leetcode') {
+        const code = `CONSOLE-LC-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+        verificationSessions.set(sessionKey, {
+            handle: cleanHandle,
+            code,
+            timestamp: Date.now()
+        });
+        return res.json({ code });
+    } else if (cleanPlatform === 'codeforces') {
+        verificationSessions.set(sessionKey, {
+            handle: cleanHandle,
+            problemId: '4A',
+            timestamp: Date.now()
+        });
+        return res.json({ problemId: '4A', problemTitle: 'Watermelon', problemUrl: 'https://codeforces.com/problemset/problem/4/A' });
+    } else {
+        return res.status(400).json({ error: 'Invalid platform' });
+    }
+});
+
+app.post('/api/verify/confirm', async (req, res) => {
+    const { userId, platform } = req.body;
+    if (!userId || !platform) {
+        return res.status(400).json({ error: 'Missing required parameters' });
+    }
+
+    const cleanPlatform = platform.toLowerCase();
+    const sessionKey = `${userId}-${cleanPlatform}`;
+    const session = verificationSessions.get(sessionKey);
+
+    if (!session) {
+        return res.status(400).json({ error: 'No active verification session found. Please request verification again.' });
+    }
+
+    const { handle, code, timestamp } = session;
+
+    // Session expires after 5 minutes
+    if (Date.now() - timestamp > 5 * 60 * 1000) {
+      verificationSessions.delete(sessionKey);
+      return res.status(400).json({ error: 'Verification session expired. Please request verification again.' });
+    }
+
+    try {
+        let verified = false;
+
+        if (cleanPlatform === 'leetcode') {
+            const bio = await fetchLeetcodeBio(handle);
+            if (bio && bio.toLowerCase().includes(code.toLowerCase())) {
+                verified = true;
+            }
+        } else if (cleanPlatform === 'codeforces') {
+            const recentSubmissions = await fetchCodeforcesRecentSubmissions(handle, false);
+            const verificationSub = recentSubmissions.find(sub => 
+                sub.contestId === 4 && 
+                sub.index === 'A' &&
+                sub.timestamp >= timestamp && // Must be submitted after clicking verify
+                (Date.now() - sub.timestamp) <= 5 * 60 * 1000 // Must be within the last 5 minutes
+            );
+            if (verificationSub) {
+                verified = true;
+            }
+        }
+
+        if (verified) {
+            const updateField = cleanPlatform === 'leetcode' ? 'leetcode_handle' : 'codeforces_handle';
+            const { error } = await supabase
+                .from('profiles')
+                .update({ [updateField]: handle })
+                .eq('id', userId);
+
+            if (error) throw error;
+
+            verificationSessions.delete(sessionKey);
+            return res.json({ success: true, message: `Successfully verified and connected ${platform} handle: ${handle}` });
+        } else {
+            return res.status(400).json({ 
+                error: cleanPlatform === 'leetcode' 
+                    ? `Verification code not found in bio. Please make sure to add "${code}" to your LeetCode profile about/bio section.` 
+                    : `No recent submission found for Codeforces problem 4A (Watermelon). Please submit the problem and try again.` 
+            });
+        }
+    } catch (err) {
+        console.error('Verification confirmation error:', err.message);
+        return res.status(500).json({ error: 'An error occurred during verification. Please try again later.' });
+    }
+});
+
+app.post('/api/verify/disconnect', async (req, res) => {
+    const { userId, platform } = req.body;
+    if (!userId || !platform) {
+        return res.status(400).json({ error: 'Missing required parameters' });
+    }
+
+    const cleanPlatform = platform.toLowerCase();
+    const updateField = cleanPlatform === 'leetcode' ? 'leetcode_handle' : 'codeforces_handle';
+
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ [updateField]: null })
+            .eq('id', userId);
+
+        if (error) throw error;
+
+        return res.json({ success: true, message: `Successfully disconnected ${platform} handle.` });
+    } catch (err) {
+        console.error('Handle disconnection error:', err.message);
+        return res.status(500).json({ error: 'An error occurred while disconnecting the handle.' });
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Leaderboard server running on port ${port}`);
