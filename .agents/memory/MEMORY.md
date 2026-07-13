@@ -1,0 +1,1 @@
+- [Console-website import quirks](console-website-quirks.md) — case-sensitive imports, port conflicts, and Vite env-var pitfalls found when first running this project on Replit.

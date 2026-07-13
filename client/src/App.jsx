@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import Leaderboard from "./pages/Leaderboard";
@@ -12,8 +12,9 @@ import ResourceDomain from "./pages/ResourceDomain";
 import TechGuide from "./pages/TechGuide";
 import PlacementPlaybook from "./pages/PlacementPlaybook";
 import NotFound from "./pages/NotFound";
-import Home from "./pages/Home";
+import Events from "./pages/Events";
 import Landing from "./pages/Landing";
+import Home from "./pages/Home";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SearchUsers from "./pages/SearchUsers";
 import ProfileView from "./pages/ProfileView";
@@ -41,6 +42,7 @@ function App() {
           <Route path="/resources/:domain" element={<ResourceDomain />} />
           <Route path="/tech-guide" element={<TechGuide />} />
           <Route path="/placement-playbook" element={<PlacementPlaybook />} />
+          <Route path="/events" element={<Events />} />
         </Route>
 
         {/* Admin Routes */}
