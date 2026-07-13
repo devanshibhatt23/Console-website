@@ -9,41 +9,53 @@ import ConstellationDraw from './ConstellationDraw';
 import { useAuth } from '../../context/AuthContext';
 
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+// Fixed wall-clock duration for the whole scramble — driven by requestAnimationFrame and
+// elapsed time (not tick count), so the perceived speed stays constant even if the main
+// thread is briefly busy (e.g. particles rendering) and a few frames get skipped.
+const SCRAMBLE_DURATION_MS = 600;
 
 function useScramble(originalText: string) {
   const [displayText, setDisplayText] = useState(originalText);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const rafRef = useRef<number | null>(null);
   const isScrambling = useRef(false);
 
   const scramble = useCallback(() => {
     if (isScrambling.current) return;
     isScrambling.current = true;
-    let iteration = 0;
-    const maxIterations = originalText.length * 4;
+    const startTime = performance.now();
+    const length = originalText.length;
 
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / SCRAMBLE_DURATION_MS);
+      const revealedCount = Math.floor(progress * length);
+
       setDisplayText(
         originalText
           .split('')
           .map((char, i) => {
-            if (i < Math.floor(iteration / 4)) return originalText[i];
+            if (i < revealedCount) return originalText[i];
             return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
           })
           .join('')
       );
-      iteration++;
-      if (iteration > maxIterations) {
-        clearInterval(intervalRef.current!);
+
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
         setDisplayText(originalText);
         isScrambling.current = false;
+        rafRef.current = null;
       }
-    }, 28);
+    };
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(tick);
   }, [originalText]);
 
   useEffect(() => {
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 

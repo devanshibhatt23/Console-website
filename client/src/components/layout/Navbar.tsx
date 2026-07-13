@@ -3,6 +3,9 @@ import { Menu, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { searchProfiles, deriveCollegeIdFromEmail } from '../../services/ProfileService';
+
+type SearchResult = { id: string; name?: string; college_id?: string; email?: string };
 
 const navLinks = [
   { name: 'home', href: '/#hero' },
@@ -35,6 +38,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,6 +79,29 @@ export default function Navbar() {
     }
   }, [searchOpen]);
 
+  // Live search — debounced lookup by name or college id, results shown in a dropdown
+  useEffect(() => {
+    const term = searchQuery.trim();
+    if (!term) {
+      setSearchResults([]);
+      setSearchLoading(false);
+      return;
+    }
+    setSearchLoading(true);
+    const timeout = window.setTimeout(async () => {
+      try {
+        const data = await searchProfiles(term);
+        setSearchResults(data || []);
+      } catch (err) {
+        console.error('Search error:', err);
+        setSearchResults([]);
+      } finally {
+        setSearchLoading(false);
+      }
+    }, 250);
+    return () => window.clearTimeout(timeout);
+  }, [searchQuery]);
+
   useEffect(() => {
     const handleClick = (e: globalThis.MouseEvent) => {
       if (
@@ -107,15 +135,55 @@ export default function Navbar() {
   };
 
   const handleSearchSubmit = (e: FormEvent) => {
+    // Results are shown live in the dropdown — submitting the form just keeps it open.
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-    } else {
-      navigate('/search');
-    }
+  };
+
+  const handleResultClick = (profileId: string) => {
     setSearchOpen(false);
     setSearchQuery('');
+    setSearchResults([]);
     setMobileMenuOpen(false);
+    navigate(`/profile/${profileId}`);
+  };
+
+  const renderSearchDropdown = () => {
+    if (!searchQuery.trim()) return null;
+    return (
+      <div className="absolute top-full left-0 mt-2 w-72 max-h-40 overflow-y-auto rounded-lg bg-black/95 border border-white/10 backdrop-blur-xl shadow-xl z-50">
+        {searchLoading ? (
+          <div className="px-4 py-3 text-xs text-muted-foreground font-mono">Searching…</div>
+        ) : searchResults.length > 0 ? (
+          searchResults.map((profile) => (
+            <button
+              key={profile.id}
+              type="button"
+              onClick={() => handleResultClick(profile.id)}
+              className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 text-left border-b border-white/5 last:border-b-0 transition-colors"
+            >
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+                style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
+              >
+                {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
+              </div>
+              <div className="flex flex-col overflow-hidden">
+                <span className="text-sm text-white font-medium truncate">
+                  {profile.name || 'Anonymous Member'}
+                </span>
+                {(profile.college_id || deriveCollegeIdFromEmail(profile.email || '')) && (
+                  <span className="text-xs text-muted-foreground font-mono truncate">
+                    {profile.college_id || deriveCollegeIdFromEmail(profile.email || '')}
+                  </span>
+                )}
+              </div>
+            </button>
+          ))
+        ) : (
+          <div className="px-4 py-3 text-xs text-muted-foreground font-mono">No members found.</div>
+        )}
+      </div>
+    );
   };
 
   const isActive = (link: { name: string; href: string }) => {
@@ -139,7 +207,7 @@ export default function Navbar() {
     const isHashLink = link.href.startsWith('/#');
 
     if (mobile) {
-      const baseClass = 'text-left font-mono text-muted-foreground hover:text-white text-base py-2 transition-colors';
+      const baseClass = 'text-left font-montserrat text-muted-foreground hover:text-white text-base py-2 transition-colors';
       return isHashLink ? (
         <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={baseClass}>
           &gt; {link.name}
@@ -153,7 +221,7 @@ export default function Navbar() {
 
     const sharedActiveContent = (
       <>
-        <span style={gradientText}>{link.name}</span>
+        <span className="font-montserrat" style={gradientText}>{link.name}</span>
         <span
           className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full"
           style={{
@@ -174,7 +242,7 @@ export default function Navbar() {
             active ? '' : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
           }`}
         >
-          {active ? sharedActiveContent : <span className="nav-link-text">{link.name}</span>}
+          {active ? sharedActiveContent : <span className="nav-link-text font-montserrat">{link.name}</span>}
         </a>
       );
     }
@@ -187,7 +255,7 @@ export default function Navbar() {
           active ? '' : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
         }`}
       >
-        {active ? sharedActiveContent : <span className="nav-link-text">{link.name}</span>}
+        {active ? sharedActiveContent : <span className="nav-link-text font-montserrat">{link.name}</span>}
       </Link>
     );
   };
@@ -269,6 +337,7 @@ export default function Navbar() {
                         </button>
                       )}
                     </div>
+                    {renderSearchDropdown()}
                   </motion.form>
                 ) : (
                   <motion.button
@@ -351,7 +420,7 @@ export default function Navbar() {
             className="absolute top-full left-0 right-0 bg-black/98 backdrop-blur-xl border-b border-white/10 p-6 md:hidden flex flex-col gap-2"
           >
             {user && (
-              <form onSubmit={handleSearchSubmit} className="mb-2">
+              <form onSubmit={handleSearchSubmit} className="mb-2 relative">
                 <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/8 border border-white/10">
                   <Search className="w-4 h-4 text-muted-foreground shrink-0" />
                   <input
@@ -371,6 +440,7 @@ export default function Navbar() {
                     </button>
                   )}
                 </div>
+                {renderSearchDropdown()}
               </form>
             )}
 

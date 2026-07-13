@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Terminal, ExternalLink, Tag, BarChart2, RefreshCw } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Terminal, ExternalLink, Tag, BarChart2 } from 'lucide-react';
 import { getPOTD } from '../../services/problemService';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +13,6 @@ export default function POTD() {
   
   const [problem, setProblem] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     async function fetchTodayProblem() {
@@ -70,17 +68,11 @@ export default function POTD() {
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
 
       <div className="container mx-auto px-6 max-w-5xl">
-        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/5 border border-white/10 font-mono text-xs text-primary mb-5">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Daily Challenge
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Problem of the <span className="text-gradient-fire">Day</span>
-            </h2>
-          </div>
-          <p className="font-mono text-xs text-muted-foreground md:pb-2">
+        <div ref={headerRef} className="text-center mb-10">
+          <h2 className="section-gradient-title section-title text-4xl md:text-5xl">
+            Problem of the Day
+          </h2>
+          <p className="font-mono text-xs text-muted-foreground mt-3">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>
@@ -146,25 +138,6 @@ export default function POTD() {
                         </span>
                       ))}
                     </div>
-
-                    {/* Hint toggle */}
-                    <div>
-                      <button
-                        onClick={() => setShowHint(!showHint)}
-                        className="font-mono text-xs text-primary hover:text-white transition-colors underline underline-offset-4"
-                      >
-                        {showHint ? '▲ Hide Hint' : '▶ Show Hint'}
-                      </button>
-                      {showHint && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="mt-3 p-4 rounded-lg bg-primary/10 border border-primary/20 font-mono text-sm text-white/70"
-                        >
-                          💡 {problem.hint}
-                        </motion.div>
-                      )}
-                    </div>
                   </div>
 
                   {/* Stats sidebar */}
@@ -199,11 +172,6 @@ export default function POTD() {
                       Solve Now
                       <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </a>
-
-                    <button className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 font-mono text-sm hover:text-white hover:bg-white/10 transition-colors">
-                      <RefreshCw className="w-4 h-4" />
-                      Try Another
-                    </button>
                   </div>
                 </div>
               </div>

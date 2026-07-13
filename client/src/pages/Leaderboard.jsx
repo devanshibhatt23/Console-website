@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import LeaderboardTable from '../components/LeaderboardTable';
 import { useCountUp } from '../hooks/useCountUp';
 import './Leaderboard.css';
@@ -51,7 +50,6 @@ const YEAR_TABS = [
 ];
 
 const Leaderboard = () => {
-    const navigate = useNavigate();
     const [activePlatform, setActivePlatform] = useState('codeforces');
     const [activeYear, setActiveYear] = useState('all');
     const [leaderboardData, setLeaderboardData] = useState({
@@ -104,29 +102,6 @@ const Leaderboard = () => {
 
     return (
         <div className="leaderboard-container" style={{ position: "relative" }}>
-            {/* Back Button */}
-            <button
-                onClick={() => navigate("/")}
-                style={{
-                    position: "absolute",
-                    top: "24px",
-                    left: "24px",
-                    padding: "8px 16px",
-                    borderRadius: "8px",
-                    border: "1px solid var(--border, rgba(255,255,255,0.08))",
-                    background: "var(--code-bg, rgba(22, 23, 29, 0.85))",
-                    color: "var(--text-h, #e8e9ed)",
-                    cursor: "pointer",
-                    zIndex: 10,
-                    fontWeight: "600",
-                    fontSize: "14px",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px"
-                }}
-            >
-                ← Back to Home
-            </button>
 
             <div className="leaderboard-content" style={{ paddingTop: "60px" }}>
                 
