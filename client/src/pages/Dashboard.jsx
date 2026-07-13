@@ -302,7 +302,7 @@ export default function Dashboard() {
       <div className="pf-topbar">
         <div className="pf-topbar-actions">
           {profile?.name && (
-            <button className="pf-btn-outline pf-btn-accent" onClick={() => navigate("/home")}>
+            <button className="pf-btn-outline pf-btn-accent" onClick={() => navigate("/")}>
               Go to Home
             </button>
           )}
