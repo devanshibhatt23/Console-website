@@ -8,32 +8,23 @@ export default function ResourceDomain() {
   const { domain: domainId } = useParams();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-
-  // Find track data
   const track = roadmapsData[domainId];
 
-  // Redirect to directory if track not found or user not authenticated
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate("/login");
-    }
+    if (!authLoading && !user) navigate("/login");
   }, [user, authLoading, navigate]);
 
   useEffect(() => {
-    if (!track) {
-      navigate("/resources");
-    }
-  }, [track, navigate]);
+    if (!authLoading && !track) navigate("/resources");
+  }, [track, authLoading, navigate]);
 
-  // Load progress from localStorage
   const [completedModules, setCompletedModules] = useState({});
 
   useEffect(() => {
     if (track) {
       const saved = {};
       track.modules.forEach((mod) => {
-        const key = `roadmap-progress-${track.id}-${mod.id}`;
-        saved[mod.id] = localStorage.getItem(key) === "true";
+        saved[mod.id] = localStorage.getItem(`rp-${track.id}-${mod.id}`) === "true";
       });
       setCompletedModules(saved);
     }
@@ -41,229 +32,159 @@ export default function ResourceDomain() {
 
   if (!track) return null;
 
-  // Toggle completion of a module
   const toggleModule = (modId) => {
-    const nextState = !completedModules[modId];
-    setCompletedModules((prev) => ({
-      ...prev,
-      [modId]: nextState,
-    }));
-    localStorage.setItem(`roadmap-progress-${track.id}-${modId}`, String(nextState));
+    const next = !completedModules[modId];
+    setCompletedModules((prev) => ({ ...prev, [modId]: next }));
+    localStorage.setItem(`rp-${track.id}-${modId}`, String(next));
   };
 
-  // Calculate progress stats
   const totalModules = track.modules.length;
   const completedCount = Object.values(completedModules).filter(Boolean).length;
   const progressPercent = totalModules > 0 ? Math.round((completedCount / totalModules) * 100) : 0;
 
   return (
-    <div className="resources-page dark" style={{ "--track-color": track.color }}>
-      <div className="resources-bg-glow" />
+    <div className="res-page" style={{ "--track-color": track.color }}>
+      <div className="res-bg-glow" />
 
-      {/* Navigation / Breadcrumb */}
-      <div className="resources-nav-bar">
-        <button
-          onClick={() => navigate("/resources")}
-          className="resources-back-home-btn"
-        >
-          <span className="btn-icon">←</span> Back to Roadmaps
-        </button>
-      </div>
-
-      {/* Track Detail Header */}
-      <div className="track-detail-header">
-        <div className="track-header-left">
-          <div className="track-header-icon-wrap">
-            <span className="track-header-icon">{track.icon}</span>
-          </div>
-          <div>
-            <h1 className="track-title-main">{track.title}</h1>
-            <p className="track-subtitle-main">{track.subtitle}</p>
-          </div>
-        </div>
-        <p className="track-description-text">{track.intro}</p>
-      </div>
-
-      {/* Progress & Tools Dashboard */}
-      <div className="track-dashboard-grid">
-        {/* Progress Tracker Card */}
-        <div className="track-dashboard-card progress-card">
-          <h3 className="card-label">Track Progress</h3>
-          <div className="progress-value-container">
-            <span className="progress-number">{completedCount}</span>
-            <span className="progress-total">/ {totalModules} Modules</span>
-          </div>
-          
-          <div className="progress-bar-container">
-            <div 
-              className="progress-bar-fill" 
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-          <div className="progress-percent-label">{progressPercent}% Completed</div>
+      <div className="res-layout">
+        {/* Navigation */}
+        <div className="res-topbar">
+          <button onClick={() => navigate("/resources")} className="res-back-btn">
+            <span>←</span> All Roadmaps
+          </button>
         </div>
 
-        {/* Tools Card */}
-        <div className="track-dashboard-card tools-card">
-          <h3 className="card-label">Required Tools</h3>
-          <p className="tools-text">{track.generalTools}</p>
-        </div>
+        {/* Track Header */}
+        <div className="rd-header">
+          <div className="rd-header-top">
+            <div className="rd-title-block">
+              <p className="rd-label">{track.subtitle}</p>
+              <h1 className="rd-title">{track.title}</h1>
+              <p className="rd-intro">{track.intro}</p>
+            </div>
 
-        {/* Prefer Reading Alternative Card */}
-        <div className="track-dashboard-card reading-card">
-          <h3 className="card-label">📖 Prefer Reading?</h3>
-          <ul className="reading-list-links">
-            {track.preferReading.map((item, idx) => (
-              <li key={idx}>
-                <a 
-                  href={item.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="reading-link-item"
-                >
-                  <span className="link-title">{item.label}</span>
-                  {item.desc && <span className="link-desc"> — {item.desc}</span>}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* General Tips Section if present */}
-      {track.generalTips && track.generalTips.length > 0 && (
-        <div className="general-tips-container">
-          <h3 className="tips-title">💡 Pro Tips for this Track</h3>
-          <ul className="tips-list">
-            {track.generalTips.map((tip, idx) => (
-              <li key={idx} className="tip-item">{tip}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Stepper Timeline Header */}
-      <div className="timeline-section-title">
-        <h2>Learning Journey</h2>
-        <p>Complete each module and tick off your progress as you learn.</p>
-      </div>
-
-      {/* Stepper / Timeline Layout */}
-      <div className="roadmap-stepper-timeline">
-        <div className="timeline-connector-line" />
-
-        {track.modules.map((mod, idx) => {
-          const isCompleted = !!completedModules[mod.id];
-          return (
-            <div 
-              key={mod.id} 
-              className={`timeline-step-block ${isCompleted ? "completed" : ""}`}
-            >
-              {/* Stepper Node Indicator */}
-              <div 
-                className={`timeline-node ${isCompleted ? "completed" : ""}`}
-                onClick={() => toggleModule(mod.id)}
-                title={isCompleted ? "Mark incomplete" : "Mark complete"}
-              >
-                <span className="node-num">{mod.id}</span>
-                {isCompleted && <span className="node-checkmark">✓</span>}
+            {/* Inline Progress */}
+            <div className="rd-progress-block">
+              <div className="rd-progress-nums">
+                <span className="rd-prog-done">{completedCount}</span>
+                <span className="rd-prog-sep">/</span>
+                <span className="rd-prog-total">{totalModules}</span>
               </div>
+              <div className="rd-progress-bar">
+                <div className="rd-progress-fill" style={{ width: `${progressPercent}%` }} />
+              </div>
+              <p className="rd-progress-label">{progressPercent}% complete</p>
+            </div>
+          </div>
 
-              {/* Module Content Card */}
-              <div className="timeline-card">
-                <div className="module-card-header">
-                  <div className="module-info-title-wrap">
-                    <span className="module-scope-label">Module {mod.id}</span>
-                    <h3 className="module-title">{mod.title}</h3>
+          {/* Compact Info Strip — replaces 3 cards */}
+          <div className="rd-info-strip">
+            <div className="rd-info-row">
+              <span className="rd-info-key">Tools</span>
+              <span className="rd-info-val">{track.generalTools}</span>
+            </div>
+            <div className="rd-info-divider" />
+            <div className="rd-info-row">
+              <span className="rd-info-key">Reading</span>
+              <span className="rd-info-val rd-reading-links">
+                {track.preferReading.map((item, i) => (
+                  <span key={i}>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="rd-reading-link">
+                      {item.label}
+                    </a>
+                    {i < track.preferReading.length - 1 && <span className="rd-link-sep"> · </span>}
+                  </span>
+                ))}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Stepper Timeline */}
+        <div className="rd-timeline">
+          <div className="rd-spine" />
+
+          {track.modules.map((mod) => {
+            const done = !!completedModules[mod.id];
+            return (
+              <div key={mod.id} className={`rd-step ${done ? "done" : ""}`}>
+                {/* Node */}
+                <button
+                  className={`rd-node ${done ? "done" : ""}`}
+                  onClick={() => toggleModule(mod.id)}
+                  title={done ? "Mark incomplete" : "Mark complete"}
+                >
+                  {done ? <span className="rd-node-check">✓</span> : <span className="rd-node-num">{mod.id}</span>}
+                </button>
+
+                {/* Card */}
+                <div className="rd-card">
+                  {/* Card Header */}
+                  <div className="rd-card-head">
+                    <div>
+                      <p className="rd-mod-label">Module {mod.id}</p>
+                      <h3 className="rd-mod-title">{mod.title}</h3>
+                    </div>
+                    <button
+                      className={`rd-toggle-btn ${done ? "done" : ""}`}
+                      onClick={() => toggleModule(mod.id)}
+                    >
+                      {done ? "Completed" : "Mark done"}
+                    </button>
                   </div>
-                  {/* Action checkbox */}
-                  <button 
-                    onClick={() => toggleModule(mod.id)}
-                    className={`module-complete-toggle-btn ${isCompleted ? "active" : ""}`}
-                  >
-                    {isCompleted ? "✓ Completed" : "Mark Complete"}
-                  </button>
-                </div>
 
-                <div className="module-card-body">
-                  {/* Learn Section */}
-                  <div className="module-section learn-section">
-                    <h4>📚 What You'll Learn</h4>
-                    <ul className="learn-checklist">
-                      {mod.learn.map((pt, i) => (
-                        <li key={i}>{pt}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  {/* Card Body */}
+                  <div className="rd-card-body">
+                    {/* Learn */}
+                    <div className="rd-section">
+                      <p className="rd-section-label">Learn</p>
+                      <ul className="rd-learn-list">
+                        {mod.learn.map((pt, i) => (
+                          <li key={i}>{pt}</li>
+                        ))}
+                      </ul>
+                    </div>
 
-                  {/* Study Material Section */}
-                  <div className="module-section resources-section">
-                    <h4>🔗 Learning Resources</h4>
-                    <div className="resources-links-container">
-                      {/* Videos */}
-                      {mod.videos.map((vid, i) => (
-                        <div key={i} className="resource-link-row video-type">
-                          <span className="link-type-icon">📺</span>
-                          <div className="link-info">
-                            {vid.url ? (
-                              <a 
-                                href={vid.url} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="resource-url"
-                              >
-                                {vid.track ? <span className="track-badge">{vid.track}</span> : null}
-                                <span className="url-text">{vid.text}</span>
-                                <span className="external-arrow">↗</span>
-                              </a>
-                            ) : (
-                              <span className="non-link-text">{vid.text}</span>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-
-                      {/* Readings */}
-                      {mod.readings.map((rd, i) => (
-                        <div key={i} className="resource-link-row reading-type">
-                          <span className="link-type-icon">📖</span>
-                          <div className="link-info">
-                            <a 
-                              href={rd.url} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="resource-url"
-                            >
-                              <span className="url-text">{rd.text}</span>
-                              <span className="external-arrow">↗</span>
+                    {/* Resources */}
+                    <div className="rd-section">
+                      <p className="rd-section-label">Resources</p>
+                      <div className="rd-res-list">
+                        {mod.videos.map((v, i) => (
+                          <div key={i} className="rd-res-row">
+                            <span className="rd-res-type rd-res-video">Video</span>
+                            <a href={v.url} target="_blank" rel="noopener noreferrer" className="rd-res-link">
+                              {v.text} <span className="rd-ext-icon">↗</span>
                             </a>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                        {mod.readings.map((r, i) => (
+                          <div key={i} className="rd-res-row">
+                            <span className="rd-res-type rd-res-read">Read</span>
+                            <a href={r.url} target="_blank" rel="noopener noreferrer" className="rd-res-link">
+                              {r.text} <span className="rd-ext-icon">↗</span>
+                            </a>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Practice Section */}
-                  <div className="module-section practice-section">
-                    <h4>💻 Hands-on Practice</h4>
-                    <p className="practice-text">{mod.practice}</p>
-                  </div>
+                    {/* Practice */}
+                    <div className="rd-section">
+                      <p className="rd-section-label">Practice</p>
+                      <p className="rd-practice-text">{mod.practice}</p>
+                    </div>
 
-                  {/* Checkpoint Section */}
-                  <div className="module-section checkpoint-section">
-                    <h4>🎯 Move On Checkpoint</h4>
-                    <div className="checkpoint-card">
-                      <span className="checkpoint-icon">🏁</span>
-                      <p className="checkpoint-text">
-                        <strong>Move on when:</strong> {mod.checkpoint}
-                      </p>
+                    {/* Checkpoint */}
+                    <div className="rd-checkpoint">
+                      <span className="rd-checkpoint-label">Move on when —</span>
+                      <span className="rd-checkpoint-text">{mod.checkpoint}</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
