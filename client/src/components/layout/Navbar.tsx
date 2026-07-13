@@ -256,7 +256,7 @@ export default function Navbar() {
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search members..."
+                        placeholder="Search members"
                         className="bg-transparent text-sm font-mono text-white placeholder:text-muted-foreground outline-none w-full"
                       />
                       {searchQuery && (
