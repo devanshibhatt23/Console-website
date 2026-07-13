@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { searchProfiles, deriveCollegeIdFromEmail } from "../services/ProfileService";
 import "./SearchUsers.css";
 
 export default function SearchUsers() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("q") || "");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  // Sync state with URL search params when they change externally
+  useEffect(() => {
+    const q = searchParams.get("q") || "";
+    if (q !== searchTerm) {
+      setSearchTerm(q);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const delayDebounceFn = window.setTimeout(async () => {
@@ -28,17 +37,26 @@ export default function SearchUsers() {
     return () => window.clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 
+  const handleInputChange = (value) => {
+    setSearchTerm(value);
+    if (value.trim()) {
+      setSearchParams({ q: value.trim() }, { replace: true });
+    } else {
+      setSearchParams({}, { replace: true });
+    }
+  };
+
   return (
     <div className="search-page-container">
       <div className="search-content">
         <header className="search-header">
-          <button onClick={() => navigate("/home")} className="back-btn">
+          <button onClick={() => navigate("/")} className="back-btn">
             &larr; Back to Home
           </button>
           <h1 className="search-title">Search Members</h1>
           <p className="search-subtitle">Find and connect with other developers in the CONSOLE community.</p>
         </header>
-
+ 
         <div className="search-input-wrapper">
           <span className="search-icon">🔍</span>
           <input
@@ -46,10 +64,10 @@ export default function SearchUsers() {
             className="search-input"
             placeholder="Search by Name or College ID"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
           />
           {searchTerm && (
-            <button className="clear-btn" onClick={() => setSearchTerm("")}>
+            <button className="clear-btn" onClick={() => handleInputChange("")}>
               &times;
             </button>
           )}

@@ -140,7 +140,7 @@ export default function TechGuide() {
     <div className="techguide-page" style={{ position: "relative" }}>
       {/* Back to Dashboard Button */}
       <button
-        onClick={() => navigate("/home")}
+        onClick={() => navigate("/")}
         style={{
           position: "absolute",
           top: "24px",
@@ -159,7 +159,7 @@ export default function TechGuide() {
           gap: "6px"
         }}
       >
-        ← Back to Dashboard
+        ← Back to Home
       </button>
 
       {/* Hero */}

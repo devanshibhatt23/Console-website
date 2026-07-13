@@ -56,7 +56,7 @@ export default function Resources() {
     <div className="resources-page" style={{ position: "relative" }}>
       {/* Back to Dashboard Button */}
       <button
-        onClick={() => navigate("/home")}
+        onClick={() => navigate("/")}
         style={{
           position: "absolute",
           top: "24px",
@@ -75,7 +75,7 @@ export default function Resources() {
           gap: "6px"
         }}
       >
-        ← Back to Dashboard
+        ← Back to Home
       </button>
 
       {/* Header */}
