@@ -165,7 +165,7 @@ export default function PreviousEvents() {
         {/* Header */}
         <div ref={headerRef} className="text-center mb-20">
           <h2
-            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-6"
+            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
             style={{
               background: 'linear-gradient(90deg, #F2994A, #F0405C)',
               WebkitBackgroundClip: 'text',

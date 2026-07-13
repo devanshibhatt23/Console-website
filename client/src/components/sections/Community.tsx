@@ -42,18 +42,10 @@ export default function Community() {
           className="max-w-3xl mx-auto"
         >
           {/* Title — same size/style as Meet Our Team */}
-          <h2
-            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
-            style={{
-              background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            Let's Connect
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-5">
+            Let's <span className="text-gradient-fire">Connect</span>
           </h2>
-          <p className="text-lg text-muted-foreground font-inter mb-20">
+          <p className="text-lg text-muted-foreground font-inter" style={{ marginBottom: '60px' }}>
             Follow us and stay in the loop with everything happening at Console.
           </p>
 
@@ -66,7 +58,7 @@ export default function Community() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6 }}
-                className="group flex flex-col items-center gap-5 px-14 py-10 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] min-w-[200px]"
+                className="group flex flex-col items-center gap-4 px-8 py-6 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] min-w-[160px]"
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.borderColor = 'rgba(242,153,74,0.6)';
@@ -83,12 +75,12 @@ export default function Community() {
                 }}
               >
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                  className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                   style={{ background: social.color + '25' }}
                 >
-                  <social.icon className="w-9 h-9" style={{ color: social.color, filter: 'brightness(1.3)' }} />
+                  <social.icon className="w-6 h-6" style={{ color: social.color, filter: 'brightness(1.3)' }} />
                 </div>
-                <h3 className="text-white font-semibold font-montserrat text-lg">{social.name}</h3>
+                <h3 className="text-white font-semibold font-montserrat text-base">{social.name}</h3>
               </motion.a>
             ))}
           </div>

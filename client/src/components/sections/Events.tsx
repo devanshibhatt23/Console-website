@@ -99,8 +99,8 @@ export default function Events() {
               <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
               Calendar
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Where the magic <br /> <span className="text-white/50">happens.</span>
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-5">
+              Our <span className="text-gradient-fire">Events</span>
             </h2>
           </div>
           

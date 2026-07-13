@@ -142,24 +142,37 @@ export default function Hero() {
           animate="visible"
           className="max-w-5xl mx-auto flex flex-col items-center"
         >
-          {/* Welcome to — same size & gradient as CONSOLE */}
+          {/* Welcome to — Montserrat bold white */}
           <motion.h2
             variants={itemVariants}
-            className="font-montserrat font-black tracking-tighter leading-none mb-2 mt-10 cursor-default select-none"
+            className="font-montserrat cursor-default select-none w-full text-center"
             style={{
-              fontSize: '42px',
-              ...gradientTextStyle,
+              fontSize: '90px',
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 900,
+              color: '#ffffff',
+              lineHeight: '0.85',
+              letterSpacing: '-3px',
+              margin: '0',
+              padding: '0',
+              marginTop: '40px',
             }}
           >
             Welcome to
           </motion.h2>
 
-          {/* CONSOLE — scramble on hover + glow */}
-          <div className="relative flex flex-col items-center mb-10">
+          {/* CONSOLE — Montserrat bold gradient, scramble on hover + glow */}
+          <div className="relative flex flex-col items-center w-full" style={{ marginTop: '0px', marginBottom: '24px' }}>
             <h1
-              className="font-montserrat font-black tracking-tighter leading-none pb-2 cursor-default pointer-events-auto select-none transition-all duration-300"
+              className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center"
               style={{
-                fontSize: '42px',
+                fontSize: '110px',
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 900,
+                lineHeight: '0.9',
+                letterSpacing: '-3px',
+                margin: '0',
+                padding: '0',
                 ...gradientTextStyle,
                 filter: isHoveringConsole
                   ? 'drop-shadow(0 0 40px rgba(242,153,74,0.7)) drop-shadow(0 0 80px rgba(240,64,92,0.5))'
@@ -187,7 +200,8 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 mb-20 tracking-wide"
+            className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 tracking-wide"
+            style={{ marginBottom: '80px' }}
           >
             Tech Community of MNIT
           </motion.p>
@@ -222,22 +236,20 @@ export default function Hero() {
             {/* Explore Console */}
             <a
               href="#about"
-              className="px-6 py-3 bg-white/5 border border-white/15 text-white font-inter font-medium rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2"
+              className="group relative px-6 py-3 text-white font-inter font-semibold rounded-full overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02]"
               style={{
-                boxShadow: '0 0 0 1px rgba(255,255,255,0.08)',
+                background: 'linear-gradient(135deg, #F2994A, #F0405C)',
+                boxShadow: '0 4px 20px rgba(242,153,74,0.35)',
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 0 12px rgba(242,153,74,0.25), 0 0 0 1px rgba(242,153,74,0.3)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(242,153,74,0.3)';
+                  '0 6px 28px rgba(242,153,74,0.55)';
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 0 0 1px rgba(255,255,255,0.08)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.15)';
+                  '0 4px 20px rgba(242,153,74,0.35)';
               }}
             >
-              <Terminal className="w-4 h-4" style={{ color: '#F2994A' }} />
               <span>Explore Console</span>
             </a>
           </motion.div>
