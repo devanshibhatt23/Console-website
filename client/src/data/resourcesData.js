@@ -20,7 +20,7 @@ export const DOMAINS = [
     color: "#ef4444",
     gradient: "linear-gradient(135deg, rgba(127, 29, 29, 0.9), rgba(239, 68, 68, 0.9))",
     description: "Go from zero to a solid Competitive Programming foundation and climb the Codeforces ranks.",
-    totalWeeks: 13
+    totalWeeks: 3
   },
   {
     id: "dsa",
