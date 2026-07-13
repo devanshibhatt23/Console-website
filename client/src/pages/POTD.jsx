@@ -216,7 +216,7 @@ export default function POTD() {
   async function loadPotdLeaderboard() {
     try {
       setLoadingPotdLeaderboard(true);
-      const response = await fetch("http://localhost:5000/api/potd/leaderboard-live");
+      const response = await fetch("http://localhost:5001/api/potd/leaderboard-live");
       if (!response.ok) throw new Error("Failed to fetch POTD leaderboard");
       const data = await response.json();
       const validRows = (data || []).filter((u) => {
@@ -238,7 +238,7 @@ export default function POTD() {
     if (!problem?.id) return;
     try {
       setLoadingTodayRanking(true);
-      const response = await fetch(`http://localhost:5000/api/potd/today-ranking?problemId=${encodeURIComponent(problem.id)}`);
+      const response = await fetch(`http://localhost:5001/api/potd/today-ranking?problemId=${encodeURIComponent(problem.id)}`);
       if (!response.ok) throw new Error("Failed to fetch today's ranking");
       const data = await response.json();
       const rankingRows = (data || []).map((row) => {

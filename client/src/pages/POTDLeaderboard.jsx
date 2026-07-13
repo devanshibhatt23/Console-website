@@ -51,7 +51,7 @@ const POTDLeaderboard = () => {
             else setIsRefreshing(true);
             setError(null);
 
-            const response = await fetch('http://localhost:5000/api/potd/leaderboard-live');
+            const response = await fetch('http://localhost:5001/api/potd/leaderboard-live');
             if (!response.ok) throw new Error('Failed to fetch POTD leaderboard data');
             const data = await response.json();
 
