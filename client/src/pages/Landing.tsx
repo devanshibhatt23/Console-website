@@ -188,15 +188,7 @@ export default function Landing() {
         {/* Team */}
         <section id="team" className="landing-section team-section py-20 bg-black">
           <div className="team-header text-center mb-10">
-            <h2
-              className="section-title text-4xl md:text-5xl font-black font-montserrat mb-4"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <h2 className="section-gradient-title section-title text-4xl md:text-5xl mb-4">
               Meet Our Team
             </h2>
             <p className="section-subtitle text-gray-400 font-inter">
@@ -235,15 +227,7 @@ export default function Landing() {
         {/* Learn & Grow */}
         <section id="learn-grow" className="landing-section py-20 bg-black">
           <div className="container mx-auto px-6 max-w-5xl text-center">
-            <h2
-              className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
               Learn &amp; Grow
             </h2>
             <p className="text-muted-foreground font-inter mb-12">
@@ -302,15 +286,7 @@ export default function Landing() {
           />
           <div className="container mx-auto px-6 max-w-3xl relative z-10">
             <div className="text-center mb-14">
-              <h2
-                className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
-                style={{
-                  background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
+              <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
                 Frequently Asked Questions
               </h2>
               <p className="text-muted-foreground font-inter mb-4">

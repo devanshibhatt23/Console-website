@@ -164,15 +164,7 @@ export default function PreviousEvents() {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div ref={headerRef} className="text-center mb-20">
-          <h2
-            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
-            style={{
-              background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
+          <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-6">
             Events
           </h2>
           {/* View all events */}

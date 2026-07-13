@@ -77,16 +77,8 @@ export default function About() {
       <div className="container mx-auto px-6">
         {/* About heading + text — centered */}
         <div ref={headerRef} className="max-w-3xl mx-auto text-center mb-20">
-          <h2
-            className="text-4xl md:text-5xl font-black font-montserrat mb-4"
-            style={{
-              background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            About Console
+          <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-10">
+            About
           </h2>
 
           <div className="space-y-5 text-center">

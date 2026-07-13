@@ -42,10 +42,10 @@ export default function Community() {
           className="max-w-3xl mx-auto"
         >
           {/* Title — same size/style as Meet Our Team */}
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-5">
-            Let's <span className="text-gradient-fire">Connect</span>
+          <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
+            Let's Connect
           </h2>
-          <p className="text-lg text-muted-foreground font-inter" style={{ marginBottom: '60px' }}>
+          <p className="text-lg text-muted-foreground font-inter mb-20">
             Follow us and stay in the loop with everything happening at Console.
           </p>
 
