@@ -189,6 +189,7 @@ const Leaderboard = () => {
                             scoreKey={currentPlatform.scoreKey} 
                             scoreLabel={currentPlatform.scoreLabel}
                             platformId={currentPlatform.id}
+                            yearId={activeYear}
                         />
                     )}
                 </div>

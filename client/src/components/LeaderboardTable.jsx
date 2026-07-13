@@ -74,7 +74,7 @@ const LeaderboardRow = ({ user, index, scoreKey, platformId, started, delay }) =
     return <div className="lb-row-link lb-row-link-static">{content}</div>;
 };
 
-const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
+const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId, yearId }) => {
     const [search, setSearch] = useState('');
     const [containerRef, inView] = useInView({ threshold: 0.1 });
 
@@ -124,7 +124,7 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId }) => {
                     ) : (
                         filteredData.map((user, index) => (
                             <LeaderboardRow
-                                key={`${platformId}-${user.handle || user.id || index}`}
+                                key={`${platformId}-${yearId}-${user.handle || user.id || index}`}
                                 user={user}
                                 index={index}
                                 scoreKey={scoreKey}
