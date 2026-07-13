@@ -1,0 +1,247 @@
+/* Leaderboard list — dark palette matching reference design */
+
+.lb-wrapper {
+    width: 100%;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Search bar */
+.lb-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-radius: 0.75rem;
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.25rem;
+    color: #8A8A8A;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.lb-search-bar:focus-within {
+    border-color: #FDA62A;
+    box-shadow: 0 0 0 3px rgba(253, 166, 42, 0.15);
+}
+
+.lb-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-family: inherit;
+}
+
+.lb-search-input::placeholder {
+    color: #6B6B6B;
+}
+
+/* Table container */
+.lb-table-container {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.lb-header-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 160px;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: #111111;
+    border: 1px solid #2A2A2A;
+    border-radius: 0.85rem;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8A8A8A;
+}
+
+.lb-header-row .lb-cell-score {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.lb-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Row link wrapper */
+.lb-row-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    cursor: pointer;
+}
+
+.lb-row-link-static {
+    cursor: default;
+}
+
+/* Row */
+.lb-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 160px;
+    align-items: center;
+    padding: 1.1rem 1.5rem;
+    background: #1A1A1A;
+    border: 1px solid #2A2A2A;
+    border-left: 3px solid transparent;
+    border-radius: 0.85rem;
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease;
+
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+.lb-row[data-in='true'] {
+    animation: lbRowIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lb-row-link:hover .lb-row {
+    transform: scale(1.02);
+    border-color: #FDA62A;
+    box-shadow: 0 0 22px rgba(253, 166, 42, 0.35);
+    background: #1F1F1F;
+    z-index: 1;
+}
+
+/* Top 3 subtle tinted glow */
+.lb-row.rank-gold {
+    background: linear-gradient(90deg, rgba(255, 215, 0, 0.08), #1A1A1A 55%);
+    border-left-color: #FFD700;
+    box-shadow: inset 0 0 30px rgba(255, 215, 0, 0.06);
+}
+
+.lb-row.rank-silver {
+    background: linear-gradient(90deg, rgba(192, 192, 192, 0.08), #1A1A1A 55%);
+    border-left-color: #C0C0C0;
+    box-shadow: inset 0 0 30px rgba(192, 192, 192, 0.05);
+}
+
+.lb-row.rank-bronze {
+    background: linear-gradient(90deg, rgba(205, 127, 50, 0.08), #1A1A1A 55%);
+    border-left-color: #CD7F32;
+    box-shadow: inset 0 0 30px rgba(205, 127, 50, 0.05);
+}
+
+.lb-row.rank-gold:hover,
+.lb-row.rank-silver:hover,
+.lb-row.rank-bronze:hover {
+    border-color: #FDA62A;
+    box-shadow: 0 0 22px rgba(253, 166, 42, 0.35);
+}
+
+/* Cells */
+.lb-cell {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.lb-cell-rank {
+    gap: 0.55rem;
+    color: #FFFFFF;
+}
+
+.lb-rank-num {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #FFFFFF;
+    font-variant-numeric: tabular-nums;
+}
+
+.lb-cell-name {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    padding-right: 1rem;
+    overflow: hidden;
+}
+
+.lb-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.lb-handle {
+    font-size: 0.8rem;
+    color: #8A8A8A;
+}
+
+.lb-cell-score {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.lb-score {
+    font-weight: 700;
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+    color: #FFFFFF;
+}
+
+/* Animations */
+@keyframes lbRowIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #8A8A8A;
+    background: #1A1A1A;
+}
+
+/* Responsive: compact stacked cards on mobile */
+@media (max-width: 640px) {
+    .lb-header-row {
+        display: none;
+    }
+
+    .lb-row {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        gap: 0.6rem;
+        padding: 1rem 1.1rem;
+        border-radius: 0.75rem;
+    }
+
+    .lb-cell-rank {
+        order: 1;
+    }
+
+    .lb-cell-score {
+        order: 2;
+        justify-content: flex-start;
+        text-align: left;
+    }
+
+    .lb-cell-name {
+        order: 3;
+        grid-column: 1 / -1;
+    }
+}

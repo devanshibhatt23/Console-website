@@ -1,37 +1,179 @@
 Members of the team : 
 
-Bhavya 
-Parth Gandhi
-Rishi Kataria
-Raghunandan Jhawar
-Shivam Pareek
-Sujal Maurya
-Shivam Jat
-Yuvraj
-Neel Shah
-Shubham Singh
-Amit Kumar
-Mahek Patel
-Rashi Jangid
-Mridul Trivedi
-Prashant Chaudhary
-Krrish Sharma
-Ritesh Singh
-Abhinav Singh
-Siddhi Agarwal
-Aagam Jain
-Aditya Dhiman
-Akshat Agrawal
-Chiranjeev Goyal
-Devanshi Bhatt
-Dishank Viradiya
-Het Shah
-Meet Van
-Pallvi
-Param Chauhan
-Prarthana
-Ridhima Garg
-Saarvik Singh
-Sahil Kumar
-Siddharth Kumar
-Shlok Patel
+Bhavya Singhal :
+- email- bhav8175@gmail.com
+- linkedin- https://www.linkedin.com/in/bhavya-singhal-20ba6232b/
+- github- https://github.com/Bhav-Codes
+
+Parth Gandhi :
+- email- parthgandhi625@gmail.com
+- linkedin- https://www.linkedin.com/in/parth-gandhi-641320324
+- github- www.github.com/parthgandhi22
+
+Mukund Rakholiya :
+- email- 
+- linkedin- https://www.linkedin.com/in/mukundrakholiya28
+- github- https://github.com/mukundrakholiya28
+
+Rishi Kataria :
+- email- 
+- linkedin- https://www.linkedin.com/in/rishi-kataria/
+- github- 
+
+Raghunandan Jhawar :
+- email- 
+- linkedin- 
+- github- 
+
+Shivam Pareek :
+- email- 
+- linkedin- 
+- github- 
+
+Sujal Maurya :
+- email- 
+- linkedin- 
+- github- 
+
+Shivam Jat :
+- email- 
+- linkedin- 
+- github- 
+
+Yuvraj :
+- email- 
+- linkedin- 
+- github- 
+
+Neel Shah :
+- email- 
+- linkedin- 
+- github- 
+
+Shubham Singh :
+- email- shubhamsingh4665655@gmail.com
+- linkedin- https://in.linkedin.com/in/shubknight
+- github- GitHub.com/shubknight 
+
+Amit Kumar :
+- email- 
+- linkedin- 
+- github- 
+
+Mahek Patel :
+- email- 
+- linkedin- 
+- github- 
+
+Rashi Jangid :
+- email- 2024uce1173@mnit.ac.in
+- linkedin- https://www.linkedin.com/in/rashi-jangid-47849a221?utm_source=share_via&utm_content=profile&utm_medium=member_ios
+
+Mridul Trivedi :
+- email- 
+- linkedin- 
+- github- 
+
+Prashant Chaudhary :
+- email- 
+- linkedin- 
+- github- 
+
+Krrish Sharma :
+- email- 
+- linkedin- 
+- github- 
+
+Ritesh Singh :
+- email- 
+- linkedin- 
+- github- 
+
+Abhinav Singh :
+- email- 
+- linkedin- 
+- github- 
+
+Siddhi Agarwal :
+- email- 
+- linkedin- 
+- github- 
+
+Aagam Jain :
+- email- coderaj2006@gmail.com
+- linkedin- https://www.linkedin.com/in/aagam-jain-b38827394/
+- github- https://github.com/coderaj2006
+
+Aditya Dhiman :
+- email- dhimanaditya941@gmail.com
+- linkedin- https://www.linkedin.com/in/aditya-dhiman-37165a36b?utm_source=share_via&utm_content=profile&utm_medium=member_android
+- github- https://github.com/Aditya281107
+
+Akshat Agrawal :
+- email- agrawalakshat1407@gmail.com
+- linkedin- https://www.linkedin.com/in/akshat-agrawal-0a66b6383?utm_source=share_via&utm_content=profile&utm_medium=member_android
+- github- https://github.com/agrawalakshat1407-dotcom
+
+Chiranjeev Goyal :
+- email- chiranjeevgoyal135@gmail.com
+- linkedin- https://www.linkedin.com/in/chiranjeev-goyal-b7475b3b4?utm_source=share_via&utm_content=profile&utm_medium=member_android
+- github- 
+
+Devanshi Bhatt :
+- email- dbhatt2310@gmail.com
+- linkedin- https://www.linkedin.com/in/devanshi-bhatt-23db/
+- github- https://github.com/devanshibhatt23
+
+Dishank Viradiya :
+- email- dlviradiya@gmail.com
+- linkedin- https://www.linkedin.com/in/dishank7
+
+Het Shah :
+- email- hets1457@gmail.com
+- linkedin- https://www.linkedin.com/in/het-shah-8b593a369?utm_source=share_via&utm_content=profile&utm_medium=member_android
+- github- https://github.com/HetShah2212008
+
+Meet Van :
+- email- 
+- linkedin- https://www.linkedin.com/in/meet-van/
+- github- https://github.com/meet20062007
+
+Pallvi :
+- email- pallvipatialavi1102@gmail.com
+- linkedin- https://www.linkedin.com/in/pallvi-varyam-singh-739197375/
+- github- https://github.com/Pallvi2007
+
+Param Chauhan :
+- email- param.chauhan2006@gmail.com
+- linkedin- https://www.linkedin.com/in/param-chauhan-a1b5aa36a/
+- github- https://github.com/paramchauhan2006-afk
+
+Prarthana :
+- email- prarthanasingla321@gmail.com
+- linkedin- https://www.linkedin.com/in/prarthana-singla-b5b111372/
+- github- https://github.com/prarthanasingla321-rgb
+
+Ridhima Garg :
+- email- ridhimagarg0915@gmail.com
+- linkedin- https://www.linkedin.com/in/ridhima-garg-0a3725369?utm_source=share_via&utm_content=profile&utm_medium=member_android
+- github- https://github.com/coderidhimagarg0915-pixel
+
+Saarvik Singh Suryavanshi :
+- email- saarvikxcode@gmail.com
+- linkedin- https://www.linkedin.com/in/saarvik-singh-suryavanshi-94315b36a
+- github- https://github.com/Saarvik-got-it
+
+Sahil Kumar :
+- email- sahil7667790514@gmail.com
+- linkedin- www.linkedin.com/in/76sahil
+- github- https://github.com/2025ucp1686-sudo
+
+Siddharth Kumar :
+- email- siddjon07@gmail.com
+- linkedin- https://www.linkedin.com/in/siddharth-kumar-174738381/
+- github- https://github.com/siddjon07-ctrl
+
+Shlok Patel :
+- email- 
+- linkedin- 
+- github- 

@@ -1,7 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LeaderboardTable from '../components/LeaderboardTable';
+import { useCountUp } from '../hooks/useCountUp';
 import './Leaderboard.css';
+
+const UsersIcon = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+);
+
+const PulseIcon = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="2 14 8 14 10 8 14 20 16 14 22 14" />
+    </svg>
+);
+
+const CrownIcon = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 18h18l-1.5-9-4.5 4-3-7-3 7-4.5-4L3 18Z" />
+    </svg>
+);
+
+const StatCard = ({ icon, iconColor, value, label }) => {
+    const animatedValue = useCountUp(value, true, 1200);
+    return (
+        <div className="stat-card">
+            <span className="stat-card-icon" style={{ color: iconColor }}>{icon}</span>
+            <span className="stat-card-value">{animatedValue.toLocaleString()}</span>
+            <span className="stat-card-label">{label}</span>
+        </div>
+    );
+};
 
 const PLATFORM_TABS = [
     { id: 'codeforces', label: 'Codeforces', description: 'Contest ratings', scoreKey: 'rating', scoreLabel: 'Rating' },
@@ -55,6 +88,20 @@ const Leaderboard = () => {
         ? rawData 
         : rawData.filter(user => user.year === activeYear);
 
+    const codeforcesUsers = leaderboardData.codeforces?.length || 0;
+    const leetcodeUsers = Math.max(
+        leaderboardData.leetcode_rating?.length || 0,
+        leaderboardData.leetcode_questions?.length || 0
+    );
+    const totalUsers = useMemo(() => {
+        const ids = new Set();
+        const addAll = (arr) => (arr || []).forEach((u) => ids.add(u.id || u.handle || u.name));
+        addAll(leaderboardData.codeforces);
+        addAll(leaderboardData.leetcode_rating);
+        addAll(leaderboardData.leetcode_questions);
+        return ids.size;
+    }, [leaderboardData]);
+
     return (
         <div className="leaderboard-container" style={{ position: "relative" }}>
             {/* Back Button */}
@@ -87,8 +134,15 @@ const Leaderboard = () => {
                 <div className="leaderboard-header">
                     <h1 className="leaderboard-title">Console Leaderboard</h1>
                     <p className="leaderboard-subtitle">
-                        Track your ranking across Codeforces and LeetCode.
+                        Track your ranking across <span className="subtitle-codeforces">Codeforces</span> and <span className="subtitle-leetcode">LeetCode</span>.
                     </p>
+                </div>
+
+                {/* Stats Cards */}
+                <div className="stats-cards">
+                    <StatCard icon={<UsersIcon />} iconColor="#7DA6FF" value={totalUsers} label="Total Users" />
+                    <StatCard icon={<PulseIcon />} iconColor="#4ADE80" value={codeforcesUsers} label="Codeforces Users" />
+                    <StatCard icon={<CrownIcon />} iconColor="#F2994A" value={leetcodeUsers} label="LeetCode Users" />
                 </div>
 
                 {/* Platform Tabs */}
@@ -135,6 +189,7 @@ const Leaderboard = () => {
                             scoreKey={currentPlatform.scoreKey} 
                             scoreLabel={currentPlatform.scoreLabel}
                             platformId={currentPlatform.id}
+                            yearId={activeYear}
                         />
                     )}
                 </div>
