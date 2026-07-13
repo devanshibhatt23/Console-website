@@ -20,8 +20,12 @@ export default function ProfileView() {
         const data = await getProfile(userId);
         setProfile(data);
         if (data.resume_url) {
-          const url = await getResumeUrl(data.resume_url);
-          setResumeUrl(url);
+          try {
+            const url = await getResumeUrl(data.resume_url);
+            setResumeUrl(url);
+          } catch (resErr) {
+            console.warn("Failed to retrieve resume URL:", resErr);
+          }
         }
       } catch (err) {
         console.error("Error loading user profile:", err);

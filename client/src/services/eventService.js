@@ -30,3 +30,49 @@ export async function deleteEvent(eventId) {
 
   if (error) throw error;
 }
+
+export async function getEventsWithImages() {
+  const { data, error } = await supabase
+    .from("events")
+    .select(`
+      *,
+      event_images (*)
+    `)
+    .order("event_date", { ascending: false });
+
+  if (error) throw error;
+
+  return data;
+}
+
+export async function addEventImages(images) {
+  const { data, error } = await supabase
+    .from("event_images")
+    .insert(images)
+    .select();
+
+  if (error) throw error;
+
+  return data;
+}
+
+export async function deleteEventImage(imageId) {
+  const { error } = await supabase
+    .from("event_images")
+    .delete()
+    .eq("id", imageId);
+
+  if (error) throw error;
+}
+
+export async function updateEvent(eventId, updates) {
+  const { data, error } = await supabase
+    .from("events")
+    .update(updates)
+    .eq("id", eventId)
+    .select();
+
+  if (error) throw error;
+
+  return data;
+}

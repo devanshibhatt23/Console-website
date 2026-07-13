@@ -126,6 +126,12 @@ export default function Home() {
             <h2 className="home-card-title">Tech Guide</h2>
             <p className="home-card-desc">Step-by-step roadmaps for your software engineering journey.</p>
           </Link>
+
+          <Link to="/events" className="home-card">
+            <div className="home-card-icon">📅</div>
+            <h2 className="home-card-title">Events</h2>
+            <p className="home-card-desc">Explore previous Console Club events.</p>
+          </Link>
         </div>
 
         <div id="team" className="home-section-card">
