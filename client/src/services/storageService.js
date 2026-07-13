@@ -8,8 +8,9 @@ import { supabase } from "../lib/supabase";
  */
 export async function uploadResume(userId, file) {
   const fileExt = file.name.split(".").pop();
-  const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-  const filePath = `${userId}/${safeName}_${Date.now()}.${fileExt}`;
+  const baseName = file.name.replace(/\.[^/.]+$/, "");
+  const safeBaseName = baseName.replace(/[^a-zA-Z0-9.-]/g, "_");
+  const filePath = `${userId}/${safeBaseName}_${Date.now()}.${fileExt}`;
 
   const { data, error } = await supabase.storage
     .from("resumes")
