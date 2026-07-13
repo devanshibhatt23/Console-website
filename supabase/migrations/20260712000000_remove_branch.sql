@@ -1,5 +1,8 @@
 ALTER TABLE public.profiles DROP COLUMN IF EXISTS branch;
 
+-- Disconnect Codeforces and LeetCode handles of all existing users (forces verification)
+UPDATE public.profiles SET codeforces_handle = NULL, leetcode_handle = NULL;
+
 -- Fix any user whose college_id was incorrectly set to their full email
 UPDATE public.profiles
 SET college_id = SUBSTRING(email FROM 1 FOR 11)
