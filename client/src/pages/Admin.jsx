@@ -47,7 +47,7 @@ export default function Admin() {
   // Resources state
   const [resources, setResources] = useState([]);
   const [loadingResources, setLoadingResources] = useState(false);
-  const [resDomain, setResDomain] = useState("cpp-programming");
+  const [resDomain, setResDomain] = useState("cpp");
   const [resWeek, setResWeek] = useState(1);
   const [resOrder, setResOrder] = useState(1);
   const [resTitle, setResTitle] = useState("");
