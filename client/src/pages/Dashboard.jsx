@@ -18,9 +18,20 @@ export default function Dashboard() {
   const [collegeId, setCollegeId] = useState("");
   const [githubUrl, setGithubUrl] = useState("");
   const [linkedinUrl, setLinkedinUrl] = useState("");
-  const [codeforcesHandle, setCodeforcesHandle] = useState("");
-  const [leetcodeHandle, setLeetcodeHandle] = useState("");
   const [updatingProfile, setUpdatingProfile] = useState(false);
+
+  // Handle verification states
+  const [isCfVerifying, setIsCfVerifying] = useState(false);
+  const [cfInputHandle, setCfInputHandle] = useState("");
+  const [cfVerificationProblem, setCfVerificationProblem] = useState(null);
+  const [cfError, setCfError] = useState("");
+  const [cfLoading, setCfLoading] = useState(false);
+
+  const [isLcVerifying, setIsLcVerifying] = useState(false);
+  const [lcInputHandle, setLcInputHandle] = useState("");
+  const [lcVerificationCode, setLcVerificationCode] = useState("");
+  const [lcError, setLcError] = useState("");
+  const [lcLoading, setLcLoading] = useState(false);
 
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -36,8 +47,8 @@ export default function Dashboard() {
       setGithubUrl(profile.github_url || "");
       setLinkedinUrl(profile.linkedin_url || "");
       setSkillsText(profile.skills ? profile.skills.join(", ") : "");
-      setCodeforcesHandle(profile.codeforces_handle || "");
-      setLeetcodeHandle(profile.leetcode_handle || "");
+      setCfInputHandle(profile.codeforces_handle || "");
+      setLcInputHandle(profile.leetcode_handle || "");
 
       if (derivedCollegeId && user?.id && profile.college_id !== derivedCollegeId) {
         updateProfile(user.id, { college_id: derivedCollegeId })
@@ -90,8 +101,6 @@ export default function Dashboard() {
         github_url: githubUrl.trim(),
         linkedin_url: linkedinUrl.trim(),
         skills: skillsArray,
-        codeforces_handle: codeforcesHandle.trim() || null,
-        leetcode_handle: leetcodeHandle.trim() || null,
         is_public: true,
       });
 
@@ -101,6 +110,110 @@ export default function Dashboard() {
       setErrorMsg("Failed to update profile: " + err.message);
     } finally {
       setUpdatingProfile(false);
+    }
+  }
+
+  async function handleStartVerification(platform) {
+    const handle = platform === "codeforces" ? cfInputHandle : lcInputHandle;
+    if (!handle.trim()) {
+      if (platform === "codeforces") setCfError("Please enter a handle first");
+      else setLcError("Please enter a handle first");
+      return;
+    }
+
+    if (platform === "codeforces") {
+      setCfLoading(true);
+      setCfError("");
+    } else {
+      setLcLoading(true);
+      setLcError("");
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/verify/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, platform, handle }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to start verification");
+
+      if (platform === "codeforces") {
+        setCfVerificationProblem(data);
+        setIsCfVerifying(true);
+      } else {
+        setLcVerificationCode(data.code);
+        setIsLcVerifying(true);
+      }
+    } catch (err) {
+      if (platform === "codeforces") setCfError(err.message);
+      else setLcError(err.message);
+    } finally {
+      if (platform === "codeforces") setCfLoading(false);
+      else setLcLoading(false);
+    }
+  }
+
+  async function handleConfirmVerification(platform) {
+    if (platform === "codeforces") {
+      setCfLoading(true);
+      setCfError("");
+    } else {
+      setLcLoading(true);
+      setLcError("");
+    }
+
+    try {
+      const res = await fetch("http://localhost:5000/api/verify/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, platform }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Verification failed");
+
+      setSuccessMsg(data.message);
+      if (platform === "codeforces") {
+        setIsCfVerifying(false);
+      } else {
+        setIsLcVerifying(false);
+      }
+      if (refreshProfile) await refreshProfile();
+    } catch (err) {
+      if (platform === "codeforces") setCfError(err.message);
+      else setLcError(err.message);
+    } finally {
+      if (platform === "codeforces") setCfLoading(false);
+      else setLcLoading(false);
+    }
+  }
+
+  async function handleDisconnect(platform) {
+    if (!window.confirm(`Are you sure you want to disconnect your ${platform} handle?`)) return;
+    setSuccessMsg("");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/verify/disconnect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, platform }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Disconnection failed");
+
+      setSuccessMsg(data.message);
+      if (platform === "codeforces") {
+        setCfInputHandle("");
+      } else {
+        setLcInputHandle("");
+      }
+      if (refreshProfile) await refreshProfile();
+    } catch (err) {
+      setErrorMsg(err.message);
     }
   }
 
@@ -269,24 +382,139 @@ export default function Dashboard() {
 
             <div className="pf-row">
               <span className="pf-label">Codeforces handle</span>
-              <input
-                type="text"
-                placeholder="Codeforces username"
-                value={codeforcesHandle}
-                onChange={(e) => setCodeforcesHandle(e.target.value)}
-                className="pf-input"
-              />
+              {profile?.codeforces_handle ? (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span className="pf-verified-badge" style={{ background: "rgba(34, 197, 94, 0.15)", color: "#22c55e", padding: "6px 12px", borderRadius: "6px", fontSize: "14px", fontWeight: "600" }}>
+                    Verified: {profile.codeforces_handle}
+                  </span>
+                </div>
+              ) : isCfVerifying ? (
+                <div style={{ border: "1px solid var(--border)", padding: "15px", borderRadius: "8px", background: "var(--code-bg)", display: "flex", flexDirection: "column", gap: "10px", width: "100%" }}>
+                  <p style={{ margin: 0, fontSize: "14px", color: "var(--text-h)" }}>
+                    To verify handle <strong>{cfInputHandle}</strong>:
+                  </p>
+                  <p style={{ margin: 0, fontSize: "13px" }}>
+                    1. Submit a solution (any verdict) to:{" "}
+                    <a href={cfVerificationProblem?.problemUrl} target="_blank" rel="noreferrer" style={{ color: "var(--accent)", fontWeight: "600" }}>
+                      Codeforces {cfVerificationProblem?.problemId} ({cfVerificationProblem?.problemTitle}) ↗
+                    </a>
+                  </p>
+                  <p style={{ margin: 0, fontSize: "13px" }}>
+                    2. Click "Confirm Verification" within 5 minutes.
+                  </p>
+                  {cfError && <span style={{ color: "#ef4444", fontSize: "12px" }}>{cfError}</span>}
+                  <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+                    <button
+                      type="button"
+                      disabled={cfLoading}
+                      onClick={() => handleConfirmVerification("codeforces")}
+                      className="pf-resume-btn"
+                      style={{ margin: 0 }}
+                    >
+                      {cfLoading ? "Verifying..." : "Confirm Verification"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsCfVerifying(false)}
+                      className="pf-resume-btn pf-resume-btn-danger"
+                      style={{ margin: 0, background: "transparent", border: "1px solid var(--border)", color: "var(--text)" }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                  <input
+                    type="text"
+                    placeholder="Codeforces username"
+                    value={cfInputHandle}
+                    onChange={(e) => setCfInputHandle(e.target.value)}
+                    className="pf-input"
+                    style={{ flexGrow: 1 }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleStartVerification("codeforces")}
+                    className="pf-resume-btn"
+                    style={{ margin: 0, padding: "0 15px", whiteSpace: "nowrap" }}
+                  >
+                    Verify & Connect
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="pf-row">
               <span className="pf-label">LeetCode handle</span>
-              <input
-                type="text"
-                placeholder="LeetCode username"
-                value={leetcodeHandle}
-                onChange={(e) => setLeetcodeHandle(e.target.value)}
-                className="pf-input"
-              />
+              {profile?.leetcode_handle ? (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span className="pf-verified-badge" style={{ background: "rgba(34, 197, 94, 0.15)", color: "#22c55e", padding: "6px 12px", borderRadius: "6px", fontSize: "14px", fontWeight: "600" }}>
+                    Verified: {profile.leetcode_handle}
+                  </span>
+                </div>
+              ) : isLcVerifying ? (
+                <div style={{ border: "1px solid var(--border)", padding: "15px", borderRadius: "8px", background: "var(--code-bg)", display: "flex", flexDirection: "column", gap: "10px", width: "100%" }}>
+                  <p style={{ margin: 0, fontSize: "14px", color: "var(--text-h)" }}>
+                    To verify handle <strong>{lcInputHandle}</strong>:
+                  </p>
+                  <p style={{ margin: 0, fontSize: "13px" }}>
+                    1. Go to settings on leetcode, go to profile settings, and edit your readme to display the following text: 
+                  </p>
+                  <div style={{ padding: "8px 12px", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: "6px", fontFamily: "monospace", fontSize: "14px", color: "var(--text-h)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{lcVerificationCode}</span>
+                    <button
+                      type="button"
+                      onClick={() => navigator.clipboard.writeText(lcVerificationCode)}
+                      style={{ background: "none", border: "none", color: "var(--accent)", cursor: "pointer", fontSize: "12px", fontWeight: "600" }}
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <p style={{ margin: 0, fontSize: "13px" }}>
+                    2. Click "Confirm Verification".
+                  </p>
+                  {lcError && <span style={{ color: "#ef4444", fontSize: "12px" }}>{lcError}</span>}
+                  <div style={{ display: "flex", gap: "10px", marginTop: "5px" }}>
+                    <button
+                      type="button"
+                      disabled={lcLoading}
+                      onClick={() => handleConfirmVerification("leetcode")}
+                      className="pf-resume-btn"
+                      style={{ margin: 0 }}
+                    >
+                      {lcLoading ? "Verifying..." : "Confirm Verification"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsLcVerifying(false)}
+                      className="pf-resume-btn pf-resume-btn-danger"
+                      style={{ margin: 0, background: "transparent", border: "1px solid var(--border)", color: "var(--text)" }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                  <input
+                    type="text"
+                    placeholder="LeetCode username"
+                    value={lcInputHandle}
+                    onChange={(e) => setLcInputHandle(e.target.value)}
+                    className="pf-input"
+                    style={{ flexGrow: 1 }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleStartVerification("leetcode")}
+                    className="pf-resume-btn"
+                    style={{ margin: 0, padding: "0 15px", whiteSpace: "nowrap" }}
+                  >
+                    Verify & Connect
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="pf-row">
