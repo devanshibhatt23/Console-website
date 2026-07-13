@@ -6,14 +6,12 @@ const socials = [
     name: 'LinkedIn',
     icon: FaLinkedin,
     href: '#',
-    description: 'Connect with us professionally and stay updated on opportunities.',
-    color: '#0077B5',
+    color: '#0A66C2',
   },
   {
     name: 'Instagram',
     icon: FaInstagram,
     href: '#',
-    description: 'Follow our journey, events, and behind-the-scenes moments.',
     color: '#E1306C',
   },
 ];
@@ -43,8 +41,9 @@ export default function Community() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto"
         >
+          {/* Title — same size/style as Meet Our Team */}
           <h2
-            className="text-4xl md:text-6xl font-black font-montserrat tracking-tight mb-4"
+            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-4"
             style={{
               background: 'linear-gradient(90deg, #F2994A, #F0405C)',
               WebkitBackgroundClip: 'text',
@@ -54,7 +53,7 @@ export default function Community() {
           >
             Let's Connect
           </h2>
-          <p className="text-lg text-muted-foreground font-inter mb-14">
+          <p className="text-lg text-muted-foreground font-inter mb-20">
             Follow us and stay in the loop with everything happening at Console.
           </p>
 
@@ -67,32 +66,29 @@ export default function Community() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6 }}
-                className="group flex flex-col items-center gap-4 px-10 py-8 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] min-w-[200px]"
+                className="group flex flex-col items-center gap-5 px-14 py-10 rounded-2xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.02] min-w-[200px]"
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.borderColor = social.color + '60';
-                  el.style.boxShadow = `0 0 20px ${social.color}30`;
-                  el.style.background = social.color + '12';
+                  el.style.borderColor = 'rgba(242,153,74,0.6)';
+                  el.style.borderRadius = '1.5rem';
+                  el.style.boxShadow = '0 0 28px rgba(242,153,74,0.35), 0 0 60px rgba(242,153,74,0.12)';
+                  el.style.background = 'rgba(242,153,74,0.07)';
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
                   el.style.borderColor = 'rgba(255,255,255,0.1)';
+                  el.style.borderRadius = '1rem';
                   el.style.boxShadow = 'none';
                   el.style.background = 'rgba(255,255,255,0.05)';
                 }}
               >
                 <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: social.color + '20' }}
+                  className="w-16 h-16 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: social.color + '25' }}
                 >
-                  <social.icon className="w-7 h-7" style={{ color: social.color }} />
+                  <social.icon className="w-9 h-9" style={{ color: social.color, filter: 'brightness(1.3)' }} />
                 </div>
-                <div>
-                  <h3 className="text-white font-semibold font-montserrat text-lg mb-1">{social.name}</h3>
-                  <p className="text-muted-foreground text-sm font-inter max-w-[180px] leading-relaxed">
-                    {social.description}
-                  </p>
-                </div>
+                <h3 className="text-white font-semibold font-montserrat text-lg">{social.name}</h3>
               </motion.a>
             ))}
           </div>

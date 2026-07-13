@@ -10,7 +10,7 @@ const pillars = [
     icon: Code2,
     description:
       'From web apps to machine learning models, we believe the best way to learn is by building real things.',
-    hoverBg: 'rgba(242,153,74,0.18)',
+    hoverBg: 'rgba(255, 175, 80, 0.22)',
     borderHover: 'rgba(242,153,74,0.5)',
   },
   {
@@ -18,16 +18,16 @@ const pillars = [
     icon: BookOpen,
     description:
       'Workshops, study jams, and peer-to-peer mentoring. We break down complex concepts and grow our technical stack together.',
-    hoverBg: 'rgba(240,64,92,0.15)',
-    borderHover: 'rgba(240,64,92,0.5)',
+    hoverBg: 'rgba(99, 179, 237, 0.18)',
+    borderHover: 'rgba(99,179,237,0.5)',
   },
   {
     title: 'Compete',
     icon: Trophy,
     description:
       'Hackathons, contests, and competitions - We show up prepared to compete against the best and rise up stronger than before.',
-    hoverBg: 'rgba(242,153,74,0.12)',
-    borderHover: 'rgba(242,153,74,0.4)',
+    hoverBg: 'rgba(104, 211, 145, 0.18)',
+    borderHover: 'rgba(104,211,145,0.5)',
   },
 ];
 
@@ -75,14 +75,21 @@ export default function About() {
       />
 
       <div className="container mx-auto px-6">
-        {/* New about text — centered */}
+        {/* About heading + text — centered */}
         <div ref={headerRef} className="max-w-3xl mx-auto text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/5 border border-white/10 font-mono text-xs mb-8" style={{ color: '#F2994A' }}>
-            <span className="w-2 h-2 rounded-full" style={{ background: '#F2994A' }} />
-            Who We Are
-          </div>
+          <h2
+            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-10"
+            style={{
+              background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            About
+          </h2>
 
-          <div className="space-y-5 text-left">
+          <div className="space-y-5 text-center">
             <p className="text-lg md:text-xl text-white font-inter leading-relaxed font-medium">
               A tech community to learn and grow, together.
             </p>
@@ -127,7 +134,7 @@ export default function About() {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor = pillar.borderHover;
                     el.style.background = pillar.hoverBg;
-                    el.style.boxShadow = `0 0 24px ${pillar.hoverBg}`;
+                    el.style.boxShadow = `0 0 32px ${pillar.hoverBg}, 0 0 64px ${pillar.hoverBg}`;
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLElement;

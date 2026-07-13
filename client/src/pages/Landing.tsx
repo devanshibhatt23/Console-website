@@ -259,13 +259,15 @@ export default function Landing() {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderRadius = '1.25rem';
                     el.style.borderColor = 'rgba(242,153,74,0.4)';
-                    el.style.boxShadow = '0 0 24px rgba(242,153,74,0.2), 0 0 48px rgba(242,153,74,0.06)';
+                    el.style.background = 'rgba(255,255,255,0.10)';
+                    el.style.boxShadow = '0 0 32px rgba(242,153,74,0.28), 0 0 64px rgba(242,153,74,0.10)';
                     el.style.transform = 'scale(1.02)';
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderRadius = '1rem';
                     el.style.borderColor = '';
+                    el.style.background = '';
                     el.style.boxShadow = '';
                     el.style.transform = '';
                   }}
@@ -324,10 +326,18 @@ export default function Landing() {
                   className="border border-white/10 rounded-xl px-6 bg-white/[0.02] transition-all duration-300"
                   style={{ borderRadius: '0.75rem' }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(242,153,74,0.3)';
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(242,153,74,0.4)';
+                    el.style.boxShadow = '0 0 24px rgba(242,153,74,0.18), 0 0 48px rgba(242,153,74,0.07)';
+                    el.style.transform = 'scale(1.02)';
+                    el.style.background = 'rgba(242,153,74,0.05)';
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.1)';
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(255,255,255,0.1)';
+                    el.style.boxShadow = 'none';
+                    el.style.transform = 'scale(1)';
+                    el.style.background = 'rgba(255,255,255,0.02)';
                   }}
                 >
                   <AccordionTrigger

@@ -5,23 +5,29 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 const navLinks = [
-  { name: 'Home', href: '/#hero' },
-  { name: 'About', href: '/#about' },
-  { name: 'Gallery', href: '/#gallery' },
-  { name: 'Team', href: '/#team' },
-  { name: 'Events', href: '/events' },
-  { name: 'Leaderboard', href: '/leaderboard' },
-  { name: 'POTD', href: '/problem-of-the-day' },
-  { name: 'Resources', href: '/resources' },
-  { name: 'Tech Guide', href: '/tech-guide' },
+  { name: 'home', href: '/#hero' },
+  { name: 'about', href: '/#about' },
+  { name: 'gallery', href: '/#gallery' },
+  { name: 'team', href: '/#team' },
+  { name: 'events', href: '/events' },
+  { name: 'leaderboard', href: '/leaderboard' },
+  { name: 'potd', href: '/problem-of-the-day' },
+  { name: 'resources', href: '/resources' },
+  { name: 'tech guide', href: '/tech-guide' },
 ];
 
 const SECTION_IDS = ['hero', 'about', 'gallery', 'team', 'previous-events', 'learn-grow'];
+
 const HASH_TO_SECTION: Record<string, string> = {
   '/#hero': 'hero',
   '/#about': 'about',
   '/#gallery': 'gallery',
   '/#team': 'team',
+};
+
+// Maps active section ID → nav link href (for non-hash route links)
+const SECTION_TO_NAV_HREF: Record<string, string> = {
+  'previous-events': '/events',
 };
 
 export default function Navbar() {
@@ -114,29 +120,77 @@ export default function Navbar() {
 
   const isActive = (link: { name: string; href: string }) => {
     if (window.location.pathname !== '/') return false;
+    // Hash links: check activeSection via map
     const sectionId = HASH_TO_SECTION[link.href];
-    if (!sectionId) return false;
-    return activeSection === sectionId;
+    if (sectionId) return activeSection === sectionId;
+    // Route links: check if activeSection maps to this href
+    return SECTION_TO_NAV_HREF[activeSection] === link.href;
   };
 
-  const activeLinkClass = `
-    relative px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg
-    bg-clip-text text-transparent
-    [background-image:linear-gradient(90deg,#F2994A,#F0405C)]
-    after:content-[''] after:absolute after:bottom-0 after:left-2 after:right-2
-    after:h-[2px] after:rounded-full
-    after:[background:linear-gradient(90deg,#F2994A,#F0405C)]
-    after:[box-shadow:0_0_8px_rgba(242,153,74,0.7)]
-    hover:scale-[1.02]
-  `;
+  const gradientText = {
+    background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+    WebkitBackgroundClip: 'text' as const,
+    WebkitTextFillColor: 'transparent' as const,
+    backgroundClip: 'text' as const,
+  };
 
-  const inactiveLinkClass = `
-    px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg transition-all duration-200
-    hover:bg-clip-text hover:text-transparent
-    hover:[background-image:linear-gradient(90deg,#F2994A,#F0405C)]
-    hover:scale-[1.02]
-    relative group
-  `;
+  const renderNavItem = (link: { name: string; href: string }, mobile = false) => {
+    const active = isActive(link);
+    const isHashLink = link.href.startsWith('/#');
+
+    if (mobile) {
+      const baseClass = 'text-left font-mono text-muted-foreground hover:text-white text-base py-2 transition-colors';
+      return isHashLink ? (
+        <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={baseClass}>
+          &gt; {link.name}
+        </a>
+      ) : (
+        <Link key={link.name} to={link.href} onClick={() => setMobileMenuOpen(false)} className={baseClass}>
+          &gt; {link.name}
+        </Link>
+      );
+    }
+
+    const sharedActiveContent = (
+      <>
+        <span style={gradientText}>{link.name}</span>
+        <span
+          className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full"
+          style={{
+            background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+            boxShadow: '0 0 8px rgba(242,153,74,0.8)',
+          }}
+        />
+      </>
+    );
+
+    if (isHashLink) {
+      return (
+        <a
+          key={link.name}
+          href={link.href}
+          onClick={(e) => handleNavClick(e, link.href)}
+          className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+            active ? '' : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
+          }`}
+        >
+          {active ? sharedActiveContent : <span className="nav-link-text">{link.name}</span>}
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        key={link.name}
+        to={link.href}
+        className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+          active ? '' : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
+        }`}
+      >
+        {active ? sharedActiveContent : <span className="nav-link-text">{link.name}</span>}
+      </Link>
+    );
+  };
 
   return (
     <header
@@ -157,26 +211,8 @@ export default function Navbar() {
             aria-label="Go to top"
             className="flex items-center gap-2.5 shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
           >
-            <span
-              className="font-mono font-bold text-lg"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              &lt;/&gt;
-            </span>
-            <span
-              className="font-montserrat font-black text-lg tracking-widest hidden sm:block"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <span className="font-mono font-bold text-lg" style={gradientText}>&lt;/&gt;</span>
+            <span className="font-montserrat font-black text-lg tracking-widest hidden sm:block" style={gradientText}>
               CONSOLE
             </span>
           </button>
@@ -186,26 +222,8 @@ export default function Navbar() {
             aria-label="Go to home"
             className="flex items-center gap-2.5 shrink-0 group hover:scale-[1.02] transition-transform duration-200"
           >
-            <span
-              className="font-mono font-bold text-lg"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              &lt;/&gt;
-            </span>
-            <span
-              className="font-montserrat font-black text-lg tracking-widest hidden sm:block"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <span className="font-mono font-bold text-lg" style={gradientText}>&lt;/&gt;</span>
+            <span className="font-montserrat font-black text-lg tracking-widest hidden sm:block" style={gradientText}>
               CONSOLE
             </span>
           </Link>
@@ -214,53 +232,8 @@ export default function Navbar() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
           {navLinks
-            .filter((link) => user || link.name !== 'POTD')
-            .map((link) =>
-              link.href.startsWith('/#') ? (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    isActive(link)
-                      ? 'nav-link-active'
-                      : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
-                  }`}
-                >
-                  {isActive(link) ? (
-                    <span
-                      style={{
-                        background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}
-                    >
-                      {link.name}
-                    </span>
-                  ) : (
-                    <span className="nav-link-text">{link.name}</span>
-                  )}
-                  {isActive(link) && (
-                    <span
-                      className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full"
-                      style={{
-                        background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                        boxShadow: '0 0 8px rgba(242,153,74,0.8)',
-                      }}
-                    />
-                  )}
-                </a>
-              ) : (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="px-4 py-2 text-sm font-medium text-muted-foreground rounded-lg transition-all duration-200 hover:scale-[1.02] nav-link-hover relative"
-                >
-                  <span className="nav-link-text">{link.name}</span>
-                </Link>
-              )
-            )}
+            .filter((link) => user || link.href !== '/problem-of-the-day')
+            .map((link) => renderNavItem(link))}
 
           {/* Search — only for logged-in users */}
           {user && (
@@ -332,7 +305,6 @@ export default function Navbar() {
                   '0 0 0 1px rgba(242,153,74,0.4)';
               }}
             >
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
               Profile
             </Link>
           ) : (
@@ -403,37 +375,16 @@ export default function Navbar() {
             )}
 
             {navLinks
-              .filter((link) => user || link.name !== 'POTD')
-              .map((link) =>
-                link.href.startsWith('/#') ? (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-left font-mono text-muted-foreground hover:text-white text-base py-2 transition-colors"
-                  >
-                    &gt; {link.name}
-                  </a>
-                ) : (
-                  <Link
-                    key={link.name}
-                    to={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-left font-mono text-muted-foreground hover:text-white text-base py-2 transition-colors"
-                  >
-                    &gt; {link.name}
-                  </Link>
-                )
-              )}
+              .filter((link) => user || link.href !== '/problem-of-the-day')
+              .map((link) => renderNavItem(link, true))}
 
             {user ? (
               <Link
                 to="/profile"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-6 py-3 rounded-full font-mono text-center mt-3 uppercase tracking-wider text-white flex items-center justify-center gap-2"
+                className="px-6 py-3 rounded-full font-mono text-center mt-3 uppercase tracking-wider text-white"
                 style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
               >
-                <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                 Profile
               </Link>
             ) : (

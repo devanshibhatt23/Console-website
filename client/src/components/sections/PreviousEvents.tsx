@@ -163,25 +163,22 @@ export default function PreviousEvents() {
     <section id="previous-events" ref={sectionRef} className="py-32 bg-black relative">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
-          <div ref={headerRef} className="max-w-2xl">
-            <h2
-              className="text-4xl md:text-6xl font-black font-montserrat tracking-tight"
-              style={{
-                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              Events
-            </h2>
-          </div>
-
+        <div ref={headerRef} className="text-center mb-20">
+          <h2
+            className="text-4xl md:text-5xl font-black font-montserrat tracking-tight mb-6"
+            style={{
+              background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            Events
+          </h2>
           {/* View all events */}
           <Link
             to="/events"
-            className="flex items-center gap-2 font-inter font-medium text-sm transition-all duration-200 hover:scale-[1.02] group"
+            className="inline-flex items-center gap-2 font-inter font-medium text-sm transition-all duration-200 hover:scale-[1.02] group"
             style={{ color: '#F2994A' }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLElement).style.textShadow = '0 0 12px rgba(242,153,74,0.6)';

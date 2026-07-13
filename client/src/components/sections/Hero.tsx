@@ -7,7 +7,7 @@ import GridGlow from './GridGlow';
 import ConstellationDraw from './ConstellationDraw';
 import { useAuth } from '../../context/AuthContext';
 
-const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*<>[]{}';
+const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function useScramble(originalText: string) {
   const [displayText, setDisplayText] = useState(originalText);
@@ -69,6 +69,13 @@ export default function Hero() {
       y: 0,
       transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const },
     },
+  };
+
+  const gradientTextStyle = {
+    background: 'linear-gradient(90deg, #F2994A 0%, #F0405C 100%)',
+    WebkitBackgroundClip: 'text' as const,
+    WebkitTextFillColor: 'transparent' as const,
+    backgroundClip: 'text' as const,
   };
 
   return (
@@ -135,24 +142,25 @@ export default function Hero() {
           animate="visible"
           className="max-w-5xl mx-auto flex flex-col items-center"
         >
-          {/* Welcome to */}
-          <motion.p
+          {/* Welcome to — same size & gradient as CONSOLE */}
+          <motion.h2
             variants={itemVariants}
-            className="text-xl md:text-2xl font-inter font-medium text-white/70 mb-2 mt-10 tracking-wide"
+            className="font-montserrat font-black tracking-tighter leading-none mb-2 mt-10 cursor-default select-none"
+            style={{
+              fontSize: '42px',
+              ...gradientTextStyle,
+            }}
           >
             Welcome to
-          </motion.p>
+          </motion.h2>
 
           {/* CONSOLE — scramble on hover + glow */}
           <div className="relative flex flex-col items-center mb-10">
             <h1
               className="font-montserrat font-black tracking-tighter leading-none pb-2 cursor-default pointer-events-auto select-none transition-all duration-300"
               style={{
-                fontSize: 'clamp(5rem, 16vw, 14rem)',
-                background: 'linear-gradient(90deg, #F2994A 0%, #F0405C 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                fontSize: '42px',
+                ...gradientTextStyle,
                 filter: isHoveringConsole
                   ? 'drop-shadow(0 0 40px rgba(242,153,74,0.7)) drop-shadow(0 0 80px rgba(240,64,92,0.5))'
                   : 'drop-shadow(0 4px 12px rgba(0,0,0,0.8))',
@@ -179,7 +187,7 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 mb-14 tracking-wide"
+            className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 mb-20 tracking-wide"
           >
             Tech Community of MNIT
           </motion.p>
