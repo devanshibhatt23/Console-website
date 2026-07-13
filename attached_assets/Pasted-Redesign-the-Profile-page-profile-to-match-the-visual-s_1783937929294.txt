@@ -1,0 +1,21 @@
+Redesign the Profile page (/profile) to match the visual style of the Leaderboard page — same colors, fonts, and effects. Requirements:
+Layout changes:
+Merge "About You" and "Resume/CV" into a single unified card — remove the two-section split. The resume upload block sits at the bottom of the same card, below all profile fields, separated by a thin divider (border-top: 0.5px solid #2A2A2A).
+Move "My Profile" title to the top center of the page, increase font size to around 32-36px, and apply gradient linear-gradient(90deg, #F2994A, #F0405C) with background-clip: text and color: transparent. Keep the subtitle centered beneath it in muted gray (#8A8A8A), smaller font size.
+Restructure all fields into a clean row-wise layout: label on the left (fixed width 160px, muted gray #A0A0A0) + input field on the right (full remaining width), with a thin bottom border between rows (border-bottom: 0.3px solid #2A2A2A).
+Resume upload fix:
+Fix the file name bug — it currently shows .pdf.pdf (duplicated extension). Ensure the filename displays correctly without appending .pdf twice.
+Restyle the resume row: file icon + filename on the left (truncate with ellipsis if too long), and three buttons on the right — View, Add, Remove:
+View opens/previews the currently uploaded resume
+Add (replaces the old "Replace" button) opens a file picker, and when a new PDF is selected, it actually replaces the previously stored file — delete/overwrite the old file reference in storage/database so only the newest resume persists, and update the displayed filename immediately after a successful upload
+Remove deletes the currently uploaded resume entirely, clearing the file reference and reverting the UI to an empty/upload-prompt state
+Style all three buttons consistently: transparent background, #2A2A2A border, ~12px font, rounded corners, hover state slightly lightens background. Remove uses a coral/red tint to indicate it's destructive — border #4A1B0C, text #F0997B.
+General styling (match Leaderboard page):
+Card background: #141414, border 0.5px solid #2A2A2A, border-radius 16px
+Page background: #0A0A0A
+Input fields: dark background #0A0A0A, border 0.5px solid #2A2A2A, border-radius 8px, white text
+Save button: full-width, gradient background (#F2994A → #F0405C), white bold text, rounded corners
+Fonts: Inter 
+Responsive: labels stack above inputs on mobile
+Keep all existing functionality (form validation, save logic, upload handler) intact — this is a UI/layout redesign plus the described bug fixes, not a full functional rewrite.
+
