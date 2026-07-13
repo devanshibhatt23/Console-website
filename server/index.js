@@ -958,6 +958,30 @@ app.post('/api/verify/request', async (req, res) => {
     }
 });
 
+app.get('/api/verify/debug', async (req, res) => {
+    const sessions = Array.from(verificationSessions.entries()).map(([k, v]) => ({ key: k, session: v }));
+    const handle = req.query.handle;
+    let submissions = [];
+    let error = null;
+
+    if (handle) {
+        try {
+            submissions = await fetchCodeforcesRecentSubmissions(handle.trim(), false);
+        } catch (err) {
+            error = err.message;
+        }
+    }
+
+    res.json({
+        time: new Date().toLocaleString(),
+        timestamp: Date.now(),
+        sessions,
+        handle,
+        submissions,
+        error
+    });
+});
+
 app.post('/api/verify/confirm', async (req, res) => {
     const { userId, platform } = req.body;
     if (!userId || !platform) {
