@@ -125,7 +125,7 @@ function DevCard({ dev }: { dev: typeof developers[0] }) {
       <h3 className="text-lg font-bold text-white font-montserrat mb-1 text-center">{dev.name}</h3>
 
       {dev.email && (
-        <p className="text-sm text-gray-500 mb-5 text-center break-all">{dev.email}</p>
+        <p className="text-sm text-white mb-5 text-center break-all">{dev.email}</p>
       )}
 
       <div className="flex gap-2 mt-auto">
@@ -165,7 +165,7 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
       </div>
 
       {member.email && (
-        <p className="text-xs text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis" style={{ paddingLeft: '8px', marginBottom: '20px' }}>{member.email}</p>
+        <p className="text-sm text-white whitespace-nowrap overflow-hidden text-ellipsis" style={{ paddingLeft: '8px', marginBottom: '20px' }}>{member.email}</p>
       )}
 
       {hasAnyLink && (
