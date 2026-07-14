@@ -47,22 +47,14 @@ export default function ResourceDomain() {
       <div className="res-bg-glow" />
 
       <div className="res-layout">
-        {/* Navigation */}
-        <div className="res-topbar">
-          <button onClick={() => navigate("/resources")} className="res-back-btn">
-            <span>←</span> All Roadmaps
-          </button>
-        </div>
-
         {/* Track Header */}
         <div className="rd-header">
           <div className="rd-header-top">
             <div className="rd-title-block">
-              <p className="rd-label">{track.subtitle}</p>
               <h1 className="rd-title">{track.title}</h1>
               <p className="rd-intro">{track.intro}</p>
 
-              {/* Progress — shown below the description, not to the side */}
+              {/* Progress — shown below the description, centered and full width */}
               <div className="rd-progress-block">
                 <div className="rd-progress-nums">
                   <span className="rd-prog-done">{completedCount}</span>
@@ -167,7 +159,7 @@ export default function ResourceDomain() {
 
                     {/* Checkpoint */}
                     <div className="rd-checkpoint">
-                      <span className="rd-checkpoint-label">Move on when —</span>
+                      <span className="rd-checkpoint-label">Move on when:</span>
                       <span className="rd-checkpoint-text">{mod.checkpoint}</span>
                     </div>
                   </div>

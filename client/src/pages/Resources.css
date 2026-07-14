@@ -13,9 +13,9 @@
   --res-surface-2:   #13151e;
   --res-border:      rgba(255,255,255,0.07);
   --res-border-2:    rgba(255,255,255,0.12);
-  --res-text:        #eaedf3;
-  --res-muted:       #6b7280;
-  --res-muted-2:     #9ca3af;
+  --res-text:        #ffffff;
+  --res-muted:       #ffffff;
+  --res-muted-2:     #ffffff;
   --res-accent:      var(--track-color, #6366f1);
 
   --font-sans:  'Inter', sans-serif;
@@ -55,33 +55,6 @@
   z-index: 1;
 }
 
-/* ─── Top bar ─────────────────────────────────────────────── */
-.res-topbar {
-  padding: 36px 0 20px;
-}
-
-.res-back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--res-border);
-  background: transparent;
-  color: var(--res-muted);
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, transform 0.2s;
-}
-
-.res-back-btn:hover {
-  color: var(--res-text);
-  border-color: var(--res-border-2);
-  transform: translateX(-3px);
-}
-
 /* ─── Library Header ──────────────────────────────────────── */
 .res-header {
   padding: 32px 0 48px;
@@ -91,10 +64,11 @@
 
 .res-header-title {
   font-family: var(--font-title);
-  font-size: 40px;
+  font-size: 80px;
   font-weight: 800;
-  letter-spacing: -2px;
-  line-height: 1.05;
+  letter-spacing: -3px;
+  line-height: 1.15;
+  padding: 6px 0;
   margin: 0 0 16px;
   background: linear-gradient(90deg, #F0405C, #FDA62A);
   -webkit-background-clip: text;
@@ -233,81 +207,83 @@
 
 .rd-header-top {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
   margin-bottom: 28px;
+  padding-top: 36px;
 }
 
 .rd-title-block {
-  flex: 1;
-}
-
-.rd-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--res-accent);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin: 0 0 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .rd-title {
   font-family: var(--font-title);
-  font-size: clamp(28px, 4vw, 40px);
+  font-size: clamp(48px, 8vw, 80px);
   font-weight: 800;
-  letter-spacing: -1.5px;
-  margin: 0 0 12px;
-  color: var(--res-text);
-  line-height: 1.1;
+  letter-spacing: -2px;
+  line-height: 1.15;
+  padding: 6px 0;
+  margin: 0 0 16px;
+  background: linear-gradient(90deg, #F0405C, #FDA62A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .rd-intro {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--res-muted-2);
   line-height: 1.65;
-  margin: 0;
-  max-width: 520px;
+  margin: 0 auto;
+  max-width: 560px;
+  text-align: center;
 }
 
 /* ─── Inline Progress Block ───────────────────────────────── */
 .rd-progress-block {
-  flex-shrink: 0;
-  width: 160px;
+  width: 100%;
+  max-width: 560px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+  margin: 20px auto 0;
 }
 
 .rd-progress-nums {
   display: flex;
   align-items: baseline;
-  gap: 3px;
+  gap: 4px;
 }
 
 .rd-prog-done {
   font-family: var(--font-title);
-  font-size: 36px;
+  font-size: 56px;
   font-weight: 800;
   color: var(--res-accent);
   line-height: 1;
 }
 
 .rd-prog-sep {
-  font-size: 18px;
+  font-size: 26px;
   color: var(--res-muted);
 }
 
 .rd-prog-total {
-  font-size: 16px;
+  font-size: 24px;
   color: var(--res-muted);
 }
 
 .rd-progress-bar {
   width: 100%;
-  height: 4px;
+  height: 8px;
   background: rgba(255,255,255,0.06);
   border-radius: 100px;
   overflow: hidden;
@@ -323,10 +299,10 @@
 
 .rd-progress-label {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   color: var(--res-muted);
   margin: 0;
-  text-align: right;
+  text-align: center;
 }
 
 /* ─── Compact Info Strip ──────────────────────────────────── */
@@ -444,7 +420,8 @@
   position: relative;
 }
 
-.rd-node:hover {
+.rd-node:hover,
+.rd-step:hover .rd-node {
   border-color: var(--res-accent);
   box-shadow: 0 0 0 4px rgba(var(--track-color-rgb, 99,102,241), 0.08);
   transform: scale(1.08);
@@ -463,8 +440,10 @@
   color: var(--res-muted);
 }
 
-.rd-node:hover .rd-node-num {
-  color: var(--res-text);
+.rd-node:hover .rd-node-num,
+.rd-step:hover .rd-node-num {
+  color: #ffffff;
+  text-shadow: 0 0 8px #ffffff, 0 0 18px #ffffff;
 }
 
 .rd-node-check {
@@ -511,6 +490,8 @@
   font-family: var(--font-title);
   font-size: 40px;
   font-weight: 800;
+  line-height: 1.3;
+  padding: 4px 0;
   margin: 0;
   letter-spacing: -1px;
   text-align: center;
@@ -518,6 +499,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  overflow: visible;
 }
 
 /* Card Body */
@@ -673,20 +655,19 @@
   .rd-header-top {
     flex-direction: column;
     gap: 24px;
+    padding-top: 24px;
   }
 
   .rd-progress-block {
     width: 100%;
-    align-items: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
     gap: 12px;
     margin-top: 8px;
   }
 
   .rd-progress-bar {
     width: 100%;
-    order: 3;
   }
 
   .rd-step {
