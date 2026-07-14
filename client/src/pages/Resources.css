@@ -48,9 +48,9 @@
 }
 
 .res-layout {
-  max-width: 860px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 10px 100px;
+  padding: 0 0 100px;
   position: relative;
   z-index: 1;
 }
@@ -700,7 +700,7 @@
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 680px) {
   .res-layout {
-    padding: 0 8px 80px;
+    padding: 0 0 80px;
   }
 
   .rd-header-top {

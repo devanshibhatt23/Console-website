@@ -6,14 +6,15 @@
     radial-gradient(at 85% 0%, rgba(253, 166, 42, 0.08) 0, transparent 45%);
   color: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  padding: 32px 8px 60px;
+  padding: 32px 0 60px;
 }
 
 .pf-topbar {
   display: flex;
   justify-content: flex-end;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto 12px;
+  padding: 0 16px;
 }
 
 .pf-topbar-actions {
@@ -100,7 +101,7 @@
 }
 
 .pf-card {
-  max-width: 900px;
+  max-width: 1200px;
   width: calc(100% - 24px);
   margin: 0 auto;
   background: #141414;
@@ -360,7 +361,7 @@
 }
 
 .pf-admin-panel {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 30px auto 0;
   text-align: center;
 }

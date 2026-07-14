@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Terminal, ExternalLink, Tag, BarChart2 } from 'lucide-react';
+import { Terminal, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { getPOTD } from '../../services/problemService';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -75,6 +76,12 @@ export default function POTD() {
           <p className="font-mono text-xs text-muted-foreground mt-3">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
+          <Link
+            to="/problem-of-the-day"
+            className="inline-block mt-2 font-mono text-sm font-semibold text-primary transition-transform duration-300 ease-out hover:scale-[1.02] hover:drop-shadow-[0_0_12px_rgba(240,64,92,0.6)]"
+          >
+            View leaderboard
+          </Link>
         </div>
 
         {loading ? (
@@ -126,43 +133,10 @@ export default function POTD() {
                     <h3 className="text-2xl md:text-3xl font-bold text-white">{problem.title}</h3>
 
                     <p className="text-muted-foreground leading-relaxed">{problem.description}</p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {problem.tags.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/60 border border-white/10"
-                        >
-                          <Tag className="w-3 h-3" />
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
-                  {/* Stats sidebar */}
+                  {/* Action */}
                   <div className="space-y-4">
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                      <div className="flex items-center gap-2 mb-3">
-                        <BarChart2 className="w-4 h-4 text-primary" />
-                        <span className="font-mono text-xs text-white/50 uppercase tracking-wider">Stats</span>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex justify-between font-mono text-sm">
-                          <span className="text-white/50">Acceptance</span>
-                          <span className="text-white">{problem.acceptance}</span>
-                        </div>
-                        <div className="flex justify-between font-mono text-sm">
-                          <span className="text-white/50">Platform</span>
-                          <span className={problem.platformColor}>{problem.platform}</span>
-                        </div>
-                        <div className="flex justify-between font-mono text-sm">
-                          <span className="text-white/50">Tags</span>
-                          <span className="text-white">{problem.tags.length}</span>
-                        </div>
-                      </div>
-                    </div>
-
                     <a
                       href={problem.link}
                       target="_blank"
