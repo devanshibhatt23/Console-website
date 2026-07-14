@@ -36,6 +36,8 @@ export default function POTD() {
   const [loadingPotdLeaderboard, setLoadingPotdLeaderboard] = useState(true);
   const [loadingTodayRanking, setLoadingTodayRanking] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [platformDesc, setPlatformDesc] = useState(null);
+  const [loadingPlatformDesc, setLoadingPlatformDesc] = useState(false);
   const chatEndRef = useRef(null);
   const chatViewportRef = useRef(null);
   const hasScrolledOnceRef = useRef(false);
@@ -48,6 +50,10 @@ export default function POTD() {
   useEffect(() => {
     if (potd?.id) loadTodayRanking(potd);
   }, [potd?.id]);
+
+  useEffect(() => {
+    if (potd?.solution) fetchPlatformDescription(potd.solution);
+  }, [potd?.solution]);
 
   // Realtime comments listener
   useEffect(() => {
@@ -86,6 +92,23 @@ export default function POTD() {
       viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
     }
   }, [comments]);
+
+  async function fetchPlatformDescription(url) {
+    if (!url) return;
+    try {
+      setLoadingPlatformDesc(true);
+      setPlatformDesc(null);
+      const response = await fetch(`http://localhost:5001/api/problem-description?url=${encodeURIComponent(url)}`);
+      if (!response.ok) throw new Error("Failed to fetch");
+      const data = await response.json();
+      setPlatformDesc(data);
+    } catch (err) {
+      console.warn("Could not fetch platform description:", err.message);
+      setPlatformDesc(null);
+    } finally {
+      setLoadingPlatformDesc(false);
+    }
+  }
 
   async function loadPOTDDetails() {
     try {
@@ -168,29 +191,6 @@ export default function POTD() {
     }
   }
 
-  const parsedDesc = useMemo(() => {
-    if (!potd?.description) return { body: "", examples: "", constraints: "" };
-    // Collapse runs of blank lines so stray double/triple newlines in the
-    // stored problem text don't render as large empty gaps.
-    const desc = potd.description.replace(/\n{2,}/g, "\n").trim();
-    let examplesIndex = desc.indexOf("Example");
-    if (examplesIndex === -1) examplesIndex = desc.indexOf("example");
-    let constraintsIndex = desc.indexOf("Constraint");
-    if (constraintsIndex === -1) constraintsIndex = desc.indexOf("constraint");
-    let body = desc, examples = "", constraints = "";
-    if (examplesIndex !== -1 && constraintsIndex !== -1) {
-      body = desc.slice(0, examplesIndex).trim();
-      examples = desc.slice(examplesIndex, constraintsIndex).trim();
-      constraints = desc.slice(constraintsIndex).trim();
-    } else if (examplesIndex !== -1) {
-      body = desc.slice(0, examplesIndex).trim();
-      examples = desc.slice(examplesIndex).trim();
-    } else if (constraintsIndex !== -1) {
-      body = desc.slice(0, constraintsIndex).trim();
-      constraints = desc.slice(constraintsIndex).trim();
-    }
-    return { body, examples, constraints };
-  }, [potd]);
 
   const todayLeaderboardRows = useMemo(
     () => todayRanking.map((row) => ({ id: row.user_id, name: row.name })),
@@ -210,6 +210,7 @@ export default function POTD() {
     <div className="potd-dashboard-container">
       <header className="potd-section-header-clean">
         <h1 className="potd-title-main">Problem of the Day</h1>
+        <p className="potd-subtitle">Your daily dose of problem-solving, curated to challenge and inspire.</p>
       </header>
 
       {errorMsg && (
@@ -237,20 +238,20 @@ export default function POTD() {
                 <span className="potd-problem-date">{potd.date || "TBD"}</span>
               </div>
               <div className="potd-table-body">
-                <div className="potd-desc-section potd-indented">
-                  <h3>Description</h3>
-                  <p className="problem-text">{parsedDesc.body}</p>
-                </div>
-                {parsedDesc.examples && (
-                  <div className="potd-desc-section potd-indented">
-                    <h3>Examples</h3>
-                    <pre className="code-block">{parsedDesc.examples}</pre>
+                {loadingPlatformDesc ? (
+                  <div className="standings-skeleton">
+                    <div className="skeleton-row" style={{ height: '18px', width: '90%' }} />
+                    <div className="skeleton-row" style={{ height: '18px', width: '80%', marginTop: '8px' }} />
+                    <div className="skeleton-row" style={{ height: '18px', width: '85%', marginTop: '8px' }} />
                   </div>
-                )}
-                {parsedDesc.constraints && (
+                ) : platformDesc?.content ? (
+                  <div
+                    className={`potd-platform-desc ${platformDesc.platform === 'leetcode' ? 'potd-platform-desc--lc' : 'potd-platform-desc--cf'}`}
+                    dangerouslySetInnerHTML={{ __html: platformDesc.content }}
+                  />
+                ) : (
                   <div className="potd-desc-section potd-indented">
-                    <h3>Constraints</h3>
-                    <pre className="code-block">{parsedDesc.constraints}</pre>
+                    <p className="problem-text">{potd.description || "No description available."}</p>
                   </div>
                 )}
               </div>
@@ -279,6 +280,9 @@ export default function POTD() {
 
         <section className="potd-chat-container potd-comments-section">
           <h2 className="potd-gradient-heading">Comments section</h2>
+          <p className="potd-comments-note">
+            <strong>Note:</strong> Refrain from writing any inappropriate message in the comments section. Any user writing such messages will be banned permanently from the website.
+          </p>
           <div className="chat-feed-viewport" ref={chatViewportRef}>
             {comments.length === 0 ? (
               <div className="chat-empty-state">

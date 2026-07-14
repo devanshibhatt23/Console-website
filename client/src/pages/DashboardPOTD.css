@@ -15,10 +15,22 @@
 /* Header Row / Title area */
 .potd-section-header-clean {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   padding: 80px 0 28px;
   overflow: visible;
+  gap: 10px;
+}
+
+.potd-subtitle {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+  opacity: 0.85;
+  letter-spacing: 0.01em;
 }
 
 .potd-title-main {
@@ -210,15 +222,94 @@
   padding-right: 4px;
 }
 
+/* Platform description (LeetCode / Codeforces HTML) */
+.potd-platform-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #e2e8f0;
+  padding: 0 4px;
+}
+
+.potd-platform-desc p {
+  margin: 0 0 12px;
+}
+
+.potd-platform-desc pre,
+.potd-platform-desc code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  background: #090d16;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  display: block;
+  margin: 10px 0;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.potd-platform-desc code {
+  display: inline;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  border: none;
+}
+
+.potd-platform-desc ul,
+.potd-platform-desc ol {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.potd-platform-desc li {
+  margin-bottom: 6px;
+}
+
+.potd-platform-desc strong,
+.potd-platform-desc b {
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
+.potd-platform-desc em {
+  color: #cbd5e1;
+}
+
+/* Codeforces-specific: hide header section that duplicates title */
+.potd-platform-desc--cf .header {
+  display: none;
+}
+
+/* Comments note */
+.potd-comments-note {
+  font-size: 13px;
+  color: #94a3b8;
+  background: rgba(239, 68, 68, 0.07);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: -4px 0 16px;
+  line-height: 1.5;
+}
+
+.potd-comments-note strong {
+  color: #f87171;
+}
+
 /* Discord Style Chat Container */
 .potd-chat-container {
   display: flex;
   flex-direction: column;
-  max-height: 600px;
+  max-height: 700px;
+  overflow: visible;
 }
 
 .potd-comments-section .chat-feed-viewport {
   padding-right: 6px;
+  max-height: 380px;
 }
 
 .potd-chat-row {
