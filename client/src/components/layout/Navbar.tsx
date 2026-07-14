@@ -119,9 +119,18 @@ export default function Navbar() {
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href === '/#hero') {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.history.pushState(null, '', '/');
       setMobileMenuOpen(false);
+      if (window.location.pathname !== '/') {
+        navigate('/');
+      } else {
+        const lenis = (window as any).__lenis;
+        if (lenis) {
+          lenis.scrollTo(0, { immediate: false });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        window.history.pushState(null, '', '/');
+      }
       return;
     }
     if (href.startsWith('/#') && window.location.pathname === '/') {
