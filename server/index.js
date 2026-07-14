@@ -998,8 +998,8 @@ app.post('/api/verify/confirm', async (req, res) => {
 
     const { handle, code, timestamp } = session;
 
-    // Session expires after 5 minutes
-    if (Date.now() - timestamp > 5 * 60 * 1000) {
+    // Session expires after 24 hours (generous window to click confirm)
+    if (Date.now() - timestamp > 24 * 60 * 60 * 1000) {
       verificationSessions.delete(sessionKey);
       return res.status(400).json({ error: 'Verification session expired. Please request verification again.' });
     }
@@ -1017,7 +1017,8 @@ app.post('/api/verify/confirm', async (req, res) => {
             const verificationSub = recentSubmissions.find(sub => 
                 sub.contestId === 4 && 
                 sub.index === 'A' &&
-                Math.abs(Date.now() - sub.timestamp) <= 10 * 60 * 1000 // Within 10 minutes of current server time (resistant to clock drift)
+                sub.timestamp >= (timestamp - 60 * 1000) && // Submitted after clicking (with 1-minute clock drift buffer)
+                sub.timestamp <= (timestamp + 5 * 60 * 1000) // Submitted within 5 minutes of clicking verify and connect
             );
             if (verificationSub) {
                 verified = true;
