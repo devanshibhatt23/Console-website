@@ -1,7 +1,7 @@
+import { useState, CSSProperties, ReactNode } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Mail, Linkedin, Github } from 'lucide-react';
-import { useState } from 'react';
 
 /* ── Data ─────────────────────────────────────────────────── */
 
@@ -69,7 +69,7 @@ const teamMembers = [
 ];
 
 /* ── Heading style (32px gradient) ─────────────────────────── */
-const headingStyle: React.CSSProperties = {
+const headingStyle: CSSProperties = {
   background: 'linear-gradient(90deg, #F2994A, #F0405C)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
@@ -81,7 +81,7 @@ const headingStyle: React.CSSProperties = {
 };
 
 /* ── Icon button ────────────────────────────────────────────── */
-function IconLink({ href, icon }: { href: string; icon: React.ReactNode }) {
+function IconLink({ href, icon }: { href: string; icon: ReactNode }) {
   return (
     <a
       href={href}
