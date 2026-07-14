@@ -130,7 +130,7 @@ export default function Dashboard() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/verify/request", {
+      const res = await fetch("http://localhost:5001/api/verify/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, platform, handle }),
@@ -165,7 +165,7 @@ export default function Dashboard() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/verify/confirm", {
+      const res = await fetch("http://localhost:5001/api/verify/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, platform }),
@@ -196,7 +196,7 @@ export default function Dashboard() {
     setErrorMsg("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/verify/disconnect", {
+      const res = await fetch("http://localhost:5001/api/verify/disconnect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, platform }),
@@ -424,23 +424,27 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-                  <input
-                    type="text"
-                    placeholder="Codeforces username"
-                    value={cfInputHandle}
-                    onChange={(e) => setCfInputHandle(e.target.value)}
-                    className="pf-input"
-                    style={{ flexGrow: 1 }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleStartVerification("codeforces")}
-                    className="pf-resume-btn"
-                    style={{ margin: 0, padding: "0 15px", whiteSpace: "nowrap" }}
-                  >
-                    Verify & Connect
-                  </button>
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}>
+                  <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                    <input
+                      type="text"
+                      placeholder="Codeforces username"
+                      value={cfInputHandle}
+                      onChange={(e) => setCfInputHandle(e.target.value)}
+                      className="pf-input"
+                      style={{ flexGrow: 1 }}
+                    />
+                    <button
+                      type="button"
+                      disabled={cfLoading}
+                      onClick={() => handleStartVerification("codeforces")}
+                      className="pf-resume-btn"
+                      style={{ margin: 0, padding: "0 15px", whiteSpace: "nowrap" }}
+                    >
+                      {cfLoading ? "Starting..." : "Verify & Connect"}
+                    </button>
+                  </div>
+                  {cfError && <span style={{ color: "#ef4444", fontSize: "12px" }}>{cfError}</span>}
                 </div>
               )}
             </div>
@@ -496,23 +500,27 @@ export default function Dashboard() {
                   </div>
                 </div>
               ) : (
-                <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-                  <input
-                    type="text"
-                    placeholder="LeetCode username"
-                    value={lcInputHandle}
-                    onChange={(e) => setLcInputHandle(e.target.value)}
-                    className="pf-input"
-                    style={{ flexGrow: 1 }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleStartVerification("leetcode")}
-                    className="pf-resume-btn"
-                    style={{ margin: 0, padding: "0 15px", whiteSpace: "nowrap" }}
-                  >
-                    Verify & Connect
-                  </button>
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px", width: "100%" }}>
+                  <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                    <input
+                      type="text"
+                      placeholder="LeetCode username"
+                      value={lcInputHandle}
+                      onChange={(e) => setLcInputHandle(e.target.value)}
+                      className="pf-input"
+                      style={{ flexGrow: 1 }}
+                    />
+                    <button
+                      type="button"
+                      disabled={lcLoading}
+                      onClick={() => handleStartVerification("leetcode")}
+                      className="pf-resume-btn"
+                      style={{ margin: 0, padding: "0 15px", whiteSpace: "nowrap" }}
+                    >
+                      {lcLoading ? "Starting..." : "Verify & Connect"}
+                    </button>
+                  </div>
+                  {lcError && <span style={{ color: "#ef4444", fontSize: "12px" }}>{lcError}</span>}
                 </div>
               )}
             </div>

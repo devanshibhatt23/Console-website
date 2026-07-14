@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Landing.css";
@@ -6,12 +6,18 @@ import "./Landing.css";
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
-import TechMarquee from '@/components/sections/TechMarquee';
 import POTD from '@/components/sections/POTD';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
 import About from '@/components/sections/About';
 import PreviousEvents from '@/components/sections/PreviousEvents';
 import Community from '@/components/sections/Community';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Trophy, BookOpen, Map } from 'lucide-react';
 
 const GALLERY_ROW1 = [
   "/images/IMG_0051.jpg",
@@ -48,9 +54,63 @@ const TEAM_MEMBERS = [
   "Ridhima Garg", "Saarvik Singh", "Sahil Kumar", "Siddharth Kumar", "Shlok Patel"
 ];
 
-function getInitials(name) {
+const FAQ_ITEMS = [
+  {
+    question: "Who can join Console?",
+    answer:
+      "Any student at MNIT Jaipur can join Console! We welcome students from all departments and years — from first-year freshers to final-year seniors. All you need is curiosity and a willingness to learn.",
+  },
+  {
+    question: "Do I need prior coding experience to join?",
+    answer:
+      "Absolutely not. You just need to show up curious. We have resources, mentorship, and a supportive community to help you start from scratch and grow at your own pace.",
+  },
+  {
+    question: "What kind of events does Console organize?",
+    answer:
+      "We organize hackathons, coding contests, technical workshops, peer study sessions, and collaborative projects. Our events range from beginner-friendly sessions to competitive programming challenges — there's something for everyone.",
+  },
+  {
+    question: "How do I stay updated about events and announcements?",
+    answer:
+      "Follow us on LinkedIn and Instagram for real-time updates. You can also create a profile on this platform to access all upcoming events, the leaderboard, and Problem of the Day challenges.",
+  },
+  {
+    question: "Is there a membership fee?",
+    answer:
+      "No! Console is free to join. We believe in open access to knowledge, community, and opportunity. Just sign up and you're part of the community.",
+  },
+  {
+    question: "How can I contribute or take on a more active role?",
+    answer:
+      "Attend our events, be active on the platform, and reach out to us on social media. We're always looking for enthusiastic members to help organize initiatives, mentor peers, and lead projects.",
+  },
+];
+
+function getInitials(name: string) {
   return name.split(" ").map(n => n[0]).join("").toUpperCase();
 }
+
+const learnGrowCards = [
+  {
+    to: "/leaderboard",
+    icon: Trophy,
+    title: "Leaderboard",
+    description: "Track top performers and see where you stand among your peers.",
+  },
+  {
+    to: "/resources",
+    icon: BookOpen,
+    title: "Resources",
+    description: "Explore collection of tools, docs, and tutorials to master new technologies.",
+  },
+  {
+    to: "/tech-guide",
+    icon: Map,
+    title: "Tech Guide",
+    description: "Step-by-step roadmaps for your software engineering journey.",
+  },
+];
 
 export default function Landing() {
   const { user } = useAuth();
@@ -73,9 +133,8 @@ export default function Landing() {
       <main>
         {/* Hero */}
         <Hero />
-        <TechMarquee />
 
-        {/* Home page additions - visible only on login */}
+        {/* Home page additions — visible only when logged in */}
         {user && (
           <>
             <POTD />
@@ -83,14 +142,39 @@ export default function Landing() {
           </>
         )}
 
-        {/* Club section */}
+        {/* About */}
         <About />
-        
-        {/* Gallery Section from Original Repo */}
+
+        {/* Gallery */}
         <section id="gallery" className="landing-section gallery-section py-20 bg-black">
           <div className="gallery-header text-center mb-10">
-            <h2 className="section-title text-4xl font-bold mb-4">Life at <span className="gradient-text">CONSOLE</span></h2>
-            <p className="section-subtitle text-gray-400">Moments from our coding sessions, hackathons, and meetups</p>
+            <h2
+              className="section-title text-5xl md:text-6xl font-black font-montserrat mb-4"
+              style={{
+                background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                cursor: 'default',
+                display: 'inline-block',
+                transition: 'transform 0.3s ease, filter 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = 'scale(1.02)';
+                el.style.filter = 'drop-shadow(0 0 16px rgba(242,153,74,0.65)) drop-shadow(0 0 32px rgba(240,64,92,0.35))';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = '';
+                el.style.filter = '';
+              }}
+            >
+              Life at CONSOLE
+            </h2>
+            <p className="section-subtitle text-gray-400 font-inter">
+              Moments from our coding sessions, hackathons, and meetups
+            </p>
           </div>
           <div className="infinite-scroller-container relative overflow-hidden">
             <div className="scroll-row left-to-right">
@@ -114,11 +198,25 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* Team Section from Original Repo */}
+        {/* Team */}
         <section id="team" className="landing-section team-section py-20 bg-black">
           <div className="team-header text-center mb-10">
-            <h2 className="section-title text-4xl font-bold mb-4">Meet Our Team</h2>
-            <p className="section-subtitle text-gray-400">The minds driving the community forward</p>
+            <h2 className="section-gradient-title section-title text-4xl md:text-5xl mb-4">
+              Meet Our Team
+            </h2>
+            <p className="section-subtitle text-gray-400 font-inter mb-4">
+              The minds driving the community forward
+            </p>
+            <Link
+              to="/team"
+              className="inline-flex items-center gap-1.5 font-inter font-medium text-sm transition-all duration-200 hover:scale-[1.02] hover:gap-2.5"
+              style={{ color: '#F2994A' }}
+            >
+              View all members
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#F2994A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
           </div>
           <div className="infinite-scroller-container relative overflow-hidden">
             <div className="scroll-row left-to-right">
@@ -126,7 +224,7 @@ export default function Landing() {
                 {teamRow1.concat(teamRow1).map((name, i) => (
                   <div className="team-member-card glassmorphic" key={`t1-${i}`}>
                     <div className="avatar-placeholder">{getInitials(name)}</div>
-                    <h4 className="member-name text-white">{name}</h4>
+                    <h4 className="member-name text-white font-montserrat">{name}</h4>
                     <span className="member-role text-gray-400">Core Member</span>
                   </div>
                 ))}
@@ -137,7 +235,7 @@ export default function Landing() {
                 {teamRow2.concat(teamRow2).map((name, i) => (
                   <div className="team-member-card glassmorphic" key={`t2-${i}`}>
                     <div className="avatar-placeholder">{getInitials(name)}</div>
-                    <h4 className="member-name text-white">{name}</h4>
+                    <h4 className="member-name text-white font-montserrat">{name}</h4>
                     <span className="member-role text-gray-400">Core Member</span>
                   </div>
                 ))}
@@ -146,34 +244,117 @@ export default function Landing() {
           </div>
         </section>
 
+        {/* Events */}
         <PreviousEvents />
 
-        {/* Resources & Guides */}
+        {/* Learn & Grow */}
         <section id="learn-grow" className="landing-section py-20 bg-black">
           <div className="container mx-auto px-6 max-w-5xl text-center">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Learn & <span className="text-gradient-fire">Grow</span></h2>
-            <p className="text-muted-foreground font-mono mb-12">Everything you need to level up your skills and career.</p>
+            <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
+              Learn &amp; Grow
+            </h2>
+            <p className="text-muted-foreground font-inter mb-16">
+              Everything you need to level up your skills and career.
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <Link to="/resources" className="glassmorphic p-8 rounded-2xl hover:scale-105 transition-transform flex flex-col items-center">
-                <div className="text-5xl mb-4">📚</div>
-                <h3 className="text-xl font-bold mb-2 text-white">Resources</h3>
-                <p className="text-gray-400 text-sm">Curated guides and competitive programming materials.</p>
-              </Link>
-              <Link to="/tech-guide" className="glassmorphic p-8 rounded-2xl hover:scale-105 transition-transform flex flex-col items-center">
-                <div className="text-5xl mb-4">🗺️</div>
-                <h3 className="text-xl font-bold mb-2 text-white">Tech Guide</h3>
-                <p className="text-gray-400 text-sm">Step-by-step roadmaps for your software engineering journey.</p>
-              </Link>
-              <Link to="/placement-playbook" className="glassmorphic p-8 rounded-2xl hover:scale-105 transition-transform flex flex-col items-center">
-                <div className="text-5xl mb-4">🎯</div>
-                <h3 className="text-xl font-bold mb-2 text-white">Placement Playbook</h3>
-                <p className="text-gray-400 text-sm">From building your first profile to cracking your first offer.</p>
-              </Link>
+              {learnGrowCards.map((card) => (
+                <Link
+                  key={card.to}
+                  to={card.to}
+                  className="glassmorphic p-8 rounded-2xl flex flex-col items-center transition-all duration-300"
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderRadius = '1.25rem';
+                    el.style.borderColor = 'rgba(242,153,74,0.4)';
+                    el.style.background = 'rgba(255,255,255,0.10)';
+                    el.style.boxShadow = '0 0 32px rgba(242,153,74,0.28), 0 0 64px rgba(242,153,74,0.10)';
+                    el.style.transform = 'scale(1.02)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderRadius = '1rem';
+                    el.style.borderColor = '';
+                    el.style.background = '';
+                    el.style.boxShadow = '';
+                    el.style.transform = '';
+                  }}
+                >
+                  <card.icon
+                    className="w-10 h-10 mb-5"
+                    style={{ color: '#F2994A' }}
+                  />
+                  <h3
+                    className="text-xl font-bold font-montserrat mb-2"
+                    style={{
+                      background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p className="text-gray-400 text-sm font-inter">{card.description}</p>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Community CTA */}
+        {/* FAQ */}
+        <section id="faq" className="py-24 bg-black relative overflow-hidden">
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
+            style={{ background: 'rgba(242,153,74,0.06)' }}
+          />
+          <div className="container mx-auto px-6 max-w-3xl relative z-10">
+            <div className="text-center mb-14">
+              <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-muted-foreground font-inter mb-4">
+                Everything you want to know about Console.
+              </p>
+            </div>
+
+            <Accordion type="single" collapsible className="space-y-4">
+              {FAQ_ITEMS.map((item, i) => (
+                <AccordionItem
+                  key={i}
+                  value={`faq-${i}`}
+                  className="border border-white/10 rounded-xl px-6 bg-white/[0.02] transition-all duration-300"
+                  style={{ borderRadius: '0.75rem' }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(242,153,74,0.4)';
+                    el.style.boxShadow = '0 0 24px rgba(242,153,74,0.18), 0 0 48px rgba(242,153,74,0.07)';
+                    el.style.transform = 'scale(1.02)';
+                    el.style.background = 'rgba(242,153,74,0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(255,255,255,0.1)';
+                    el.style.boxShadow = 'none';
+                    el.style.transform = 'scale(1)';
+                    el.style.background = 'rgba(255,255,255,0.02)';
+                  }}
+                >
+                  <AccordionTrigger
+                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-5 text-base"
+                    style={{ color: '#fff' }}
+                  >
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground font-inter leading-relaxed pb-5 text-sm">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+
+        {/* Let's Connect */}
         <Community />
       </main>
 

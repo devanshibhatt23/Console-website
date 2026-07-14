@@ -459,11 +459,6 @@ export default function Events() {
         <div className="ev-hero-glow ev-hero-glow--center" />
 
         <div className="ev-hero-inner">
-          <div className="ev-hero-tag">
-            <span className="ev-hero-dot" />
-            CONSOLE CLUB
-          </div>
-
           {/* Updated heading with orange-pink gradient per branding requirements */}
           <h1 className="ev-hero-title">
             <span className="ev-hero-highlight-brand">Console</span>{" "}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Calendar, MapPin, Clock, ArrowRight, Zap } from 'lucide-react';
+import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { getEvents } from '../../services/eventService';
@@ -171,16 +171,10 @@ export default function UpcomingEvents() {
       <div className="absolute bottom-0 left-0 w-[500px] h-[400px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6">
-        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/5 border border-white/10 font-mono text-xs text-secondary mb-5">
-              <Zap className="w-3 h-3" />
-              What's Coming
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Upcoming <span className="text-gradient-fire">Events</span>
-            </h2>
-          </div>
+        <div ref={headerRef} className="text-center mb-14">
+          <h2 className="section-gradient-title section-title text-4xl md:text-5xl">
+            Upcoming Events
+          </h2>
         </div>
 
         {loading ? (

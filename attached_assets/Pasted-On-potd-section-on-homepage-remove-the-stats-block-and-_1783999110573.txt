@@ -1,0 +1,17 @@
+On potd section on homepage, remove the stats block
+and remove the tags, and have a text below date of problem of the day, name- 'View leaderboard', which will redirect to the potd page.
+it should glow up and subtle scale-up (transform: scale(1.02)), on hover
+
+The padding on all individual pages - leaderboard, events, potd, resources, my profile, view profile pages is still shown, the breath of the page is shown reduced, remove padding from both left and right side completely, or increase the breath such that content in each page is visible throughout the breath of the window.
+
+In the problem of the day page, I want to make the UI very clean.
+Add a title on the top of the page- Problem of the day, with color gradien of- #F2994A and #F0405C, and on hover, show glow behind the title
+Remove the cp challenge text, next potd release, whole daily streak block,
+Show the current problem in a very clean table like with title of the problem on top and on the right side of the title - show date.
+Show the problem description and constraints all indented to the left side of the table.
+Only have a solve problem button with colors - #F2994A and #F0405C
+Below that table, show the current potd leaderboard table, title- ‘Today’s leaderboard’, its color same as above gradient, make the table same in layout and style and color as the main leaderboard, and only display the top 5 users, and allow scroll option to scroll inside the leaderboard to view other users, just show the user’s name and their rank and nothing else in the leaderboard. Also allow to click on user’s row anywhere to view their profile.
+Below that, show the daily points leaderboard, title- ‘Points Leaderboard’, its color same as above gradient, make the table same in layout and style and color as the main leaderboard, and only display the top 5 users, and allow scroll option to scroll inside the leaderboard to view other users, just show the user’s name and their rank, their total points and nothing else in the leaderboard. Also allow to click on user’s row anywhere to view their profile.
+After that, add the chat section, title - ‘Comments section’,  its color same as above gradient, when a user sends a message, display it on the right side of the chat section, and display other people’s message on the left side. Ensure the box of the message is same as the space taken by the message. Only show the name of user and time of message. And allow others to click on user’s name to view profile.
+Remove the whole today’s stats block.
+Do not add any emojis anywhere, and no double dashes (--), only single dash

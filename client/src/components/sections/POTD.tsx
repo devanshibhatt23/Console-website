@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Terminal, ExternalLink, Tag, BarChart2, RefreshCw } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Terminal, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { getPOTD } from '../../services/problemService';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,7 +14,6 @@ export default function POTD() {
   
   const [problem, setProblem] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     async function fetchTodayProblem() {
@@ -70,19 +69,19 @@ export default function POTD() {
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
 
       <div className="container mx-auto px-6 max-w-5xl">
-        <div ref={headerRef} className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-white/5 border border-white/10 font-mono text-xs text-primary mb-5">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Daily Challenge
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Problem of the <span className="text-gradient-fire">Day</span>
-            </h2>
-          </div>
-          <p className="font-mono text-xs text-muted-foreground md:pb-2">
+        <div ref={headerRef} className="text-center mb-10">
+          <h2 className="section-gradient-title section-title text-4xl md:text-5xl">
+            Problem of the Day
+          </h2>
+          <p className="font-mono text-xs text-muted-foreground mt-3">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
+          <Link
+            to="/problem-of-the-day"
+            className="inline-block mt-2 font-mono text-sm font-semibold text-primary transition-transform duration-300 ease-out hover:scale-[1.02] hover:drop-shadow-[0_0_12px_rgba(240,64,92,0.6)]"
+          >
+            View leaderboard
+          </Link>
         </div>
 
         {loading ? (
@@ -119,93 +118,33 @@ export default function POTD() {
               </div>
 
               <div className="p-6 md:p-8 bg-black/50">
-                <div className="grid md:grid-cols-3 gap-6 md:gap-10">
-                  {/* Main problem info */}
-                  <div className="md:col-span-2 space-y-5">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className={`text-sm font-mono px-3 py-1 rounded-full border ${problem.diffColor}`}>
-                        {problem.difficulty}
-                      </span>
-                      <span className={`text-sm font-bold font-mono ${problem.platformColor}`}>
-                        {problem.platform}
-                      </span>
-                    </div>
-
-                    <h3 className="text-2xl md:text-3xl font-bold text-white">{problem.title}</h3>
-
-                    <p className="text-muted-foreground leading-relaxed">{problem.description}</p>
-
-                    <div className="flex flex-wrap gap-2">
-                      {problem.tags.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-1 rounded bg-white/5 text-white/60 border border-white/10"
-                        >
-                          <Tag className="w-3 h-3" />
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Hint toggle */}
-                    <div>
-                      <button
-                        onClick={() => setShowHint(!showHint)}
-                        className="font-mono text-xs text-primary hover:text-white transition-colors underline underline-offset-4"
-                      >
-                        {showHint ? '▲ Hide Hint' : '▶ Show Hint'}
-                      </button>
-                      {showHint && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="mt-3 p-4 rounded-lg bg-primary/10 border border-primary/20 font-mono text-sm text-white/70"
-                        >
-                          💡 {problem.hint}
-                        </motion.div>
-                      )}
-                    </div>
+                <div className="space-y-5">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className={`text-sm font-mono px-3 py-1 rounded-full border ${problem.diffColor}`}>
+                      {problem.difficulty}
+                    </span>
+                    <span className={`text-sm font-bold font-mono ${problem.platformColor}`}>
+                      {problem.platform}
+                    </span>
                   </div>
 
-                  {/* Stats sidebar */}
-                  <div className="space-y-4">
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                      <div className="flex items-center gap-2 mb-3">
-                        <BarChart2 className="w-4 h-4 text-primary" />
-                        <span className="font-mono text-xs text-white/50 uppercase tracking-wider">Stats</span>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex justify-between font-mono text-sm">
-                          <span className="text-white/50">Acceptance</span>
-                          <span className="text-white">{problem.acceptance}</span>
-                        </div>
-                        <div className="flex justify-between font-mono text-sm">
-                          <span className="text-white/50">Platform</span>
-                          <span className={problem.platformColor}>{problem.platform}</span>
-                        </div>
-                        <div className="flex justify-between font-mono text-sm">
-                          <span className="text-white/50">Tags</span>
-                          <span className="text-white">{problem.tags.length}</span>
-                        </div>
-                      </div>
-                    </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white">{problem.title}</h3>
 
-                    <a
-                      href={problem.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-mono text-sm font-bold hover:bg-primary/80 transition-colors group"
-                    >
-                      Solve Now
-                      <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </a>
-
-                    <button className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 font-mono text-sm hover:text-white hover:bg-white/10 transition-colors">
-                      <RefreshCw className="w-4 h-4" />
-                      Try Another
-                    </button>
-                  </div>
+                  <p className="text-muted-foreground leading-relaxed">{problem.description}</p>
                 </div>
+              </div>
+
+              {/* Action footer, pinned to the bottom of the terminal box */}
+              <div className="px-6 md:px-8 py-5 bg-black/50 border-t border-white/10 flex justify-end">
+                <a
+                  href={problem.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-mono text-sm font-bold hover:bg-primary/80 transition-colors group"
+                >
+                  Solve Now
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
               </div>
             </div>
           </div>

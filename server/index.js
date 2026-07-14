@@ -5,7 +5,7 @@ const axios = require('axios');
 const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(express.json());
@@ -958,6 +958,30 @@ app.post('/api/verify/request', async (req, res) => {
     }
 });
 
+app.get('/api/verify/debug', async (req, res) => {
+    const sessions = Array.from(verificationSessions.entries()).map(([k, v]) => ({ key: k, session: v }));
+    const handle = req.query.handle;
+    let submissions = [];
+    let error = null;
+
+    if (handle) {
+        try {
+            submissions = await fetchCodeforcesRecentSubmissions(handle.trim(), false);
+        } catch (err) {
+            error = err.message;
+        }
+    }
+
+    res.json({
+        time: new Date().toLocaleString(),
+        timestamp: Date.now(),
+        sessions,
+        handle,
+        submissions,
+        error
+    });
+});
+
 app.post('/api/verify/confirm', async (req, res) => {
     const { userId, platform } = req.body;
     if (!userId || !platform) {
@@ -974,8 +998,8 @@ app.post('/api/verify/confirm', async (req, res) => {
 
     const { handle, code, timestamp } = session;
 
-    // Session expires after 5 minutes
-    if (Date.now() - timestamp > 5 * 60 * 1000) {
+    // Session expires after 24 hours (generous window to click confirm)
+    if (Date.now() - timestamp > 24 * 60 * 60 * 1000) {
       verificationSessions.delete(sessionKey);
       return res.status(400).json({ error: 'Verification session expired. Please request verification again.' });
     }
@@ -993,8 +1017,8 @@ app.post('/api/verify/confirm', async (req, res) => {
             const verificationSub = recentSubmissions.find(sub => 
                 sub.contestId === 4 && 
                 sub.index === 'A' &&
-                sub.timestamp >= timestamp && // Must be submitted after clicking verify
-                (Date.now() - sub.timestamp) <= 5 * 60 * 1000 // Must be within the last 5 minutes
+                sub.timestamp >= (timestamp - 60 * 1000) && // Submitted after clicking (with 1-minute clock drift buffer)
+                sub.timestamp <= (timestamp + 5 * 60 * 1000) // Submitted within 5 minutes of clicking verify and connect
             );
             if (verificationSub) {
                 verified = true;
@@ -1015,7 +1039,7 @@ app.post('/api/verify/confirm', async (req, res) => {
         } else {
             return res.status(400).json({ 
                 error: cleanPlatform === 'leetcode' 
-                    ? `Verification code not found in bio. Please make sure to add "${code}" to your LeetCode profile about/bio section.` 
+                    ? `Verification code not found in ReadMe. Please make sure to add "${code}" to your LeetCode profile's ReadMe section.` 
                     : `No recent submission found for Codeforces problem 4A (Watermelon). Please submit the problem and try again.` 
             });
         }

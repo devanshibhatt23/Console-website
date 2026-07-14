@@ -47,33 +47,25 @@ export default function ResourceDomain() {
       <div className="res-bg-glow" />
 
       <div className="res-layout">
-        {/* Navigation */}
-        <div className="res-topbar">
-          <button onClick={() => navigate("/resources")} className="res-back-btn">
-            <span>←</span> All Roadmaps
-          </button>
-        </div>
-
         {/* Track Header */}
         <div className="rd-header">
           <div className="rd-header-top">
             <div className="rd-title-block">
-              <p className="rd-label">{track.subtitle}</p>
               <h1 className="rd-title">{track.title}</h1>
               <p className="rd-intro">{track.intro}</p>
-            </div>
 
-            {/* Inline Progress */}
-            <div className="rd-progress-block">
-              <div className="rd-progress-nums">
-                <span className="rd-prog-done">{completedCount}</span>
-                <span className="rd-prog-sep">/</span>
-                <span className="rd-prog-total">{totalModules}</span>
+              {/* Progress — shown below the description, centered and full width */}
+              <div className="rd-progress-block">
+                <div className="rd-progress-nums">
+                  <span className="rd-prog-done">{completedCount}</span>
+                  <span className="rd-prog-sep">/</span>
+                  <span className="rd-prog-total">{totalModules}</span>
+                </div>
+                <div className="rd-progress-bar">
+                  <div className="rd-progress-fill" style={{ width: `${progressPercent}%` }} />
+                </div>
+                <p className="rd-progress-label">{progressPercent}% complete</p>
               </div>
-              <div className="rd-progress-bar">
-                <div className="rd-progress-fill" style={{ width: `${progressPercent}%` }} />
-              </div>
-              <p className="rd-progress-label">{progressPercent}% complete</p>
             </div>
           </div>
 
@@ -121,16 +113,7 @@ export default function ResourceDomain() {
                 <div className="rd-card">
                   {/* Card Header */}
                   <div className="rd-card-head">
-                    <div>
-                      <p className="rd-mod-label">Module {mod.id}</p>
-                      <h3 className="rd-mod-title">{mod.title}</h3>
-                    </div>
-                    <button
-                      className={`rd-toggle-btn ${done ? "done" : ""}`}
-                      onClick={() => toggleModule(mod.id)}
-                    >
-                      {done ? "Completed" : "Mark done"}
-                    </button>
+                    <h3 className="rd-mod-title">{mod.title}</h3>
                   </div>
 
                   {/* Card Body */}
@@ -176,7 +159,7 @@ export default function ResourceDomain() {
 
                     {/* Checkpoint */}
                     <div className="rd-checkpoint">
-                      <span className="rd-checkpoint-label">Move on when —</span>
+                      <span className="rd-checkpoint-label">Move on when:</span>
                       <span className="rd-checkpoint-text">{mod.checkpoint}</span>
                     </div>
                   </div>

@@ -67,7 +67,7 @@ export async function ensureCollegeIdForUser(userId, email) {
   return data?.college_id || derivedCollegeId;
 }
 
-export async function searchProfiles(searchTerm) {
+export async function searchProfiles(searchTerm, limit = 10) {
   const normalizedSearch = (searchTerm || "").trim();
   if (!normalizedSearch) return [];
 
@@ -76,7 +76,7 @@ export async function searchProfiles(searchTerm) {
       .from("profiles")
       .select("id, name, college_id")
       .or(`name.ilike.%${normalizedSearch}%,college_id.ilike.%${normalizedSearch}%`)
-      .limit(5);
+      .limit(limit);
 
     if (error) {
       console.error("searchProfiles supabase error:", error);

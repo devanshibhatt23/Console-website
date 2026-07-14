@@ -131,7 +131,10 @@ export default function MeetTheTeam() {
 
                   <div className="relative z-10">
                     {/* Avatar */}
-                    <div className={`w-16 h-16 rounded-2xl border flex items-center justify-center mb-5 font-mono font-bold text-xl text-white group-hover:scale-105 transition-transform duration-300 ${member.avatarBg}`}>
+                    <div 
+                      className="w-16 h-16 rounded-2xl border border-white/20 flex items-center justify-center mb-5 font-mono font-bold text-xl text-white group-hover:scale-105 transition-transform duration-300"
+                      style={{ background: 'linear-gradient(135deg, #F2994A, #F0405C)' }}
+                    >
                       {member.avatar}
                     </div>
 
