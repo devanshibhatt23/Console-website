@@ -56,12 +56,14 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               {[
-                { icon: FaLinkedin, href: '#', color: '#0077B5' },
-                { icon: FaInstagram, href: '#', color: '#E1306C' },
+                { icon: FaLinkedin, href: 'https://www.linkedin.com/company/consolecommunity/', color: '#0077B5' },
+                { icon: FaInstagram, href: 'https://www.instagram.com/console.comm', color: '#E1306C' },
               ].map((Social, i) => (
                 <a
                   key={i}
                   href={Social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground transition-all duration-300 hover:scale-[1.05]"
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;

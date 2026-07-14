@@ -134,9 +134,6 @@
 
 .skill-checklist {
   width: 100%;
-}
-
-.skill-checklist {
   display: flex;
   flex-direction: column;
   gap: 10px;

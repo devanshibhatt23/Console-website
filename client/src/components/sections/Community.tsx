@@ -5,13 +5,13 @@ const socials = [
   {
     name: 'LinkedIn',
     icon: FaLinkedin,
-    href: '#',
+    href: 'https://www.linkedin.com/company/consolecommunity/',
     color: '#0A66C2',
   },
   {
     name: 'Instagram',
     icon: FaInstagram,
-    href: '#',
+    href: 'https://www.instagram.com/console.comm',
     color: '#E1306C',
   },
 ];
@@ -54,6 +54,8 @@ export default function Community() {
               <motion.a
                 key={i}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
