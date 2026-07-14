@@ -191,9 +191,19 @@ export default function Landing() {
             <h2 className="section-gradient-title section-title text-4xl md:text-5xl mb-4">
               Meet Our Team
             </h2>
-            <p className="section-subtitle text-gray-400 font-inter">
+            <p className="section-subtitle text-gray-400 font-inter mb-4">
               The minds driving the community forward
             </p>
+            <Link
+              to="/team"
+              className="inline-flex items-center gap-1.5 font-inter font-medium text-sm transition-all duration-200 hover:scale-[1.02] hover:gap-2.5"
+              style={{ color: '#F2994A' }}
+            >
+              View all members
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#F2994A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
           </div>
           <div className="infinite-scroller-container relative overflow-hidden">
             <div className="scroll-row left-to-right">

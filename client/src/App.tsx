@@ -22,6 +22,7 @@ import PlacementPlaybook from "./pages/PlacementPlaybook";
 import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
 import Events from "./pages/Events";
+import MeetTheTeam from "./pages/MeetTheTeam";
 import ProfileView from "./pages/ProfileView";
 import SearchUsers from "./pages/SearchUsers";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -117,6 +118,7 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/events" element={<Events />} />
+                  <Route path="/team" element={<MeetTheTeam />} />
 
                   {/* Protected Routes */}
                   <Route element={<ProtectedRoute />}>

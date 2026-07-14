@@ -11,7 +11,7 @@ const navLinks = [
   { name: 'home', href: '/#hero' },
   { name: 'about', href: '/#about' },
   { name: 'gallery', href: '/#gallery' },
-  { name: 'team', href: '/#team' },
+  { name: 'team', href: '/team' },
   { name: 'events', href: '/events' },
   { name: 'leaderboard', href: '/leaderboard' },
   { name: 'potd', href: '/problem-of-the-day' },
@@ -19,13 +19,13 @@ const navLinks = [
   { name: 'tech guide', href: '/tech-guide' },
 ];
 
-const SECTION_IDS = ['hero', 'about', 'gallery', 'team', 'previous-events', 'learn-grow'];
+const SECTION_IDS = ['hero', 'about', 'gallery', 'previous-events', 'learn-grow'];
 
 const HASH_TO_SECTION: Record<string, string> = {
   '/#hero': 'hero',
   '/#about': 'about',
   '/#gallery': 'gallery',
-  '/#team': 'team',
+
 };
 
 // Maps active section ID → nav link href (for non-hash route links)
