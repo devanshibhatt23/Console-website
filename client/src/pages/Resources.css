@@ -503,7 +503,7 @@
   justify-content: center;
   align-items: center;
   gap: 16px;
-  padding: 22px 24px 18px;
+  padding: 16px 18px 12px;
   border-bottom: 1px solid var(--res-border);
 }
 
@@ -522,17 +522,17 @@
 
 /* Card Body */
 .rd-card-body {
-  padding: 22px 24px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 16px;
 }
 
 /* ─── Section labels ──────────────────────────────────────── */
 .rd-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .rd-section-label {
@@ -558,6 +558,9 @@
   font-size: 16px;
   color: var(--res-muted-2);
   line-height: 1.55;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Resources list */
