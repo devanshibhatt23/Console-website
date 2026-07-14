@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Landing.css";
@@ -114,6 +114,8 @@ const learnGrowCards = [
 
 export default function Landing() {
   const { user } = useAuth();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     document.body.classList.add('is-landing');
@@ -122,12 +124,30 @@ export default function Landing() {
     };
   }, []);
 
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const x = e.clientX;
+    const y = e.clientY;
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      containerRef.current?.style.setProperty('--mouse-x', `${x}px`);
+      containerRef.current?.style.setProperty('--mouse-y', `${y}px`);
+      rafRef.current = null;
+    });
+  }
+
   const teamHalf = Math.ceil(TEAM_MEMBERS.length / 2);
   const teamRow1 = TEAM_MEMBERS.slice(0, teamHalf);
   const teamRow2 = TEAM_MEMBERS.slice(teamHalf);
 
   return (
-    <div className="bg-black min-h-screen text-foreground overflow-hidden selection:bg-primary/30 selection:text-white">
+    <div
+      ref={containerRef}
+      className="bg-black min-h-screen text-foreground overflow-hidden selection:bg-primary/30 selection:text-white"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Spotlight cursor effect — sits above content, below navbar */}
+      <div className="landing-spotlight" aria-hidden="true" />
+
       <Navbar />
 
       <main>
