@@ -26,7 +26,7 @@ export default function Resources() {
           <h1 className="res-header-title">Resources</h1>
           <p className="res-header-sub">
             Structured, module-by-module roadmaps built from the best free resources. 
-            Each track follows a fixed progression. No fluff, no detours.
+            Each track follows a fixed progression.
           </p>
         </div>
 

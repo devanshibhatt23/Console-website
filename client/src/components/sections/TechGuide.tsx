@@ -147,7 +147,7 @@ export default function TechGuide() {
             Tech <span className="text-gradient-fire">Guide</span>
           </h2>
           <p className="text-muted-foreground font-mono leading-relaxed text-lg">
-            Structured roadmaps for every domain we teach. Pick a path and follow the steps — no guesswork, no fluff.
+            Structured roadmaps for every domain we teach. Pick a path and follow the steps.
           </p>
         </div>
 
