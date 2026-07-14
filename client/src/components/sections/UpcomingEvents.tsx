@@ -109,7 +109,8 @@ export default function UpcomingEvents() {
         if (allEvents) {
           const now = new Date();
           const futureEvents = allEvents.filter((e: any) => getEventActualDate(e.title, e.event_date) >= now);
-          const sortedData = sortEvents(futureEvents);
+          // Only the single nearest upcoming event
+          const sortedData = sortEvents(futureEvents).slice(0, 1);
           
           const mapped = sortedData.map((evt: any) => {
             const evDate = getEventActualDate(evt.title, evt.event_date);
@@ -187,9 +188,9 @@ export default function UpcomingEvents() {
             <p className="text-muted-foreground font-mono text-sm">We're planning something exciting. Stay tuned!</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="flex flex-wrap justify-center gap-5">
             {upcomingEvents.map((event, i) => (
-              <div key={i} ref={el => { cardsRef.current[i] = el; }}>
+              <div key={i} ref={el => { cardsRef.current[i] = el; }} className="w-full max-w-sm">
                 <motion.div
                   whileHover={{ y: -4 }}
                   transition={{ type: 'spring', stiffness: 300 }}
