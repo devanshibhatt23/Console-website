@@ -174,6 +174,10 @@ export default function Dashboard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Verification failed");
 
+      // Update handle in user profile using client session to satisfy RLS
+      const updateField = platform === "leetcode" ? "leetcode_handle" : "codeforces_handle";
+      await updateProfile(user.id, { [updateField]: data.handle });
+
       setSuccessMsg(data.message);
       if (platform === "codeforces") {
         setIsCfVerifying(false);
@@ -204,6 +208,10 @@ export default function Dashboard() {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Disconnection failed");
+
+      // Clear handle in user profile using client session to satisfy RLS
+      const updateField = platform === "leetcode" ? "leetcode_handle" : "codeforces_handle";
+      await updateProfile(user.id, { [updateField]: null });
 
       setSuccessMsg(data.message);
       if (platform === "codeforces") {
