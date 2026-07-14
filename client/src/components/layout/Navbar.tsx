@@ -19,7 +19,7 @@ const navLinks = [
   { name: 'tech guide', href: '/tech-guide' },
 ];
 
-const SECTION_IDS = ['hero', 'about', 'gallery', 'previous-events', 'learn-grow'];
+const SECTION_IDS = ['hero', 'about', 'gallery', 'team', 'previous-events', 'learn-grow'];
 
 const HASH_TO_SECTION: Record<string, string> = {
   '/#hero': 'hero',
@@ -30,6 +30,7 @@ const HASH_TO_SECTION: Record<string, string> = {
 
 // Maps active section ID → nav link href (for non-hash route links)
 const SECTION_TO_NAV_HREF: Record<string, string> = {
+  'team': '/team',
   'previous-events': '/events',
 };
 
@@ -196,7 +197,10 @@ export default function Navbar() {
   };
 
   const isActive = (link: { name: string; href: string }) => {
-    if (window.location.pathname !== '/') return false;
+    if (window.location.pathname !== '/') {
+      // On a dedicated route page (e.g. /team, /events): highlight the matching nav link directly.
+      return window.location.pathname === link.href;
+    }
     // Hash links: check activeSection via map
     const sectionId = HASH_TO_SECTION[link.href];
     if (sectionId) return activeSection === sectionId;

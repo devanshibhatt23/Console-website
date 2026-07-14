@@ -21,17 +21,9 @@ export default function Resources() {
       <div className="res-bg-glow" />
 
       <div className="res-layout">
-        {/* Navigation */}
-        <div className="res-topbar">
-          <button onClick={() => navigate("/")} className="res-back-btn">
-            <span>←</span> Dashboard
-          </button>
-        </div>
-
         {/* Header */}
         <div className="res-header">
-          <p className="res-header-label">Learning Roadmaps</p>
-          <h1 className="res-header-title">Pick a Track</h1>
+          <h1 className="res-header-title">Resources</h1>
           <p className="res-header-sub">
             Structured, module-by-module roadmaps built from the best free resources. 
             Each track follows a fixed progression — no fluff, no detours.

@@ -61,19 +61,19 @@ export default function ResourceDomain() {
               <p className="rd-label">{track.subtitle}</p>
               <h1 className="rd-title">{track.title}</h1>
               <p className="rd-intro">{track.intro}</p>
-            </div>
 
-            {/* Inline Progress */}
-            <div className="rd-progress-block">
-              <div className="rd-progress-nums">
-                <span className="rd-prog-done">{completedCount}</span>
-                <span className="rd-prog-sep">/</span>
-                <span className="rd-prog-total">{totalModules}</span>
+              {/* Progress — shown below the description, not to the side */}
+              <div className="rd-progress-block">
+                <div className="rd-progress-nums">
+                  <span className="rd-prog-done">{completedCount}</span>
+                  <span className="rd-prog-sep">/</span>
+                  <span className="rd-prog-total">{totalModules}</span>
+                </div>
+                <div className="rd-progress-bar">
+                  <div className="rd-progress-fill" style={{ width: `${progressPercent}%` }} />
+                </div>
+                <p className="rd-progress-label">{progressPercent}% complete</p>
               </div>
-              <div className="rd-progress-bar">
-                <div className="rd-progress-fill" style={{ width: `${progressPercent}%` }} />
-              </div>
-              <p className="rd-progress-label">{progressPercent}% complete</p>
             </div>
           </div>
 
@@ -121,16 +121,7 @@ export default function ResourceDomain() {
                 <div className="rd-card">
                   {/* Card Header */}
                   <div className="rd-card-head">
-                    <div>
-                      <p className="rd-mod-label">Module {mod.id}</p>
-                      <h3 className="rd-mod-title">{mod.title}</h3>
-                    </div>
-                    <button
-                      className={`rd-toggle-btn ${done ? "done" : ""}`}
-                      onClick={() => toggleModule(mod.id)}
-                    >
-                      {done ? "Completed" : "Mark done"}
-                    </button>
+                    <h3 className="rd-mod-title">{mod.title}</h3>
                   </div>
 
                   {/* Card Body */}
