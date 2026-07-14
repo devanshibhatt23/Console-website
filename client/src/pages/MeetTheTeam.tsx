@@ -193,7 +193,7 @@ export default function MeetTheTeam() {
 
       <main className="pt-24 pb-20 w-full">
         {/* ── Developers ── */}
-        <section className="w-full px-6 md:px-12 lg:px-20 mb-24">
+        <section className="w-full px-6 md:px-12 lg:px-20 pt-12 mb-24">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-6">
               <h2 style={headingStyle}>Meet the developers</h2>
