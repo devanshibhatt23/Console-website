@@ -130,7 +130,10 @@ export default function Dashboard() {
     }
 
     try {
-      const res = await fetch("http://localhost:5001/api/verify/request", {
+      const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5001'
+        : 'https://console-website.onrender.com';
+      const res = await fetch(`${apiBase}/api/verify/request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, platform, handle }),
@@ -165,7 +168,10 @@ export default function Dashboard() {
     }
 
     try {
-      const res = await fetch("http://localhost:5001/api/verify/confirm", {
+      const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5001'
+        : 'https://console-website.onrender.com';
+      const res = await fetch(`${apiBase}/api/verify/confirm`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, platform }),
@@ -200,7 +206,10 @@ export default function Dashboard() {
     setErrorMsg("");
 
     try {
-      const res = await fetch("http://localhost:5001/api/verify/disconnect", {
+      const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5001'
+        : 'https://console-website.onrender.com';
+      const res = await fetch(`${apiBase}/api/verify/disconnect`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: user.id, platform }),
