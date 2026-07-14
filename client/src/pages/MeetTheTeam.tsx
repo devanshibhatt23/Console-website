@@ -165,11 +165,11 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
       </div>
 
       {member.email && (
-        <p className="text-xs text-gray-500 pl-2 mb-6 break-all">{member.email}</p>
+        <p className="text-xs text-gray-500 whitespace-nowrap overflow-hidden text-ellipsis" style={{ paddingLeft: '8px', marginBottom: '20px' }}>{member.email}</p>
       )}
 
       {hasAnyLink && (
-        <div className="flex gap-2 mt-auto pt-2">
+        <div className="flex gap-2" style={{ marginTop: '4px' }}>
           {member.email && (
             <IconLink href={`mailto:${member.email}`} icon={<FiMail size={14} />} />
           )}
@@ -198,7 +198,7 @@ export default function MeetTheTeam() {
             <div className="text-center mb-6">
               <h2 style={headingStyle}>Meet the developers</h2>
             </div>
-            <p className="text-center text-gray-400 font-inter text-base mb-20">
+            <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
               Meet the brilliant minds behind the website of CONSOLE — building the future of tech community platforms
             </p>
 
@@ -219,11 +219,11 @@ export default function MeetTheTeam() {
             <div className="text-center mb-6">
               <h2 style={headingStyle}>Meet the team</h2>
             </div>
-            <p className="text-center text-gray-400 font-inter text-base mb-20">
+            <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
               Ready to join the future of tech? We are here to help you grow and succeed.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {teamMembers.map((member, i) => (
                 <MemberCard key={`${member.name}-${i}`} member={member} />
               ))}
