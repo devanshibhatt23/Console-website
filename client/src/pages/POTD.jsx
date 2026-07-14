@@ -37,6 +37,8 @@ export default function POTD() {
   const [loadingTodayRanking, setLoadingTodayRanking] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const chatEndRef = useRef(null);
+  const chatViewportRef = useRef(null);
+  const hasScrolledOnceRef = useRef(false);
 
   useEffect(() => {
     loadPOTDDetails();
@@ -72,7 +74,17 @@ export default function POTD() {
   }, [potd]);
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Skip the very first render's scroll so opening the page never jumps
+    // the whole document down to the comments feed.
+    if (!hasScrolledOnceRef.current) {
+      hasScrolledOnceRef.current = true;
+      return;
+    }
+    // Scroll only within the comments feed container itself, never the page.
+    const viewport = chatViewportRef.current;
+    if (viewport) {
+      viewport.scrollTo({ top: viewport.scrollHeight, behavior: "smooth" });
+    }
   }, [comments]);
 
   async function loadPOTDDetails() {
@@ -158,7 +170,9 @@ export default function POTD() {
 
   const parsedDesc = useMemo(() => {
     if (!potd?.description) return { body: "", examples: "", constraints: "" };
-    const desc = potd.description;
+    // Collapse runs of blank lines so stray double/triple newlines in the
+    // stored problem text don't render as large empty gaps.
+    const desc = potd.description.replace(/\n{2,}/g, "\n").trim();
     let examplesIndex = desc.indexOf("Example");
     if (examplesIndex === -1) examplesIndex = desc.indexOf("example");
     let constraintsIndex = desc.indexOf("Constraint");
@@ -265,7 +279,7 @@ export default function POTD() {
 
         <section className="potd-chat-container potd-comments-section">
           <h2 className="potd-gradient-heading">Comments section</h2>
-          <div className="chat-feed-viewport">
+          <div className="chat-feed-viewport" ref={chatViewportRef}>
             {comments.length === 0 ? (
               <div className="chat-empty-state">
                 <p>No comments yet. Be the first to start the discussion.</p>

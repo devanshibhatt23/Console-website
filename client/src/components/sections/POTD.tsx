@@ -118,36 +118,33 @@ export default function POTD() {
               </div>
 
               <div className="p-6 md:p-8 bg-black/50">
-                <div className="grid md:grid-cols-3 gap-6 md:gap-10">
-                  {/* Main problem info */}
-                  <div className="md:col-span-2 space-y-5">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className={`text-sm font-mono px-3 py-1 rounded-full border ${problem.diffColor}`}>
-                        {problem.difficulty}
-                      </span>
-                      <span className={`text-sm font-bold font-mono ${problem.platformColor}`}>
-                        {problem.platform}
-                      </span>
-                    </div>
-
-                    <h3 className="text-2xl md:text-3xl font-bold text-white">{problem.title}</h3>
-
-                    <p className="text-muted-foreground leading-relaxed">{problem.description}</p>
+                <div className="space-y-5">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className={`text-sm font-mono px-3 py-1 rounded-full border ${problem.diffColor}`}>
+                      {problem.difficulty}
+                    </span>
+                    <span className={`text-sm font-bold font-mono ${problem.platformColor}`}>
+                      {problem.platform}
+                    </span>
                   </div>
 
-                  {/* Action */}
-                  <div className="space-y-4">
-                    <a
-                      href={problem.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-mono text-sm font-bold hover:bg-primary/80 transition-colors group"
-                    >
-                      Solve Now
-                      <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </a>
-                  </div>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white">{problem.title}</h3>
+
+                  <p className="text-muted-foreground leading-relaxed">{problem.description}</p>
                 </div>
+              </div>
+
+              {/* Action footer, pinned to the bottom of the terminal box */}
+              <div className="px-6 md:px-8 py-5 bg-black/50 border-t border-white/10 flex justify-end">
+                <a
+                  href={problem.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-mono text-sm font-bold hover:bg-primary/80 transition-colors group"
+                >
+                  Solve Now
+                  <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </a>
               </div>
             </div>
           </div>

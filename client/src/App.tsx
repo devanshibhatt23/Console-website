@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -32,6 +32,25 @@ const queryClient = new QueryClient();
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Resets scroll position to the top whenever the route changes, so
+// navigating to a new page never inherits the previous page's scroll
+// offset (e.g. clicking a link from a scrolled-down section on the
+// homepage no longer lands mid-page on the destination route).
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const lenis = (window as any).__lenis;
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -64,7 +83,12 @@ function App() {
     gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0, 0);
 
+    // Expose the Lenis instance so route-change scroll resets can use it
+    // instead of fighting its smooth-scroll state with a raw window.scrollTo.
+    (window as any).__lenis = lenis;
+
     return () => {
+      (window as any).__lenis = null;
       lenis.destroy();
       gsap.ticker.remove(tickerCallback);
     };
@@ -86,6 +110,7 @@ function App() {
               className="min-h-screen"
             >
               <BrowserRouter>
+                <ScrollToTop />
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<Landing />} />
