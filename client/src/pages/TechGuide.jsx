@@ -132,30 +132,6 @@ export default function TechGuide() {
 
   return (
     <div className="techguide-page" style={{ position: "relative" }}>
-      {/* Back to Dashboard Button */}
-      <button
-        onClick={() => navigate("/")}
-        style={{
-          position: "absolute",
-          top: "24px",
-          left: "24px",
-          padding: "8px 16px",
-          borderRadius: "8px",
-          border: "1px solid var(--res-card-border, rgba(255,255,255,0.08))",
-          background: "var(--res-card-bg, rgba(22, 23, 29, 0.85))",
-          color: "var(--res-text, #e8e9ed)",
-          cursor: "pointer",
-          zIndex: 10,
-          fontWeight: "600",
-          fontSize: "14px",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "6px"
-        }}
-      >
-        ← Back to Home
-      </button>
-
       {/* Hero */}
       <div className="techguide-hero">
         <h1>Tech Guide</h1>

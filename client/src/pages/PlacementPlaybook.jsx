@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./PlacementPlaybook.css";
@@ -128,7 +127,6 @@ const SKILL_TREE = [
 export default function PlacementPlaybook() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const [expandedSkill, setExpandedSkill] = useState(null);
 
   if (!authLoading && !user) {
     navigate("/");
@@ -139,27 +137,18 @@ export default function PlacementPlaybook() {
     <div className="playbook-page">
       <div className="playbook-content">
         <div className="playbook-intro">
-          <h2>The Placement Playbook</h2>
+          <h2>Placement Guide</h2>
           <p>
             From building your first profile to cracking your first offer - a structured, step-by-step
             path covering everything: internships, DSA, core CS, open source, and the interview grind.
-            Click any step to see the full checklist.
           </p>
         </div>
 
         {/* Skill Steps */}
         <div className="skill-tree">
-          {SKILL_TREE.map((skill) => {
-            const isExpanded = expandedSkill === skill.id;
-            return (
-              <SkillCard
-                key={skill.id}
-                skill={skill}
-                isExpanded={isExpanded}
-                onToggle={() => setExpandedSkill(isExpanded ? null : skill.id)}
-              />
-            );
-          })}
+          {SKILL_TREE.map((skill) => (
+            <SkillCard key={skill.id} skill={skill} />
+          ))}
 
           {/* Final node */}
           <div className="placed-node">
@@ -173,18 +162,9 @@ export default function PlacementPlaybook() {
 }
 
 /* ---- Skill Card ---- */
-function SkillCard({ skill, isExpanded, onToggle }) {
+function SkillCard({ skill }) {
   return (
-    <div
-      className={`skill-card ${isExpanded ? "expanded" : ""}`}
-      onClick={onToggle}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && onToggle()}
-      aria-expanded={isExpanded}
-      id={`skill-${skill.id}`}
-      style={{ "--skill-color": skill.color }}
-    >
+    <div className="skill-card" style={{ "--skill-color": skill.color }}>
       <div className="skill-card-main">
         <span
           className="skill-card-label"
@@ -197,35 +177,32 @@ function SkillCard({ skill, isExpanded, onToggle }) {
       </div>
 
       <div className="skill-card-details">
-        <div className="skill-card-details-inner">
-          <div className="skill-checklist">
-            {skill.items.map((item, i) => (
-              <div key={i} className="skill-check-item">
-                <div
-                  className="skill-check-dot"
-                  style={{ borderColor: skill.color + "88" }}
-                />
-                <span>{item.text}</span>
-              </div>
+        <div className="skill-checklist">
+          {skill.items.map((item, i) => (
+            <div key={i} className="skill-check-item">
+              <div
+                className="skill-check-dot"
+                style={{ borderColor: skill.color + "88" }}
+              />
+              <span>{item.text}</span>
+            </div>
+          ))}
+        </div>
+        {skill.links && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>
+            {skill.links.map((l) => (
+              <a
+                key={l.label}
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="skill-link"
+              >
+                {l.label}
+              </a>
             ))}
           </div>
-          {skill.links && (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>
-              {skill.links.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="skill-link"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {l.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );
