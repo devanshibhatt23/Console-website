@@ -16,13 +16,16 @@
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  padding-bottom: 24px;
+  padding: 6px 0 28px;
+  overflow: visible;
 }
 
 .potd-title-main {
-  font-size: 34px;
+  font-size: 36px;
+  line-height: 1.3;
   font-weight: 800;
   margin: 0;
+  padding: 4px 0;
   background: linear-gradient(90deg, #F2994A, #F0405C);
   -webkit-background-clip: text;
   background-clip: text;
@@ -47,7 +50,9 @@
 }
 
 .potd-gradient-heading {
-  font-size: 19px;
+  font-size: 26px;
+  line-height: 1.3;
+  padding: 2px 0;
   font-weight: 800;
   margin: 0 0 18px;
   display: inline-block;
@@ -85,8 +90,9 @@
 
 /* Problem table */
 .potd-table-head {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: baseline;
   gap: 16px;
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
@@ -99,9 +105,13 @@
   font-weight: 700;
   margin: 0;
   color: #f8fafc;
+  text-align: center;
 }
 
 .potd-problem-date {
+  position: absolute;
+  top: 0;
+  right: 0;
   font-size: 13px;
   color: #94a3b8;
   font-weight: 600;
@@ -155,6 +165,7 @@
 /* Solve Actions styling */
 .potd-table-actions {
   display: flex;
+  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
   border-top: 1px solid rgba(148, 163, 184, 0.1);
@@ -244,22 +255,24 @@
 .potd-chat-bubble {
   display: inline-block;
   width: fit-content;
+  min-width: 160px;
   max-width: 70%;
-  background: rgba(30, 41, 59, 0.5);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(59, 130, 246, 0.14);
+  border: 1px solid rgba(59, 130, 246, 0.28);
   border-radius: 12px;
   padding: 10px 14px;
 }
 
 .potd-chat-row.own .potd-chat-bubble {
-  background: rgba(240, 64, 92, 0.1);
-  border-color: rgba(240, 64, 92, 0.25);
+  background: rgba(240, 64, 92, 0.16);
+  border-color: rgba(240, 64, 92, 0.32);
 }
 
 .potd-chat-meta {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 14px;
   margin-bottom: 4px;
 }
 
@@ -268,6 +281,9 @@
   font-weight: 700;
   color: #f1f5f9;
   text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .potd-chat-name:hover {
@@ -276,7 +292,9 @@
 
 .potd-chat-time {
   font-size: 10.5px;
-  color: #64748b;
+  color: #94a3b8;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .potd-chat-text {
