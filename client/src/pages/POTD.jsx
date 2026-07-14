@@ -326,14 +326,20 @@ export default function POTD() {
   );
 }
 
+const MINI_PAGE_SIZE = 5;
+
 function MiniLeaderboard({ title, rows, loading, showScore, scoreLabel, emptyText }) {
-  const topRows = rows.slice(0, 20);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.max(1, Math.ceil(rows.length / MINI_PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const pageRows = rows.slice((safePage - 1) * MINI_PAGE_SIZE, safePage * MINI_PAGE_SIZE);
+
   return (
     <section className="potd-main-card potd-mini-leaderboard">
       <h2 className="potd-gradient-heading">{title}</h2>
       {loading ? (
         <div className="standings-skeleton"><div className="skeleton-row" /><div className="skeleton-row" /></div>
-      ) : topRows.length === 0 ? (
+      ) : rows.length === 0 ? (
         <div className="empty-state">
           <p>{emptyText}</p>
         </div>
@@ -346,8 +352,8 @@ function MiniLeaderboard({ title, rows, loading, showScore, scoreLabel, emptyTex
               {showScore && <div className="lb-cell lb-cell-score">{scoreLabel}</div>}
             </div>
             <div className="lb-body potd-mini-lb-body">
-              {topRows.map((row, index) => {
-                const rank = index + 1;
+              {pageRows.map((row, index) => {
+                const rank = (safePage - 1) * MINI_PAGE_SIZE + index + 1;
                 const rankTierClass = rank === 1 ? 'rank-gold' : rank === 2 ? 'rank-silver' : rank === 3 ? 'rank-bronze' : '';
                 const content = (
                   <div className={`lb-row ${rankTierClass} ${showScore ? '' : 'no-score'}`} data-in="true">
@@ -374,6 +380,31 @@ function MiniLeaderboard({ title, rows, loading, showScore, scoreLabel, emptyTex
               })}
             </div>
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="lb-pagination">
+              <button
+                className="lb-page-btn"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={safePage === 1}
+                aria-label="Previous page"
+              >
+                ←
+              </button>
+              <span className="lb-page-indicator">
+                {safePage} of {totalPages}
+              </span>
+              <button
+                className="lb-page-btn"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={safePage === totalPages}
+                aria-label="Next page"
+              >
+                →
+              </button>
+            </div>
+          )}
         </div>
       )}
     </section>

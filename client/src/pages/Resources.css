@@ -57,7 +57,7 @@
 
 /* ─── Library Header ──────────────────────────────────────── */
 .res-header {
-  padding: 64px 0 48px;
+  padding: 96px 0 48px;
   border-bottom: 1px solid var(--res-border);
   margin-bottom: 0;
 }
@@ -74,6 +74,14 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  cursor: default;
+  display: inline-block;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.res-header-title:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 16px rgba(242, 153, 74, 0.7)) drop-shadow(0 0 32px rgba(240, 64, 92, 0.4));
 }
 
 .res-header-sub {

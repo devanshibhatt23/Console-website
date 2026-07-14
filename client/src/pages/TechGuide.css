@@ -117,6 +117,10 @@
 }
 
 /* Section heading */
+.guide-section:last-child {
+  margin-bottom: 0;
+}
+
 .guide-section {
   margin-bottom: 56px;
   padding: 44px 40px;
@@ -185,7 +189,7 @@
 /* Tool Card */
 .tool-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
@@ -518,7 +522,10 @@
     padding: 0 20px;
   }
 
-  .tool-grid,
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
   .path-grid {
     grid-template-columns: 1fr;
   }

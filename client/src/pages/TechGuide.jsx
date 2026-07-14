@@ -226,7 +226,25 @@ export default function TechGuide() {
             ))}
           </div>
 
-          <p className="guide-section-title guide-subheading">Key Events to Participate In</p>
+          <div className="recommendation-box" style={{ marginTop: 24 }}>
+            <p>
+              <strong>Startup x Tech:</strong> Hackathons generate ideas, coding skills fuel MVPs,
+              and MVPs attract investors. Many successful Indian startups started at a hackathon.{" "}
+              <strong>InnoThrone, Startup Mahakumbh</strong> and <strong>TiECon</strong> are great
+              events to network with founders and get mentorship.
+            </p>
+          </div>
+        </div>
+
+        {/* Section 4: Key Events */}
+        <div className="guide-section">
+          <div className="guide-section-header">
+            <div>
+              <p className="guide-section-title">Key Events to Participate In</p>
+              <p className="guide-section-sub">Curated events across India worth putting on your calendar</p>
+            </div>
+          </div>
+
           <div className="events-grid">
             {EVENTS.map((ev) => (
               <div key={ev.name} className="event-card">
@@ -236,15 +254,6 @@ export default function TechGuide() {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="recommendation-box" style={{ marginTop: 24 }}>
-            <p>
-              <strong>Startup x Tech:</strong> Hackathons generate ideas, coding skills fuel MVPs,
-              and MVPs attract investors. Many successful Indian startups started at a hackathon.{" "}
-              <strong>InnoThrone, Startup Mahakumbh</strong> and <strong>TiECon</strong> are great
-              events to network with founders and get mentorship.
-            </p>
           </div>
         </div>
 

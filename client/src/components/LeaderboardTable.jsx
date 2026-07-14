@@ -5,6 +5,8 @@ import { useCountUp } from '../hooks/useCountUp';
 import { useInView } from '../hooks/useInView';
 import './LeaderboardTable.css';
 
+const PAGE_SIZE = 10;
+
 const MedalIcon = ({ rank }) => {
     const colors = {
         1: { primary: '#FFD700', secondary: '#B8860B' },
@@ -76,6 +78,7 @@ const LeaderboardRow = ({ user, index, scoreKey, platformId, started, delay }) =
 
 const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId, yearId }) => {
     const [search, setSearch] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
     const [containerRef, inView] = useInView({ threshold: 0.1 });
 
     const filteredData = useMemo(() => {
@@ -83,6 +86,20 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId, yearId }) =>
         const q = search.trim().toLowerCase();
         return (data || []).filter((u) => (u.name || '').toLowerCase().includes(q));
     }, [data, search]);
+
+    // Reset to page 1 when filter/data changes
+    const totalPages = Math.max(1, Math.ceil(filteredData.length / PAGE_SIZE));
+    const safePage = Math.min(currentPage, totalPages);
+    const pageData = filteredData.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+    const goToPrev = () => setCurrentPage((p) => Math.max(1, p - 1));
+    const goToNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1));
+
+    // Reset page when search changes
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+        setCurrentPage(1);
+    };
 
     if (!data || data.length === 0) {
         return (
@@ -103,7 +120,7 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId, yearId }) =>
                     type="text"
                     placeholder="Search by name..."
                     value={search}
-                    onChange={(e) => setSearch(e.target.value)}
+                    onChange={handleSearch}
                     className="lb-search-input"
                     aria-label="Search leaderboard by name"
                 />
@@ -117,25 +134,50 @@ const LeaderboardTable = ({ data, scoreLabel, scoreKey, platformId, yearId }) =>
                 </div>
 
                 <div className="lb-body">
-                    {filteredData.length === 0 ? (
+                    {pageData.length === 0 ? (
                         <div className="empty-state">
                             <p>No developers match "{search}".</p>
                         </div>
                     ) : (
-                        filteredData.map((user, index) => (
+                        pageData.map((user, index) => (
                             <LeaderboardRow
                                 key={`${platformId}-${yearId}-${user.handle || user.id || index}`}
                                 user={user}
-                                index={index}
+                                index={(safePage - 1) * PAGE_SIZE + index}
                                 scoreKey={scoreKey}
                                 platformId={platformId}
                                 started={inView}
-                                delay={Math.min(index, 14) * 70}
+                                delay={Math.min(index, 9) * 70}
                             />
                         ))
                     )}
                 </div>
             </div>
+
+            {/* Pagination controls */}
+            {totalPages > 1 && (
+                <div className="lb-pagination">
+                    <button
+                        className="lb-page-btn"
+                        onClick={goToPrev}
+                        disabled={safePage === 1}
+                        aria-label="Previous page"
+                    >
+                        ←
+                    </button>
+                    <span className="lb-page-indicator">
+                        {safePage} of {totalPages}
+                    </span>
+                    <button
+                        className="lb-page-btn"
+                        onClick={goToNext}
+                        disabled={safePage === totalPages}
+                        aria-label="Next page"
+                    >
+                        →
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
