@@ -45,6 +45,23 @@ html {
   );
 }
 
+/* Cursor-tracked spotlight overlay */
+.landing-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  opacity: 0.07;
+  background: radial-gradient(
+    450px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+    #F2994A 0%,
+    #F0405C 40%,
+    transparent 70%
+  );
+  transition: background 0.15s ease-out;
+  will-change: background;
+}
+
 /* ============================================================
    SHARED GRADIENT TEXT
    ============================================================ */

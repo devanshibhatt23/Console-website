@@ -1087,6 +1087,94 @@ app.post('/api/verify/disconnect', async (req, res) => {
 });
 
 
+// Allowed hostnames for problem description fetching
+const ALLOWED_PROBLEM_HOSTS = new Set(['leetcode.com', 'www.leetcode.com', 'codeforces.com', 'www.codeforces.com']);
+
+// Fetch problem description from LeetCode or Codeforces
+app.get('/api/problem-description', async (req, res) => {
+    const { url } = req.query;
+    if (!url) return res.status(400).json({ error: 'URL required' });
+
+    // Strict URL parsing — reject anything that fails or has a disallowed host/protocol
+    let parsed;
+    try {
+        parsed = new URL(url);
+    } catch {
+        return res.status(400).json({ error: 'Invalid URL' });
+    }
+    if (parsed.protocol !== 'https:') return res.status(400).json({ error: 'Only HTTPS URLs are allowed' });
+    if (!ALLOWED_PROBLEM_HOSTS.has(parsed.hostname)) return res.status(400).json({ error: 'Unsupported platform' });
+
+    try {
+        // --- LeetCode ---
+        // Expected path: /problems/<title-slug>/...
+        if (parsed.hostname.endsWith('leetcode.com')) {
+            const slugMatch = parsed.pathname.match(/^\/problems\/([a-z0-9-]+)/i);
+            if (!slugMatch) return res.status(400).json({ error: 'Invalid LeetCode problem URL' });
+            const titleSlug = slugMatch[1];
+            // Only alphanumeric + hyphens allowed in slugs
+            if (!/^[a-z0-9-]+$/i.test(titleSlug)) return res.status(400).json({ error: 'Invalid problem slug' });
+
+            const gqlQuery = `
+                query questionContent($titleSlug: String!) {
+                    question(titleSlug: $titleSlug) {
+                        content
+                        difficulty
+                        title
+                    }
+                }
+            `;
+            const response = await axios.post(
+                'https://leetcode.com/graphql/',
+                { query: gqlQuery, variables: { titleSlug } },
+                { headers: { 'Content-Type': 'application/json', 'Referer': 'https://leetcode.com' } }
+            );
+            const question = response.data?.data?.question;
+            if (!question) return res.status(404).json({ error: 'Problem not found' });
+            return res.json({ platform: 'leetcode', content: question.content, difficulty: question.difficulty, title: question.title });
+        }
+
+        // --- Codeforces ---
+        // Expected paths:
+        //   /problemset/problem/<contestId>/<index>
+        //   /contest/<contestId>/problem/<index>
+        if (parsed.hostname.endsWith('codeforces.com')) {
+            let contestId, problemIndex;
+            const psMatch = parsed.pathname.match(/^\/problemset\/problem\/(\d+)\/([A-Z0-9]+)$/i);
+            const ctMatch = parsed.pathname.match(/^\/contest\/(\d+)\/problem\/([A-Z0-9]+)$/i);
+            if (psMatch) { contestId = psMatch[1]; problemIndex = psMatch[2].toUpperCase(); }
+            else if (ctMatch) { contestId = ctMatch[1]; problemIndex = ctMatch[2].toUpperCase(); }
+            else return res.status(400).json({ error: 'Invalid Codeforces problem URL' });
+
+            // Build a known, safe Codeforces URL from validated identifiers
+            const safeUrl = `https://codeforces.com/problemset/problem/${contestId}/${problemIndex}`;
+            const pageResponse = await axios.get(safeUrl, {
+                headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36' }
+            });
+            const html = pageResponse.data;
+            const startIdx = html.indexOf('<div class="problem-statement">');
+            if (startIdx === -1) return res.status(404).json({ error: 'Could not find problem statement' });
+            // Walk nested divs to find the matching closing tag
+            let depth = 0, i = startIdx, content = '';
+            while (i < html.length) {
+                if (html.slice(i, i + 4) === '<div') depth++;
+                if (html.slice(i, i + 6) === '</div>') {
+                    depth--;
+                    if (depth === 0) { content = html.slice(startIdx, i + 6); break; }
+                }
+                i++;
+            }
+            if (!content) return res.status(404).json({ error: 'Could not extract problem statement' });
+            return res.json({ platform: 'codeforces', content });
+        }
+
+        return res.status(400).json({ error: 'Unsupported platform' });
+    } catch (err) {
+        console.error('Problem description fetch error:', err.message);
+        return res.status(500).json({ error: 'Failed to fetch problem description' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Leaderboard server running on port ${port}`);
     // Warm up the cache on startup
