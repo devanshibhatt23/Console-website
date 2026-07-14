@@ -1,7 +1,8 @@
 import { useState, CSSProperties, ReactNode } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { Mail, Linkedin, Github } from 'lucide-react';
+import { FiMail } from 'react-icons/fi';
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 /* ── Data ─────────────────────────────────────────────────── */
 
@@ -129,13 +130,13 @@ function DevCard({ dev }: { dev: typeof developers[0] }) {
 
       <div className="flex gap-2 mt-auto">
         {dev.email && (
-          <IconLink href={`mailto:${dev.email}`} icon={<Mail className="w-4 h-4" />} />
+          <IconLink href={`mailto:${dev.email}`} icon={<FiMail size={16} />} />
         )}
         {dev.linkedin && (
-          <IconLink href={dev.linkedin} icon={<Linkedin className="w-4 h-4" />} />
+          <IconLink href={dev.linkedin} icon={<FaLinkedin size={16} />} />
         )}
         {dev.github && (
-          <IconLink href={dev.github} icon={<Github className="w-4 h-4" />} />
+          <IconLink href={dev.github} icon={<FaGithub size={16} />} />
         )}
       </div>
     </div>
@@ -170,13 +171,13 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
       {hasAnyLink && (
         <div className="flex gap-2 mt-auto">
           {member.email && (
-            <IconLink href={`mailto:${member.email}`} icon={<Mail className="w-3.5 h-3.5" />} />
+            <IconLink href={`mailto:${member.email}`} icon={<FiMail size={14} />} />
           )}
           {member.linkedin && (
-            <IconLink href={member.linkedin} icon={<Linkedin className="w-3.5 h-3.5" />} />
+            <IconLink href={member.linkedin} icon={<FaLinkedin size={14} />} />
           )}
           {member.github && (
-            <IconLink href={member.github} icon={<Github className="w-3.5 h-3.5" />} />
+            <IconLink href={member.github} icon={<FaGithub size={14} />} />
           )}
         </div>
       )}
