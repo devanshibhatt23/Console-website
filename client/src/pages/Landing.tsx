@@ -155,6 +155,19 @@ export default function Landing() {
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
+                cursor: 'default',
+                display: 'inline-block',
+                transition: 'transform 0.3s ease, filter 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = 'scale(1.02)';
+                el.style.filter = 'drop-shadow(0 0 16px rgba(242,153,74,0.65)) drop-shadow(0 0 32px rgba(240,64,92,0.35))';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = '';
+                el.style.filter = '';
               }}
             >
               Life at CONSOLE

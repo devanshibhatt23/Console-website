@@ -163,8 +163,8 @@ export default function PreviousEvents() {
     <section id="previous-events" ref={sectionRef} className="py-32 bg-black relative">
       <div className="container mx-auto px-6">
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-20">
-          <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-6">
+        <div ref={headerRef} className="flex flex-col items-center text-center mb-20 gap-4">
+          <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight">
             Events
           </h2>
           {/* View all events */}

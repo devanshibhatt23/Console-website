@@ -23,7 +23,24 @@ export default function Events() {
               Community Calendar
             </div>
             
-            <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-8 font-mono">
+            <h1
+              className="text-5xl md:text-8xl font-bold tracking-tight mb-8 font-mono"
+              style={{
+                cursor: 'default',
+                display: 'inline-block',
+                transition: 'transform 0.3s ease, filter 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = 'scale(1.02)';
+                el.style.filter = 'drop-shadow(0 0 16px rgba(242,153,74,0.65)) drop-shadow(0 0 32px rgba(240,64,92,0.35))';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.transform = '';
+                el.style.filter = '';
+              }}
+            >
               Console <span className="text-gradient-fire">Events</span>
             </h1>
             
