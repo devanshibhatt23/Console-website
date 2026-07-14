@@ -75,7 +75,7 @@ const headingStyle: CSSProperties = {
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
-  fontSize: '32px',
+  fontSize: '48px',
   fontWeight: 900,
   fontFamily: 'Montserrat, sans-serif',
   lineHeight: 1.2,
@@ -111,11 +111,11 @@ function DevCard({ dev }: { dev: typeof developers[0] }) {
           src={dev.image}
           alt={dev.name}
           onError={() => setImgError(true)}
-          className="w-24 h-24 rounded-full object-cover mb-5 border-2 border-white/10"
+          className="w-40 h-40 rounded-full object-cover mb-6 border-2 border-white/10"
         />
       ) : (
         <div
-          className="w-24 h-24 rounded-full mb-5 flex items-center justify-center text-white font-bold text-2xl font-montserrat"
+          className="w-40 h-40 rounded-full mb-6 flex items-center justify-center text-white font-bold text-3xl font-montserrat"
           style={{ background: 'linear-gradient(135deg, #F2994A, #F0405C)' }}
         >
           {getInitials(dev.name)}
@@ -165,11 +165,11 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
       </div>
 
       {member.email && (
-        <p className="text-xs text-gray-500 mb-4 break-all">{member.email}</p>
+        <p className="text-xs text-gray-500 pl-2 mb-6 break-all">{member.email}</p>
       )}
 
       {hasAnyLink && (
-        <div className="flex gap-2 mt-auto">
+        <div className="flex gap-2 mt-auto pt-2">
           {member.email && (
             <IconLink href={`mailto:${member.email}`} icon={<FiMail size={14} />} />
           )}
@@ -195,10 +195,10 @@ export default function MeetTheTeam() {
         {/* ── Developers ── */}
         <section className="w-full px-6 md:px-12 lg:px-20 mb-24">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-4">
+            <div className="text-center mb-6">
               <h2 style={headingStyle}>Meet the developers</h2>
             </div>
-            <p className="text-center text-gray-400 font-inter text-base mb-14">
+            <p className="text-center text-gray-400 font-inter text-base mb-20">
               Meet the brilliant minds behind the website of CONSOLE — building the future of tech community platforms
             </p>
 
@@ -216,10 +216,10 @@ export default function MeetTheTeam() {
         {/* ── Team members ── */}
         <section className="w-full px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-4">
+            <div className="text-center mb-6">
               <h2 style={headingStyle}>Meet the team</h2>
             </div>
-            <p className="text-center text-gray-400 font-inter text-base mb-14">
+            <p className="text-center text-gray-400 font-inter text-base mb-20">
               Ready to join the future of tech? We are here to help you grow and succeed.
             </p>
 
