@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ParticlesProvider, Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
@@ -8,63 +8,8 @@ import GridGlow from './GridGlow';
 import ConstellationDraw from './ConstellationDraw';
 import { useAuth } from '../../context/AuthContext';
 
-const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-// Fixed wall-clock duration for the whole scramble — driven by requestAnimationFrame and
-// elapsed time (not tick count), so the perceived speed stays constant even if the main
-// thread is briefly busy (e.g. particles rendering) and a few frames get skipped.
-const SCRAMBLE_DURATION_MS = 600;
-
-function useScramble(originalText: string) {
-  const [displayText, setDisplayText] = useState(originalText);
-  const rafRef = useRef<number | null>(null);
-  const isScrambling = useRef(false);
-
-  const scramble = useCallback(() => {
-    if (isScrambling.current) return;
-    isScrambling.current = true;
-    const startTime = performance.now();
-    const length = originalText.length;
-
-    const tick = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / SCRAMBLE_DURATION_MS);
-      const revealedCount = Math.floor(progress * length);
-
-      setDisplayText(
-        originalText
-          .split('')
-          .map((char, i) => {
-            if (i < revealedCount) return originalText[i];
-            return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-          })
-          .join('')
-      );
-
-      if (progress < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        setDisplayText(originalText);
-        isScrambling.current = false;
-        rafRef.current = null;
-      }
-    };
-
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(tick);
-  }, [originalText]);
-
-  useEffect(() => {
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, []);
-
-  return { displayText, scramble };
-}
-
 export default function Hero() {
   const { user } = useAuth();
-  const { displayText, scramble } = useScramble('CONSOLE');
   const [isHoveringConsole, setIsHoveringConsole] = useState(false);
 
   const containerVariants = {
@@ -143,6 +88,12 @@ export default function Hero() {
         </ParticlesProvider>
       </div>
 
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center opacity-[0.2]" 
+        style={{ backgroundImage: "url('/images/IMG_1590.jpg')" }} 
+      />
+
       {/* Radial overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/50 to-black z-0" />
 
@@ -191,13 +142,10 @@ export default function Hero() {
                   ? 'drop-shadow(0 0 40px rgba(242,153,74,0.7)) drop-shadow(0 0 80px rgba(240,64,92,0.5))'
                   : 'drop-shadow(0 4px 12px rgba(0,0,0,0.8))',
               }}
-              onMouseEnter={() => {
-                setIsHoveringConsole(true);
-                scramble();
-              }}
+              onMouseEnter={() => setIsHoveringConsole(true)}
               onMouseLeave={() => setIsHoveringConsole(false)}
             >
-              {displayText}
+              CONSOLE
             </h1>
 
             {/* Glow orb behind CONSOLE on hover */}

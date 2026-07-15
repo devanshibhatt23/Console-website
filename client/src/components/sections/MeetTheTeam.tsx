@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Tilt from 'react-parallax-tilt';
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Twitter } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -152,8 +153,8 @@ export default function MeetTheTeam() {
                     {/* Social links */}
                     <div className="flex items-center gap-3 pt-4 border-t border-white/5">
                       {[
-                        { href: member.github, Icon: Github, label: 'GitHub' },
-                        { href: member.linkedin, Icon: Linkedin, label: 'LinkedIn' },
+                        { href: member.github, Icon: FaGithub, label: 'GitHub' },
+                        { href: member.linkedin, Icon: FaLinkedin, label: 'LinkedIn' },
                         { href: member.twitter, Icon: Twitter, label: 'Twitter' },
                       ].map(({ href, Icon, label }) => (
                         <a

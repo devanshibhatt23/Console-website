@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Landing.css";
 
@@ -114,8 +114,27 @@ const learnGrowCards = [
 
 export default function Landing() {
   const { user } = useAuth();
+  const location = useLocation();
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (location.hash) {
+      const targetId = location.hash.substring(1);
+      const el = document.getElementById(targetId);
+      if (el) {
+        // Small delay to ensure rendering is complete
+        setTimeout(() => {
+          const lenis = (window as any).__lenis;
+          if (lenis) {
+            lenis.scrollTo(el, { offset: -100, immediate: true });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      }
+    }
+  }, [location.hash]);
 
   useEffect(() => {
     document.body.classList.add('is-landing');

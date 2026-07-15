@@ -1,0 +1,238 @@
+.about-page-container {
+  min-height: 100vh;
+  position: relative;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+  font-family: var(--inter);
+}
+
+/* Background Image Layer with Glassmorphism Overlay */
+.about-bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  /* I have updated this to look for your image in the assets folder */
+  background-image: url('../assets/about-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.about-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(10, 10, 10, 0.95) 0%,
+    rgba(10, 10, 10, 0.75) 50%,
+    rgba(10, 10, 10, 0.95) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+/* Main Layout */
+.about-main-content {
+  position: relative;
+  z-index: 10;
+  padding-top: 120px;
+  padding-bottom: 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .about-main-content {
+    grid-template-columns: 1fr;
+    padding: 100px 20px 60px;
+  }
+}
+
+/* Vertical Title */
+.about-vertical-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: var(--montserrat);
+  font-size: 6rem;
+  font-weight: 900;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.1);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+  position: sticky;
+  top: 120px;
+  height: max-content;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 768px) {
+  .about-vertical-title {
+    position: relative;
+    top: 0;
+    flex-direction: row;
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+}
+
+/* Content Area */
+.about-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-right: 40px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+}
+
+.about-intro {
+  font-size: 2.5rem;
+  font-family: var(--montserrat);
+  font-weight: 700;
+  line-height: 1.3;
+  background: linear-gradient(90deg, #F2994A, #F0405C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-paragraph {
+  font-size: 1.2rem;
+  color: #a1a1aa;
+  line-height: 1.8;
+  max-width: 800px;
+}
+
+.about-highlight {
+  color: #F2994A;
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-top: 2rem;
+  border-left: 4px solid #F0405C;
+  padding-left: 1.5rem;
+  background: rgba(242, 153, 74, 0.05);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Marquee Section */
+.about-marquee-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(20, 20, 20, 0.8);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: 1.5rem 0;
+  margin: 60px 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+}
+
+.about-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: scrollMarquee 25s linear infinite;
+}
+
+.about-marquee-item {
+  font-family: var(--montserrat);
+  font-size: 2rem;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  padding: 0 3rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.about-marquee-item::after {
+  content: '✦';
+  color: #F0405C;
+  font-size: 1.5rem;
+  -webkit-text-stroke: 0;
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Pillars Grid */
+.about-pillars {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+@media (max-width: 1024px) {
+  .about-pillars {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+}
+
+.about-pillar-card {
+  background: rgba(15, 15, 15, 0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 40px 30px;
+  backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.about-pillar-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(242, 153, 74, 0.5);
+  box-shadow: 0 15px 35px rgba(242, 153, 74, 0.15);
+  background: rgba(25, 25, 25, 0.8);
+}
+
+.about-pillar-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.3s;
+}
+
+.about-pillar-card:hover .about-pillar-icon {
+  transform: scale(1.1);
+  background: rgba(242, 153, 74, 0.1);
+  color: #F2994A;
+}
+
+.about-pillar-title {
+  font-family: var(--montserrat);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.about-pillar-desc {
+  font-size: 1.1rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+}
