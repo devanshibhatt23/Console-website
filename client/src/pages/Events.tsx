@@ -1,4 +1,4 @@
-import Navbar from '@/components/layout/Navbar';
+
 import Footer from '@/components/layout/Footer';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
 import PreviousEvents from '@/components/sections/PreviousEvents';
@@ -7,7 +7,7 @@ import { Calendar } from 'lucide-react';
 export default function Events() {
   return (
     <div className="bg-black min-h-screen text-foreground overflow-hidden selection:bg-primary/30 selection:text-white">
-      <Navbar />
+
 
       <main className="pt-20">
         {/* Page Hero Header */}

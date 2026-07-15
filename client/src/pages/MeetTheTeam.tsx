@@ -1,5 +1,5 @@
 import { useState, CSSProperties, ReactNode } from 'react';
-import Navbar from '@/components/layout/Navbar';
+
 import Footer from '@/components/layout/Footer';
 import { FiMail } from 'react-icons/fi';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
@@ -189,7 +189,7 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
 export default function MeetTheTeam() {
   return (
     <div className="bg-black min-h-screen text-white w-full">
-      <Navbar />
+
 
       <main className="pt-24 pb-20 w-full">
         {/* ── Developers ── */}
