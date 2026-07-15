@@ -8,12 +8,13 @@ LANGUAGE plpgsql
 SECURITY DEFINER SET search_path = public
 AS $$
 BEGIN
-  INSERT INTO public.profiles (id, email, college_id)
+  INSERT INTO public.profiles (id, email, college_id, name)
   VALUES (
     NEW.id,
     NEW.email,
     -- Extract the first 11 characters of the email for the college_id
-    SUBSTRING(NEW.email FROM 1 FOR 11)
+    SUBSTRING(NEW.email FROM 1 FOR 11),
+    COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', '')
   );
   RETURN NEW;
 END;

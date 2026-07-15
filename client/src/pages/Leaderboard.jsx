@@ -65,7 +65,10 @@ const Leaderboard = () => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const response = await fetch('http://localhost:5001/api/leaderboard');
+                const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+                    ? 'http://localhost:5001'
+                    : 'https://console-website.onrender.com';
+                const response = await fetch(`${apiBase}/api/leaderboard`);
                 if (!response.ok) throw new Error('Failed to fetch leaderboard data');
                 const data = await response.json();
                 setLeaderboardData(data);

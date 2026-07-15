@@ -98,7 +98,10 @@ export default function POTD() {
     try {
       setLoadingPlatformDesc(true);
       setPlatformDesc(null);
-      const response = await fetch(`http://localhost:5001/api/problem-description?url=${encodeURIComponent(url)}`);
+      const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5001'
+        : 'https://console-website.onrender.com';
+      const response = await fetch(`${apiBase}/api/problem-description?url=${encodeURIComponent(url)}`);
       if (!response.ok) throw new Error("Failed to fetch");
       const data = await response.json();
       setPlatformDesc(data);
@@ -136,7 +139,10 @@ export default function POTD() {
   async function loadPotdLeaderboard() {
     try {
       setLoadingPotdLeaderboard(true);
-      const response = await fetch("http://localhost:5001/api/potd/leaderboard-live");
+      const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5001'
+        : 'https://console-website.onrender.com';
+      const response = await fetch(`${apiBase}/api/potd/leaderboard-live`);
       if (!response.ok) throw new Error("Failed to fetch POTD leaderboard");
       const data = await response.json();
       const validRows = (data || []).filter((u) => {
@@ -158,7 +164,10 @@ export default function POTD() {
     if (!problem?.id) return;
     try {
       setLoadingTodayRanking(true);
-      const response = await fetch(`http://localhost:5001/api/potd/today-ranking?problemId=${encodeURIComponent(problem.id)}`);
+      const apiBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5001'
+        : 'https://console-website.onrender.com';
+      const response = await fetch(`${apiBase}/api/potd/today-ranking?problemId=${encodeURIComponent(problem.id)}`);
       if (!response.ok) throw new Error("Failed to fetch today's ranking");
       const data = await response.json();
       const rankingRows = (data || []).map((row) => ({
