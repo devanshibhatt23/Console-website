@@ -472,9 +472,9 @@ export default function Dashboard() {
                   <div className="dp-field-group">
                     <label className="dp-field-label">College ID</label>
                     <input type="text" value={collegeId} disabled className="dp-input dp-input-disabled" />
-                    <p className="dp-field-hint">
+                    {/* <p className="dp-field-hint">
                       Auto-filled from your email. Determines your year on the leaderboard.
-                    </p>
+                    </p> */}
                   </div>
 
                   <div className="dp-field-group">

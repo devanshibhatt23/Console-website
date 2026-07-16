@@ -290,7 +290,7 @@ export default function Landing() {
             <p className="text-muted-foreground font-inter mb-8">
               Everything you need to level up your skills and career.
             </p>
-            <div className="grid grid-cols-1 mt-4 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 mt-12 md:grid-cols-3 gap-8">
               {learnGrowCards.map((card) => (
                 <Link
                   key={card.to}
