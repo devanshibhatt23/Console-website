@@ -6,11 +6,12 @@ import { signOut } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  User, Globe, Link2, Code2, FileText, Home,
+  User, Globe, Link2, Code2, FileText,
   LogOut, Shield, CheckCircle2, XCircle, Upload,
   Loader2, ExternalLink, Trash2, X, ChevronRight,
   Terminal, Zap, Award,
 } from "lucide-react";
+import { SiCodeforces, SiLeetcode } from "react-icons/si";
 import "./Dashboard.css";
 
 // ─── Animation variants ───────────────────────────────────────────────────────
@@ -362,9 +363,6 @@ export default function Dashboard() {
 
           {/* Navigation */}
           <nav className="dp-sidenav">
-            <button className="dp-nav-btn" onClick={() => navigate("/")}>
-              <Home size={14} /> Home
-            </button>
             {profile?.role === "admin" && (
               <button className="dp-nav-btn dp-nav-admin" onClick={() => navigate("/admin")}>
                 <Shield size={14} /> Admin Panel
@@ -474,9 +472,9 @@ export default function Dashboard() {
                   <div className="dp-field-group">
                     <label className="dp-field-label">College ID</label>
                     <input type="text" value={collegeId} disabled className="dp-input dp-input-disabled" />
-                    <p className="dp-field-hint">
+                    {/* <p className="dp-field-hint">
                       Auto-filled from your email. Determines your year on the leaderboard.
-                    </p>
+                    </p> */}
                   </div>
 
                   <div className="dp-field-group">
@@ -539,10 +537,11 @@ export default function Dashboard() {
                 {/* Codeforces Card */}
                 <div className="dp-platform-card">
                   <div className="dp-platform-header">
-                    <div className="dp-platform-icon dp-platform-icon-cf">CF</div>
+                    <div className="dp-platform-icon dp-platform-icon-cf">
+                      <SiCodeforces size={20} />
+                    </div>
                     <div>
                       <h3 className="dp-platform-name">Codeforces</h3>
-                      <p className="dp-platform-desc">Competitive programming ratings & contest history</p>
                     </div>
                     <div className="dp-platform-badge-wrap">
                       {profile?.codeforces_handle
@@ -632,10 +631,11 @@ export default function Dashboard() {
                 {/* LeetCode Card */}
                 <div className="dp-platform-card">
                   <div className="dp-platform-header">
-                    <div className="dp-platform-icon dp-platform-icon-lc">LC</div>
+                    <div className="dp-platform-icon dp-platform-icon-lc">
+                      <SiLeetcode size={20} />
+                    </div>
                     <div>
                       <h3 className="dp-platform-name">LeetCode</h3>
-                      <p className="dp-platform-desc">Problem solving stats & ranking history</p>
                     </div>
                     <div className="dp-platform-badge-wrap">
                       {profile?.leetcode_handle

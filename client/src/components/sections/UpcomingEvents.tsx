@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Calendar, MapPin, Clock, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Calendar, MapPin, Clock, Terminal, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { getEvents } from '../../services/eventService';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -188,67 +188,64 @@ export default function UpcomingEvents() {
             <p className="text-muted-foreground font-mono text-sm">We're planning something exciting. Stay tuned!</p>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center gap-5">
+          <div className="max-w-5xl mx-auto">
             {upcomingEvents.map((event, i) => (
-              <div key={i} ref={el => { cardsRef.current[i] = el; }} className="w-full max-w-sm">
-                <motion.div
-                  whileHover={{ y: -4 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                  className="h-full bg-card border border-white/5 rounded-2xl overflow-hidden group cursor-pointer hover:border-white/15 transition-colors duration-300 flex flex-col"
-                >
-                  {/* Top accent bar */}
-                  <div className={`h-[2px] w-full ${
-                    i === 0 ? 'bg-gradient-fire' : i === 1 ? 'bg-gradient-to-r from-secondary to-cyan-400' : 'bg-gradient-to-r from-destructive to-pink-500'
-                  }`} />
-
-                  <div className="p-6 flex flex-col flex-1">
-                    {/* Badges */}
-                    <div className="flex items-center justify-between mb-5">
-                      <span className={`text-xs font-mono px-2.5 py-1 rounded-full border ${event.typeColor}`}>
-                        {event.type}
-                      </span>
-                      <span className={`text-xs font-mono px-2.5 py-1 rounded-full border ${event.statusColor} flex items-center gap-1.5`}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                        {event.status}
-                      </span>
+              <div key={i} ref={el => { cardsRef.current[i] = el; }}>
+                <div className="terminal-panel rounded-2xl overflow-hidden">
+                  {/* Terminal chrome */}
+                  <div className="terminal-header px-5 py-3.5 flex items-center gap-3">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/80" />
                     </div>
-
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
-                      {event.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">
-                      {event.description}
-                    </p>
-
-                    {/* Meta */}
-                    <div className="space-y-2 font-mono text-xs text-white/60 border-t border-white/5 pt-4">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-3.5 h-3.5 text-primary" />
-                        {event.date}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-3.5 h-3.5 text-secondary" />
-                        {event.time}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-3.5 h-3.5 text-accent" />
-                        {event.location}
-                      </div>
+                    <div className="flex items-center gap-2 font-mono text-xs text-white/50 mx-auto">
+                      <Terminal className="w-3.5 h-3.5" />
+                      console/events/{event.title.toLowerCase().replace(/\s+/g, '_')}.upcoming()
                     </div>
+                    <span className={`text-xs font-mono px-2.5 py-1 rounded-full border ${event.statusColor} flex items-center gap-1.5`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                      {event.status}
+                    </span>
+                  </div>
 
-                    {/* Days left */}
-                    <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
-                      <span className="font-mono text-xs text-white/40">T-{event.daysLeft} days</span>
-                      <div className="w-full mx-3 h-1 bg-white/5 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${i === 0 ? 'bg-gradient-fire' : i === 1 ? 'bg-secondary' : 'bg-destructive'}`}
-                          style={{ width: `${Math.max(5, 100 - event.daysLeft * 2)}%` }}
-                        />
+                  <div className="p-6 md:p-8 bg-black/50">
+                    <div className="space-y-5">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className={`text-sm font-mono px-3 py-1 rounded-full border ${event.typeColor}`}>
+                          {event.type}
+                        </span>
+                        <span className="font-mono text-xs text-white/40">T-{event.daysLeft} days away</span>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+
+                      <h3 className="text-2xl md:text-3xl font-bold text-white">{event.title}</h3>
+
+                      <p className="text-muted-foreground leading-relaxed">{event.description}</p>
+
+                      <div className="space-y-2 font-mono text-xs text-white/60 pt-2">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-3.5 h-3.5 text-primary" />
+                          {event.date}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-3.5 h-3.5 text-secondary" />
+                          {event.time}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-3.5 h-3.5 text-accent" />
+                          {event.location}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </motion.div>
+
+                  <div className="px-6 md:px-8 py-5 bg-black/50 border-t border-white/10 flex justify-end">
+                    <div className="flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-mono text-sm font-bold cursor-default">
+                      Stay Tuned
+                      <ExternalLink className="w-4 h-4" />
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

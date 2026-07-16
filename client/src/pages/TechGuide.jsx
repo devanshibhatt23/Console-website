@@ -376,11 +376,11 @@ export default function TechGuide() {
       <div className="tg-hero" ref={headerRef}>
         <div className="tg-hero-inner">
           <h1 className="tg-h1">
-            Tech <span className="tg-fire">Guide</span>
+            <span className="tg-fire">Tech Guide</span>
           </h1>
           <p className="tg-hero-sub">
             Everything you need to set up, understand the landscape, and start
-            building — all in one place for your first year in tech.
+            building - all in one place for your first year in tech.
           </p>
           <div className="tg-cta-row">
             <button

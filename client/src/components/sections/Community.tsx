@@ -18,7 +18,7 @@ const socials = [
 
 export default function Community() {
   return (
-    <section id="community" className="py-32 relative overflow-hidden bg-card/50 border-t border-white/5">
+    <section id="community" className="py-14 relative overflow-hidden bg-card/50 border-t border-white/5">
       {/* Subtle background mesh */}
       <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
