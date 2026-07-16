@@ -6,7 +6,7 @@ import { signOut } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  User, Globe, Link2, Code2, FileText, Home,
+  User, Globe, Link2, Code2, FileText,
   LogOut, Shield, CheckCircle2, XCircle, Upload,
   Loader2, ExternalLink, Trash2, X, ChevronRight,
   Terminal, Zap, Award,
@@ -362,9 +362,6 @@ export default function Dashboard() {
 
           {/* Navigation */}
           <nav className="dp-sidenav">
-            <button className="dp-nav-btn" onClick={() => navigate("/")}>
-              <Home size={14} /> Home
-            </button>
             {profile?.role === "admin" && (
               <button className="dp-nav-btn dp-nav-admin" onClick={() => navigate("/admin")}>
                 <Shield size={14} /> Admin Panel

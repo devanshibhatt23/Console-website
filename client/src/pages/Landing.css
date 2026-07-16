@@ -424,6 +424,9 @@ html {
   display: flex;
   gap: 20px;
   width: max-content;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 .left-to-right .scroll-track {

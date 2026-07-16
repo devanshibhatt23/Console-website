@@ -169,10 +169,6 @@ function Hero({ tracks }) {
   return (
     <header className="res-hero">
       <div ref={titleRef} className="res-hero-title-wrap">
-        <div className="res-hero-eyebrow">
-          <Zap size={12} />
-          <span>Console Learning Tracks</span>
-        </div>
         <h1 className="res-hero-title res-hero-title-centered">
           <span className="res-hero-title-line res-hero-title-gradient">Resource Hub</span>
         </h1>

@@ -13,7 +13,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-card border-t border-white/10 pt-16 pb-8 relative overflow-hidden">
+    <footer className="bg-card border-t border-white/10 pt-8 pb-5 relative overflow-hidden">
       {/* Orange glow orb */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none blur-[120px]"
@@ -21,7 +21,7 @@ export default function Footer() {
       />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
