@@ -282,7 +282,7 @@ export default function Landing() {
         <PreviousEvents />
 
         {/* Learn & Grow */}
-        <section id="learn-grow" className="landing-section pt-12 pb-20 bg-black">
+        <section id="learn-grow" className="landing-section pt-4 pb-16 bg-black">
           <div className="container mx-auto px-6 max-w-5xl text-center">
             <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
               Learn &amp; Grow
@@ -336,7 +336,7 @@ export default function Landing() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="pt-28 pb-20 bg-black relative overflow-hidden">
+        <section id="faq" className="pt-14 pb-16 bg-black relative overflow-hidden">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
             style={{ background: 'rgba(242,153,74,0.06)' }}

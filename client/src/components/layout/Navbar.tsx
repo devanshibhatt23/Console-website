@@ -322,7 +322,7 @@ export default function Navbar() {
               <form
                 onSubmit={handleSearchSubmit}
                 className="flex items-center overflow-hidden"
-                style={{ width: 140 }}
+                style={{ width: 92 }}
               >
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 w-full">
                   <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />

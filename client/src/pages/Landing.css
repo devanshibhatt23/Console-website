@@ -437,6 +437,15 @@ html {
   animation: scroll-backward 48s linear infinite;
 }
 
+/* Team carousel — faster to visually match the gallery */
+.team-section .left-to-right .scroll-track {
+  animation: scroll-forward 28s linear infinite;
+}
+
+.team-section .right-to-left .scroll-track {
+  animation: scroll-backward 28s linear infinite;
+}
+
 
 
 @keyframes cursorBlink {

@@ -11,6 +11,7 @@ import {
   Loader2, ExternalLink, Trash2, X, ChevronRight,
   Terminal, Zap, Award,
 } from "lucide-react";
+import { SiCodeforces, SiLeetcode } from "react-icons/si";
 import "./Dashboard.css";
 
 // ─── Animation variants ───────────────────────────────────────────────────────
@@ -536,10 +537,11 @@ export default function Dashboard() {
                 {/* Codeforces Card */}
                 <div className="dp-platform-card">
                   <div className="dp-platform-header">
-                    <div className="dp-platform-icon dp-platform-icon-cf">CF</div>
+                    <div className="dp-platform-icon dp-platform-icon-cf">
+                      <SiCodeforces size={20} />
+                    </div>
                     <div>
                       <h3 className="dp-platform-name">Codeforces</h3>
-                      <p className="dp-platform-desc">Competitive programming ratings & contest history</p>
                     </div>
                     <div className="dp-platform-badge-wrap">
                       {profile?.codeforces_handle
@@ -629,10 +631,11 @@ export default function Dashboard() {
                 {/* LeetCode Card */}
                 <div className="dp-platform-card">
                   <div className="dp-platform-header">
-                    <div className="dp-platform-icon dp-platform-icon-lc">LC</div>
+                    <div className="dp-platform-icon dp-platform-icon-lc">
+                      <SiLeetcode size={20} />
+                    </div>
                     <div>
                       <h3 className="dp-platform-name">LeetCode</h3>
-                      <p className="dp-platform-desc">Problem solving stats & ranking history</p>
                     </div>
                     <div className="dp-platform-badge-wrap">
                       {profile?.leetcode_handle
