@@ -119,10 +119,10 @@ function DevCard({ dev }: { dev: typeof developers[0] }) {
       <h3 className="text-lg font-bold text-white font-montserrat mb-1 text-center">{dev.name}</h3>
 
       {dev.email && (
-        <p className="text-sm text-white mb-5 text-center break-all">{dev.email}</p>
+        <p className="text-sm text-white text-center break-all" style={{ marginBottom: '28px' }}>{dev.email}</p>
       )}
 
-      <div className="flex gap-2 mt-auto">
+      <div className="flex gap-2" style={{ marginTop: '12px' }}>
         {dev.email && (
           <IconLink href={`mailto:${dev.email}`} icon={<FiMail size={16} />} />
         )}
@@ -159,11 +159,11 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
       </div>
 
       {member.email && (
-        <p className="text-sm text-white whitespace-nowrap overflow-hidden text-ellipsis" style={{ paddingLeft: '8px', marginBottom: '20px' }}>{member.email}</p>
+        <p className="text-sm text-white whitespace-nowrap overflow-hidden text-ellipsis" style={{ paddingLeft: '8px', marginBottom: '24px' }}>{member.email}</p>
       )}
 
       {hasAnyLink && (
-        <div className="flex gap-2" style={{ marginTop: '4px' }}>
+        <div className="flex gap-2" style={{ marginTop: '14px' }}>
           {member.email && (
             <IconLink href={`mailto:${member.email}`} icon={<FiMail size={14} />} />
           )}
