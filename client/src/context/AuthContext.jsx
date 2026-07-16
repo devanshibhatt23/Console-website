@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, useCallback } from "rea
 import { supabase } from "../lib/supabase";
 import { ensureCollegeIdForUser } from "../services/ProfileService";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
