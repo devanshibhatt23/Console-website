@@ -99,6 +99,8 @@
   background: linear-gradient(90deg, #F2994A, #F0405C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  filter: brightness(1.15);
 }
 
 .about-paragraph {

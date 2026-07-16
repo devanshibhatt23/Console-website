@@ -434,9 +434,7 @@ html {
   animation: scroll-backward 48s linear infinite;
 }
 
-.scroll-row:hover .scroll-track {
-  animation-play-state: paused;
-}
+
 
 @keyframes scroll-forward {
   from { transform: translateX(0); }
