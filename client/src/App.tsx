@@ -126,6 +126,7 @@ function App() {
                   <Route path="/events" element={<Events />} />
                   <Route path="/team" element={<MeetTheTeam />} />
 
+
                   {/* Protected Routes */}
                   <Route element={<ProtectedRoute />}>
                     <Route path="/profile" element={<Dashboard />} />
