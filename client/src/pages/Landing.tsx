@@ -341,7 +341,7 @@ export default function Landing() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="py-24 bg-black relative overflow-hidden">
+        <section id="faq" className="py-20 bg-black relative overflow-hidden">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
             style={{ background: 'rgba(242,153,74,0.06)' }}

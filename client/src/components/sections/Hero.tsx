@@ -8,9 +8,28 @@ import GridGlow from './GridGlow';
 import ConstellationDraw from './ConstellationDraw';
 import { useAuth } from '../../context/AuthContext';
 
+const CONSOLE_TEXT = 'CONSOLE';
+
 export default function Hero() {
   const { user } = useAuth();
   const [isHoveringConsole, setIsHoveringConsole] = useState(false);
+  const [displayText, setDisplayText] = useState('');
+  const [typingDone, setTypingDone] = useState(false);
+
+  useEffect(() => {
+    let i = 0;
+    setDisplayText('');
+    setTypingDone(false);
+    const interval = setInterval(() => {
+      i++;
+      setDisplayText(CONSOLE_TEXT.slice(0, i));
+      if (i >= CONSOLE_TEXT.length) {
+        clearInterval(interval);
+        setTypingDone(true);
+      }
+    }, 110);
+    return () => clearInterval(interval);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -145,7 +164,20 @@ export default function Hero() {
               onMouseEnter={() => setIsHoveringConsole(true)}
               onMouseLeave={() => setIsHoveringConsole(false)}
             >
-              CONSOLE
+              {displayText}
+              {!typingDone && (
+                <span
+                  className="console-cursor"
+                  style={{
+                    WebkitTextFillColor: '#F2994A',
+                    color: '#F2994A',
+                    fontWeight: 900,
+                    animation: 'cursorBlink 0.7s step-end infinite',
+                  }}
+                >
+                  |
+                </span>
+              )}
             </h1>
 
             {/* Glow orb behind CONSOLE on hover */}

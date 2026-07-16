@@ -436,6 +436,11 @@ html {
 
 
 
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 @keyframes scroll-forward {
   from { transform: translateX(0); }
   to   { transform: translateX(calc(-50% - 10px)); }
