@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import {
-  ArrowRight, BookOpen, CheckCircle2, Code2, Cpu, Trophy,
+  ArrowRight, CheckCircle2, Code2, Cpu, Trophy,
   GitBranch, Terminal, Zap, Globe, Users, Star, ExternalLink,
   ChevronRight, Layers, Rocket, Calendar, Award
 } from "lucide-react";
@@ -375,10 +375,6 @@ export default function TechGuide() {
       {/* ── Hero ── */}
       <div className="tg-hero" ref={headerRef}>
         <div className="tg-hero-inner">
-          <div className="tg-eyebrow">
-            <BookOpen size={11} />
-            First-year handbook
-          </div>
           <h1 className="tg-h1">
             Tech <span className="tg-fire">Guide</span>
           </h1>
@@ -401,16 +397,7 @@ export default function TechGuide() {
             </button>
           </div>
 
-          {/* Quick stats bar */}
-          <div className="tg-stats-bar">
-            <div className="tg-stat"><span className="tg-stat-num">3</span><span className="tg-stat-label">Career Paths</span></div>
-            <div className="tg-stat-divider" />
-            <div className="tg-stat"><span className="tg-stat-num">5</span><span className="tg-stat-label">Coding Platforms</span></div>
-            <div className="tg-stat-divider" />
-            <div className="tg-stat"><span className="tg-stat-num">6</span><span className="tg-stat-label">Key Events</span></div>
-            <div className="tg-stat-divider" />
-            <div className="tg-stat"><span className="tg-stat-num">∞</span><span className="tg-stat-label">Possibilities</span></div>
-          </div>
+
         </div>
       </div>
 
