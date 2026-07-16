@@ -79,6 +79,20 @@ const headingStyle: CSSProperties = {
   fontWeight: 900,
   fontFamily: 'Montserrat, sans-serif',
   lineHeight: 1.2,
+  cursor: 'default',
+  display: 'inline-block',
+  transition: 'transform 0.3s ease, filter 0.3s ease',
+};
+
+const headingHoverOn = (e: React.MouseEvent<HTMLHeadingElement>) => {
+  const el = e.currentTarget as HTMLElement;
+  el.style.transform = 'scale(1.02)';
+  el.style.filter = 'drop-shadow(0 0 14px rgba(242,153,74,0.7)) drop-shadow(0 0 28px rgba(240,64,92,0.4))';
+};
+const headingHoverOff = (e: React.MouseEvent<HTMLHeadingElement>) => {
+  const el = e.currentTarget as HTMLElement;
+  el.style.transform = '';
+  el.style.filter = '';
 };
 
 /* ── Icon button ────────────────────────────────────────────── */
@@ -161,7 +175,7 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
         >
           {getInitials(member.name)}
         </div>
-        <h3 className="text-base font-bold text-white font-montserrat leading-tight">{member.name}</h3>
+        <h3 className="text-base font-bold text-white font-montserrat leading-tight truncate w-full">{member.name}</h3>
       </div>
 
       {member.email && (
@@ -196,7 +210,7 @@ export default function MeetTheTeam() {
         <section className="w-full px-6 md:px-12 lg:px-20 pt-12 mb-24">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-6">
-              <h2 style={headingStyle}>Meet the developers</h2>
+              <h2 style={headingStyle} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>Meet the developers</h2>
             </div>
             <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
               Meet the brilliant minds behind the website of CONSOLE — building the future of tech community platforms
@@ -217,13 +231,13 @@ export default function MeetTheTeam() {
         <section className="w-full px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-6">
-              <h2 style={headingStyle}>Meet the team</h2>
+              <h2 style={headingStyle} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>Meet the team</h2>
             </div>
             <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
               Ready to join the future of tech? We are here to help you grow and succeed.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {teamMembers.map((member, i) => (
                 <MemberCard key={`${member.name}-${i}`} member={member} />
               ))}

@@ -49,7 +49,7 @@ export default function Community() {
             Follow us and stay in the loop with everything happening at Console.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
+          <div className="flex flex-col mt-7 sm:flex-row justify-center gap-6">
             {socials.map((social, i) => (
               <motion.a
                 key={i}

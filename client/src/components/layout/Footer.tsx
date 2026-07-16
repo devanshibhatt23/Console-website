@@ -3,10 +3,8 @@ import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const quickLinks = [
-  { label: 'home', href: '/#hero', isHash: true },
-  { label: 'about', href: '/#about', isHash: true },
-  { label: 'gallery', href: '/#gallery', isHash: true },
-  { label: 'team', href: '/#team', isHash: true },
+  { label: 'about', href: '/about', isHash: false },
+  { label: 'team', href: '/team', isHash: false },
   { label: 'events', href: '/events', isHash: false },
   { label: 'leaderboard', href: '/leaderboard', isHash: false },
   { label: 'resources', href: '/resources', isHash: false },
@@ -54,7 +52,7 @@ export default function Footer() {
               The official tech community of MNIT. A collective of developers, hackers, and builders
               creating the future one line at a time.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 mt-5">
               {[
                 { icon: FaLinkedin, href: 'https://www.linkedin.com/company/consolecommunity/', color: '#0077B5' },
                 { icon: FaInstagram, href: 'https://www.instagram.com/console.comm', color: '#E1306C' },

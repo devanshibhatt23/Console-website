@@ -160,7 +160,7 @@ export default function PreviousEvents() {
   }, [loading, displayEvents.length]);
 
   return (
-    <section id="previous-events" ref={sectionRef} className="py-32 bg-black relative">
+    <section id="previous-events" ref={sectionRef} className="py-20 bg-black relative">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div ref={headerRef} className="flex flex-col items-center text-center mb-20 gap-4">

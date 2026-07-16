@@ -118,6 +118,7 @@ export default function POTD() {
       setLoadingPOTD(true);
       const problem = await getPOTD();
       setPotd(problem);
+      if (!problem) setLoadingTodayRanking(false);
       const targetId = problem ? problem.id : getDailyFallbackId();
       await loadComments(targetId);
     } catch (err) {
@@ -275,7 +276,7 @@ export default function POTD() {
           title="Today's leaderboard"
           rows={todayLeaderboardRows}
           loading={loadingTodayRanking}
-          emptyText="No accepted submissions yet. Be the first to solve today's problem."
+          emptyText={potd ? "No accepted submissions yet. Be the first to solve today's problem." : "No POTD has been published today."}
         />
 
         <MiniLeaderboard

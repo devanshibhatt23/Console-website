@@ -8,7 +8,6 @@ import { searchProfiles, deriveCollegeIdFromEmail } from '../../services/Profile
 type SearchResult = { id: string; name?: string; college_id?: string; email?: string };
 
 const navLinks = [
-  { name: 'Home', href: '/#hero' },
   { name: 'About', href: '/about' },
   { name: 'Team', href: '/team' },
   { name: 'Events', href: '/events' },
@@ -34,7 +33,6 @@ const SECTION_TO_NAV_HREF: Record<string, string> = {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
@@ -71,12 +69,6 @@ export default function Navbar() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  useEffect(() => {
-    if (searchOpen) {
-      setTimeout(() => searchInputRef.current?.focus(), 50);
-    }
-  }, [searchOpen]);
-
   // Live search — debounced lookup by name or college id, results shown in a dropdown
   useEffect(() => {
     const term = searchQuery.trim();
@@ -106,7 +98,6 @@ export default function Navbar() {
         searchInputRef.current &&
         !searchInputRef.current.closest('.search-wrapper')?.contains(e.target as Node)
       ) {
-        setSearchOpen(false);
         setSearchQuery('');
       }
     };
@@ -158,7 +149,6 @@ export default function Navbar() {
   };
 
   const handleResultClick = (profileId: string) => {
-    setSearchOpen(false);
     setSearchQuery('');
     setSearchResults([]);
     setMobileMenuOpen(false);
@@ -228,7 +218,7 @@ export default function Navbar() {
     const isHashLink = link.href.startsWith('/#');
 
     if (mobile) {
-      const baseClass = 'text-left font-montserrat text-muted-foreground hover:text-white text-base py-2 transition-colors';
+      const baseClass = 'text-left font-montserrat text-white hover:text-white text-base py-2 transition-colors';
       return isHashLink ? (
         <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={baseClass}>
           &gt; {link.name}
@@ -260,7 +250,7 @@ export default function Navbar() {
           href={link.href}
           onClick={(e) => handleNavClick(e, link.href)}
           className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-            active ? '' : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
+            active ? '' : 'text-white hover:scale-[1.02] nav-link-hover'
           }`}
         >
           {active ? sharedActiveContent : <span className="nav-link-text font-montserrat">{link.name}</span>}
@@ -273,7 +263,7 @@ export default function Navbar() {
         key={link.name}
         to={link.href}
         className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-          active ? '' : 'text-muted-foreground hover:scale-[1.02] nav-link-hover'
+          active ? '' : 'text-white hover:scale-[1.02] nav-link-hover'
         }`}
       >
         {active ? sharedActiveContent : <span className="nav-link-text font-montserrat">{link.name}</span>}
@@ -289,7 +279,7 @@ export default function Navbar() {
           : 'bg-transparent py-5'
       }`}
     >
-      <div className="container mx-auto px-6 md:px-10 flex items-center justify-between">
+      <div className="container mx-auto pl-2 md:pl-4 pr-6 md:pr-10 flex items-center justify-between">
         {/* Logo — </> + CONSOLE */}
         {window.location.pathname === '/' ? (
           <button
@@ -329,53 +319,33 @@ export default function Navbar() {
           {/* Search — only for logged-in users */}
           {user && (
             <div className="search-wrapper relative flex items-center ml-1">
-              <AnimatePresence mode="wait">
-                {searchOpen ? (
-                  <motion.form
-                    key="search-form"
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: 200, opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onSubmit={handleSearchSubmit}
-                    className="flex items-center overflow-hidden"
-                  >
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 w-full">
-                      <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
-                      <input
-                        ref={searchInputRef}
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Search members"
-                        className="bg-transparent text-sm font-mono text-white placeholder:text-muted-foreground outline-none w-full"
-                      />
-                      {searchQuery && (
-                        <button
-                          type="button"
-                          onClick={() => setSearchQuery('')}
-                          className="text-muted-foreground hover:text-white shrink-0"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      )}
-                    </div>
-                    {renderSearchDropdown()}
-                  </motion.form>
-                ) : (
-                  <motion.button
-                    key="search-icon"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => setSearchOpen(true)}
-                    aria-label="Search members"
-                    className="p-2 rounded-lg text-muted-foreground hover:text-white hover:bg-white/5 transition-colors"
-                  >
-                    <Search className="w-4 h-4" />
-                  </motion.button>
-                )}
-              </AnimatePresence>
+              <form
+                onSubmit={handleSearchSubmit}
+                className="flex items-center overflow-hidden"
+                style={{ width: 180 }}
+              >
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 w-full">
+                  <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search"
+                    className="bg-transparent text-sm font-mono text-white placeholder:text-muted-foreground outline-none w-full"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      className="text-muted-foreground hover:text-white shrink-0"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  )}
+                </div>
+                {renderSearchDropdown()}
+              </form>
             </div>
           )}
 
