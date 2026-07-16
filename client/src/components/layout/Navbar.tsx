@@ -8,15 +8,14 @@ import { searchProfiles, deriveCollegeIdFromEmail } from '../../services/Profile
 type SearchResult = { id: string; name?: string; college_id?: string; email?: string };
 
 const navLinks = [
-  { name: 'home', href: '/#hero' },
-  { name: 'about', href: '/#about' },
-  { name: 'gallery', href: '/#gallery' },
-  { name: 'team', href: '/team' },
-  { name: 'events', href: '/events' },
-  { name: 'leaderboard', href: '/leaderboard' },
-  { name: 'potd', href: '/problem-of-the-day' },
-  { name: 'resources', href: '/resources' },
-  { name: 'tech guide', href: '/tech-guide' },
+  { name: 'Home', href: '/#hero' },
+  { name: 'About', href: '/about' },
+  { name: 'Team', href: '/team' },
+  { name: 'Events', href: '/events' },
+  { name: 'Leaderboard', href: '/leaderboard' },
+  { name: 'POTD', href: '/problem-of-the-day' },
+  { name: 'Resources', href: '/resources' },
+  { name: 'Tech Guide', href: '/tech-guide' },
 ];
 
 const SECTION_IDS = ['hero', 'about', 'gallery', 'team', 'previous-events', 'learn-grow'];
@@ -24,8 +23,6 @@ const SECTION_IDS = ['hero', 'about', 'gallery', 'team', 'previous-events', 'lea
 const HASH_TO_SECTION: Record<string, string> = {
   '/#hero': 'hero',
   '/#about': 'about',
-  '/#gallery': 'gallery',
-
 };
 
 // Maps active section ID → nav link href (for non-hash route links)
@@ -134,12 +131,23 @@ export default function Navbar() {
       }
       return;
     }
-    if (href.startsWith('/#') && window.location.pathname === '/') {
+    if (href.startsWith('/#')) {
       e.preventDefault();
-      const targetId = href.substring(2);
-      const el = document.getElementById(targetId);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-      window.history.pushState(null, '', href);
+      if (window.location.pathname === '/') {
+        const targetId = href.substring(2);
+        const el = document.getElementById(targetId);
+        if (el) {
+          const lenis = (window as any).__lenis;
+          if (lenis) {
+            lenis.scrollTo(el, { offset: -100, immediate: false });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+        window.history.pushState(null, '', href);
+      } else {
+        navigate(href);
+      }
     }
     setMobileMenuOpen(false);
   };
@@ -290,23 +298,25 @@ export default function Navbar() {
               window.history.pushState(null, '', '/');
             }}
             aria-label="Go to top"
-            className="flex items-center gap-2.5 shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
+            className="flex items-center shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
           >
-            <span className="font-mono font-bold text-lg" style={gradientText}>&lt;/&gt;</span>
-            <span className="font-montserrat font-black text-lg tracking-widest hidden sm:block" style={gradientText}>
-              CONSOLE
-            </span>
+            <img
+              src="/images/console_logo.png"
+              alt="Console Logo"
+              className="h-10 w-auto object-contain"
+            />
           </button>
         ) : (
           <Link
             to="/"
             aria-label="Go to home"
-            className="flex items-center gap-2.5 shrink-0 group hover:scale-[1.02] transition-transform duration-200"
+            className="flex items-center shrink-0 group hover:scale-[1.02] transition-transform duration-200"
           >
-            <span className="font-mono font-bold text-lg" style={gradientText}>&lt;/&gt;</span>
-            <span className="font-montserrat font-black text-lg tracking-widest hidden sm:block" style={gradientText}>
-              CONSOLE
-            </span>
+            <img
+              src="/images/console_logo.png"
+              alt="Console Logo"
+              className="h-10 w-auto object-contain"
+            />
           </Link>
         )}
 

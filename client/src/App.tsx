@@ -21,11 +21,13 @@ import TechGuide from "./pages/TechGuide";
 import PlacementPlaybook from "./pages/PlacementPlaybook";
 import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
+import AboutPage from "./pages/AboutPage";
 import Events from "./pages/Events";
 import MeetTheTeam from "./pages/MeetTheTeam";
 import ProfileView from "./pages/ProfileView";
 import SearchUsers from "./pages/SearchUsers";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/layout/Navbar";
 
 import Loader from '@/components/layout/Loader';
 
@@ -41,6 +43,8 @@ function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
+    // Don't override scroll if navigating to a hash section
+    if (window.location.hash) return;
     const lenis = (window as any).__lenis;
     if (lenis) {
       lenis.scrollTo(0, { immediate: true });
@@ -112,9 +116,11 @@ function App() {
             >
               <BrowserRouter>
                 <ScrollToTop />
+                <Navbar />
                 <Routes>
                   {/* Public Routes */}
                   <Route path="/" element={<Landing />} />
+                  <Route path="/about" element={<AboutPage />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/events" element={<Events />} />
