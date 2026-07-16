@@ -64,7 +64,7 @@ export default function POTD() {
   }, [loading, problem]);
 
   return (
-    <section id="potd" ref={sectionRef} className="py-24 bg-black relative overflow-hidden">
+    <section id="potd" ref={sectionRef} className="py-20 bg-black relative overflow-hidden">
       {/* Decorative glow */}
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
 

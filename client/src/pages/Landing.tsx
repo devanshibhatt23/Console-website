@@ -292,10 +292,10 @@ export default function Landing() {
             <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
               Learn &amp; Grow
             </h2>
-            <p className="text-muted-foreground font-inter mb-16">
+            <p className="text-muted-foreground font-inter mb-20">
               Everything you need to level up your skills and career.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 mt-8 md:grid-cols-3 gap-8">
               {learnGrowCards.map((card) => (
                 <Link
                   key={card.to}
@@ -341,7 +341,7 @@ export default function Landing() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="py-24 bg-black relative overflow-hidden">
+        <section id="faq" className="py-20 bg-black relative overflow-hidden">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
             style={{ background: 'rgba(242,153,74,0.06)' }}

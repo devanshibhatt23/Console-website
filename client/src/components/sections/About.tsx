@@ -67,7 +67,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-32 relative overflow-hidden">
+    <section id="about" ref={sectionRef} className="py-20 relative overflow-hidden">
       {/* Background glow */}
       <div
         className="absolute top-1/2 -right-[20%] w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none"
