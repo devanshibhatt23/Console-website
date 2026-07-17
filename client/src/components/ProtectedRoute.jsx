@@ -24,13 +24,25 @@ export default function ProtectedRoute({ requireAdmin = false }) {
   }
 
   // 2. Profile incomplete -> Force them to Dashboard
-  // To complete profile, name is required.
-  const isProfileComplete = profile && profile.name && profile.name.trim() !== "";
-  const isDashboardRoute = window.location.pathname === "/dashboard";
+  // To complete profile, a name is required AND at least one verified platform handle (CF or LC) must be connected
+  const hasName = !!(profile && profile.name && profile.name.trim() !== "");
+  const hasCf = !!(profile && profile.codeforces_handle && profile.codeforces_handle.trim() !== "");
+  const hasLc = !!(profile && profile.leetcode_handle && profile.leetcode_handle.trim() !== "");
+  const isProfileComplete = hasName && (hasCf || hasLc);
+  const isProfileRoute = window.location.pathname === "/profile" || window.location.pathname === "/dashboard";
   
-  if (!isProfileComplete && !isDashboardRoute) {
-    // If they have an incomplete profile, they MUST go to dashboard
-    return <Navigate to="/dashboard" replace />;
+  console.log("ProtectedRoute - completeness check:", {
+    pathname: window.location.pathname,
+    hasName,
+    hasCf,
+    hasLc,
+    isProfileComplete,
+    isProfileRoute
+  });
+
+  if (!isProfileComplete && !isProfileRoute) {
+    // If they have an incomplete profile, they MUST go to profile page
+    return <Navigate to="/profile" replace />;
   }
 
   if (requireAdmin) {

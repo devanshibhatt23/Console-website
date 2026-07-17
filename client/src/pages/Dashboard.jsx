@@ -118,7 +118,8 @@ export default function Dashboard() {
     if (!profile) return;
     const derivedId  = deriveCollegeIdFromEmail(user?.email || profile?.email || "");
     const nextId     = derivedId || profile.college_id || "";
-    setName(profile.name || "");
+    const googleName = user?.user_metadata?.full_name || user?.user_metadata?.name || "";
+    setName(profile.name || googleName || "");
     setCollegeId(nextId);
     setGithubUrl(profile.github_url || "");
     setLinkedinUrl(profile.linkedin_url || "");
@@ -282,7 +283,7 @@ export default function Dashboard() {
   }
 
   // ── Loading state ────────────────────────────────────────────────────────────
-  if (loading) {
+  if (loading || !profile) {
     return (
       <div className="dp-loading">
         <div className="dp-loading-spinner" />
@@ -386,13 +387,13 @@ export default function Dashboard() {
 
           {/* Banners */}
           <AnimatePresence>
-            {!profile?.name && (
+            {(!profile?.name || (!profile?.codeforces_handle && !profile?.leetcode_handle)) && (
               <motion.div
                 key="warn"
                 className="dp-banner dp-banner-warn"
                 initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               >
-                ⚡ Enter your <strong>Name</strong> in the Profile tab to unlock the rest of the site.
+                ⚡ Complete your profile: You must verify and connect at least one platform handle (Codeforces or LeetCode) to unlock the rest of the site.
               </motion.div>
             )}
             {successMsg && (
@@ -454,8 +455,8 @@ export default function Dashboard() {
                       placeholder="Your full name"
                       value={name}
                       onChange={e => setName(e.target.value)}
-                      required
-                      className={`dp-input${!name.trim() ? " dp-input-invalid" : ""}`}
+                      disabled
+                      className="dp-input dp-input-disabled"
                     />
                   </div>
 
@@ -663,7 +664,7 @@ export default function Dashboard() {
                     ) : isLcVerifying ? (
                       <div className="dp-verify-box">
                         <p className="dp-verify-instruction">
-                          Go to LeetCode → Settings → Profile → About Me, then paste this code:
+                          Go to LeetCode → Settings → Profile Settings → ReadMe, then paste this code:
                         </p>
                         <div className="dp-verify-code-box">
                           <code>{lcVerificationCode}</code>

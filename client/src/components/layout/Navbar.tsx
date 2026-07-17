@@ -322,17 +322,17 @@ export default function Navbar() {
               <form
                 onSubmit={handleSearchSubmit}
                 className="flex items-center overflow-hidden"
-                style={{ width: 152 }}
+                style={{ width: 105 }}
               >
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 border border-white/15 w-full">
-                  <Search className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                <div className="flex items-center gap-1 px-2 py-1 rounded bg-white/10 border border-white/15 w-full">
+                  <Search className="w-3.2 h-3 text-muted-foreground shrink-0" />
                   <input
                     ref={searchInputRef}
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search"
-                    className="bg-transparent text-sm font-mono text-white placeholder:text-muted-foreground outline-none w-full"
+                    className="bg-transparent text-xs font-mono text-white placeholder:text-muted-foreground outline-none w-full"
                   />
                   {searchQuery && (
                     <button
