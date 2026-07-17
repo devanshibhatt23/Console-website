@@ -1,8 +1,9 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function ProtectedRoute({ requireAdmin = false }) {
   const { user, profile, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -23,25 +24,12 @@ export default function ProtectedRoute({ requireAdmin = false }) {
     return <Navigate to="/login" replace />;
   }
 
-  // 2. Profile incomplete -> Force them to Dashboard
-  // To complete profile, a name is required AND at least one verified platform handle (CF or LC) must be connected
-  const hasName = !!(profile && profile.name && profile.name.trim() !== "");
-  const hasCf = !!(profile && profile.codeforces_handle && profile.codeforces_handle.trim() !== "");
-  const hasLc = !!(profile && profile.leetcode_handle && profile.leetcode_handle.trim() !== "");
-  const isProfileComplete = hasName && (hasCf || hasLc);
-  const isProfileRoute = window.location.pathname === "/profile" || window.location.pathname === "/dashboard";
-  
-  console.log("ProtectedRoute - completeness check:", {
-    pathname: window.location.pathname,
-    hasName,
-    hasCf,
-    hasLc,
-    isProfileComplete,
-    isProfileRoute
-  });
+  // 2. Profile incomplete -> Redirect to /profile
+  // profile_completed is only set to true when the user explicitly verifies a platform handle
+  const isProfileComplete = profile?.profile_completed === true;
+  const isProfileRoute = location.pathname === "/profile" || location.pathname === "/dashboard";
 
   if (!isProfileComplete && !isProfileRoute) {
-    // If they have an incomplete profile, they MUST go to profile page
     return <Navigate to="/profile" replace />;
   }
 

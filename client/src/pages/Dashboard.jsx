@@ -211,7 +211,8 @@ export default function Dashboard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Verification failed");
       const field = platform === "leetcode" ? "leetcode_handle" : "codeforces_handle";
-      await updateProfile(user.id, { [field]: data.handle });
+      // Save the handle AND mark profile as completed
+      await updateProfile(user.id, { [field]: data.handle, profile_completed: true });
       setSuccessMsg(data.message);
       if (platform === "codeforces") setIsCfVerifying(false); else setIsLcVerifying(false);
       if (refreshProfile) await refreshProfile();
@@ -393,7 +394,7 @@ export default function Dashboard() {
                 className="dp-banner dp-banner-warn"
                 initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               >
-                ⚡ Complete your profile: You must verify and connect at least one platform handle (Codeforces or LeetCode) to unlock the rest of the site.
+                Complete your profile: You must verify and connect at least one platform handle (Codeforces or LeetCode) to unlock the rest of the site.
               </motion.div>
             )}
             {successMsg && (
