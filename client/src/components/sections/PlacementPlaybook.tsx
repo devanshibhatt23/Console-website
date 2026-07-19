@@ -102,7 +102,7 @@ export default function PlacementPlaybook() {
             Placement <span className="text-gradient-fire">Playbook</span>
           </h2>
           <p className="text-muted-foreground font-mono leading-relaxed text-lg">
-            Everything you need to crack top tech companies — DSA, system design, HR rounds, and the resume that gets you the interview.
+            Everything you need to crack top tech companies: DSA, system design, HR rounds, and the resume that gets you the interview.
           </p>
         </div>
 

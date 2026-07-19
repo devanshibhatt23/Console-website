@@ -106,7 +106,7 @@ const Leaderboard = () => {
     return (
         <div className="leaderboard-container" style={{ position: "relative" }}>
 
-            <div className="leaderboard-content" style={{ paddingTop: "60px" }}>
+            <div className="leaderboard-content" style={{ paddingTop: "90px" }}>
                 
                 {/* Header */}
                 <div className="leaderboard-header">

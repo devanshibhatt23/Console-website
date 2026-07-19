@@ -84,18 +84,24 @@
 }
 
 .tg-h1 {
-  font-size: clamp(52px, 9vw, 88px);
+  font-size: clamp(48px, 7vw, 72px);
   font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 1.02;
-  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  background: linear-gradient(90deg, var(--tg-fire-1), var(--tg-fire-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
   margin: 0 0 22px;
   cursor: default;
-  transition: filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .tg-h1:hover {
-  filter: drop-shadow(0 0 20px rgba(242,153,74,0.5)) drop-shadow(0 0 40px rgba(240,64,92,0.3));
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 14px rgba(242,153,74,0.7)) drop-shadow(0 0 28px rgba(240,64,92,0.4));
 }
 
 .tg-fire {
@@ -106,7 +112,7 @@
 }
 
 .tg-hero-sub {
-  font-size: 15px;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
   color: #94a3b8;
   font-family: 'Inter', system-ui, sans-serif;
   max-width: 540px;
@@ -116,7 +122,7 @@
 
 .tg-cta-row {
   display: flex;
-  gap: 12px;
+  gap: 18px;
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 56px;
@@ -246,7 +252,7 @@
 .tg-section-badge {
   display: inline-block;
   font-family: var(--tg-mono);
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 99px;
@@ -271,7 +277,7 @@
 }
 
 .tg-section-sub {
-  font-size: 15px;
+  font-size: 17px;
   color: #94a3b8;
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.7;
@@ -282,7 +288,7 @@
 .tg-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 49px;
 }
 
 .tg-vertical-stack {
@@ -378,7 +384,7 @@
 .tg-accent-purple .tg-card-tag { color: #c084fc; border-color: rgba(192,132,252,0.2); }
 
 .tg-card-title {
-  font-size: 17px;
+  font-size: 23px;
   font-weight: 700;
   color: var(--tg-white);
   margin: 0 0 4px;
@@ -387,7 +393,7 @@
 }
 
 .tg-card-tagline {
-  font-size: 14px;
+  font-size: 15px;
   color: #94a3b8;
   margin: 0;
   line-height: 1.55;
@@ -411,7 +417,7 @@
 
 /* ── Card divider ── */
 .tg-card-divider {
-  height: 1px;
+  height: 2px;
   background: rgba(255,255,255,0.05);
   margin: 0 0 14px;
 }
@@ -419,7 +425,7 @@
 /* ── Path badge ── */
 .tg-path-badge {
   font-family: var(--tg-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   padding: 3px 8px;
   border-radius: 5px;
@@ -442,7 +448,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 14px;
+  font-size: 15px;
   color: #94a3b8;
   line-height: 1.55;
   font-family: 'Inter', system-ui, sans-serif;
@@ -667,13 +673,13 @@
 
 /* ── Event cards ── */
 .tg-event-card {
-  padding: 26px;
+  padding: 18px;
   border-radius: 16px;
   background: var(--tg-card-bg);
   border: 1px solid rgba(255,255,255,0.07);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 9px;
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -717,7 +723,7 @@
 
 .tg-event-meta {
   font-family: var(--tg-mono);
-  font-size: 11px;
+  font-size: 15px;
   color: #475569;
 }
 

@@ -579,7 +579,7 @@ export default function Dashboard() {
                           className="dp-verify-problem-link"
                         >
                           <ChevronRight size={13} />
-                          {cfVerificationProblem?.problemId} — {cfVerificationProblem?.problemTitle}
+                          {cfVerificationProblem?.problemId}: {cfVerificationProblem?.problemTitle}
                           <ExternalLink size={11} />
                         </a>
                         <p className="dp-verify-note">Then click Confirm within 5 minutes.</p>

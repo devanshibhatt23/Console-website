@@ -178,12 +178,19 @@
 }
 
 .res-hero-title {
-  font-family: var(--font-title);
-  font-size: clamp(64px, 10vw, 112px);
-  font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -4px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(48px, 7vw, 72px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   margin: 0;
+  cursor: default;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.res-hero-title:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 14px rgba(242, 153, 74, 0.7)) drop-shadow(0 0 28px rgba(240, 64, 92, 0.4));
 }
 
 .res-hero-title-line {
@@ -209,8 +216,8 @@
 }
 
 .res-hero-subtitle {
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  line-height: 1.7;
   color: var(--res-muted-2);
   margin: 0;
   text-align: center;
@@ -319,7 +326,7 @@
 
 .res-card-term-label {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 13px;
   color: var(--res-muted);
   flex: 1;
   text-align: center;
@@ -359,7 +366,7 @@
 
 .res-card-index {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--tc);
   letter-spacing: 1px;
@@ -397,7 +404,7 @@
 
 .res-card-name {
   font-family: var(--font-title);
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--res-text);
   line-height: 1.2;
@@ -411,7 +418,7 @@
 }
 
 .res-card-sub {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--res-muted);
   margin: 0;
   font-family: var(--font-mono);
@@ -419,7 +426,7 @@
 }
 
 .res-card-desc {
-  font-size: 13.5px;
+  font-size: 16px;
   color: var(--res-muted-2);
   line-height: 1.65;
   margin: 0;
@@ -436,7 +443,7 @@
 
 .res-card-scope {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 14px;
   color: var(--res-muted);
   padding: 3px 10px;
   border-radius: 100px;
@@ -501,8 +508,8 @@
   align-items: center;
   gap: 7px;
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--res-muted);
+  font-size: 14px;
+  color: var(--res);
   background: none;
   border: none;
   cursor: pointer;
@@ -544,7 +551,7 @@
   border-radius: 6px;
   border: 1px solid;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 2px;
   width: fit-content;
@@ -561,7 +568,7 @@
 }
 
 .rd-intro {
-  font-size: 15px;
+  font-size: 18px;
   color: var(--res-muted-2);
   line-height: 1.7;
   margin: 0;
@@ -600,7 +607,7 @@
 
 .rd-ring-done {
   font-family: var(--font-title);
-  font-size: 32px;
+  font-size: 33px;
   font-weight: 800;
   line-height: 1;
 }
@@ -620,8 +627,8 @@
 
 .rd-ring-hint {
   font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--res-muted);
+  font-size: 14px;
+  color: var(--res);
   text-align: center;
   max-width: 120px;
   line-height: 1.4;
@@ -647,13 +654,13 @@
 }
 
 .rd-info-divider {
-  height: 1px;
+  height: 2px;
   background: var(--res-border);
 }
 
 .rd-info-key {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -662,13 +669,13 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   padding-top: 2px;
 }
 
 .rd-info-val {
-  font-size: 13px;
-  color: var(--res-muted-2);
+  font-size: 16px;
+  color: var(--res);
   line-height: 1.6;
 }
 
@@ -676,7 +683,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
+  gap: 17px;
 }
 
 .rd-reading-link {
@@ -684,7 +691,7 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: rgba(255,255,255,0.18);
-  font-size: 13px;
+  font-size: 16px;
   transition: color 0.15s, text-decoration-color 0.15s;
 }
 
@@ -809,7 +816,7 @@
 
 .rd-mod-index {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -818,7 +825,7 @@
 
 .rd-mod-title {
   font-family: var(--font-title);
-  font-size: 22px;
+  font-size: 27px;
   font-weight: 700;
   letter-spacing: -0.4px;
   color: var(--res-text);
@@ -855,9 +862,9 @@
 .rd-section-label {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -878,7 +885,7 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-size: 14px;
+  font-size: 19px;
   color: var(--res-muted-2);
   line-height: 1.6;
 }
@@ -940,7 +947,7 @@
   align-items: center;
   gap: 4px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -964,7 +971,7 @@
 
 .rd-res-text {
   flex: 1;
-  font-size: 13px;
+  font-size: 17px;
   color: var(--res-muted-2);
   line-height: 1.4;
   min-width: 0;
@@ -999,7 +1006,7 @@
 }
 
 .rd-practice-text {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--res-muted-2);
   line-height: 1.65;
   margin: 0;
@@ -1021,7 +1028,7 @@
   align-items: center;
   gap: 5px;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 16px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1029,7 +1036,7 @@
 }
 
 .rd-checkpoint-text {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--res-muted-2);
   line-height: 1.6;
   margin: 0;
