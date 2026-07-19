@@ -8,13 +8,19 @@ import { getResources, createResource, deleteResource } from "../services/resour
 import { DOMAINS } from "../data/resourcesData";
 import {
   ArrowLeft, Calendar, Shield, BookOpen, Trash2,
-  ExternalLink, Loader2, Plus, X, Upload, MapPin
+  ExternalLink, Loader2, Plus, X, Upload, MapPin, MessageSquare, Check
 } from "lucide-react";
 import "./Admin.css";
 
 function getLocalDateString() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function getApiBase() {
+  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:5001"
+    : "https://console-website.onrender.com";
 }
 
 export default function Admin() {
@@ -60,6 +66,12 @@ export default function Admin() {
   const [resDescription, setResDescription] = useState("");
   const [resType, setResType] = useState("article");
 
+  // Quotes state
+  const [pendingQuotes, setPendingQuotes] = useState([]);
+  const [loadingQuotes, setLoadingQuotes] = useState(false);
+  const [newQuoteText, setNewQuoteText] = useState("");
+  const [newQuoteAuthor, setNewQuoteAuthor] = useState("");
+
   // Action indicators
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
@@ -75,6 +87,7 @@ export default function Admin() {
         loadEvents();
         loadProblems();
         loadResources();
+        loadPendingQuotes();
       }
     }
   }, [profile, authLoading]);
@@ -112,6 +125,75 @@ export default function Admin() {
       console.error("Error loading resources:", err.message);
     } finally {
       setLoadingResources(false);
+    }
+  }
+
+  async function loadPendingQuotes() {
+    try {
+      setLoadingQuotes(true);
+      const res = await fetch(`${getApiBase()}/api/motivation-quotes/pending`);
+      if (res.ok) {
+        const data = await res.json();
+        setPendingQuotes(data || []);
+      }
+    } catch (err) {
+      console.error("Error loading quotes:", err.message);
+    } finally {
+      setLoadingQuotes(false);
+    }
+  }
+
+  async function handleReviewQuote(id, action) {
+    if (!window.confirm(`Are you sure you want to ${action} this quote?`)) return;
+    setSubmitting(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+    try {
+      const res = await fetch(`${getApiBase()}/api/motivation-quotes/${id}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, adminUserId: profile.id })
+      });
+      if (!res.ok) throw new Error("Failed to review quote");
+      setSuccessMsg(`Quote ${action} successfully!`);
+      await loadPendingQuotes();
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleAddQuote(e) {
+    e.preventDefault();
+    if (!newQuoteText.trim() || !newQuoteAuthor.trim()) return;
+    setSubmitting(true);
+    setErrorMsg("");
+    setSuccessMsg("");
+    try {
+      const res = await fetch(`${getApiBase()}/api/motivation-quotes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: profile.id, quote: newQuoteText, authorName: newQuoteAuthor })
+      });
+      if (!res.ok) throw new Error("Failed to submit quote");
+      const { data } = await res.json();
+      
+      const reviewRes = await fetch(`${getApiBase()}/api/motivation-quotes/${data.id}/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "approved", adminUserId: profile.id })
+      });
+      if (!reviewRes.ok) throw new Error("Failed to auto-approve quote");
+      
+      setSuccessMsg("Quote added and automatically approved!");
+      setNewQuoteText("");
+      setNewQuoteAuthor("");
+      await loadPendingQuotes();
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -469,6 +551,14 @@ export default function Admin() {
             aria-selected={activeTab === "resources"}
           >
             <BookOpen size={14} /> Resources
+          </button>
+          <button
+            onClick={() => { setActiveTab("quotes"); setSuccessMsg(""); setErrorMsg(""); }}
+            className={`admin-tab${activeTab === "quotes" ? " active" : ""}`}
+            role="tab"
+            aria-selected={activeTab === "quotes"}
+          >
+            <MessageSquare size={14} /> Quotes
           </button>
         </div>
 
@@ -920,6 +1010,79 @@ export default function Admin() {
                       <button onClick={() => handleDeleteResource(res.id)} className="admin-res-delete-btn">
                         Delete
                       </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Quotes Manager Tab */}
+        {activeTab === "quotes" && (
+          <div className="admin-grid">
+            <div className="admin-card">
+              <h2 className="admin-card-title">Add Motivation Quote</h2>
+              <form onSubmit={handleAddQuote}>
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Quote Text</label>
+                  <textarea
+                    placeholder="Enter inspirational quote..."
+                    value={newQuoteText}
+                    onChange={(e) => setNewQuoteText(e.target.value)}
+                    className="admin-textarea"
+                    required
+                  />
+                </div>
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Author Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. John Doe"
+                    value={newQuoteAuthor}
+                    onChange={(e) => setNewQuoteAuthor(e.target.value)}
+                    className="admin-input"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={submitting || !newQuoteText || !newQuoteAuthor}
+                  className="admin-btn-primary"
+                >
+                  {submitting ? <Loader2 className="spinner" size={14} /> : <Plus size={14} />} Add & Approve Quote
+                </button>
+              </form>
+            </div>
+
+            <div className="admin-card">
+              <h2 className="admin-card-title">Pending Quotes Review</h2>
+              {loadingQuotes ? (
+                <div className="admin-loading-spinner" style={{ margin: "40px auto" }} />
+              ) : pendingQuotes.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "40px 0", color: "rgba(255,255,255,0.3)" }}>
+                  <p>No pending quotes for review.</p>
+                </div>
+              ) : (
+                <div className="admin-scroll-y">
+                  {pendingQuotes.map((q) => (
+                    <div key={q.id} className="admin-res-row" style={{ alignItems: "flex-start" }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div className="admin-res-meta-tags">
+                          <span className="admin-res-tag-domain">Submitted by {q.profiles?.name || "Unknown"}</span>
+                          <span className="admin-res-tag-info">{new Date(q.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <p className="admin-res-title" style={{ fontStyle: "italic", marginTop: "6px" }}>"{q.quote}"</p>
+                        <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "4px" }}>— {q.author_name}</p>
+                      </div>
+                      <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
+                        <button onClick={() => handleReviewQuote(q.id, 'approved')} className="admin-btn-primary" style={{ padding: "6px 12px", fontSize: "12px", minWidth: "80px", justifyContent: "center" }} disabled={submitting}>
+                          <Check size={12} /> Approve
+                        </button>
+                        <button onClick={() => handleReviewQuote(q.id, 'rejected')} className="admin-res-delete-btn" style={{ padding: "6px 12px", fontSize: "12px", minWidth: "80px", justifyContent: "center" }} disabled={submitting}>
+                          <X size={12} /> Reject
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
