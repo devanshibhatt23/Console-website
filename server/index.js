@@ -1358,7 +1358,7 @@ app.get('/api/motivation-quotes/pending', async (req, res) => {
     try {
         const { data, error } = await supabase
             .from('motivation_quotes')
-            .select('id, quote, author_name, created_at, user_id, profiles(name)')
+            .select('id, quote, author_name, created_at, user_id, profiles!motivation_quotes_user_id_fkey(name)')
             .eq('status', 'pending')
             .order('created_at', { ascending: true });
 
