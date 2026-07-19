@@ -408,7 +408,7 @@ function CalendarHeatmap({ calendarData }) {
   };
 
   return (
-    <div className="potd-glass-card">
+    <div className="potd-glass-card" style={{ overflow: "visible" }}>
       <div className="potd-glass-card-inner">
         <div className="potd-card-header">
           <div className="potd-card-title"><Calendar size={15} className="text-emerald-400" />Solve Calendar</div>

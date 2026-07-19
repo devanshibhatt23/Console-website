@@ -448,7 +448,6 @@
    CALENDAR HEATMAP
    ═══════════════════════════════════════════════════════════════ */
 .potd-calendar-wrapper {
-  overflow-x: auto;
   padding-bottom: 8px;
 }
 .potd-calendar-grid {
