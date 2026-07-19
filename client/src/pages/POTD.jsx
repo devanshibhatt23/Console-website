@@ -414,26 +414,28 @@ function CalendarHeatmap({ calendarData }) {
           <div className="potd-card-title"><Calendar size={15} className="text-emerald-400" />Solve Calendar</div>
           <span className="text-[10px] font-mono text-white/25">Last 90 days</span>
         </div>
-        <div className="potd-calendar-grid">
-          {days.map((day, i) => (
-            <div
-              key={day.date}
-              className={`potd-calendar-cell ${getColorClass(day)}`}
-              onMouseEnter={() => setHoveredDay(day)}
-              onMouseLeave={() => setHoveredDay(null)}
-            >
-              {hoveredDay?.date === day.date && (
-                <div className="potd-calendar-tooltip">
-                  <div className="font-semibold">{new Date(day.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
-                  {day.solved ? (
-                    <div className="text-emerald-400 mt-1">✅ {day.title} ({day.platform})</div>
-                  ) : (
-                    <div className="text-white/40 mt-1">No solve</div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="potd-calendar-wrapper">
+          <div className="potd-calendar-grid">
+            {days.map((day, i) => (
+              <div
+                key={day.date}
+                className={`potd-calendar-cell ${getColorClass(day)}`}
+                onMouseEnter={() => setHoveredDay(day)}
+                onMouseLeave={() => setHoveredDay(null)}
+              >
+                {hoveredDay?.date === day.date && (
+                  <div className="potd-calendar-tooltip">
+                    <div className="font-semibold">{new Date(day.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
+                    {day.solved ? (
+                      <div className="text-emerald-400 mt-1">✅ {day.title} ({day.platform})</div>
+                    ) : (
+                      <div className="text-white/40 mt-1">No solve</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -619,22 +621,20 @@ function ChatNexus({ comments, user, profile, newCommentText, onCommentChange, o
             {comments.map((cmt) => {
               const isOwner = cmt.user_id === user?.id;
               return (
-                <motion.div key={cmt.id} initial={{ opacity: 0, y: 14, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.28 }}
-                  className={`potd-chat-msg flex items-end gap-2.5 ${isOwner ? "flex-row-reverse" : ""}`}>
-                  <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[11px] font-bold text-white mb-0.5"
-                    style={{ background: isOwner ? "linear-gradient(135deg, #F2994A, #F0405C)" : "linear-gradient(135deg, #1e1b4b, #4f46e5)", boxShadow: isOwner ? "0 0 14px rgba(242,153,74,0.2)" : "0 0 14px rgba(99,102,241,0.15)" }}>
+                <motion.div key={cmt.id} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
+                  className="group flex items-start gap-3.5 px-3 py-2 hover:bg-white/[0.02] rounded-md transition-colors relative">
+                  <div className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-[12px] font-bold text-white mt-0.5 shadow-sm"
+                    style={{ background: isOwner ? "linear-gradient(135deg, #F2994A, #F0405C)" : "linear-gradient(135deg, #1e1b4b, #4f46e5)" }}>
                     {getInitials(cmt.profiles?.name)}
                   </div>
-                  <div className="relative">
-                    <div className="max-w-[72%] rounded-2xl px-4 py-3" style={{ background: isOwner ? "rgba(240,64,92,0.08)" : "rgba(99,102,241,0.07)", border: `1px solid ${isOwner ? "rgba(240,64,92,0.15)" : "rgba(99,102,241,0.13)"}` }}>
-                      <div className={`flex items-baseline gap-2.5 mb-1.5 ${isOwner ? "flex-row-reverse" : ""}`}>
-                        <Link to={`/profile/${cmt.user_id}`} className="text-xs font-bold text-white/70 hover:text-white/90 transition-colors truncate">{cmt.profiles?.name || "Anonymous coder"}</Link>
-                        <span className="text-[10px] font-mono text-white/22 flex-shrink-0">{new Date(cmt.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-                      </div>
-                      <p className="text-sm text-white/55 leading-relaxed whitespace-pre-wrap break-words">{cmt.content}</p>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-baseline gap-2 mb-1">
+                      <Link to={`/profile/${cmt.user_id}`} className="text-[14px] font-semibold hover:underline truncate tracking-wide" style={{ color: isOwner ? "#F2994A" : "rgba(255,255,255,0.9)" }}>
+                        {cmt.profiles?.name || "Anonymous coder"}
+                      </Link>
+                      <span className="text-[11px] font-mono text-white/30 flex-shrink-0">{new Date(cmt.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
                     </div>
-                    <button className={`potd-reaction-btn absolute -bottom-2 ${isOwner ? "left-1" : "right-1"} flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/8 text-xs text-white/35 hover:text-white/65 hover:bg-white/[0.08] transition-all`}
-                      onClick={(e) => e.preventDefault()} title="React (coming soon)"><Smile size={11} /><span className="text-[10px]">👍</span></button>
+                    <p className="text-[14px] text-white/70 leading-relaxed whitespace-pre-wrap break-words">{cmt.content}</p>
                   </div>
                 </motion.div>
               );
@@ -928,16 +928,8 @@ function POTDInner() {
 
       {/* ══════════ HERO SECTION ══════════ */}
       <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
-        <GridGlow />
         <div className="absolute inset-0 z-0">
           <Particles id="potd-particles" className="w-full h-full" options={PARTICLES_OPTIONS} />
-        </div>
-
-        {/* Ambient glow blobs */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <motion.div style={{ y: blob1Y }} className="absolute top-1/3 left-1/4 w-[550px] h-[550px] rounded-full bg-indigo-700/6 blur-[150px] -translate-x-1/2 -translate-y-1/2" />
-          <motion.div style={{ y: blob2Y }} className="absolute bottom-1/3 right-1/4 w-[550px] h-[550px] rounded-full bg-orange-600/5 blur-[150px] translate-x-1/2 translate-y-1/2" />
-          <motion.div style={{ y: blob3Y }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-pink-600/4 blur-[110px]" />
         </div>
 
         {/* Scanline */}
@@ -979,22 +971,30 @@ function POTDInner() {
         </div>
       </section>
 
+      {/* ══════════ MOTIVATION SECTION ══════════ */}
+      <section className="px-6 pt-10 pb-6 w-full z-10 relative">
+        <div className="potd-container">
+          <MotivationCard user={user} />
+        </div>
+      </section>
+
       {/* ══════════ DASHBOARD SECTION ══════════ */}
-      <section id="potd-dashboard-section" className="relative px-6 py-20 w-full">
+      <section id="potd-dashboard-section" className="relative px-6 pb-20 w-full z-10">
         <div className="potd-container">
           <SectionDivider icon={<Code2 size={14} className="text-orange-400" />} label="Dashboard" />
 
           <div className="potd-dashboard-grid">
-            {/* Left — Problem Card */}
-            <div>
+            <div className="dashboard-cell-problem">
               {loadingPOTD ? <HeroSkeleton /> : !potd ? <EmptyState /> : <ProblemCard potd={potd} platformDesc={platformDesc} loadingPlatformDesc={loadingPlatformDesc} />}
             </div>
 
-            {/* Right — Streak / Calendar / Stats */}
-            <div className="potd-right-stack">
-              <QuickStatsGrid stats={userStats} />
-              <StreakCard currentStreak={userStats.currentStreak} bestStreak={userStats.bestStreak} totalSolved={userStats.totalSolved} />
+            <div className="dashboard-cell-calendar">
               <CalendarHeatmap calendarData={userStats.calendarData} />
+            </div>
+
+            <div className="dashboard-cell-right">
+              <StreakCard currentStreak={userStats.currentStreak} bestStreak={userStats.bestStreak} totalSolved={userStats.totalSolved} />
+              <QuickStatsGrid stats={userStats} />
             </div>
           </div>
         </div>
@@ -1017,13 +1017,7 @@ function POTDInner() {
         </div>
       </section>
 
-      {/* ══════════ MOTIVATION SECTION ══════════ */}
-      <section className="px-6 pb-32 w-full">
-        <div className="potd-container">
-          <SectionDivider icon={<Quote size={14} className="text-purple-400" />} label="Daily Motivation" />
-          <MotivationCard user={user} />
-        </div>
-      </section>
+      {/* Motivation moved up */}
     </div>
   );
 }
