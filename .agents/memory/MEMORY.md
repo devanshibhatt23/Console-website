@@ -1,1 +1,2 @@
 - [Console-website import quirks](console-website-quirks.md) — case-sensitive imports, port conflicts, and Vite env-var pitfalls found when first running this project on Replit.
+- [Heading standardization](heading-standardization.md) — all page headings use clamp(48px,7vw,72px) Montserrat 900 gradient; commit pattern for fix-bugs branch.
