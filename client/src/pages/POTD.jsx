@@ -4,6 +4,7 @@ import { getPOTD } from "../services/problemService";
 import { addComment, getComments } from "../services/commentService";
 import { supabase } from "../lib/supabase.js";
 import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Tilt from "react-parallax-tilt";
 import gsap from "gsap";
@@ -741,43 +742,46 @@ function MotivationCard({ user }) {
       </motion.div>
 
       {/* Quote Submission Modal */}
-      <AnimatePresence>
-        {showModal && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="potd-quote-modal-overlay" onClick={() => setShowModal(false)}>
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
-              className="potd-quote-modal" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between mb-4">
-                <h3>Submit a Quote</h3>
-                <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-white/6 transition-colors"><X size={16} className="text-white/50" /></button>
-              </div>
-              {submitted ? (
-                <div className="text-center py-8">
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
-                    <Check size={22} className="text-emerald-400" />
-                  </div>
-                  <p className="text-emerald-400 font-semibold">Quote submitted!</p>
-                  <p className="text-white/40 text-sm mt-2">It will appear after admin approval.</p>
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {showModal && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="potd-quote-modal-overlay" onClick={() => setShowModal(false)}>
+              <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
+                className="potd-quote-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center justify-between mb-4">
+                  <h3>Submit a Quote</h3>
+                  <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-white/6 transition-colors"><X size={16} className="text-white/50" /></button>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmitQuote}>
-                  <textarea placeholder="Enter your inspirational quote..." value={submitQuote} onChange={(e) => setSubmitQuote(e.target.value)} maxLength={500} required />
-                  <input type="text" placeholder="Author name (e.g. your name)" value={submitAuthor} onChange={(e) => setSubmitAuthor(e.target.value)} required />
-                  <p className="text-[11px] text-white/25 mb-3">{submitQuote.length}/500 characters · Requires admin approval</p>
-                  <div className="potd-quote-modal-actions">
-                    <button type="button" onClick={() => setShowModal(false)}
-                      className="px-4 py-2 rounded-lg text-sm font-medium text-white/50 hover:text-white/80 hover:bg-white/6 transition-all">Cancel</button>
-                    <motion.button type="submit" disabled={submitting || !submitQuote.trim() || !submitAuthor.trim()} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                      className="px-5 py-2.5 rounded-lg text-sm font-bold text-white disabled:opacity-40 transition-opacity"
-                      style={{ background: "linear-gradient(135deg, #6366f1, #4f46e5)" }}>
-                      {submitting ? "Submitting..." : "Submit"}
-                    </motion.button>
+                {submitted ? (
+                  <div className="text-center py-8">
+                    <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                      <Check size={22} className="text-emerald-400" />
+                    </div>
+                    <p className="text-emerald-400 font-semibold">Quote submitted!</p>
+                    <p className="text-white/40 text-sm mt-2">It will appear after admin approval.</p>
                   </div>
-                </form>
-              )}
+                ) : (
+                  <form onSubmit={handleSubmitQuote}>
+                    <textarea placeholder="Enter your inspirational quote..." value={submitQuote} onChange={(e) => setSubmitQuote(e.target.value)} maxLength={500} required />
+                    <input type="text" placeholder="Author name (e.g. your name)" value={submitAuthor} onChange={(e) => setSubmitAuthor(e.target.value)} required />
+                    <p className="text-[11px] text-white/25 mb-3">{submitQuote.length}/500 characters · Requires admin approval</p>
+                    <div className="potd-quote-modal-actions">
+                      <button type="button" onClick={() => setShowModal(false)}
+                        className="px-4 py-2 rounded-lg text-sm font-medium text-white/50 hover:text-white/80 hover:bg-white/6 transition-all">Cancel</button>
+                      <motion.button type="submit" disabled={submitting || !submitQuote.trim() || !submitAuthor.trim()} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                        className="px-5 py-2.5 rounded-lg text-sm font-bold text-white disabled:opacity-40 transition-opacity"
+                        style={{ background: "linear-gradient(135deg, #6366f1, #4f46e5)" }}>
+                        {submitting ? "Submitting..." : "Submit"}
+                      </motion.button>
+                    </div>
+                  </form>
+                )}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }
