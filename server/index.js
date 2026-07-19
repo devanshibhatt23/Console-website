@@ -1175,6 +1175,259 @@ app.get('/api/problem-description', async (req, res) => {
     }
 });
 
+// --- POTD USER STATS (streak, calendar heatmap, solve history for a specific user) ---
+app.get('/api/potd/user-stats/:userId', async (req, res) => {
+    try {
+        const { userId } = req.params;
+        if (!userId) return res.status(400).json({ error: 'userId is required' });
+
+        // Fetch user's correct submissions with problem dates
+        const { data: submissions, error: subErr } = await supabase
+            .from('submissions')
+            .select('problem_id, submission_time, problems(date, title, platform, difficulty)')
+            .eq('user_id', userId)
+            .eq('status', 'Correct')
+            .order('submission_time', { ascending: true });
+
+        if (subErr) throw subErr;
+
+        // Build solve dates for streak calculation
+        const solveDates = (submissions || [])
+            .map(s => s.problems?.date)
+            .filter(Boolean);
+
+        const currentStreak = computeServerStreak(solveDates);
+
+        // Compute best streak ever
+        const uniqueDates = Array.from(new Set(solveDates)).sort();
+        let bestStreak = 0;
+        let tempStreak = 1;
+        if (uniqueDates.length > 0) {
+            for (let i = 1; i < uniqueDates.length; i++) {
+                const prev = new Date(uniqueDates[i - 1]);
+                const curr = new Date(uniqueDates[i]);
+                const diffDays = (curr - prev) / (1000 * 60 * 60 * 24);
+                if (diffDays === 1) {
+                    tempStreak++;
+                } else {
+                    bestStreak = Math.max(bestStreak, tempStreak);
+                    tempStreak = 1;
+                }
+            }
+            bestStreak = Math.max(bestStreak, tempStreak);
+        }
+
+        // Build calendar heatmap data (date -> solve info)
+        const calendarData = {};
+        (submissions || []).forEach(s => {
+            const date = s.problems?.date;
+            if (!date) return;
+            calendarData[date] = {
+                solved: true,
+                title: s.problems?.title || 'POTD',
+                platform: s.problems?.platform || 'unknown',
+                difficulty: s.problems?.difficulty || 'Medium',
+                solvedAt: s.submission_time,
+            };
+        });
+
+        // Fetch total POTD problems to date
+        const todayStr = new Date().toISOString().split('T')[0];
+        const { count: totalProblems } = await supabase
+            .from('problems')
+            .select('id', { count: 'exact', head: true })
+            .not('date', 'is', null)
+            .lte('date', todayStr);
+
+        // Count problems solved this month
+        const now = new Date();
+        const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`;
+        const solvedThisMonth = Object.keys(calendarData).filter(d => d >= monthStart).length;
+
+        // Find user's rank from cached leaderboard
+        let userRank = null;
+        let userScore = 0;
+        if (memoryPOTDCache) {
+            const idx = memoryPOTDCache.findIndex(u => u.id === userId);
+            if (idx !== -1) {
+                userRank = idx + 1;
+                userScore = memoryPOTDCache[idx].score || 0;
+            }
+        } else {
+            // Try from Supabase cache
+            const { data: cacheData } = await supabase
+                .from('leaderboard_cache')
+                .select('data')
+                .eq('platform', 'potd')
+                .single();
+            if (cacheData?.data) {
+                const idx = cacheData.data.findIndex(u => u.id === userId);
+                if (idx !== -1) {
+                    userRank = idx + 1;
+                    userScore = cacheData.data[idx].score || 0;
+                }
+            }
+        }
+
+        res.json({
+            totalSolved: (submissions || []).length,
+            totalProblems: totalProblems || 0,
+            currentStreak,
+            bestStreak,
+            solvedThisMonth,
+            rank: userRank,
+            score: userScore,
+            calendarData,
+        });
+    } catch (error) {
+        console.error('Failed to fetch POTD user stats:', error.message);
+        res.status(500).json({ error: 'Failed to fetch user stats' });
+    }
+});
+
+// --- MOTIVATION QUOTES ENDPOINTS ---
+
+// Submit a new quote (authenticated users)
+app.post('/api/motivation-quotes', async (req, res) => {
+    try {
+        const { userId, quote, authorName } = req.body;
+        if (!userId || !quote || !authorName) {
+            return res.status(400).json({ error: 'userId, quote, and authorName are required' });
+        }
+
+        if (quote.length > 500) {
+            return res.status(400).json({ error: 'Quote must be 500 characters or less' });
+        }
+
+        const { data, error } = await supabase
+            .from('motivation_quotes')
+            .insert({
+                user_id: userId,
+                quote: quote.trim(),
+                author_name: authorName.trim(),
+                status: 'pending',
+            })
+            .select()
+            .single();
+
+        if (error) throw error;
+        res.json({ success: true, data });
+    } catch (error) {
+        console.error('Failed to submit quote:', error.message);
+        res.status(500).json({ error: 'Failed to submit quote' });
+    }
+});
+
+// Get a scheduled quote for today, or a random approved quote
+app.get('/api/motivation-quotes/random', async (req, res) => {
+    try {
+        const today = new Date().toISOString().split('T')[0];
+        
+        // 1. Try to find a quote scheduled for today
+        const { data: scheduledData, error: scheduledError } = await supabase
+            .from('motivation_quotes')
+            .select('id, quote, author_name, created_at, scheduled_date')
+            .eq('status', 'approved')
+            .eq('scheduled_date', today);
+            
+        if (!scheduledError && scheduledData && scheduledData.length > 0) {
+            return res.json(scheduledData[0]);
+        }
+
+        // 2. Fall back to picking an unscheduled quote
+        let { data, error } = await supabase
+            .from('motivation_quotes')
+            .select('id, quote, author_name, created_at, scheduled_date')
+            .eq('status', 'approved')
+            .is('scheduled_date', null);
+
+        // If all quotes have been used in the past, fall back to ANY approved quote
+        if (!data || data.length === 0) {
+            const { data: allData } = await supabase
+                .from('motivation_quotes')
+                .select('id, quote, author_name, created_at, scheduled_date')
+                .eq('status', 'approved');
+            data = allData;
+        }
+
+        if (!data || data.length === 0) {
+            return res.json({
+                quote: 'The best way to master algorithms is to solve them consistently.',
+                author_name: 'Console Club',
+            });
+        }
+
+        // Pick a random quote and lock it in for today
+        const index = Math.floor(Math.random() * data.length);
+        const selectedQuote = data[index];
+
+        // Update in background to lock for the day
+        supabase
+            .from('motivation_quotes')
+            .update({ scheduled_date: today })
+            .eq('id', selectedQuote.id)
+            .then(() => {})
+            .catch(err => console.error("Failed to lock quote:", err));
+
+        res.json(selectedQuote);
+    } catch (error) {
+        console.error('Failed to fetch random quote:', error.message);
+        res.json({
+            quote: 'The best way to master algorithms is to solve them consistently.',
+            author_name: 'Console Club',
+        });
+    }
+});
+
+// Admin: Get pending quotes
+app.get('/api/motivation-quotes/pending', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('motivation_quotes')
+            .select('id, quote, author_name, created_at, user_id, profiles!motivation_quotes_user_id_fkey(name)')
+            .eq('status', 'pending')
+            .order('created_at', { ascending: true });
+
+        if (error) throw error;
+        res.json(data || []);
+    } catch (error) {
+        console.error('Failed to fetch pending quotes:', error.message);
+        res.status(500).json({ error: 'Failed to fetch pending quotes' });
+    }
+});
+
+// Admin: Approve or reject a quote
+app.post('/api/motivation-quotes/:id/review', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { action, adminUserId, scheduledDate } = req.body;
+
+        if (!action || !['approved', 'rejected'].includes(action)) {
+            return res.status(400).json({ error: 'action must be "approved" or "rejected"' });
+        }
+
+        const updateData = { status: action };
+        if (action === 'approved') {
+            updateData.approved_by = adminUserId || null;
+            updateData.approved_at = new Date().toISOString();
+            updateData.scheduled_date = scheduledDate || new Date().toISOString().split('T')[0];
+        }
+
+        const { data, error } = await supabase
+            .from('motivation_quotes')
+            .update(updateData)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) throw error;
+        res.json({ success: true, data });
+    } catch (error) {
+        console.error('Failed to review quote:', error.message);
+        res.status(500).json({ error: 'Failed to review quote' });
+    }
+});
+
 app.listen(port, () => {
     console.log(`Leaderboard server running on port ${port}`);
     // Warm up the cache on startup

@@ -1,15 +1,46 @@
-/* Problem of the Day Section Redesign - Premium Theme & Branding */
+/* ═══════════════════════════════════════════════════════════════════
+   POTD PAGE — Ultra-Premium Dark Dashboard
+   Console Coding Club · Problem of the Day
+   Inspired by GitHub, Vercel, Linear, Discord
+   ═══════════════════════════════════════════════════════════════════ */
 
-.potd-dashboard-container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* ── Design Tokens ─────────────────────────────────────────────── */
+:root {
+  --potd-bg: #000000;
+  --potd-card: #09090B;
+  --potd-card-hover: #121214;
+  --potd-border: #27272A;
+  --potd-border-hover: #3F3F46;
+  --potd-primary: #3B82F6;
+  --potd-success: #22C55E;
+  --potd-warning: #F59E0B;
+  --potd-danger: #EF4444;
+  --potd-text: #FAFAFA;
+  --potd-text-secondary: #A1A1AA;
+  --potd-text-muted: #71717A;
+  --potd-brand-start: #F2994A;
+  --potd-brand-end: #F0405C;
+  --potd-radius: 16px;
+  --potd-radius-lg: 20px;
+  --potd-radius-sm: 10px;
+}
+
+/* ── Max-width container ──────────────────────────────────────── */
+.potd-container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
-  max-width: none;
-  margin: 0;
-  padding: 16px 20px 40px;
-  color: #f1f5f9;
-  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   KEYFRAMES
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes gradientBorderRotate {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Header Row / Title area */
@@ -23,14 +54,19 @@
   gap: 10px;
 }
 
-.potd-subtitle {
-  font-size: 18px;
-  color: #ffffff;
-  font-weight: 400;
-  margin: 0;
-  text-align: center;
-  opacity: 0.85;
-  letter-spacing: 0.01em;
+@keyframes shimmerSweep {
+  0%   { transform: translateX(-120%) rotate(25deg); }
+  100% { transform: translateX(320%) rotate(25deg); }
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+@keyframes scrollCueBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50%      { transform: translateY(10px); opacity: 0.7; }
 }
 
 .potd-title-main {
@@ -56,210 +92,990 @@
   filter: drop-shadow(0 0 14px rgba(242, 153, 74, 0.7)) drop-shadow(0 0 28px rgba(240, 64, 92, 0.4));
 }
 
-.potd-error-banner {
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  border-radius: 8px;
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  font-size: 14px;
+@keyframes typingDot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+  40%           { transform: scale(1);   opacity: 0.85; }
 }
 
-.potd-gradient-heading {
-  font-size: 26px;
-  line-height: 1.3;
-  padding: 2px 0;
-  font-weight: 800;
-  margin: 0 0 18px;
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 30px rgba(242,153,74,0.3)) drop-shadow(0 0 60px rgba(240,64,92,0.15)); }
+  50%      { filter: drop-shadow(0 0 50px rgba(242,153,74,0.5)) drop-shadow(0 0 90px rgba(240,64,92,0.3)); }
+}
+
+@keyframes progressRing {
+  0%   { stroke-dashoffset: var(--ring-circumference, 264); }
+  100% { stroke-dashoffset: var(--ring-target, 264); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes countPulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes floatSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CURSOR-TRACKED SPOTLIGHT
+   ═══════════════════════════════════════════════════════════════ */
+.potd-spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.05;
+  background: radial-gradient(
+    500px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+    var(--potd-brand-start) 0%,
+    var(--potd-brand-end) 40%,
+    transparent 70%
+  );
+  transition: background 0.12s ease-out;
+  will-change: background;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NOISE TEXTURE
+   ═══════════════════════════════════════════════════════════════ */
+.potd-noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATED GRADIENT BORDER
+   ═══════════════════════════════════════════════════════════════ */
+.potd-animated-border-wrap {
+  background: linear-gradient(
+    135deg,
+    rgba(242, 153, 74, 0.55),
+    rgba(240, 64, 92, 0.5),
+    rgba(99, 102, 241, 0.3),
+    rgba(6, 182, 212, 0.25),
+    rgba(242, 153, 74, 0.55)
+  );
+  background-size: 300% 300%;
+  animation: gradientBorderRotate 5s ease infinite;
+  will-change: background-position;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SHIMMER SWEEP
+   ═══════════════════════════════════════════════════════════════ */
+.potd-shimmer-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.potd-shimmer-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 35%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 65%,
+    transparent 100%
+  );
+  transform: translateX(-120%) rotate(25deg);
+  animation: shimmerSweep 1.8s cubic-bezier(0.42, 0, 0.12, 1) 1s forwards;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TYPEWRITER CURSOR
+   ═══════════════════════════════════════════════════════════════ */
+.potd-typewriter-cursor {
   display: inline-block;
-  background: linear-gradient(90deg, #F2994A, #F0405C);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  cursor: default;
+  width: 3px;
+  height: 0.85em;
+  background: linear-gradient(180deg, var(--potd-brand-start), var(--potd-brand-end));
+  margin-left: 3px;
+  vertical-align: text-bottom;
+  animation: cursorBlink 0.85s ease-in-out infinite;
+  border-radius: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADING GLOW
+   ═══════════════════════════════════════════════════════════════ */
+.potd-heading-glow {
+  animation: glowPulse 4s ease-in-out infinite;
+  will-change: filter;
   transition: filter 0.3s ease;
 }
 
-.potd-gradient-heading:hover {
-  filter: drop-shadow(0 0 10px rgba(240, 64, 92, 0.4)) drop-shadow(0 0 22px rgba(242, 153, 74, 0.28));
+.potd-heading-glow:hover {
+  filter: drop-shadow(0 0 60px rgba(242,153,74,0.7)) drop-shadow(0 0 100px rgba(240,64,92,0.45)) !important;
+  animation: none;
 }
 
-/* Stacked single-column layout for the clean page */
-.potd-page-stack {
+/* ═══════════════════════════════════════════════════════════════
+   SCROLL CUE
+   ═══════════════════════════════════════════════════════════════ */
+.potd-scroll-cue {
+  animation: scrollCueBounce 2.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COLLAGE DASHBOARD LAYOUT
+   ═══════════════════════════════════════════════════════════════ */
+.potd-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.dashboard-cell-problem { grid-column: 1 / -1; }
+.dashboard-cell-calendar { grid-column: 1 / -1; }
+.dashboard-cell-right {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Base card styling (glassmorphism/premium CP style) */
-.potd-main-card,
-.potd-chat-container {
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(20, 29, 47, 0.85));
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.35);
-  padding: 24px;
-  overflow: hidden;
+@media (min-width: 1024px) {
+  .potd-dashboard-grid {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .dashboard-cell-problem {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  .dashboard-cell-calendar {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+  .dashboard-cell-right {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+  }
 }
 
-/* Problem table */
-.potd-table-head {
+/* ═══════════════════════════════════════════════════════════════
+   GLASS CARD — base component
+   ═══════════════════════════════════════════════════════════════ */
+.potd-glass-card {
+  background: var(--potd-card);
+  border: 1px solid var(--potd-border);
+  border-radius: var(--potd-radius-lg);
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
+}
+
+.potd-glass-card:hover {
+  border-color: var(--potd-border-hover);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.03);
+  transform: translateY(-2px);
+}
+
+.potd-glass-card-inner {
+  padding: 28px;
+}
+
+.potd-glass-card--no-hover:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Card header */
+.potd-card-header {
   display: flex;
-  justify-content: center;
-  align-items: baseline;
-  gap: 16px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-  padding-bottom: 16px;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.potd-problem-title {
-  font-size: 24px;
+.potd-card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  margin: 0;
-  color: #f8fafc;
+  font-size: 15px;
+  color: var(--potd-text);
+  letter-spacing: -0.3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAT CARDS — glassmorphic mini-cards
+   ═══════════════════════════════════════════════════════════════ */
+.potd-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  border-radius: var(--potd-radius);
+  background: var(--potd-card);
+  border: 1px solid var(--potd-border);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: default;
+  flex: 1;
+  min-width: 0;
+}
+
+.potd-stat-card:hover {
+  background: var(--potd-card-hover);
+  border-color: var(--potd-border-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.potd-stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.potd-stat-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.potd-stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-top: 3px;
+  color: var(--potd-text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STREAK CARD
+   ═══════════════════════════════════════════════════════════════ */
+.potd-streak-card {
+  text-align: center;
+  padding: 28px 24px;
+}
+
+.potd-streak-ring-wrap {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+}
+
+.potd-streak-ring-wrap svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.potd-streak-ring-bg {
+  fill: none;
+  stroke: var(--potd-border);
+  stroke-width: 8;
+}
+
+.potd-streak-ring-fg {
+  fill: none;
+  stroke: url(#streakGradient);
+  stroke-width: 8;
+  stroke-linecap: round;
+  animation: progressRing 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.potd-streak-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.potd-streak-number {
+  font-family: 'Inter', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--potd-brand-start), var(--potd-brand-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.potd-streak-unit {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--potd-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+.potd-streak-meta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--potd-border);
+}
+
+.potd-streak-meta-item {
   text-align: center;
 }
 
-.potd-problem-date {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 13px;
-  color: #94a3b8;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-/* Card Body Section Formatting */
-.potd-table-body {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.potd-indented {
-  padding-left: 20px;
-  border-left: 2px solid rgba(148, 163, 184, 0.15);
-}
-
-.potd-desc-section h3 {
-  font-size: 15px;
+.potd-streak-meta-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  color: #94a3b8;
-  margin: 0 0 8px;
+  color: var(--potd-text);
+}
+
+.potd-streak-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--potd-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+.potd-streak-motivational {
+  font-size: 13px;
+  color: var(--potd-text-secondary);
+  margin-top: 14px;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CALENDAR HEATMAP
+   ═══════════════════════════════════════════════════════════════ */
+.potd-calendar-wrapper {
+  padding-bottom: 8px;
+}
+.potd-calendar-grid {
+  display: grid;
+  grid-template-rows: repeat(7, 14px);
+  grid-auto-flow: column;
+  gap: 4px;
+  justify-content: start;
+}
+
+.potd-calendar-cell {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+  cursor: default;
+  position: relative;
+}
+
+.potd-calendar-cell--solved {
+  background: var(--potd-success);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.3);
+}
+
+.potd-calendar-cell--solved-hard {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+}
+
+.potd-calendar-cell--solved-medium {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.3);
+}
+
+.potd-calendar-cell:hover {
+  transform: scale(1.4);
+  z-index: 10;
+}
+
+.potd-calendar-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid var(--potd-border);
+  color: var(--potd-text);
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+.potd-calendar-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.95);
+}
+
+.potd-calendar-months {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+
+.potd-calendar-month-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--potd-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.problem-text {
-  font-size: 17px;
-  line-height: 1.55;
-  color: #e2e8f0;
-  margin: 0;
-  white-space: pre-wrap;
+/* ═══════════════════════════════════════════════════════════════
+   QUICK STATS GRID
+   ═══════════════════════════════════════════════════════════════ */
+.potd-quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-.code-block {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 13px;
-  color: #cbd5e1;
-  background: #090d16;
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 10px;
-  padding: 14px;
-  margin: 0;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  line-height: 1.5;
+.potd-quick-stat-item {
+  padding: 16px;
+  border-radius: var(--potd-radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--potd-border);
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-/* Solve Actions styling */
-.potd-table-actions {
+.potd-quick-stat-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--potd-border-hover);
+}
+
+.potd-quick-stat-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--potd-text);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.potd-quick-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--potd-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PODIUM — top-3 highlight cards
+   ═══════════════════════════════════════════════════════════════ */
+.potd-podium {
   display: flex;
+  align-items: flex-end;
   justify-content: center;
   gap: 12px;
-  flex-wrap: wrap;
-  border-top: 1px solid rgba(148, 163, 184, 0.1);
-  padding-top: 20px;
+  padding: 20px 0 24px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--potd-border);
 }
 
-.potd-solve-btn {
+.potd-podium-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 14px 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--potd-border);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
   text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: 10px;
-  padding: 12px 26px;
-  display: inline-flex;
+  color: inherit;
+}
+
+.potd-podium-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.potd-podium-card--gold {
+  border-color: rgba(250, 204, 21, 0.22);
+  background: rgba(250, 204, 21, 0.04);
+  box-shadow: 0 0 28px rgba(250, 204, 21, 0.08);
+}
+.potd-podium-card--gold:hover {
+  border-color: rgba(250, 204, 21, 0.4);
+  box-shadow: 0 0 40px rgba(250, 204, 21, 0.18);
+}
+
+.potd-podium-card--silver {
+  border-color: rgba(203, 213, 225, 0.15);
+  background: rgba(203, 213, 225, 0.025);
+}
+
+.potd-podium-card--bronze {
+  border-color: rgba(217, 119, 6, 0.15);
+  background: rgba(217, 119, 6, 0.025);
+}
+
+.potd-podium-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  background: linear-gradient(90deg, #F2994A, #F0405C);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(240, 64, 92, 0.25);
-}
-
-.potd-solve-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 22px rgba(242, 153, 74, 0.35), 0 6px 22px rgba(240, 64, 92, 0.3);
-}
-
-/* Mini leaderboards (Today's leaderboard / Points Leaderboard) */
-.potd-mini-leaderboard .lb-wrapper {
-  width: 100%;
-}
-
-.potd-mini-leaderboard .lb-header-row.no-score,
-.potd-mini-leaderboard .lb-row.no-score {
-  grid-template-columns: 90px 1fr;
-}
-
-.potd-mini-lb-body {
-  max-height: 380px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-/* Platform description (LeetCode / Codeforces HTML) */
-.potd-platform-desc {
   font-size: 15px;
-  line-height: 1.7;
-  color: #e2e8f0;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.potd-podium-card--gold .potd-podium-avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 17px;
+}
+
+.potd-podium-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.potd-podium-score {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LEADERBOARD TABLE — full-width
+   ═══════════════════════════════════════════════════════════════ */
+.potd-lb-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.potd-lb-table thead th {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--potd-text-muted);
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--potd-border);
+  position: sticky;
+  top: 0;
+  background: var(--potd-card);
+  z-index: 5;
+}
+
+.potd-lb-table tbody tr {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.potd-lb-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.potd-lb-table tbody tr.potd-lb-row--highlight {
+  background: rgba(59, 130, 246, 0.06);
+  border-left: 3px solid var(--potd-primary);
+}
+
+.potd-lb-table tbody td {
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: var(--potd-text-secondary);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  vertical-align: middle;
+}
+
+.potd-lb-rank {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 13px;
+  width: 40px;
+}
+
+.potd-lb-name {
+  font-weight: 600;
+  color: var(--potd-text);
+}
+
+.potd-lb-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  background: linear-gradient(135deg, rgba(242,153,74,0.1), rgba(240,64,92,0.1));
+  border: 1px solid rgba(242,153,74,0.2);
+  color: var(--potd-brand-start);
+}
+
+.potd-lb-streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--potd-warning);
+}
+
+.potd-lb-view-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--potd-primary);
+  cursor: pointer;
+  border-top: 1px solid var(--potd-border);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.potd-lb-view-all:hover {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.04);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ARENA ROW — hover glow stripe
+   ═══════════════════════════════════════════════════════════════ */
+.potd-arena-row {
+  position: relative;
+}
+
+.potd-arena-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--potd-brand-start), var(--potd-brand-end));
+  transition: height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.potd-arena-row:hover::before {
+  height: 65%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHAT — Discord-style panel
+   ═══════════════════════════════════════════════════════════════ */
+.potd-typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 0 4px;
 }
 
-.potd-platform-desc p {
-  margin: 0 0 12px;
+.potd-typing-dots span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.6);
+  animation: typingDot 1.4s ease-in-out infinite;
 }
+
+.potd-typing-dots span:nth-child(2) { animation-delay: 0.16s; }
+.potd-typing-dots span:nth-child(3) { animation-delay: 0.32s; }
+
+.potd-reaction-btn {
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: scale(0.85);
+}
+
+.potd-chat-msg:hover .potd-reaction-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.potd-composer-input {
+  resize: none;
+  overflow: hidden;
+  min-height: 42px;
+  max-height: 120px;
+  field-sizing: content;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOTIVATION CARD
+   ═══════════════════════════════════════════════════════════════ */
+.potd-motivation-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.potd-motivation-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(59,130,246,0.04), rgba(139,92,246,0.04));
+  pointer-events: none;
+}
+
+.potd-motivation-quote {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--potd-text);
+  font-style: italic;
+  position: relative;
+  padding-left: 20px;
+}
+
+.potd-motivation-quote::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -8px;
+  font-size: 42px;
+  font-weight: 900;
+  font-style: normal;
+  background: linear-gradient(135deg, var(--potd-primary), #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.potd-motivation-author {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--potd-text-muted);
+  margin-top: 16px;
+  padding-left: 20px;
+}
+
+.potd-motivation-submit-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--potd-radius-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--potd-border);
+  color: var(--potd-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.potd-motivation-submit-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--potd-border-hover);
+  color: var(--potd-text);
+}
+
+/* Quote submission modal overlay */
+.potd-quote-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.potd-quote-modal {
+  background: var(--potd-card);
+  border: 1px solid var(--potd-border);
+  border-radius: var(--potd-radius-lg);
+  padding: 32px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+}
+
+.potd-quote-modal h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--potd-text);
+  margin-bottom: 20px;
+}
+
+.potd-quote-modal textarea,
+.potd-quote-modal input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: var(--potd-radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--potd-border);
+  color: var(--potd-text);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.potd-quote-modal textarea:focus,
+.potd-quote-modal input[type="text"]:focus {
+  border-color: var(--potd-primary);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.potd-quote-modal textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.potd-quote-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   COPY LINK TOOLTIP
+   ═══════════════════════════════════════════════════════════════ */
+.potd-copy-btn {
+  position: relative;
+}
+
+.potd-copy-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.9);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  white-space: nowrap;
+  pointer-events: none;
+  margin-bottom: 8px;
+  border: 1px solid var(--potd-border);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CUSTOM SCROLLBAR
+   ═══════════════════════════════════════════════════════════════ */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PLATFORM DESCRIPTION (LeetCode / Codeforces HTML)
+   ═══════════════════════════════════════════════════════════════ */
+.potd-platform-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(241, 245, 249, 0.6);
+}
+
+.potd-platform-desc p { margin: 0 0 12px; }
 
 .potd-platform-desc pre,
 .potd-platform-desc code {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 13px;
-  background: #090d16;
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 8px;
-  padding: 12px;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  font-size: 12.5px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--potd-border);
+  border-radius: var(--potd-radius-sm);
+  padding: 12px 16px;
   overflow-x: auto;
   white-space: pre-wrap;
   display: block;
   margin: 10px 0;
   color: #cbd5e1;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .potd-platform-desc code {
   display: inline;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 13px;
-  border: none;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 12.5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #e2e8f0;
 }
 
 .potd-platform-desc ul,
@@ -268,268 +1084,129 @@
   margin: 8px 0;
 }
 
-.potd-platform-desc li {
-  margin-bottom: 6px;
-}
+.potd-platform-desc li { margin-bottom: 6px; }
 
 .potd-platform-desc strong,
 .potd-platform-desc b {
-  color: #f1f5f9;
+  color: rgba(241, 245, 249, 0.9);
   font-weight: 700;
 }
 
 .potd-platform-desc em {
-  color: #cbd5e1;
+  color: rgba(203, 213, 225, 0.8);
 }
 
-/* Codeforces-specific: hide header section that duplicates title */
-.potd-platform-desc--cf .header {
-  display: none;
+.potd-platform-desc img {
+  max-width: 100%;
+  border-radius: var(--potd-radius-sm);
+  margin: 10px 0;
 }
 
-/* Comments note */
-.potd-comments-note {
-  font-size: 13px;
-  color: #94a3b8;
-  background: rgba(239, 68, 68, 0.07);
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin: -4px 0 16px;
-  line-height: 1.5;
+.potd-platform-desc--cf .header { display: none; }
+
+.potd-platform-desc--lc .note,
+.potd-platform-desc--lc .example {
+  border-left: 2px solid rgba(242, 153, 74, 0.3);
+  padding-left: 14px;
+  margin: 12px 0;
 }
 
-.potd-comments-note strong {
-  color: #f87171;
+/* ═══════════════════════════════════════════════════════════════
+   SHARED LEADERBOARD LINK STYLES
+   ═══════════════════════════════════════════════════════════════ */
+.lb-row-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
+.lb-row-link:hover { text-decoration: none; }
+.lb-row-link-static { cursor: default; }
 
-/* Discord Style Chat Container */
-.potd-chat-container {
+/* ═══════════════════════════════════════════════════════════════
+   SECTION DIVIDER
+   ═══════════════════════════════════════════════════════════════ */
+.potd-section-divider {
   display: flex;
-  flex-direction: column;
-  max-height: 700px;
-  overflow: visible;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
 }
 
-.potd-comments-section .chat-feed-viewport {
-  padding-right: 6px;
-  max-height: 380px;
+.potd-section-divider-line {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
 }
 
-.potd-chat-row {
+.potd-section-divider-label {
   display: flex;
+  align-items: center;
   gap: 10px;
-  align-items: flex-start;
-}
-
-.potd-chat-row.own {
-  flex-direction: row-reverse;
-  align-self: flex-end;
-}
-
-.potd-chat-row.other {
-  align-self: flex-start;
-}
-
-.potd-chat-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  color: #fff;
-  display: grid;
-  place-items: center;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--potd-border);
   font-size: 11px;
   font-weight: 700;
-  flex-shrink: 0;
+  color: var(--potd-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.potd-chat-row.own .potd-chat-avatar {
-  background: linear-gradient(135deg, #F2994A, #F0405C);
-}
-
-.potd-chat-bubble {
-  display: inline-block;
-  width: fit-content;
-  min-width: 160px;
-  max-width: 92%;
-  background: rgba(59, 130, 246, 0.14);
-  border: 1px solid rgba(59, 130, 246, 0.28);
-  border-radius: 12px;
-  padding: 10px 14px 10px 20px;
-}
-
-.potd-chat-row.own .potd-chat-bubble {
-  background: rgba(240, 64, 92, 0.16);
-  border-color: rgba(240, 64, 92, 0.32);
-}
-
-.potd-chat-meta {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 4px;
-}
-
-.potd-chat-name {
-  font-size: 13px;
+/* ═══════════════════════════════════════════════════════════════
+   BADGE COMPONENTS
+   ═══════════════════════════════════════════════════════════════ */
+.potd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
   font-weight: 700;
-  color: #f1f5f9;
-  text-decoration: none;
-  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid;
 }
 
-.potd-chat-name:hover {
-  text-decoration: underline;
+.potd-badge--live {
+  color: var(--potd-success);
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.2);
 }
 
-.potd-chat-time {
-  font-size: 10.5px;
-  color: #94a3b8;
-  white-space: nowrap;
-  flex-shrink: 0;
+.potd-badge--alltime {
+  color: var(--potd-warning);
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.15);
 }
 
-.potd-chat-text {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: #cbd5e1;
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .potd-podium { gap: 8px; }
+  .potd-podium-card { padding: 14px 10px 12px; border-radius: 14px; }
+  .potd-podium-avatar { width: 38px; height: 38px; font-size: 13px; }
+  .potd-podium-card--gold .potd-podium-avatar { width: 44px; height: 44px; }
+  .potd-stat-card { padding: 12px 16px; gap: 10px; }
+  .potd-stat-icon { width: 34px; height: 34px; }
+  .potd-stat-value { font-size: 20px; }
+  .potd-glass-card-inner { padding: 20px; }
+  .potd-quick-stats { gap: 8px; }
+  .potd-quick-stat-value { font-size: 18px; }
+  .potd-motivation-quote { font-size: 15px; }
+  .potd-lb-table thead th,
+  .potd-lb-table tbody td { padding: 10px 12px; font-size: 12px; }
+  .potd-dashboard-grid { gap: 16px; }
 }
 
-.chat-feed-viewport {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding-right: 6px;
-  margin-bottom: 16px;
-  min-height: 250px;
-}
-
-.chat-empty-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  color: #64748b;
-  text-align: center;
-  font-size: 13.5px;
-}
-
-.chat-composer-form {
-  display: flex;
-  gap: 10px;
-}
-
-.chat-composer-form input {
-  flex: 1;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  background: rgba(15, 23, 42, 0.85);
-  color: #f1f5f9;
-  padding: 12px 14px;
-  font-size: 13.5px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.chat-composer-form input:focus {
-  border-color: rgba(96, 165, 250, 0.5);
-}
-
-.chat-send-btn {
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: #fff;
-  font-weight: 600;
-  font-size: 13.5px;
-  padding: 0 20px;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-}
-
-.chat-send-btn:hover {
-  opacity: 0.9;
-}
-
-.chat-send-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.chat-empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 40px 20px;
-  color: #64748b;
-  text-align: center;
-}
-
-.chat-empty-icon {
-  font-size: 32px;
-}
-
-/* Empty state (shared) */
-.empty-state {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 10px;
-  text-align: center;
-  color: #64748b;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.potd-empty-state-modern {
-  padding: 30px 10px;
-  text-align: center;
-  color: #94a3b8;
-}
-
-/* Loading skeleton animations */
-.standings-skeleton {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px 0;
-}
-
-.skeleton-row {
-  height: 20px;
-  border-radius: 4px;
-  background: linear-gradient(90deg, rgba(71, 85, 105, 0.25) 25%, rgba(100, 116, 139, 0.4) 50%, rgba(71, 85, 105, 0.25) 75%);
-  background-size: 200% 100%;
-  animation: pulseShimmer 1.5s infinite;
-}
-
-@keyframes pulseShimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Responsive queries */
-@media (max-width: 600px) {
-  .potd-table-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .potd-chat-bubble {
-    max-width: 85%;
-  }
+@media (max-width: 480px) {
+  .potd-podium-name { max-width: 60px; font-size: 11px; }
+  .potd-animated-border-wrap { border-radius: 14px; }
+  .potd-calendar-grid { gap: 2px; }
+  .potd-calendar-cell { width: 12px; height: 12px; }
+  .potd-streak-ring-wrap { width: 100px; height: 100px; }
+  .potd-streak-number { font-size: 28px; }
 }
