@@ -300,7 +300,6 @@ function ProblemCard({ potd, platformDesc, loadingPlatformDesc }) {
             </div>
           </div>
         </div>
-      </div>
     </Tilt>
   );
 }
