@@ -84,18 +84,24 @@
 }
 
 .tg-h1 {
-  font-size: clamp(52px, 9vw, 88px);
+  font-size: clamp(48px, 7vw, 72px);
   font-weight: 900;
-  letter-spacing: -3px;
-  line-height: 1.02;
-  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  background: linear-gradient(90deg, var(--tg-fire-1), var(--tg-fire-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
   margin: 0 0 22px;
   cursor: default;
-  transition: filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .tg-h1:hover {
-  filter: drop-shadow(0 0 20px rgba(242,153,74,0.5)) drop-shadow(0 0 40px rgba(240,64,92,0.3));
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 14px rgba(242,153,74,0.7)) drop-shadow(0 0 28px rgba(240,64,92,0.4));
 }
 
 .tg-fire {

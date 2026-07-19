@@ -460,10 +460,7 @@ export default function Events() {
 
         <div className="ev-hero-inner">
           {/* Updated heading with orange-pink gradient per branding requirements */}
-          <h1 className="ev-hero-title">
-            <span className="ev-hero-highlight-brand">Console</span>{" "}
-            <span className="ev-hero-highlight">Events</span>
-          </h1>
+          <h1 className="ev-hero-title">Console Events</h1>
 
           {/* Updated hero description */}
           <p className="ev-hero-sub">

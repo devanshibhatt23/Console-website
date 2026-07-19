@@ -20,21 +20,23 @@
 
 .leaderboard-title {
   display: inline-block;
-  font-size: 4rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-size: clamp(48px, 7vw, 72px);
+  font-weight: 900;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: -0.02em;
   margin-bottom: 0.75rem;
   line-height: 1.2;
   background: linear-gradient(90deg, #F2994A, #F0405C);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  transition: filter 0.35s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
   cursor: default;
 }
 
 .leaderboard-title:hover {
-  filter: drop-shadow(0 0 14px rgba(240, 64, 92, 0.4)) drop-shadow(0 0 32px rgba(242, 153, 74, 0.28));
+  transform: scale(1.02);
+  filter: drop-shadow(0 0 14px rgba(242, 153, 74, 0.7)) drop-shadow(0 0 28px rgba(240, 64, 92, 0.4));
 }
 
 .leaderboard-subtitle {

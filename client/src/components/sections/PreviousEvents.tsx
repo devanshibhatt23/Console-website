@@ -76,7 +76,7 @@ const fallbackEvents = [
     type: 'Hackathon',
     participants: '150+',
     description:
-      'Console\'s flagship coding competition. Teams competed across multiple rounds of algorithmic challenges, system design, and live coding — with some of the best minds in MNIT.',
+      'Console\'s flagship coding competition. Teams competed across multiple rounds of algorithmic challenges, system design, and live coding, with some of the best minds in MNIT.',
     image_url: 'https://gxbhswojyrlifgqhjwqv.supabase.co/storage/v1/object/public/event-images/WhatsApp%20Image%202026-04-14%20at%2012.52.18.jpeg',
   },
 ];

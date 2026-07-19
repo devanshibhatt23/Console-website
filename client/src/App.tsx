@@ -57,15 +57,22 @@ function ScrollToTop() {
 }
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => window.location.pathname === '/');
 
   const handleLoaderComplete = useCallback(() => {
     setLoading(false);
   }, []);
 
   useEffect(() => {
-    // Force dark mode
-    document.documentElement.classList.add('dark');
+    // Initialize theme from localStorage (default: dark)
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    }
 
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({

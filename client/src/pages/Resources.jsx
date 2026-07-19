@@ -24,12 +24,12 @@ const TRACK_ICONS = {
 };
 
 const TRACK_DESCRIPTIONS = {
-  cpp: "Low-level mastery — memory, performance, and modern idioms.",
+  cpp: "Low-level mastery: memory, performance, and modern idioms.",
   cp: "From rating 0 to Codeforces competitive in structured sprints.",
   dsa: "Interview-crushing algorithms via Striver's battle-tested sheets.",
-  webdev: "HTML to full-stack React/Node — everything live on the web.",
+  webdev: "HTML to full-stack React/Node, everything live on the web.",
   appdev: "Cross-platform mobile apps from setup to Play Store.",
-  aiml: "Python to production ML — stats, sklearn, deep learning, GenAI.",
+  aiml: "Python to production ML: stats, sklearn, deep learning, GenAI.",
 };
 
 const totalModules = Object.values(roadmapsData).reduce(
@@ -176,7 +176,7 @@ function Hero({ tracks }) {
       <div ref={subtitleRef} className="res-hero-sub-wrap res-hero-sub-wrap-centered">
         <p className="res-hero-subtitle">
           Structured, module-by-module roadmaps built from the best free
-          resources on the internet. Each track follows a fixed progression —
+          resources on the internet. Each track follows a fixed progression,
           no filler, no fluff.
         </p>
       </div>

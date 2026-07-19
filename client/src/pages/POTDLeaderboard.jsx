@@ -149,7 +149,7 @@ const POTDLeaderboard = () => {
                             <div className="potd-lb-stat-card gold">
                                 <span className="potd-lb-stat-icon">🥇</span>
                                 <strong className="potd-lb-stat-val">{topSolver.name}</strong>
-                                <span className="potd-lb-stat-lbl">Top Solver — {topSolver.score} pts ({topSolver.questions} solves)</span>
+                                <span className="potd-lb-stat-lbl">Top Solver: {topSolver.score} pts ({topSolver.questions} solves)</span>
                             </div>
                         )}
                         <div className="potd-lb-stat-card">
@@ -301,7 +301,7 @@ const POTDLeaderboard = () => {
                                             {/* Streak */}
                                             <td className="td-streak">
                                                 <span className={`potd-streak-badge ${(user.streak || 0) > 0 ? 'active' : ''}`}>
-                                                    {(user.streak || 0) > 0 ? `🔥 ${user.streak}-day streak` : '—'}
+                                                    {(user.streak || 0) > 0 ? `🔥 ${user.streak}-day streak` : '-'}
                                                 </span>
                                             </td>
                                         </tr>
