@@ -44,6 +44,8 @@ const GALLERY_ROW2 = [
 ];
 
 const TEAM_MEMBERS = [
+  "Bhavya Singhal", "Parth Gandhi", "Mukund Rakholiya", "Raghunandan Jhawar",
+  "Yuvraj", "Rashi Jangid", "Mridul Trivedi", "Shubham",
   "Aditya Dhiman", "Akshat Agrawal", "Chiranjeev Goyal", "Devanshi Bhatt", "Dishank Viradiya",
   "Het Shah", "Meet Van", "Pallvi", "Param Chauhan", "Prarthana",
   "Ridhima Garg", "Saarvik Singh", "Sahil Kumar", "Siddharth Kumar", "Shlok Patel"
