@@ -14,6 +14,7 @@ import {
   Zap, Trophy, ExternalLink, Clock, ChevronLeft, ChevronRight,
   ChevronDown, Send, MessageSquare, Activity, Target, Crown,
   Award, Code2, Cpu, AlertTriangle, Flame, Copy, Check, Smile,
+  Calendar, TrendingUp, Quote, PenLine, X, Star, Hash, Users,
 } from "lucide-react";
 import "./DashboardPOTD.css";
 
@@ -35,8 +36,14 @@ function getInitials(name) {
   return parts.map((p) => p[0]?.toUpperCase() || "").join("") || "U";
 }
 
+function getApiBase() {
+  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:5001"
+    : "https://console-website.onrender.com";
+}
+
 // ═══════════════════════════════════════════════════════════════════
-// PARTICLES CONFIG — matching landing page, with grab-on-hover
+// PARTICLES CONFIG
 // ═══════════════════════════════════════════════════════════════════
 const PARTICLES_OPTIONS = {
   fullScreen: false,
@@ -91,13 +98,10 @@ function LiveDot({ color = "emerald" }) {
 
 function SectionDivider({ icon, label }) {
   return (
-    <div className="flex items-center gap-4 mb-14">
-      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm">
-        {icon}
-        <span className="text-[11px] font-bold text-white/45 uppercase tracking-[0.22em] font-montserrat">{label}</span>
-      </div>
-      <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+    <div className="potd-section-divider">
+      <div className="potd-section-divider-line" />
+      <div className="potd-section-divider-label">{icon}<span>{label}</span></div>
+      <div className="potd-section-divider-line" />
     </div>
   );
 }
@@ -106,9 +110,9 @@ function DifficultyBadge({ difficulty }) {
   if (!difficulty) return null;
   const d = difficulty.toLowerCase();
   const cfg = {
-    easy: { cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_14px_rgba(52,211,153,0.12)]", dot: "bg-emerald-400" },
-    medium: { cls: "bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-[0_0_14px_rgba(251,191,36,0.12)]", dot: "bg-amber-400" },
-    hard: { cls: "bg-red-500/10 text-red-400 border-red-500/20 shadow-[0_0_14px_rgba(248,113,113,0.12)]", dot: "bg-red-400" },
+    easy: { cls: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20", dot: "bg-emerald-400" },
+    medium: { cls: "bg-amber-500/10 text-amber-400 border-amber-500/20", dot: "bg-amber-400" },
+    hard: { cls: "bg-red-500/10 text-red-400 border-red-500/20", dot: "bg-red-400" },
   };
   const c = cfg[d] || { cls: "bg-white/6 text-white/50 border-white/10", dot: "bg-white/50" };
   return (
@@ -127,9 +131,9 @@ function PlatformBadge({ url }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// TYPEWRITER — character-by-character subtitle reveal
+// TYPEWRITER
 // ═══════════════════════════════════════════════════════════════════
-function TypewriterText({ text, highlightFrom, delay = 900 }) {
+function TypewriterText({ text, delay = 900 }) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   useEffect(() => {
@@ -144,12 +148,9 @@ function TypewriterText({ text, highlightFrom, delay = 900 }) {
     }, delay);
     return () => clearTimeout(timeout);
   }, [text, delay]);
-  const before = highlightFrom ? displayed.slice(0, Math.min(displayed.length, highlightFrom)) : displayed;
-  const after = highlightFrom && displayed.length > highlightFrom ? displayed.slice(highlightFrom) : "";
   return (
     <span>
-      <span className="text-white/40">{before}</span>
-      {after && <span className="text-gradient-brand">{after}</span>}
+      <span className="text-white/50">{displayed}</span>
       {!done && <span className="potd-typewriter-cursor" />}
     </span>
   );
@@ -217,7 +218,7 @@ function StatCard({ icon, value, label, valueColor = "text-white/90" }) {
       <div className="potd-stat-icon">{icon}</div>
       <div className="flex flex-col">
         <span className={`potd-stat-value ${valueColor}`}>{typeof value === "number" ? <CountUp target={value} /> : value}</span>
-        <span className="potd-stat-label text-white/30">{label}</span>
+        <span className="potd-stat-label">{label}</span>
       </div>
     </motion.div>
   );
@@ -276,9 +277,6 @@ function SolveButton({ url }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// COPY LINK BUTTON
-// ═══════════════════════════════════════════════════════════════════
 function CopyLinkButton({ url }) {
   const [copied, setCopied] = useState(false);
   const handleCopy = async () => { try { await navigator.clipboard.writeText(url || window.location.href); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch {} };
@@ -297,9 +295,9 @@ function CopyLinkButton({ url }) {
 // ═══════════════════════════════════════════════════════════════════
 function ProblemCard({ potd, platformDesc, loadingPlatformDesc }) {
   return (
-    <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} glareEnable glareMaxOpacity={0.03} glareColor="#F2994A" glarePosition="all" glareBorderRadius="20px" transitionSpeed={2000} scale={1.006} className="w-full" style={{ willChange: "transform" }}>
+    <Tilt tiltMaxAngleX={2} tiltMaxAngleY={2} glareEnable glareMaxOpacity={0.02} glareColor="#F2994A" glarePosition="all" glareBorderRadius="20px" transitionSpeed={2000} scale={1.003} className="w-full" style={{ willChange: "transform" }}>
       <div className="potd-animated-border-wrap rounded-[20px] p-px">
-        <div className="relative rounded-[20px] overflow-hidden bg-[#060610] potd-shimmer-wrap">
+        <div className="relative rounded-[20px] overflow-hidden bg-[#0d1525] potd-shimmer-wrap">
           <div className="absolute -top-28 -right-28 w-80 h-80 rounded-full bg-orange-500/5 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-28 -left-28 w-80 h-80 rounded-full bg-indigo-600/5 blur-3xl pointer-events-none" />
           <div className="relative z-10 p-8 md:p-10">
@@ -334,7 +332,147 @@ function ProblemCard({ potd, platformDesc, loadingPlatformDesc }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// PODIUM — top-3 highlight
+// STREAK CARD — Circular SVG progress ring
+// ═══════════════════════════════════════════════════════════════════
+function StreakCard({ currentStreak, bestStreak, totalSolved }) {
+  const circumference = 2 * Math.PI * 42;
+  const maxStreak = Math.max(bestStreak, 30);
+  const progress = Math.min(currentStreak / maxStreak, 1);
+  const dashOffset = circumference * (1 - progress);
+  const motivational = currentStreak === 0 ? "Start your streak today!" : currentStreak >= 7 ? "You're on fire! 🔥" : "Keep it alive!";
+
+  return (
+    <div className="potd-glass-card">
+      <div className="potd-glass-card-inner potd-streak-card">
+        <div className="potd-card-header" style={{ justifyContent: "center", marginBottom: 12 }}>
+          <div className="potd-card-title"><Flame size={16} className="text-orange-400" />Daily Streak</div>
+        </div>
+        <div className="potd-streak-ring-wrap">
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="streakGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F2994A" />
+                <stop offset="100%" stopColor="#F0405C" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="42" className="potd-streak-ring-bg" />
+            <circle cx="50" cy="50" r="42" className="potd-streak-ring-fg"
+              style={{ strokeDasharray: circumference, strokeDashoffset: dashOffset, "--ring-circumference": circumference, "--ring-target": dashOffset, transition: "stroke-dashoffset 1.5s cubic-bezier(0.22, 1, 0.36, 1)" }} />
+          </svg>
+          <div className="potd-streak-value">
+            <span className="potd-streak-number"><CountUp target={currentStreak} /></span>
+            <span className="potd-streak-unit">days</span>
+          </div>
+        </div>
+        <div className="potd-streak-meta">
+          <div className="potd-streak-meta-item">
+            <div className="potd-streak-meta-value">{bestStreak}</div>
+            <div className="potd-streak-meta-label">Best</div>
+          </div>
+          <div className="potd-streak-meta-item">
+            <div className="potd-streak-meta-value">{totalSolved}</div>
+            <div className="potd-streak-meta-label">Total Solved</div>
+          </div>
+        </div>
+        <p className="potd-streak-motivational">{motivational}</p>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CALENDAR HEATMAP — GitHub-style contribution grid
+// ═══════════════════════════════════════════════════════════════════
+function CalendarHeatmap({ calendarData }) {
+  const [hoveredDay, setHoveredDay] = useState(null);
+
+  const days = useMemo(() => {
+    const result = [];
+    const today = new Date();
+    for (let i = 89; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const key = d.toISOString().split("T")[0];
+      const info = calendarData?.[key];
+      result.push({ date: key, ...info });
+    }
+    return result;
+  }, [calendarData]);
+
+  const getColorClass = (day) => {
+    if (!day?.solved) return "";
+    const diff = day.difficulty?.toLowerCase();
+    if (diff === "hard") return "potd-calendar-cell--solved-hard";
+    if (diff === "medium") return "potd-calendar-cell--solved-medium";
+    return "potd-calendar-cell--solved";
+  };
+
+  return (
+    <div className="potd-glass-card">
+      <div className="potd-glass-card-inner">
+        <div className="potd-card-header">
+          <div className="potd-card-title"><Calendar size={15} className="text-emerald-400" />Solve Calendar</div>
+          <span className="text-[10px] font-mono text-white/25">Last 90 days</span>
+        </div>
+        <div className="potd-calendar-grid">
+          {days.map((day, i) => (
+            <div
+              key={day.date}
+              className={`potd-calendar-cell ${getColorClass(day)}`}
+              onMouseEnter={() => setHoveredDay(day)}
+              onMouseLeave={() => setHoveredDay(null)}
+            >
+              {hoveredDay?.date === day.date && (
+                <div className="potd-calendar-tooltip">
+                  <div className="font-semibold">{new Date(day.date + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
+                  {day.solved ? (
+                    <div className="text-emerald-400 mt-1">✅ {day.title} ({day.platform})</div>
+                  ) : (
+                    <div className="text-white/40 mt-1">No solve</div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// QUICK STATS GRID
+// ═══════════════════════════════════════════════════════════════════
+function QuickStatsGrid({ stats }) {
+  const items = [
+    { value: stats.totalSolved, label: "Total Solved", color: "text-emerald-400" },
+    { value: stats.rank || "—", label: "Club Rank", color: "text-blue-400" },
+    { value: stats.score, label: "XP Earned", color: "text-orange-400" },
+    { value: stats.solvedThisMonth, label: "This Month", color: "text-purple-400" },
+  ];
+  return (
+    <div className="potd-glass-card">
+      <div className="potd-glass-card-inner">
+        <div className="potd-card-header">
+          <div className="potd-card-title"><TrendingUp size={15} className="text-blue-400" />Quick Stats</div>
+        </div>
+        <div className="potd-quick-stats">
+          {items.map((item, i) => (
+            <motion.div key={i} className="potd-quick-stat-item" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08, duration: 0.4 }}>
+              <span className={`potd-quick-stat-value ${item.color}`}>
+                {typeof item.value === "number" ? <CountUp target={item.value} /> : item.value}
+              </span>
+              <span className="potd-quick-stat-label">{item.label}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PODIUM
 // ═══════════════════════════════════════════════════════════════════
 function Podium({ rows, showScore }) {
   if (!rows || rows.length < 1) return null;
@@ -370,66 +508,67 @@ function Podium({ rows, showScore }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// ARENA CARD (leaderboard panel with podium)
+// FULL LEADERBOARD TABLE
 // ═══════════════════════════════════════════════════════════════════
-const MINI_PAGE_SIZE = 8;
-
-function ArenaCard({ title, icon, badge, rows, loading, showScore, scoreLabel, emptyText }) {
-  const [page, setPage] = useState(1);
-  const remaining = rows.slice(3);
-  const totalPages = Math.max(1, Math.ceil(remaining.length / MINI_PAGE_SIZE));
-  const safePage = Math.min(page, totalPages);
-  const pageRows = remaining.slice((safePage - 1) * MINI_PAGE_SIZE, safePage * MINI_PAGE_SIZE);
-  const isLive = badge === "live";
-
+function FullLeaderboard({ rows, loading, userId }) {
+  const displayRows = rows.slice(0, 10);
   return (
     <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-[20px] overflow-hidden border border-white/[0.06] bg-[#060610]/90 backdrop-blur-xl"
-      style={{ boxShadow: "0 0 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03)" }}>
-      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: isLive ? "linear-gradient(90deg, transparent, rgba(52,211,153,0.35), transparent)" : "linear-gradient(90deg, transparent, rgba(242,153,74,0.3), transparent)" }} />
-      <div className="p-6 md:p-7">
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-2.5">{icon}<h3 className="font-bold text-white/70 text-base tracking-tight font-montserrat">{title}</h3></div>
-          {isLive
-            ? <span className="flex items-center gap-1.5 text-[10px] font-bold font-mono text-emerald-400 bg-emerald-400/7 border border-emerald-400/18 px-2.5 py-1 rounded-full tracking-widest uppercase"><LiveDot color="emerald" /> Live</span>
-            : <span className="flex items-center gap-1.5 text-[10px] font-mono text-yellow-400/65 bg-yellow-400/5 border border-yellow-400/12 px-2.5 py-1 rounded-full uppercase tracking-widest"><Flame size={10} /> All Time</span>}
+      className="potd-glass-card potd-glass-card--no-hover">
+      <div className="potd-glass-card-inner" style={{ padding: 0 }}>
+        <div className="flex items-center justify-between px-6 md:px-7 py-5">
+          <div className="potd-card-title"><Trophy size={16} className="text-yellow-400" />Leaderboard</div>
+          <span className="potd-badge potd-badge--alltime"><Flame size={10} /> All Time</span>
         </div>
-        {loading ? <LeaderboardSkeleton /> : rows.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/6 flex items-center justify-center mb-3">{isLive ? <Target size={18} className="text-white/20" /> : <Trophy size={18} className="text-white/20" />}</div>
-            <p className="text-white/22 text-sm max-w-52 leading-relaxed">{emptyText}</p>
+        {loading ? (
+          <div className="px-6 pb-6"><LeaderboardSkeleton /></div>
+        ) : rows.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center px-6">
+            <Users size={28} className="text-white/15 mb-3" />
+            <p className="text-white/25 text-sm">No solvers yet. Be the first!</p>
           </div>
         ) : (
           <>
-            <Podium rows={rows.slice(0, 3)} showScore={showScore} />
-            {remaining.length > 0 && (
-              <div className="space-y-0.5 mt-2">
-                <AnimatePresence>
-                  {pageRows.map((row, index) => {
-                    const rank = 3 + (safePage - 1) * MINI_PAGE_SIZE + index + 1;
-                    const content = (
-                      <motion.div key={`${row.id || index}-${rank}`} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ delay: index * 0.03, duration: 0.3 }}
-                        className="potd-arena-row flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.035] transition-colors duration-150 group cursor-pointer">
-                        <div className="w-6 flex items-center justify-center flex-shrink-0"><MedalIcon rank={rank} /></div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0 text-white" style={{ background: "linear-gradient(135deg, #1e1b4b, #3730a3)" }}>{getInitials(row.name)}</div>
-                        <span className="flex-1 text-sm text-white/55 group-hover:text-white/85 transition-colors truncate font-medium">{row.name || "Anonymous"}</span>
-                        {showScore && <span className="text-sm font-bold font-mono text-orange-400/75 flex-shrink-0">{(row.score || 0).toLocaleString()}<span className="text-white/20 text-[10px] ml-1">pts</span></span>}
-                      </motion.div>
+            <Podium rows={rows.slice(0, 3)} showScore />
+            <div className="overflow-x-auto">
+              <table className="potd-lb-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: 60 }}>Rank</th>
+                    <th>Name</th>
+                    <th style={{ width: 100 }}>Streak</th>
+                    <th style={{ width: 120 }}>XP</th>
+                    <th style={{ width: 100 }}>Solved</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {displayRows.map((row, i) => {
+                    const rank = i + 1;
+                    const isUser = row.id === userId;
+                    return (
+                      <tr key={row.id || i} className={isUser ? "potd-lb-row--highlight" : ""}>
+                        <td><span className="potd-lb-rank"><MedalIcon rank={rank} /></span></td>
+                        <td>
+                          {row.id ? (
+                            <Link to={`/profile/${row.id}`} className="potd-lb-name hover:text-blue-400 transition-colors">{row.name || "Anonymous"}</Link>
+                          ) : (
+                            <span className="potd-lb-name">{row.name || "Anonymous"}</span>
+                          )}
+                        </td>
+                        <td><span className="potd-lb-streak-badge"><Flame size={12} />{row.streak || 0}d</span></td>
+                        <td><span className="potd-lb-score-badge"><Star size={11} />{(row.score || 0).toLocaleString()}</span></td>
+                        <td className="text-white/50 font-mono text-sm">{row.questions || 0}</td>
+                      </tr>
                     );
-                    return row.id ? <Link key={`${row.id}-${index}`} to={`/profile/${row.id}`} className="block">{content}</Link> : <div key={index}>{content}</div>;
                   })}
-                </AnimatePresence>
-              </div>
-            )}
+                </tbody>
+              </table>
+            </div>
+            <Link to="/potd-leaderboard" className="potd-lb-view-all">
+              View Full Leaderboard <ExternalLink size={13} />
+            </Link>
           </>
-        )}
-        {!loading && remaining.length > MINI_PAGE_SIZE && totalPages > 1 && (
-          <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.05]">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={safePage === 1} className="p-1.5 rounded-lg hover:bg-white/6 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"><ChevronLeft size={14} className="text-white/45" /></button>
-            <span className="text-[10px] font-mono text-white/20 tabular-nums">{safePage} / {totalPages}</span>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={safePage === totalPages} className="p-1.5 rounded-lg hover:bg-white/6 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"><ChevronRight size={14} className="text-white/45" /></button>
-          </div>
         )}
       </div>
     </motion.div>
@@ -437,7 +576,7 @@ function ArenaCard({ title, icon, badge, rows, loading, showScore, scoreLabel, e
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// CHAT NEXUS — realtime discussion
+// CHAT NEXUS — Discord-style
 // ═══════════════════════════════════════════════════════════════════
 function ChatNexus({ comments, user, profile, newCommentText, onCommentChange, onSubmit, addingComment, chatViewportRef, chatEndRef }) {
   const isTyping = newCommentText.trim().length > 0;
@@ -448,8 +587,7 @@ function ChatNexus({ comments, user, profile, newCommentText, onCommentChange, o
   return (
     <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-[20px] overflow-hidden border border-white/[0.06] bg-[#060610]/90 backdrop-blur-xl"
-      style={{ boxShadow: "0 0 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.03)" }}>
+      className="potd-glass-card potd-glass-card--no-hover">
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(99,102,241,0.4), transparent)" }} />
 
       {/* Header */}
@@ -459,7 +597,7 @@ function ChatNexus({ comments, user, profile, newCommentText, onCommentChange, o
           <h3 className="font-bold text-white/70 text-base tracking-tight font-montserrat">Discussion</h3>
           {comments.length > 0 && <span className="text-[10px] font-mono text-white/25 bg-white/[0.03] px-2 py-0.5 rounded-full">{comments.length}</span>}
         </div>
-        <span className="flex items-center gap-1.5 text-[10px] font-bold font-mono text-indigo-400/75 bg-indigo-400/5 border border-indigo-400/12 px-2.5 py-1 rounded-full uppercase tracking-widest"><LiveDot color="indigo" />Realtime</span>
+        <span className="potd-badge potd-badge--live"><LiveDot color="emerald" />Realtime</span>
       </div>
 
       {/* Warning */}
@@ -521,7 +659,7 @@ function ChatNexus({ comments, user, profile, newCommentText, onCommentChange, o
           <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-[11px] font-bold text-white mb-0.5" style={{ background: "linear-gradient(135deg, #F2994A, #F0405C)" }}>
             {getInitials(profile?.name || user?.user_metadata?.name || user?.email)}
           </div>
-          <textarea ref={textareaRef} placeholder="Share your approach, hint, or O(n) notes..." value={newCommentText} onChange={handleInput} onKeyDown={handleKeyDown} disabled={addingComment} rows={1}
+          <textarea ref={textareaRef} placeholder="Ask for hints, discuss approaches, celebrate ACs..." value={newCommentText} onChange={handleInput} onKeyDown={handleKeyDown} disabled={addingComment} rows={1}
             className="potd-composer-input flex-1 bg-white/[0.03] border border-white/[0.07] rounded-xl px-4 py-2.5 text-sm text-white/75 placeholder-white/18 outline-none transition-all duration-200 focus:border-indigo-500/35 focus:bg-white/[0.05] focus:ring-1 focus:ring-indigo-500/15" />
           <div className="flex flex-col items-center gap-0.5 flex-shrink-0">
             <motion.button type="submit" disabled={addingComment || !newCommentText.trim()} whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.93 }}
@@ -536,13 +674,126 @@ function ChatNexus({ comments, user, profile, newCommentText, onCommentChange, o
 }
 
 // ═══════════════════════════════════════════════════════════════════
+// MOTIVATION CARD — with quote submission
+// ═══════════════════════════════════════════════════════════════════
+function MotivationCard({ user }) {
+  const [quote, setQuote] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [submitQuote, setSubmitQuote] = useState("");
+  const [submitAuthor, setSubmitAuthor] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const fetchQuote = async () => {
+      try {
+        const r = await fetch(`${getApiBase()}/api/motivation-quotes/random`);
+        if (r.ok) setQuote(await r.json());
+      } catch {
+        setQuote({ quote: "The best way to master algorithms is to solve them consistently.", author_name: "Console Club" });
+      }
+    };
+    fetchQuote();
+  }, []);
+
+  const handleSubmitQuote = async (e) => {
+    e.preventDefault();
+    if (!submitQuote.trim() || !submitAuthor.trim() || !user?.id) return;
+    setSubmitting(true);
+    try {
+      const r = await fetch(`${getApiBase()}/api/motivation-quotes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user.id, quote: submitQuote.trim(), authorName: submitAuthor.trim() }),
+      });
+      if (r.ok) {
+        setSubmitted(true);
+        setSubmitQuote("");
+        setSubmitAuthor("");
+        setTimeout(() => { setShowModal(false); setSubmitted(false); }, 2000);
+      }
+    } catch {} finally { setSubmitting(false); }
+  };
+
+  return (
+    <>
+      <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="potd-glass-card potd-motivation-card">
+        <div className="potd-glass-card-inner">
+          <div className="potd-card-header">
+            <div className="potd-card-title"><Quote size={15} className="text-purple-400" />Daily Motivation</div>
+            {user && (
+              <button className="potd-motivation-submit-btn" onClick={() => setShowModal(true)}>
+                <PenLine size={12} />Submit Quote
+              </button>
+            )}
+          </div>
+          {quote ? (
+            <>
+              <p className="potd-motivation-quote">{quote.quote}</p>
+              <p className="potd-motivation-author">— {quote.author_name}</p>
+            </>
+          ) : (
+            <div className="animate-pulse space-y-3">
+              <div className="h-4 w-4/5 rounded bg-white/5" />
+              <div className="h-4 w-3/5 rounded bg-white/5" />
+              <div className="h-3 w-1/3 rounded bg-white/5 mt-4" />
+            </div>
+          )}
+        </div>
+      </motion.div>
+
+      {/* Quote Submission Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="potd-quote-modal-overlay" onClick={() => setShowModal(false)}>
+            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }}
+              className="potd-quote-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-4">
+                <h3>Submit a Quote</h3>
+                <button onClick={() => setShowModal(false)} className="p-1.5 rounded-lg hover:bg-white/6 transition-colors"><X size={16} className="text-white/50" /></button>
+              </div>
+              {submitted ? (
+                <div className="text-center py-8">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
+                    <Check size={22} className="text-emerald-400" />
+                  </div>
+                  <p className="text-emerald-400 font-semibold">Quote submitted!</p>
+                  <p className="text-white/40 text-sm mt-2">It will appear after admin approval.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmitQuote}>
+                  <textarea placeholder="Enter your inspirational quote..." value={submitQuote} onChange={(e) => setSubmitQuote(e.target.value)} maxLength={500} required />
+                  <input type="text" placeholder="Author name (e.g. your name)" value={submitAuthor} onChange={(e) => setSubmitAuthor(e.target.value)} required />
+                  <p className="text-[11px] text-white/25 mb-3">{submitQuote.length}/500 characters · Requires admin approval</p>
+                  <div className="potd-quote-modal-actions">
+                    <button type="button" onClick={() => setShowModal(false)}
+                      className="px-4 py-2 rounded-lg text-sm font-medium text-white/50 hover:text-white/80 hover:bg-white/6 transition-all">Cancel</button>
+                    <motion.button type="submit" disabled={submitting || !submitQuote.trim() || !submitAuthor.trim()} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                      className="px-5 py-2.5 rounded-lg text-sm font-bold text-white disabled:opacity-40 transition-opacity"
+                      style={{ background: "linear-gradient(135deg, #6366f1, #4f46e5)" }}>
+                      {submitting ? "Submitting..." : "Submit"}
+                    </motion.button>
+                  </div>
+                </form>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
 // SCROLL CUE
 // ═══════════════════════════════════════════════════════════════════
 function ScrollCue() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5, duration: 1 }}
       className="potd-scroll-cue flex flex-col items-center gap-1.5 mt-12 cursor-pointer"
-      onClick={() => document.getElementById("potd-arena-section")?.scrollIntoView({ behavior: "smooth" })}>
+      onClick={() => document.getElementById("potd-dashboard-section")?.scrollIntoView({ behavior: "smooth" })}>
       <span className="text-[9px] font-mono text-white/18 uppercase tracking-[0.3em]">Scroll</span>
       <ChevronDown size={16} className="text-white/20" />
     </motion.div>
@@ -570,6 +821,7 @@ function POTDInner() {
   const [platformDesc, setPlatformDesc] = useState(null);
   const [loadingPlatformDesc, setLoadingPlatformDesc] = useState(false);
   const [isHoveringTitle, setIsHoveringTitle] = useState(false);
+  const [userStats, setUserStats] = useState({ totalSolved: 0, bestStreak: 0, currentStreak: 0, solvedThisMonth: 0, rank: null, score: 0, calendarData: {} });
 
   const chatEndRef = useRef(null);
   const chatViewportRef = useRef(null);
@@ -593,10 +845,11 @@ function POTDInner() {
     return () => ctx.revert();
   }, [loadingPOTD]);
 
-  // ── Data effects (unchanged) ──
+  // ── Data effects ──
   useEffect(() => { loadPOTDDetails(); loadPotdLeaderboard(); }, [user]);
   useEffect(() => { if (potd?.id) loadTodayRanking(potd); }, [potd?.id]);
   useEffect(() => { if (potd?.solution) fetchPlatformDescription(potd.solution); }, [potd?.solution]);
+  useEffect(() => { if (user?.id) loadUserStats(user.id); }, [user?.id]);
 
   useEffect(() => {
     const targetId = potd ? potd.id : getDailyFallbackId();
@@ -605,21 +858,20 @@ function POTDInner() {
   }, [potd]);
 
   useEffect(() => {
-    const channel = supabase.channel("submissions-realtime").on("postgres_changes", { event: "*", schema: "public", table: "submissions" }, async () => { if (potd) await loadTodayRanking(potd); await loadPotdLeaderboard(); }).subscribe();
+    const channel = supabase.channel("submissions-realtime").on("postgres_changes", { event: "*", schema: "public", table: "submissions" }, async () => { if (potd) await loadTodayRanking(potd); await loadPotdLeaderboard(); if (user?.id) await loadUserStats(user.id); }).subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [potd]);
+  }, [potd, user?.id]);
 
   useEffect(() => {
     if (!hasScrolledOnceRef.current) { hasScrolledOnceRef.current = true; return; }
     const v = chatViewportRef.current; if (v) v.scrollTo({ top: v.scrollHeight, behavior: "smooth" });
   }, [comments]);
 
-  // ── Handlers (unchanged) ──
+  // ── Handlers ──
   async function fetchPlatformDescription(url) {
     if (!url) return;
     try { setLoadingPlatformDesc(true); setPlatformDesc(null);
-      const apiBase = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5001" : "https://console-website.onrender.com";
-      const r = await fetch(`${apiBase}/api/problem-description?url=${encodeURIComponent(url)}`); if (!r.ok) throw new Error(); setPlatformDesc(await r.json());
+      const r = await fetch(`${getApiBase()}/api/problem-description?url=${encodeURIComponent(url)}`); if (!r.ok) throw new Error(); setPlatformDesc(await r.json());
     } catch (e) { setPlatformDesc(null); } finally { setLoadingPlatformDesc(false); }
   }
   async function loadPOTDDetails() {
@@ -629,18 +881,22 @@ function POTDInner() {
   async function loadComments(id) { try { setComments(await getComments(id) || []); } catch {} }
   async function loadPotdLeaderboard() {
     try { setLoadingPotdLeaderboard(true);
-      const apiBase = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5001" : "https://console-website.onrender.com";
-      const r = await fetch(`${apiBase}/api/potd/leaderboard-live`); if (!r.ok) throw new Error();
+      const r = await fetch(`${getApiBase()}/api/potd/leaderboard-live`); if (!r.ok) throw new Error();
       setPotdLeaderboard((await r.json() || []).filter(u => (typeof u?.name === "string" && u.name.trim()) || (typeof u?.handle_cf === "string" && u.handle_cf.trim()) || (typeof u?.handle_lc === "string" && u.handle_lc.trim())));
     } catch { setPotdLeaderboard([]); } finally { setLoadingPotdLeaderboard(false); }
   }
   async function loadTodayRanking(problem) {
     if (!problem?.id) return;
     try { setLoadingTodayRanking(true);
-      const apiBase = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5001" : "https://console-website.onrender.com";
-      const r = await fetch(`${apiBase}/api/potd/today-ranking?problemId=${encodeURIComponent(problem.id)}`); if (!r.ok) throw new Error();
+      const r = await fetch(`${getApiBase()}/api/potd/today-ranking?problemId=${encodeURIComponent(problem.id)}`); if (!r.ok) throw new Error();
       setTodayRanking((await r.json() || []).map(r => ({ user_id: r.user_id, name: r.name || "Anonymous coder" })));
     } catch { setTodayRanking([]); } finally { setLoadingTodayRanking(false); }
+  }
+  async function loadUserStats(userId) {
+    try {
+      const r = await fetch(`${getApiBase()}/api/potd/user-stats/${userId}`);
+      if (r.ok) setUserStats(await r.json());
+    } catch {}
   }
   async function handleAddComment(e) {
     e.preventDefault(); if (!newCommentText.trim()) return; setAddingComment(true); setErrorMsg("");
@@ -650,12 +906,12 @@ function POTDInner() {
 
   // ── Derived data ──
   const todayRows = useMemo(() => todayRanking.map(r => ({ id: r.user_id, name: r.name })), [todayRanking]);
-  const pointsRows = useMemo(() => potdLeaderboard.map(r => ({ id: r.id, name: r.name, score: r.score || 0 })), [potdLeaderboard]);
-  const subtitleFull = "Your daily challenge, crafted to push limits.";
-  const highlightStart = subtitleFull.indexOf("push limits.");
+  const pointsRows = useMemo(() => potdLeaderboard.map(r => ({ id: r.id, name: r.name, score: r.score || 0, streak: r.streak || 0, questions: r.questions || 0 })), [potdLeaderboard]);
+
+  const todayDate = new Date().toLocaleDateString("en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--potd-bg)" }}>
       <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.4, repeat: Infinity }} className="font-mono text-sm text-white/35">Initializing console...</motion.div>
     </div>
   );
@@ -664,68 +920,53 @@ function POTDInner() {
   // RENDER
   // ═════════════════════════════════════════════════════════════════
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen text-white overflow-x-hidden" style={{ background: "var(--potd-bg)" }}>
       {/* Noise texture */}
       <div className="potd-noise" />
       {/* Cursor-tracked spotlight */}
       <div ref={spotlightRef} className="potd-spotlight" />
 
       {/* ══════════ HERO SECTION ══════════ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-20 overflow-hidden">
-        {/* GridGlow background (matching landing page) */}
+      <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
         <GridGlow />
-
-        {/* Particles */}
         <div className="absolute inset-0 z-0">
           <Particles id="potd-particles" className="w-full h-full" options={PARTICLES_OPTIONS} />
         </div>
 
-        {/* Ambient glow blobs with parallax */}
+        {/* Ambient glow blobs */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <motion.div style={{ y: blob1Y }} className="absolute top-1/3 left-1/4 w-[550px] h-[550px] rounded-full bg-indigo-700/6 blur-[150px] -translate-x-1/2 -translate-y-1/2" />
           <motion.div style={{ y: blob2Y }} className="absolute bottom-1/3 right-1/4 w-[550px] h-[550px] rounded-full bg-orange-600/5 blur-[150px] translate-x-1/2 translate-y-1/2" />
           <motion.div style={{ y: blob3Y }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-pink-600/4 blur-[110px]" />
         </div>
 
-        {/* Scanline overlay */}
+        {/* Scanline */}
         <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.006) 3px, rgba(255,255,255,0.006) 4px)" }} />
 
         {/* Hero content */}
-        <div ref={heroRef} className="relative z-10 w-full px-6 flex flex-col items-center gap-8 potd-container">
-          {/* Live badge */}
+        <div ref={heroRef} className="relative z-10 w-full px-6 flex flex-col items-center gap-6 potd-container">
           <div className="gsap-hero-item flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/[0.07] text-[11px] font-mono text-white/40 uppercase tracking-[0.2em] backdrop-blur-sm">
             <LiveDot color="orange" />Console · Problem of the Day
           </div>
 
-          {/* Giant POTD heading */}
-          <div className="gsap-hero-item text-center select-none">
-            <h1
-              className="font-montserrat leading-none cursor-default potd-heading-glow"
-              style={{
-                fontSize: "clamp(72px, 12vw, 128px)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-5px",
-                background: "linear-gradient(90deg, #F2994A, #F0405C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
-              }}
-              onMouseEnter={() => setIsHoveringTitle(true)}
-              onMouseLeave={() => setIsHoveringTitle(false)}
-            >
-              POTD
+          <div className="gsap-hero-item text-center select-none relative">
+            <h1 className="font-montserrat leading-none cursor-default potd-heading-glow"
+              style={{ fontSize: "clamp(48px, 10vw, 96px)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-3px",
+                background: "linear-gradient(90deg, #F2994A, #F0405C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
+              onMouseEnter={() => setIsHoveringTitle(true)} onMouseLeave={() => setIsHoveringTitle(false)}>
+              Problem of the Day
             </h1>
-            {/* Glow orb behind title on hover */}
             <div className="absolute inset-0 -z-10 blur-3xl rounded-full transition-opacity duration-500 pointer-events-none" style={{
               background: "radial-gradient(ellipse at center, rgba(242,153,74,0.2) 0%, rgba(240,64,92,0.12) 50%, transparent 70%)",
               opacity: isHoveringTitle ? 1 : 0,
             }} />
-            <p className="mt-4 text-base md:text-lg font-light tracking-wide font-inter">
-              <TypewriterText text={subtitleFull} highlightFrom={highlightStart} delay={1000} />
+            <p className="mt-5 text-base md:text-lg font-light tracking-wide font-inter">
+              <TypewriterText text="Sharpen your problem-solving skills one challenge at a time." delay={1000} />
             </p>
+            <p className="mt-3 text-sm text-white/25 font-mono">{todayDate}</p>
           </div>
 
-          {/* Problem card */}
-          <div className="gsap-hero-item w-full">
-            {loadingPOTD ? <HeroSkeleton /> : !potd ? <EmptyState /> : <ProblemCard potd={potd} platformDesc={platformDesc} loadingPlatformDesc={loadingPlatformDesc} />}
-          </div>
-
-          {/* Stat cards */}
+          {/* Hero stat strip */}
           {!loadingPOTD && (
             <div className="gsap-hero-item grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
               <StatCard icon={<div className="potd-stat-icon bg-emerald-500/8 border border-emerald-500/18"><Activity size={17} className="text-emerald-400" /></div>} value={todayRows.length} label="Solved Today" valueColor="text-emerald-400" />
@@ -738,23 +979,49 @@ function POTDInner() {
         </div>
       </section>
 
-      {/* ══════════ ARENA SECTION ══════════ */}
-      <section id="potd-arena-section" className="relative px-6 py-28 w-full">
+      {/* ══════════ DASHBOARD SECTION ══════════ */}
+      <section id="potd-dashboard-section" className="relative px-6 py-20 w-full">
         <div className="potd-container">
-          <SectionDivider icon={<Activity size={14} className="text-orange-400" />} label="Arena" />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ArenaCard title="Today's Solvers" icon={<Target size={15} className="text-emerald-400" />} badge="live" rows={todayRows} loading={loadingTodayRanking} emptyText={potd ? "No accepted submissions yet. Be the first!" : "No problem has been posted today."} />
-            <ArenaCard title="Points Champions" icon={<Trophy size={15} className="text-yellow-400" />} badge="all-time" rows={pointsRows} loading={loadingPotdLeaderboard} showScore scoreLabel="Points" emptyText="No points recorded yet. Start solving!" />
+          <SectionDivider icon={<Code2 size={14} className="text-orange-400" />} label="Dashboard" />
+
+          <div className="potd-dashboard-grid">
+            {/* Left — Problem Card */}
+            <div>
+              {loadingPOTD ? <HeroSkeleton /> : !potd ? <EmptyState /> : <ProblemCard potd={potd} platformDesc={platformDesc} loadingPlatformDesc={loadingPlatformDesc} />}
+            </div>
+
+            {/* Right — Streak / Calendar / Stats */}
+            <div className="potd-right-stack">
+              <StreakCard currentStreak={userStats.currentStreak} bestStreak={userStats.bestStreak} totalSolved={userStats.totalSolved} />
+              <CalendarHeatmap calendarData={userStats.calendarData} />
+              <QuickStatsGrid stats={userStats} />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════ CHAT NEXUS ══════════ */}
-      <section className="px-6 pb-32 w-full">
+      {/* ══════════ LEADERBOARD SECTION ══════════ */}
+      <section className="relative px-6 py-20 w-full">
         <div className="potd-container">
-          <SectionDivider icon={<MessageSquare size={14} className="text-indigo-400" />} label="Chat Nexus" />
+          <SectionDivider icon={<Trophy size={14} className="text-yellow-400" />} label="Leaderboard" />
+          <FullLeaderboard rows={pointsRows} loading={loadingPotdLeaderboard} userId={user?.id} />
+        </div>
+      </section>
+
+      {/* ══════════ CHAT SECTION ══════════ */}
+      <section className="px-6 py-20 w-full">
+        <div className="potd-container">
+          <SectionDivider icon={<MessageSquare size={14} className="text-indigo-400" />} label="Community Chat" />
           <ChatNexus comments={comments} user={user} profile={profile} newCommentText={newCommentText} onCommentChange={setNewCommentText} onSubmit={handleAddComment} addingComment={addingComment} chatViewportRef={chatViewportRef} chatEndRef={chatEndRef} />
           <AnimatePresence>{errorMsg && <motion.p initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-3 text-center text-red-400/70 text-sm font-mono">{errorMsg}</motion.p>}</AnimatePresence>
+        </div>
+      </section>
+
+      {/* ══════════ MOTIVATION SECTION ══════════ */}
+      <section className="px-6 pb-32 w-full">
+        <div className="potd-container">
+          <SectionDivider icon={<Quote size={14} className="text-purple-400" />} label="Daily Motivation" />
+          <MotivationCard user={user} />
         </div>
       </section>
     </div>
