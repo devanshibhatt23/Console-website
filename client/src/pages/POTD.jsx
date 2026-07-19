@@ -499,8 +499,8 @@ function FullLeaderboard({ rows, loading, userId }) {
       className="potd-glass-card potd-glass-card--no-hover">
       <div className="potd-glass-card-inner" style={{ padding: 0 }}>
         <div className="flex items-center justify-between px-6 md:px-7 py-5">
-          <div className="potd-card-title"><Trophy size={16} className="text-yellow-400" />Leaderboard</div>
-          <span className="potd-badge potd-badge--alltime"><Flame size={10} /> All Time</span>
+          <div className="potd-card-title"><Trophy size={16} className="text-yellow-400"/>Leaderboard</div>
+          {/* <span className="potd-badge potd-badge--alltime"><Flame size={10} /> All Time</span> */}
         </div>
         {loading ? (
           <div className="px-6 pb-6"><LeaderboardSkeleton /></div>
@@ -928,14 +928,14 @@ function POTDInner() {
 
         {/* Hero content */}
         <div ref={heroRef} className="relative z-10 w-full px-6 flex flex-col items-center gap-6 potd-container">
-          <div className="gsap-hero-item flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/[0.07] text-[11px] font-mono text-white/40 uppercase tracking-[0.2em] backdrop-blur-sm">
+          {/* <div className="gsap-hero-item flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/[0.07] text-[11px] font-mono text-white/40 uppercase tracking-[0.2em] backdrop-blur-sm">
             <LiveDot color="orange" />Console · Problem of the Day
-          </div>
+          </div> */}
 
           <div className="gsap-hero-item text-center select-none relative">
             <h1 className="font-montserrat leading-none cursor-default potd-heading-glow"
-              style={{ fontSize: "clamp(48px, 10vw, 96px)", fontWeight: 900, lineHeight: 0.9, letterSpacing: "-3px",
-                background: "linear-gradient(90deg, #F2994A, #F0405C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}
+              style={{ fontSize: 77, fontWeight: 900, lineHeight: 0.9, letterSpacing: "-3px",
+                background: "linear-gradient(90deg, #F2994A, #F0405C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text"  }}
               onMouseEnter={() => setIsHoveringTitle(true)} onMouseLeave={() => setIsHoveringTitle(false)}>
               Problem of the Day
             </h1>
@@ -943,8 +943,10 @@ function POTDInner() {
               background: "radial-gradient(ellipse at center, rgba(242,153,74,0.2) 0%, rgba(240,64,92,0.12) 50%, transparent 70%)",
               opacity: isHoveringTitle ? 1 : 0,
             }} />
-            <p className="mt-5 text-base md:text-lg font-light tracking-wide font-inter">
-              <TypewriterText text="Sharpen your problem-solving skills one challenge at a time." delay={1000} />
+            <p className="mt-5 text-base md:text-lg font-light tracking-wide font-montserrat font-size: 1.1rem;" 
+            style={{ fontSize: 18 }}
+            >
+              Sharpen your problem-solving skills one challenge at a time.
             </p>
             <p className="mt-3 text-sm text-white/25 font-mono">{todayDate}</p>
           </div>
@@ -963,7 +965,7 @@ function POTDInner() {
       </section>
 
       {/* ══════════ MOTIVATION SECTION ══════════ */}
-      <section className="px-6 pt-10 pb-6 w-full z-10 relative">
+      <section className="px-6 pt-0 pb-6 w-full z-10 relative">
         <div className="potd-container">
           <MotivationCard user={user} />
         </div>
