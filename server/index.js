@@ -1335,13 +1335,8 @@ app.get('/api/motivation-quotes/random', async (req, res) => {
             });
         }
 
-        // Pick a daily-deterministic random quote (same quote for the whole day)
-        const today = new Date().toISOString().split('T')[0];
-        let hash = 0;
-        for (let i = 0; i < today.length; i++) {
-            hash = ((hash << 5) - hash + today.charCodeAt(i)) | 0;
-        }
-        const index = Math.abs(hash) % data.length;
+        // Pick a truly random quote so the page feels dynamic and newly approved quotes can be seen immediately
+        const index = Math.floor(Math.random() * data.length);
 
         res.json(data[index]);
     } catch (error) {
