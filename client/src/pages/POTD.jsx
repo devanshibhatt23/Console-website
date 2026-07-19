@@ -486,7 +486,12 @@ function Podium({ rows, showScore }) {
 // FULL LEADERBOARD TABLE
 // ═══════════════════════════════════════════════════════════════════
 function FullLeaderboard({ rows, loading, userId }) {
-  const displayRows = rows.slice(0, 10);
+  const [page, setPage] = useState(0);
+  const rowsPerPage = 10;
+  
+  const totalPages = Math.ceil(rows.length / rowsPerPage);
+  const displayRows = rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
+
   return (
     <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
@@ -505,7 +510,7 @@ function FullLeaderboard({ rows, loading, userId }) {
           </div>
         ) : (
           <>
-            <Podium rows={rows.slice(0, 3)} showScore />
+            {page === 0 && <Podium rows={rows.slice(0, 3)} showScore />}
             <div className="overflow-x-auto">
               <table className="potd-lb-table">
                 <thead>
@@ -519,7 +524,7 @@ function FullLeaderboard({ rows, loading, userId }) {
                 </thead>
                 <tbody>
                   {displayRows.map((row, i) => {
-                    const rank = i + 1;
+                    const rank = page * rowsPerPage + i + 1;
                     const isUser = row.id === userId;
                     return (
                       <tr key={row.id || i} className={isUser ? "potd-lb-row--highlight" : ""}>
@@ -540,9 +545,27 @@ function FullLeaderboard({ rows, loading, userId }) {
                 </tbody>
               </table>
             </div>
-            <Link to="/potd-leaderboard" className="potd-lb-view-all">
-              View Full Leaderboard <ExternalLink size={13} />
-            </Link>
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-6 py-4 border-t border-white/[0.05]">
+                <button 
+                  onClick={() => setPage(p => Math.max(0, p - 1))}
+                  disabled={page === 0}
+                  className="px-4 py-2 text-xs font-semibold text-white/50 bg-white/[0.03] hover:bg-white/[0.08] hover:text-white rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Previous
+                </button>
+                <span className="text-xs text-white/30 font-mono">
+                  {page * rowsPerPage + 1}-{Math.min((page + 1) * rowsPerPage, rows.length)} of {rows.length}
+                </span>
+                <button 
+                  onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                  disabled={page === totalPages - 1}
+                  className="px-4 py-2 text-xs font-semibold text-white/50 bg-white/[0.03] hover:bg-white/[0.08] hover:text-white rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
