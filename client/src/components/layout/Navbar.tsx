@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, MouseEvent, FormEvent } from 'react';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X, Search, Moon, Sun } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -41,6 +41,24 @@ export default function Navbar() {
 
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Theme toggle
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
+  });
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    localStorage.setItem('theme', next);
+    if (next === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -349,6 +367,15 @@ export default function Navbar() {
             </div>
           )}
 
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all duration-200"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+
           {/* CTA Button */}
           {user ? (
             <Link
@@ -440,6 +467,18 @@ export default function Navbar() {
             {navLinks
               .filter((link) => user || link.href !== '/problem-of-the-day')
               .map((link) => renderNavItem(link, true))}
+
+            {/* Theme Toggle (mobile) */}
+            <div className="flex items-center gap-2 py-2">
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-mono"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                <span>{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
+              </button>
+            </div>
 
             {user ? (
               <Link

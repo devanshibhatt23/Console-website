@@ -2,83 +2,94 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Tilt from 'react-parallax-tilt';
-import { Twitter } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const team = [
+type TeamMember = {
+  name: string;
+  avatar: string;
+  avatarBg: string;
+  hoverBorder: string;
+  gradientFrom: string;
+  github: string;
+  linkedin: string;
+  role?: string;
+  quote?: string;
+};
+
+const team: TeamMember[] = [
   {
-    name: 'Arjun Sharma',
-    role: 'President',
-    avatar: 'AS',
+    name: 'Bhavya Singhal',
+    avatar: 'BS',
     avatarBg: 'bg-primary/20 border-primary/30',
     hoverBorder: 'hover:border-primary/40',
     gradientFrom: 'from-primary/20',
-    quote: 'Code is poetry that compiles.',
-    github: '#',
-    linkedin: '#',
-    twitter: '#',
+    github: 'https://github.com/Bhav-Codes',
+    linkedin: 'https://www.linkedin.com/in/bhavya-singhal-20ba6232b/',
   },
   {
-    name: 'Priya Nair',
-    role: 'Vice President',
-    avatar: 'PN',
+    name: 'Parth Gandhi',
+    avatar: 'PG',
     avatarBg: 'bg-secondary/20 border-secondary/30',
     hoverBorder: 'hover:border-secondary/40',
     gradientFrom: 'from-secondary/20',
-    quote: 'Build things that outlast the semester.',
-    github: '#',
-    linkedin: '#',
-    twitter: '#',
+    github: 'https://github.com/parthgandhi22',
+    linkedin: 'https://www.linkedin.com/in/parth-gandhi-641320324',
   },
   {
-    name: 'Rahul Mehta',
-    role: 'Technical Lead',
-    avatar: 'RM',
+    name: 'Mukund Rakholiya',
+    avatar: 'MR',
     avatarBg: 'bg-accent/20 border-accent/30',
     hoverBorder: 'hover:border-accent/40',
     gradientFrom: 'from-accent/20',
-    quote: 'Ship fast, break things, fix faster.',
-    github: '#',
-    linkedin: '#',
-    twitter: '#',
+    github: 'https://github.com/mukundrakholiya28',
+    linkedin: 'https://www.linkedin.com/in/mukundrakholiya28',
   },
   {
-    name: 'Sneha Patel',
-    role: 'CP Lead',
-    avatar: 'SP',
+    name: 'Raghunandan Jhawar',
+    avatar: 'RJ',
     avatarBg: 'bg-yellow-500/20 border-yellow-500/30',
     hoverBorder: 'hover:border-yellow-500/30',
     gradientFrom: 'from-yellow-500/15',
-    quote: 'Rate is just a number. Thinking is the skill.',
-    github: '#',
-    linkedin: '#',
-    twitter: '#',
+    github: '',
+    linkedin: 'http://linkedin.com/in/raghunandan-jhanwar-555137329',
   },
   {
-    name: 'Akhil Reddy',
-    role: 'Design Lead',
-    avatar: 'AR',
+    name: 'Yuvraj',
+    avatar: 'YU',
     avatarBg: 'bg-pink-500/20 border-pink-500/30',
     hoverBorder: 'hover:border-pink-500/30',
     gradientFrom: 'from-pink-500/15',
-    quote: 'Pixels and prototypes — in that order.',
-    github: '#',
-    linkedin: '#',
-    twitter: '#',
+    github: '',
+    linkedin: 'https://linkedin.com/in/yuvraj-singh-verma',
   },
   {
-    name: 'Meera Joshi',
-    role: 'Community Manager',
-    avatar: 'MJ',
+    name: 'Rashi Jangid',
+    avatar: 'RJ',
     avatarBg: 'bg-green-500/20 border-green-500/30',
     hoverBorder: 'hover:border-green-500/30',
     gradientFrom: 'from-green-500/15',
-    quote: 'Every great dev team starts with people.',
-    github: '#',
-    linkedin: '#',
-    twitter: '#',
+    github: '',
+    linkedin: 'https://www.linkedin.com/in/rashi-jangid-47849a221',
+  },
+  {
+    name: 'Mridul Trivedi',
+    avatar: 'MT',
+    avatarBg: 'bg-purple-500/20 border-purple-500/30',
+    hoverBorder: 'hover:border-purple-500/30',
+    gradientFrom: 'from-purple-500/15',
+    github: '',
+    linkedin: 'https://www.linkedin.com/in/mridul-trivedi-129b4337a/',
+  },
+  {
+    name: 'Shubham',
+    avatar: 'SH',
+    avatarBg: 'bg-orange-500/20 border-orange-500/30',
+    hoverBorder: 'hover:border-orange-500/30',
+    gradientFrom: 'from-orange-500/15',
+    github: '',
+    linkedin: 'https://www.linkedin.com/in/shubham-singh-bb9146316/',
   },
 ];
 
@@ -141,25 +152,30 @@ export default function MeetTheTeam() {
 
                     <div className="mb-4">
                       <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
-                      <span className="font-mono text-xs text-primary px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
-                        {member.role}
-                      </span>
+                      {member.role && (
+                        <span className="font-mono text-xs text-primary px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
+                          {member.role}
+                        </span>
+                      )}
                     </div>
 
-                    <p className="text-muted-foreground text-sm font-mono italic leading-relaxed mb-6">
-                      "{member.quote}"
-                    </p>
+                    {member.quote && (
+                      <p className="text-muted-foreground text-sm font-mono italic leading-relaxed mb-6">
+                        "{member.quote}"
+                      </p>
+                    )}
 
                     {/* Social links */}
                     <div className="flex items-center gap-3 pt-4 border-t border-white/5">
                       {[
                         { href: member.github, Icon: FaGithub, label: 'GitHub' },
                         { href: member.linkedin, Icon: FaLinkedin, label: 'LinkedIn' },
-                        { href: member.twitter, Icon: Twitter, label: 'Twitter' },
-                      ].map(({ href, Icon, label }) => (
+                      ].filter(({ href }) => href).map(({ href, Icon, label }) => (
                         <a
                           key={label}
                           href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           aria-label={label}
                           className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-white/40"
                         >

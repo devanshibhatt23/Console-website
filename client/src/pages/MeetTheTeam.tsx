@@ -31,6 +31,14 @@ const developers = [
 ];
 
 const teamMembers = [
+  { name: 'Bhavya Singhal',            email: 'bhav8175@gmail.com',                linkedin: 'https://www.linkedin.com/in/bhavya-singhal-20ba6232b/',                                                                         github: 'https://github.com/Bhav-Codes' },
+  { name: 'Parth Gandhi',              email: 'parthgandhi625@gmail.com',           linkedin: 'https://www.linkedin.com/in/parth-gandhi-641320324',                                                                            github: 'https://github.com/parthgandhi22' },
+  { name: 'Mukund Rakholiya',          email: '',                                   linkedin: 'https://www.linkedin.com/in/mukundrakholiya28',                                                                                  github: 'https://github.com/mukundrakholiya28' },
+  { name: 'Raghunandan Jhawar',        email: 'raghunandanjhawar1234@gmail.com',    linkedin: 'http://linkedin.com/in/raghunandan-jhanwar-555137329',                                                                           github: '' },
+  { name: 'Yuvraj',                    email: 'work.yuvrajsv@gmail.com',            linkedin: 'https://linkedin.com/in/yuvraj-singh-verma',                                                                                     github: '' },
+  { name: 'Rashi Jangid',              email: '2024uce1173@mnit.ac.in',             linkedin: 'https://www.linkedin.com/in/rashi-jangid-47849a221',                                                                             github: '' },
+  { name: 'Mridul Trivedi',            email: 'mridultrivedi318@gmail.com',         linkedin: 'https://www.linkedin.com/in/mridul-trivedi-129b4337a/',                                                                          github: '' },
+  { name: 'Shubham',                   email: 'shubhamsinghstrides@gmail.com',      linkedin: 'https://www.linkedin.com/in/shubham-singh-bb9146316/',                                                                           github: '' },
   { name: 'Aagam Jain',               email: 'coderaj2006@gmail.com',                linkedin: 'https://www.linkedin.com/in/aagam-jain-b38827394/',                                                                      github: 'https://github.com/coderaj2006' },
   { name: 'Aditya Dhiman',             email: 'dhimanaditya941@gmail.com',             linkedin: 'https://www.linkedin.com/in/aditya-dhiman-37165a36b',                                                                    github: 'https://github.com/Aditya281107' },
   { name: 'Akshat Agrawal',            email: 'agrawalakshat1407@gmail.com',           linkedin: 'https://www.linkedin.com/in/akshat-agrawal-0a66b6383',                                                                   github: 'https://github.com/agrawalakshat1407-dotcom' },
@@ -55,13 +63,14 @@ const headingStyle: CSSProperties = {
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   backgroundClip: 'text',
-  fontSize: '48px',
+  fontSize: 'clamp(48px, 7vw, 72px)',
   fontWeight: 900,
   fontFamily: 'Montserrat, sans-serif',
   lineHeight: 1.2,
   cursor: 'default',
   display: 'inline-block',
   transition: 'transform 0.3s ease, filter 0.3s ease',
+  letterSpacing: '-0.02em',
 };
 
 const headingHoverOn = (e: React.MouseEvent<HTMLHeadingElement>) => {
