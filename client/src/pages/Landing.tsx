@@ -46,16 +46,16 @@ const GALLERY_ROW2 = [
 const TEAM_MEMBERS = [
   "Bhavya Singhal", "Parth Gandhi", "Mukund Rakholiya", "Raghunandan Jhawar",
   "Yuvraj", "Rashi Jangid", "Mridul Trivedi", "Shubham",
-  "Aditya Dhiman", "Akshat Agrawal", "Chiranjeev Goyal", "Devanshi Bhatt", "Dishank Viradiya",
+  "Aagam Jain", "Aditya Dhiman", "Akshat Agrawal", "Chiranjeev Goyal", "Devanshi Bhatt", "Dishank Viradiya",
   "Het Shah", "Meet Van", "Pallvi", "Param Chauhan", "Prarthana",
-  "Ridhima Garg", "Saarvik Singh", "Sahil Kumar", "Siddharth Kumar", "Shlok Patel"
+  "Ridhima Garg", "Saarvik Singh Suryavanshi", "Sahil Kumar", "Siddharth Kumar", "Shlok Patel"
 ];
 
 const FAQ_ITEMS = [
   {
     question: "Who can join Console?",
     answer:
-      "Any student at MNIT Jaipur can join Console! We welcome students from all departments and years — from first-year freshers to final-year seniors. All you need is curiosity and a willingness to learn.",
+      "Any student at MNIT Jaipur can join Console! We welcome students from all departments and years, from first-year freshers to final-year seniors. All you need is curiosity and a willingness to learn.",
   },
   {
     question: "Do I need prior coding experience to join?",
@@ -65,7 +65,7 @@ const FAQ_ITEMS = [
   {
     question: "What kind of events does Console organize?",
     answer:
-      "We organize hackathons, coding contests, technical workshops, peer study sessions, and collaborative projects. Our events range from beginner-friendly sessions to competitive programming challenges — there's something for everyone.",
+      "We organize hackathons, coding contests, technical workshops, peer study sessions, and collaborative projects. Our events range from beginner-friendly sessions to competitive programming challenges, there's something for everyone.",
   },
   {
     question: "How do I stay updated about events and announcements?",

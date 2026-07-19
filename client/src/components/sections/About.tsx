@@ -89,7 +89,7 @@ export default function About() {
               A place where people brainstorm, build and push each other forward.
             </p>
             <p className="text-base md:text-lg text-muted-foreground font-inter leading-relaxed">
-              We aim at developing skills that actually shape careers — not just DSA, but teamwork,
+              We aim at developing skills that actually shape careers, not just DSA, but teamwork,
               problem-solving, networking, and the ability to take an idea from concept to execution.
             </p>
             <p className="text-base md:text-lg text-muted-foreground font-inter leading-relaxed">
@@ -100,7 +100,7 @@ export default function About() {
               className="text-base md:text-lg font-inter font-semibold leading-relaxed"
               style={{ color: '#F2994A' }}
             >
-              You think you need any experience to join? You don't! Just show up curious — We will take
+              You think you need any experience to join? You don't! Just show up curious. We will take
               it from there!
             </p>
           </div>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const BOOT_LINES = [
-  { text: 'console_os v2.0.1 — booting kernel...', delay: 0, type: 'system' },
+  { text: 'console_os v2.0.1 - booting kernel...', delay: 0, type: 'system' },
   { text: '> Mounting file systems...', delay: 380, type: 'cmd' },
   { text: '> Loading kernel modules...', delay: 760, type: 'cmd' },
   { text: '> Establishing network tunnel...', delay: 1100, type: 'cmd' },

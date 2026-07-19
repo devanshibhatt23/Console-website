@@ -223,7 +223,7 @@ export default function MeetTheTeam() {
               <h2 style={headingStyle} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>Meet the developers</h2>
             </div>
             <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
-              Meet the brilliant minds behind the website of CONSOLE — building the future of tech community platforms
+              Meet the brilliant minds behind the website of CONSOLE, building the future of tech community platforms
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">

@@ -28,12 +28,12 @@ const TOOLS = [
     name: "Visual Studio Code",
     tagline: "Your primary coding environment",
     points: [
-      "Industry Standard — used by 70%+ of developers worldwide",
-      "Extensible — thousands of extensions for any language",
-      "IntelliSense — smart code completion & error detection",
-      "Integrated Terminal — run commands without leaving the editor",
-      "Git Integration — built-in version control features",
-      "Free & Cross-platform — Windows, Mac, and Linux",
+      "Industry Standard: used by 70%+ of developers worldwide",
+      "Extensible: thousands of extensions for any language",
+      "IntelliSense: smart code completion & error detection",
+      "Integrated Terminal: run commands without leaving the editor",
+      "Git Integration: built-in version control features",
+      "Free & Cross-platform: Windows, Mac, and Linux",
     ],
     meta1: "Free forever",
     meta2: "microsoft.com",
@@ -53,11 +53,11 @@ const TOOLS = [
     name: "Git & GitHub",
     tagline: "Version control & collaboration",
     points: [
-      "Version Control — never lose your work, track every change",
-      "Collaboration — work with teams on the same project",
-      "Portfolio — showcase projects to employers",
-      "Open Source — contribute to projects used by millions",
-      "Industry Standard — every company uses Git",
+      "Version Control: never lose your work, track every change",
+      "Collaboration: work with teams on the same project",
+      "Portfolio: showcase projects to employers",
+      "Open Source: contribute to projects used by millions",
+      "Industry Standard: every company uses Git",
     ],
     commands: [
       { cmd: "git init",   desc: "Start a new repository" },
@@ -85,10 +85,10 @@ const TOOLS = [
     name: "Coding Platforms",
     tagline: "Practice, compete, and grow",
     points: [
-      "Interview Prep — most companies test on these problems",
-      "Skill Assessment — track progress & identify weak areas",
-      "Community — learn from solutions and discussions",
-      "Portfolio — showcase your problem-solving ability",
+      "Interview Prep: most companies test on these problems",
+      "Skill Assessment: track progress & identify weak areas",
+      "Community: learn from solutions and discussions",
+      "Portfolio: showcase your problem-solving ability",
     ],
     platforms: [
       { name: "LeetCode",     url: "https://leetcode.com",     color: "#f89f1b", bg: "rgba(248,159,27,0.10)", goal: "DSA & Interviews" },
@@ -409,7 +409,7 @@ export default function TechGuide() {
                 <div className="tg-reveal">
                   <SectionHead
                     label="Essential Tools & Platforms"
-                    sub="Set these up in your first week — you'll use them every day"
+                    sub="Set these up in your first week, you'll use them every day"
                     badge="Week 1"
                   />
                 </div>
@@ -425,7 +425,7 @@ export default function TechGuide() {
                 <div className="tg-reveal">
                   <SectionHead
                     label="Understanding Different Paths"
-                    sub="Three directions in tech — know the difference early"
+                    sub="Three directions in tech, know the difference early"
                     badge="Choose Wisely"
                   />
                 </div>
@@ -448,7 +448,7 @@ export default function TechGuide() {
               <section className="tg-section" id="hackathons">
                 <div className="tg-reveal">
                   <SectionHead
-                    label="Hackathons — The Game-Changer"
+                    label="Hackathons: The Game-Changer"
                     sub="Intense 24–48 hour builds that accelerate your growth like nothing else"
                     badge="Must-Try"
                   />
@@ -607,7 +607,7 @@ function ToolCard({ tool }) {
             <span className="tg-dot tg-dot-red" />
             <span className="tg-dot tg-dot-yellow" />
             <span className="tg-dot tg-dot-green" />
-            <span className="tg-terminal-title">bash — git essentials</span>
+            <span className="tg-terminal-title">bash: git essentials</span>
           </div>
           <div className="tg-terminal-body">
             {tool.commands.map((c) => (

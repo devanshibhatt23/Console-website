@@ -55,7 +55,7 @@ export default function AboutPage() {
           </p>
           
           <p className="about-paragraph">
-            We aim at developing skills that actually shape careers — not just DSA, but teamwork,
+            We aim at developing skills that actually shape careers, not just DSA, but teamwork,
             problem-solving, networking, and the ability to take an idea from concept to execution.
           </p>
           
@@ -65,7 +65,7 @@ export default function AboutPage() {
           </p>
 
           <div className="about-highlight">
-            You think you need any experience to join? You don't! Just show up curious — We will take it from there!
+            You think you need any experience to join? You don't! Just show up curious. We will take it from there!
           </div>
         </div>
       </main>
