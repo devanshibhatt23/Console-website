@@ -130,7 +130,7 @@ export default function Hero() {
             variants={itemVariants}
             className="font-montserrat cursor-default select-none w-full text-center"
             style={{
-              fontSize: '90px',
+              fontSize: 'clamp(36px, 10vw, 90px)',
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 900,
               color: '#ffffff',
@@ -149,7 +149,7 @@ export default function Hero() {
             <h1
               className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center"
               style={{
-                fontSize: '110px',
+                fontSize: 'clamp(42px, 12vw, 110px)',
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
                 lineHeight: '0.9',
