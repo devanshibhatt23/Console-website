@@ -1,101 +1,41 @@
 Members of the team : 
-Bhavya Singhal :
+1. Bhavya Singhal :
 - email- bhav8175@gmail.com
 - linkedin- https://www.linkedin.com/in/bhavya-singhal-20ba6232b/
 - github- https://github.com/Bhav-Codes
 
-Parth Gandhi :
+2. Parth Gandhi :
 - email- parthgandhi625@gmail.com
 - linkedin- https://www.linkedin.com/in/parth-gandhi-641320324
 - github- www.github.com/parthgandhi22
 
-Mukund Rakholiya :
+3. Mukund Rakholiya :
 - email- 
 - linkedin- https://www.linkedin.com/in/mukundrakholiya28
 - github- https://github.com/mukundrakholiya28
 
-Rishi Kataria :
-- email- 
-- linkedin- https://www.linkedin.com/in/rishi-kataria/
-- github- 
-
-Raghunandan Jhawar :
+4. Raghunandan Jhawar :
 - email- raghunandanjhawar1234@gmail.com
 - linkedin- http://linkedin.com/in/raghunandan-jhanwar-555137329
 - github- 
 
-Shivam Pareek :
-- email- shivamvdn2005@gmail.com
-- linkedin- https://www.linkedin.com/in/shivam-pareek-047819346
-- github- 
-
-Sujal Maurya :
-- email- sujalmaurya08@gmail.com
-- linkedin- https://www.linkedin.com/in/sujal-maurya/
-- github- https://github.com/sujal25
-
-Shivam Jat :
-- email- shivamjat531@gmail.com
-- linkedin- https://www.linkedin.com/in/shivamjat
-- github- 
-
-Yuvraj :
+5. Yuvraj :
 - email- work.yuvrajsv@gmail.com
 - linkedin- https://linkedin.com/in/yuvraj-singh-verma
 - github- 
 
-Neel Shah :
-- email- neelsshah2006@gmail.com
-- linkedin- https://www.linkedin.com/in/neelsshah2006
-- github- 
-
-Shubham Singh :
-- email- shubhamsingh4665655@gmail.com
-- linkedin- https://in.linkedin.com/in/shubknight
-- github- GitHub.com/shubknight 
-
-Amit Kumar :
-- email- 6217amitkumar@gmail.com
-- linkedin- https://www.linkedin.com/in/amit6217
-- github- 
-
-Mahek Patel :
-- email- pjmahek2006@gmail.com
-- linkedin- https://www.linkedin.com/in/mahek-patel-580404307
-- github- 
-
-Rashi Jangid :
+6. Rashi Jangid :
 - email- 2024uce1173@mnit.ac.in
 - linkedin- https://www.linkedin.com/in/rashi-jangid-47849a221?utm_source=share_via&utm_content=profile&utm_medium=member_ios
 
-Mridul Trivedi :
+7. Mridul Trivedi :
 - email- mridultrivedi318@gmail.com
 - linkedin- https://www.linkedin.com/in/mridul-trivedi-129b4337a/
 - github- 
 
-Prashant Chaudhary :
-- email- prashantchaudhary7353@gmail.com
-- linkedin- https://www.linkedin.com/in/prashant-chaudhary-147912320/
-- github- 
-
-Krrish Sharma :
-- email- krish56b1@gmail.com
-- linkedin- https://www.linkedin.com/in/krish-sharma1165
-- github- 
-
-Ritesh Singh :
-- email- ummeshchandrasingh1998@gmail.com
-- linkedin- https://www.linkedin.com/in/ritesh-kumar-singh-188b9a255
-- github- 
-
-Abhinav Singh :
-- email- abhinav.6111q@gmail.com
-- linkedin- https://www.linkedin.com/in/abhinav-singh-3a0863322
-- github- 
-
-Siddhi Agarwal :
-- email- siddhinonuagarwal@gmail.com
-- linkedin- 
+8. Shubham :
+- email- shubhamsinghstrides@gmail.com
+- linkedin- https://www.linkedin.com/in/shubham-singh-bb9146316/
 - github- 
 
 Aagam Jain :
