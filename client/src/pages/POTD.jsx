@@ -992,9 +992,9 @@ function POTDInner() {
 
             {/* Right — Streak / Calendar / Stats */}
             <div className="potd-right-stack">
+              <QuickStatsGrid stats={userStats} />
               <StreakCard currentStreak={userStats.currentStreak} bestStreak={userStats.bestStreak} totalSolved={userStats.totalSolved} />
               <CalendarHeatmap calendarData={userStats.calendarData} />
-              <QuickStatsGrid stats={userStats} />
             </div>
           </div>
         </div>
