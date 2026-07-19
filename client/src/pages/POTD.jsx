@@ -6,8 +6,6 @@ import { supabase } from "../lib/supabase.js";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Tilt from "react-parallax-tilt";
-import Particles, { ParticlesProvider } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim";
 import gsap from "gsap";
 import GridGlow from "@/components/sections/GridGlow";
 import {
@@ -42,28 +40,7 @@ function getApiBase() {
     : "https://console-website.onrender.com";
 }
 
-// ═══════════════════════════════════════════════════════════════════
-// PARTICLES CONFIG
-// ═══════════════════════════════════════════════════════════════════
-const PARTICLES_OPTIONS = {
-  fullScreen: false,
-  background: { color: { value: "transparent" } },
-  fpsLimit: 60,
-  interactivity: {
-    events: { onHover: { enable: true, mode: "grab" }, resize: { enable: true } },
-    modes: { grab: { distance: 140, links: { opacity: 0.5 } } },
-  },
-  particles: {
-    color: { value: "#F2994A" },
-    links: { color: "#F0405C", distance: 150, enable: true, opacity: 0.12, width: 1 },
-    move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: false, speed: 0.5, straight: false },
-    number: { density: { enable: true, width: 800 }, value: 45 },
-    opacity: { value: 0.2 },
-    shape: { type: "circle" },
-    size: { value: { min: 1, max: 2 } },
-  },
-  detectRetina: true,
-};
+
 
 // ═══════════════════════════════════════════════════════════════════
 // CURSOR-TRACKED SPOTLIGHT HOOK
@@ -296,25 +273,22 @@ function CopyLinkButton({ url }) {
 function ProblemCard({ potd, platformDesc, loadingPlatformDesc }) {
   return (
     <Tilt tiltMaxAngleX={2} tiltMaxAngleY={2} glareEnable glareMaxOpacity={0.02} glareColor="#F2994A" glarePosition="all" glareBorderRadius="20px" transitionSpeed={2000} scale={1.003} className="w-full" style={{ willChange: "transform" }}>
-      <div className="potd-animated-border-wrap rounded-[20px] p-px">
-        <div className="relative rounded-[20px] overflow-hidden bg-[#0d1525] potd-shimmer-wrap">
-          <div className="absolute -top-28 -right-28 w-80 h-80 rounded-full bg-orange-500/5 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-28 -left-28 w-80 h-80 rounded-full bg-indigo-600/5 blur-3xl pointer-events-none" />
-          <div className="relative z-10 p-8 md:p-10">
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
-              <div className="flex items-center gap-2 flex-wrap"><PlatformBadge url={potd.solution} /><DifficultyBadge difficulty={potd.difficulty} /></div>
-              <span className="text-[11px] font-mono text-white/22 bg-white/[0.03] border border-white/6 px-3 py-1.5 rounded-full">{potd.date || "Today"}</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white leading-tight mb-8 tracking-tight font-montserrat">{potd.title}</h2>
-            <div className="potd-desc-viewport custom-scrollbar relative mb-8" style={{ maxHeight: "320px", overflowY: "auto", paddingRight: "8px" }}>
-              {loadingPlatformDesc ? (
-                <div className="space-y-3 animate-pulse">{[1,.9,.95,.88,.93,.85].map((w, i) => <div key={i} className="h-3.5 rounded bg-white/5" style={{ width: `${w*100}%` }} />)}</div>
-              ) : platformDesc?.content ? (
-                <div className={`potd-platform-desc ${platformDesc.platform === "leetcode" ? "potd-platform-desc--lc" : "potd-platform-desc--cf"}`} dangerouslySetInnerHTML={{ __html: platformDesc.content }} />
-              ) : (
-                <p className="text-white/55 text-sm leading-relaxed whitespace-pre-wrap">{potd.description || "Solve this algorithmic challenge. Click below to view the full problem statement on the platform."}</p>
-              )}
-            </div>
+      <div className="potd-glass-card" style={{ padding: 0 }}>
+        <div className="potd-glass-card-inner">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
+            <div className="flex items-center gap-2 flex-wrap"><PlatformBadge url={potd.solution} /><DifficultyBadge difficulty={potd.difficulty} /></div>
+            <span className="text-[11px] font-mono text-white/22 bg-white/[0.03] border border-white/6 px-3 py-1.5 rounded-full">{potd.date || "Today"}</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-white leading-tight mb-8 tracking-tight font-montserrat">{potd.title}</h2>
+          <div className="potd-desc-viewport custom-scrollbar relative mb-8" style={{ maxHeight: "320px", overflowY: "auto", paddingRight: "8px" }}>
+            {loadingPlatformDesc ? (
+              <div className="space-y-3 animate-pulse">{[1,.9,.95,.88,.93,.85].map((w, i) => <div key={i} className="h-3.5 rounded bg-white/5" style={{ width: `${w*100}%` }} />)}</div>
+            ) : platformDesc?.content ? (
+              <div className={`potd-platform-desc ${platformDesc.platform === "leetcode" ? "potd-platform-desc--lc" : "potd-platform-desc--cf"}`} dangerouslySetInnerHTML={{ __html: platformDesc.content }} />
+            ) : (
+              <p className="text-white/55 text-sm leading-relaxed whitespace-pre-wrap">{potd.description || "Solve this algorithmic challenge. Click below to view the full problem statement on the platform."}</p>
+            )}
+          </div>
             {potd.topics?.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-8">
                 {potd.topics.map((topic, i) => <span key={i} className="text-[11px] font-semibold px-3 py-1 rounded-full bg-indigo-500/7 border border-indigo-500/12 text-indigo-400/75 hover:bg-indigo-500/12 hover:text-indigo-300 transition-all cursor-default">{topic}</span>)}
@@ -921,17 +895,8 @@ function POTDInner() {
   // ═════════════════════════════════════════════════════════════════
   return (
     <div className="min-h-screen text-white overflow-x-hidden" style={{ background: "var(--potd-bg)" }}>
-      {/* Noise texture */}
-      <div className="potd-noise" />
-      {/* Cursor-tracked spotlight */}
-      <div ref={spotlightRef} className="potd-spotlight" />
-
       {/* ══════════ HERO SECTION ══════════ */}
       <section className="relative min-h-[85vh] flex flex-col items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Particles id="potd-particles" className="w-full h-full" options={PARTICLES_OPTIONS} />
-        </div>
-
         {/* Scanline */}
         <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,0.006) 3px, rgba(255,255,255,0.006) 4px)" }} />
 
@@ -1025,12 +990,6 @@ function POTDInner() {
 // ═══════════════════════════════════════════════════════════════════
 // EXPORT — wraps with ParticlesProvider
 // ═══════════════════════════════════════════════════════════════════
-const particlesInit = async (engine) => { await loadSlim(engine); };
-
 export default function POTD() {
-  return (
-    <ParticlesProvider init={particlesInit}>
-      <POTDInner />
-    </ParticlesProvider>
-  );
+  return <POTDInner />;
 }
