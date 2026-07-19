@@ -6,18 +6,18 @@
 
 /* ── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  --potd-bg: #0B1120;
-  --potd-card: #111827;
-  --potd-card-hover: #161f33;
-  --potd-border: #1F2937;
-  --potd-border-hover: #374151;
+  --potd-bg: #000000;
+  --potd-card: #09090B;
+  --potd-card-hover: #121214;
+  --potd-border: #27272A;
+  --potd-border-hover: #3F3F46;
   --potd-primary: #3B82F6;
   --potd-success: #22C55E;
   --potd-warning: #F59E0B;
   --potd-danger: #EF4444;
-  --potd-text: #F8FAFC;
-  --potd-text-secondary: #94A3B8;
-  --potd-text-muted: #64748B;
+  --potd-text: #FAFAFA;
+  --potd-text-secondary: #A1A1AA;
+  --potd-text-muted: #71717A;
   --potd-brand-start: #F2994A;
   --potd-brand-end: #F0405C;
   --potd-radius: 16px;
