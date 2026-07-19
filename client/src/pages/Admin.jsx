@@ -71,6 +71,8 @@ export default function Admin() {
   const [loadingQuotes, setLoadingQuotes] = useState(false);
   const [newQuoteText, setNewQuoteText] = useState("");
   const [newQuoteAuthor, setNewQuoteAuthor] = useState("");
+  const [newQuoteDate, setNewQuoteDate] = useState("");
+  const [reviewDates, setReviewDates] = useState({});
 
   // Action indicators
   const [submitting, setSubmitting] = useState(false);
@@ -143,7 +145,7 @@ export default function Admin() {
     }
   }
 
-  async function handleReviewQuote(id, action) {
+  async function handleReviewQuote(id, action, scheduledDate = null) {
     if (!window.confirm(`Are you sure you want to ${action} this quote?`)) return;
     setSubmitting(true);
     setErrorMsg("");
@@ -152,7 +154,7 @@ export default function Admin() {
       const res = await fetch(`${getApiBase()}/api/motivation-quotes/${id}/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, adminUserId: profile.id })
+        body: JSON.stringify({ action, adminUserId: profile.id, scheduledDate })
       });
       if (!res.ok) throw new Error("Failed to review quote");
       setSuccessMsg(`Quote ${action} successfully!`);
@@ -182,13 +184,14 @@ export default function Admin() {
       const reviewRes = await fetch(`${getApiBase()}/api/motivation-quotes/${data.id}/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "approved", adminUserId: profile.id })
+        body: JSON.stringify({ action: "approved", adminUserId: profile.id, scheduledDate: newQuoteDate || null })
       });
       if (!reviewRes.ok) throw new Error("Failed to auto-approve quote");
       
       setSuccessMsg("Quote added and automatically approved!");
       setNewQuoteText("");
       setNewQuoteAuthor("");
+      setNewQuoteDate("");
       await loadPendingQuotes();
     } catch (err) {
       setErrorMsg(err.message);
@@ -1045,6 +1048,16 @@ export default function Admin() {
                     required
                   />
                 </div>
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Schedule For (Optional)</label>
+                  <input
+                    type="date"
+                    value={newQuoteDate}
+                    onChange={(e) => setNewQuoteDate(e.target.value)}
+                    className="admin-input"
+                  />
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "4px" }}>Leave blank to schedule for today.</p>
+                </div>
                 <button
                   type="submit"
                   disabled={submitting || !newQuoteText || !newQuoteAuthor}
@@ -1075,11 +1088,15 @@ export default function Admin() {
                         <p className="admin-res-title" style={{ fontStyle: "italic", marginTop: "6px" }}>"{q.quote}"</p>
                         <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "4px" }}>— {q.author_name}</p>
                       </div>
-                      <div style={{ display: "flex", gap: "8px", flexDirection: "column" }}>
-                        <button onClick={() => handleReviewQuote(q.id, 'approved')} className="admin-btn-primary" style={{ padding: "6px 12px", fontSize: "12px", minWidth: "80px", justifyContent: "center" }} disabled={submitting}>
+                      <div style={{ display: "flex", gap: "8px", flexDirection: "column", minWidth: "120px" }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                          <label style={{ fontSize: "10px", color: "rgba(255,255,255,0.6)" }}>Schedule Date</label>
+                          <input type="date" value={reviewDates[q.id] || ""} onChange={(e) => setReviewDates({ ...reviewDates, [q.id]: e.target.value })} className="admin-input" style={{ padding: "4px 8px", fontSize: "12px" }} />
+                        </div>
+                        <button onClick={() => handleReviewQuote(q.id, 'approved', reviewDates[q.id])} className="admin-btn-primary" style={{ padding: "6px 12px", fontSize: "12px", justifyContent: "center" }} disabled={submitting}>
                           <Check size={12} /> Approve
                         </button>
-                        <button onClick={() => handleReviewQuote(q.id, 'rejected')} className="admin-res-delete-btn" style={{ padding: "6px 12px", fontSize: "12px", minWidth: "80px", justifyContent: "center" }} disabled={submitting}>
+                        <button onClick={() => handleReviewQuote(q.id, 'rejected')} className="admin-res-delete-btn" style={{ padding: "6px 12px", fontSize: "12px", justifyContent: "center" }} disabled={submitting}>
                           <X size={12} /> Reject
                         </button>
                       </div>
