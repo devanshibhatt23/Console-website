@@ -1334,13 +1334,21 @@ app.get('/api/motivation-quotes/random', async (req, res) => {
             return res.json(scheduledData[0]);
         }
 
-        // 2. Fall back to a random approved quote
-        const { data, error } = await supabase
+        // 2. Fall back to picking an unscheduled quote
+        let { data, error } = await supabase
             .from('motivation_quotes')
             .select('id, quote, author_name, created_at, scheduled_date')
-            .eq('status', 'approved');
+            .eq('status', 'approved')
+            .is('scheduled_date', null);
 
-        if (error) throw error;
+        // If all quotes have been used in the past, fall back to ANY approved quote
+        if (!data || data.length === 0) {
+            const { data: allData } = await supabase
+                .from('motivation_quotes')
+                .select('id, quote, author_name, created_at, scheduled_date')
+                .eq('status', 'approved');
+            data = allData;
+        }
 
         if (!data || data.length === 0) {
             return res.json({
@@ -1349,10 +1357,19 @@ app.get('/api/motivation-quotes/random', async (req, res) => {
             });
         }
 
-        // Pick a truly random quote so the page feels dynamic and newly approved quotes can be seen immediately
+        // Pick a random quote and lock it in for today
         const index = Math.floor(Math.random() * data.length);
+        const selectedQuote = data[index];
 
-        res.json(data[index]);
+        // Update in background to lock for the day
+        supabase
+            .from('motivation_quotes')
+            .update({ scheduled_date: today })
+            .eq('id', selectedQuote.id)
+            .then(() => {})
+            .catch(err => console.error("Failed to lock quote:", err));
+
+        res.json(selectedQuote);
     } catch (error) {
         console.error('Failed to fetch random quote:', error.message);
         res.json({
