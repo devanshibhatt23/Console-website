@@ -1202,19 +1202,20 @@ app.get('/api/potd/user-stats/:userId', async (req, res) => {
         const uniqueDates = Array.from(new Set(solveDates)).sort();
         let bestStreak = 0;
         let tempStreak = 1;
-        for (let i = 1; i < uniqueDates.length; i++) {
-            const prev = new Date(uniqueDates[i - 1]);
-            const curr = new Date(uniqueDates[i]);
-            const diffDays = (curr - prev) / (1000 * 60 * 60 * 24);
-            if (diffDays === 1) {
-                tempStreak++;
-            } else {
-                bestStreak = Math.max(bestStreak, tempStreak);
-                tempStreak = 1;
+        if (uniqueDates.length > 0) {
+            for (let i = 1; i < uniqueDates.length; i++) {
+                const prev = new Date(uniqueDates[i - 1]);
+                const curr = new Date(uniqueDates[i]);
+                const diffDays = (curr - prev) / (1000 * 60 * 60 * 24);
+                if (diffDays === 1) {
+                    tempStreak++;
+                } else {
+                    bestStreak = Math.max(bestStreak, tempStreak);
+                    tempStreak = 1;
+                }
             }
+            bestStreak = Math.max(bestStreak, tempStreak);
         }
-        bestStreak = Math.max(bestStreak, tempStreak);
-        if (uniqueDates.length === 0) bestStreak = 0;
 
         // Build calendar heatmap data (date -> solve info)
         const calendarData = {};
@@ -1317,13 +1318,26 @@ app.post('/api/motivation-quotes', async (req, res) => {
     }
 });
 
-// Get a random approved quote
+// Get a scheduled quote for today, or a random approved quote
 app.get('/api/motivation-quotes/random', async (req, res) => {
     try {
-        // Fetch all approved quotes and pick one randomly
+        const today = new Date().toISOString().split('T')[0];
+        
+        // 1. Try to find a quote scheduled for today
+        const { data: scheduledData, error: scheduledError } = await supabase
+            .from('motivation_quotes')
+            .select('id, quote, author_name, created_at, scheduled_date')
+            .eq('status', 'approved')
+            .eq('scheduled_date', today);
+            
+        if (!scheduledError && scheduledData && scheduledData.length > 0) {
+            return res.json(scheduledData[0]);
+        }
+
+        // 2. Fall back to a random approved quote
         const { data, error } = await supabase
             .from('motivation_quotes')
-            .select('id, quote, author_name, created_at')
+            .select('id, quote, author_name, created_at, scheduled_date')
             .eq('status', 'approved');
 
         if (error) throw error;
@@ -1369,7 +1383,7 @@ app.get('/api/motivation-quotes/pending', async (req, res) => {
 app.post('/api/motivation-quotes/:id/review', async (req, res) => {
     try {
         const { id } = req.params;
-        const { action, adminUserId } = req.body;
+        const { action, adminUserId, scheduledDate } = req.body;
 
         if (!action || !['approved', 'rejected'].includes(action)) {
             return res.status(400).json({ error: 'action must be "approved" or "rejected"' });
@@ -1379,6 +1393,7 @@ app.post('/api/motivation-quotes/:id/review', async (req, res) => {
         if (action === 'approved') {
             updateData.approved_by = adminUserId || null;
             updateData.approved_at = new Date().toISOString();
+            updateData.scheduled_date = scheduledDate || new Date().toISOString().split('T')[0];
         }
 
         const { data, error } = await supabase
