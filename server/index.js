@@ -1112,9 +1112,26 @@ app.post('/api/verify/disconnect', async (req, res) => {
     const updateField = cleanPlatform === 'leetcode' ? 'leetcode_handle' : 'codeforces_handle';
 
     try {
+        // Fetch current profile to see if the other platform handle is also empty
+        const { data: userProfile, error: fetchError } = await supabase
+            .from('profiles')
+            .select('codeforces_handle, leetcode_handle')
+            .eq('id', userId)
+            .single();
+
+        if (fetchError) throw fetchError;
+
+        const otherField = cleanPlatform === 'leetcode' ? 'codeforces_handle' : 'leetcode_handle';
+        const updates = { [updateField]: null };
+
+        // If the other handle is also null or empty, mark profile_completed as false
+        if (!userProfile || !userProfile[otherField] || userProfile[otherField].trim() === '') {
+            updates.profile_completed = false;
+        }
+
         const { error } = await supabase
             .from('profiles')
-            .update({ [updateField]: null })
+            .update(updates)
             .eq('id', userId);
 
         if (error) throw error;
