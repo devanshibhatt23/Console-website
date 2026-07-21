@@ -238,21 +238,37 @@ const fetchLeetcode = async (handle) => {
                 }
                 userContestRanking(username: $username) {
                     rating
+                    attendedContestsCount
                 }
             }
         `;
+        const headers = {
+            'Content-Type': 'application/json',
+            'Referer': 'https://leetcode.com',
+            'Origin': 'https://leetcode.com',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        };
+        // LeetCode requires an authenticated session to return contest rating
+        if (process.env.LEETCODE_SESSION) {
+            headers['Cookie'] = `LEETCODE_SESSION=${process.env.LEETCODE_SESSION}`;
+        }
+
         const response = await axios.post('https://leetcode.com/graphql/', {
             query,
             variables: { username: handle }
-        }, { headers: { 'Content-Type': 'application/json' } });
+        }, { headers });
 
         const data = response.data.data;
         if (!data || !data.matchedUser) return null;
 
         const totalQuestions = data.matchedUser.submitStats.acSubmissionNum
             .find(d => d.difficulty === 'All')?.count || 0;
-        const contestRating = data.userContestRanking
-            ? Math.round(data.userContestRanking.rating) : 0;
+
+        // userContestRanking may be non-null but have a null rating (never participated in a rated contest)
+        const rawRating = data.userContestRanking?.rating;
+        const contestRating = (rawRating != null && !isNaN(rawRating)) ? Math.round(rawRating) : 0;
+
+        console.log(`LC fetch [${handle}]: contestRanking=${JSON.stringify(data.userContestRanking)}, parsedRating=${contestRating}`);
 
         return { handle, rating: contestRating, totalQuestions };
     } catch (error) {
