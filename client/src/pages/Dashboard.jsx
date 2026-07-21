@@ -224,7 +224,6 @@ export default function Dashboard() {
   }
 
   async function handleDisconnect(platform) {
-    if (!window.confirm(`Disconnect your ${platform} handle?`)) return;
     setSuccessMsg(""); setErrorMsg("");
     try {
       const res  = await fetch(`${getApiBase()}/api/verify/disconnect`, {
