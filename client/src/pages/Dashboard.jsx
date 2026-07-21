@@ -235,7 +235,12 @@ export default function Dashboard() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Disconnection failed");
       const field = platform === "leetcode" ? "leetcode_handle" : "codeforces_handle";
-      await updateProfile(user.id, { [field]: null });
+      const otherField = platform === "leetcode" ? "codeforces_handle" : "leetcode_handle";
+      const updates = { [field]: null };
+      if (!profile[otherField] || profile[otherField].trim() === '') {
+        updates.profile_completed = false;
+      }
+      await updateProfile(user.id, updates);
       setSuccessMsg(data.message);
       if (platform === "codeforces") setCfInputHandle(""); else setLcInputHandle("");
       if (refreshProfile) await refreshProfile();
@@ -567,6 +572,13 @@ export default function Dashboard() {
                             <ExternalLink size={12} />
                           </a>
                         </div>
+                        <button
+                          type="button"
+                          className="dp-disconnect-btn"
+                          onClick={() => handleDisconnect("codeforces")}
+                        >
+                          <Trash2 size={12} /> Disconnect
+                        </button>
                       </div>
                     ) : isCfVerifying ? (
                       <div className="dp-verify-box">
@@ -661,6 +673,13 @@ export default function Dashboard() {
                             <ExternalLink size={12} />
                           </a>
                         </div>
+                        <button
+                          type="button"
+                          className="dp-disconnect-btn"
+                          onClick={() => handleDisconnect("leetcode")}
+                        >
+                          <Trash2 size={12} /> Disconnect
+                        </button>
                       </div>
                     ) : isLcVerifying ? (
                       <div className="dp-verify-box">
