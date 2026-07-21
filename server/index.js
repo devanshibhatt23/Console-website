@@ -226,30 +226,78 @@ const fetchCodeforces = async (handle) => {
     }
 };
 
-const fetchLeetcode = async (handle) => {
+const fetchLeetcode = async (handle, retries = 3) => {
     if (!handle || handle.trim() === '') return null;
-    try {
-        // Fetch both solved stats and contest rating from Alfa API in parallel
-        const [solvedRes, contestRes] = await Promise.all([
-            axios.get(`https://alfa-leetcode-api.onrender.com/${handle}/solved`),
-            axios.get(`https://alfa-leetcode-api.onrender.com/${handle}/contest`)
-        ]);
+    
+    for (let i = 0; i < retries; i++) {
+        try {
+            const query = `
+                query getUserProfile($username: String!) {
+                    matchedUser(username: $username) {
+                        submitStats: submitStatsGlobal {
+                            acSubmissionNum { difficulty count }
+                        }
+                    }
+                    userContestRanking(username: $username) {
+                        rating
+                    }
+                    userContestRankingHistory(username: $username) {
+                        attended
+                        rating
+                    }
+                }
+            `;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Referer': 'https://leetcode.com',
+                'Origin': 'https://leetcode.com',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            };
+            if (process.env.LEETCODE_SESSION) {
+                headers['Cookie'] = `LEETCODE_SESSION=${process.env.LEETCODE_SESSION}`;
+            }
 
-        const totalQuestions = solvedRes.data?.solvedProblem || 0;
-        
-        let contestRating = 0;
-        const rawRating = contestRes.data?.contestRating;
-        if (rawRating != null && !isNaN(rawRating) && rawRating > 0) {
-            contestRating = Math.round(rawRating);
+            const response = await axios.post('https://leetcode.com/graphql/', {
+                query,
+                variables: { username: handle }
+            }, { headers });
+
+            const data = response.data.data;
+            if (!data || !data.matchedUser) return null;
+
+            const totalQuestions = data.matchedUser.submitStats.acSubmissionNum
+                .find(d => d.difficulty === 'All')?.count || 0;
+
+            let contestRating = 0;
+            const rawRating = data.userContestRanking?.rating;
+            
+            if (rawRating != null && !isNaN(rawRating) && rawRating > 0) {
+                contestRating = Math.round(rawRating);
+            } else if (data.userContestRankingHistory && data.userContestRankingHistory.length > 0) {
+                // Fallback for newer users whose userContestRanking is hidden/null
+                const history = data.userContestRankingHistory.filter(h => h.attended);
+                if (history.length > 0) {
+                    const lastRating = history[history.length - 1].rating;
+                    if (lastRating != null && !isNaN(lastRating)) {
+                        contestRating = Math.round(lastRating);
+                    }
+                }
+            }
+
+            console.log(`LC fetch GraphQL [${handle}]: parsedRating=${contestRating}, totalQuestions=${totalQuestions}`);
+            return { handle, rating: contestRating, totalQuestions };
+        } catch (error) {
+            if (error.response && error.response.status === 429 && i < retries - 1) {
+                const backoff = 1500 * (i + 1);
+                console.warn(`LC API Rate limited (429) for ${handle}. Retrying in ${backoff}ms...`);
+                await delay(backoff);
+                continue;
+            }
+            console.error(`LeetCode GraphQL API Error for ${handle}:`, error.message);
+            return null;
         }
-
-        console.log(`LC fetch Alfa [${handle}]: parsedRating=${contestRating}, totalQuestions=${totalQuestions}`);
-
-        return { handle, rating: contestRating, totalQuestions };
-    } catch (error) {
-        console.error(`LeetCode Alfa API Error for ${handle}:`, error.message);
-        return null;
     }
+    return null;
 };
 
 // --- CORE FETCH & CACHE REFRESH LOGIC ---
@@ -289,7 +337,7 @@ const refreshLeaderboardCache = async () => {
         const lcResults = [];
         for (const h of lcHandles) {
             lcResults.push(await fetchLeetcode(h));
-            await delay(300);
+            await delay(1500);
         }
 
         const cfData = cfResults.filter(Boolean);
