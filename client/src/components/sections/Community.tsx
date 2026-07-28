@@ -18,7 +18,7 @@ const socials = [
 
 export default function Community() {
   return (
-    <section id="community" className="py-14 relative overflow-hidden bg-card/50 border-t border-white/5">
+    <div id="community" className="py-10 relative overflow-hidden text-center">
       {/* Subtle background mesh */}
       <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full">
@@ -45,7 +45,7 @@ export default function Community() {
           <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
             Let's Connect
           </h2>
-          <p className="text-lg text-muted-foreground font-inter mb-24">
+          <p className="text-lg text-muted-foreground font-inter mb-12">
             Follow us and stay in the loop with everything happening at Console.
           </p>
 
@@ -88,6 +88,6 @@ export default function Community() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   );
 }

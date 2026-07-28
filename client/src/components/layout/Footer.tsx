@@ -2,18 +2,23 @@ import { Heart } from 'lucide-react';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+const socials = [
+  { name: 'LinkedIn', icon: FaLinkedin, href: 'https://www.linkedin.com/company/consolecommunity/', color: '#0A66C2' },
+  { name: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/console.comm', color: '#E1306C' },
+];
+
 const quickLinks = [
-  { label: 'about', href: '/about', isHash: false },
-  { label: 'team', href: '/team', isHash: false },
-  { label: 'events', href: '/events', isHash: false },
-  { label: 'leaderboard', href: '/leaderboard', isHash: false },
-  { label: 'resources', href: '/resources', isHash: false },
-  { label: 'tech guide', href: '/tech-guide', isHash: false },
+  { label: 'Home', href: '/', isHash: false },
+  { label: 'Team', href: '/team', isHash: false },
+  { label: 'Events', href: '/events', isHash: false },
+  { label: 'Leaderboard', href: '/leaderboard', isHash: false },
+  { label: 'Resources', href: '/resources', isHash: false },
+  { label: 'Tech Guide', href: '/tech-guide', isHash: false },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-card border-t border-white/10 pt-8 pb-5 relative overflow-hidden">
+    <footer className="bg-card border-t border-white/10 pt-12 pb-5 relative overflow-hidden">
       {/* Orange glow orb */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none blur-[120px]"
@@ -21,72 +26,41 @@ export default function Footer() {
       />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
-          {/* Brand */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-6">
+          {/* Brand — spans 2 cols */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <span
-                className="font-mono font-bold text-lg"
-                style={{
-                  background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                &lt;/&gt;
-              </span>
-              <span
-                className="font-montserrat font-black text-xl tracking-widest"
-                style={{
-                  background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                CONSOLE
-              </span>
-            </div>
-            <p className="text-muted-foreground font-inter text-sm max-w-sm mb-6 leading-relaxed">
+            <Link
+              to="/"
+              onClick={(e) => {
+                if (window.location.pathname === '/') {
+                  e.preventDefault();
+                  const lenis = (window as any).__lenis;
+                  if (lenis) {
+                    lenis.scrollTo(0, { immediate: false });
+                  } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                  window.history.pushState(null, '', '/');
+                }
+              }}
+              aria-label="Go to home"
+              className="inline-block mb-6 group hover:scale-[1.02] transition-transform duration-200"
+            >
+              <img
+                src="/images/console_logo.png"
+                alt="Console Logo"
+                className="h-14 w-auto object-contain"
+              />
+            </Link>
+            <p className="text-muted-foreground font-inter text-sm max-w-sm mb-0 leading-relaxed">
               The official tech community of MNIT. A collective of developers, hackers, and builders
               creating the future one line at a time.
             </p>
-            <div className="flex gap-4 mt-5">
-              {[
-                { icon: FaLinkedin, href: 'https://www.linkedin.com/company/consolecommunity/', color: '#0077B5' },
-                { icon: FaInstagram, href: 'https://www.instagram.com/console.comm', color: '#E1306C' },
-              ].map((Social, i) => (
-                <a
-                  key={i}
-                  href={Social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-muted-foreground transition-all duration-300 hover:scale-[1.05]"
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.borderColor = Social.color + '80';
-                    el.style.boxShadow = `0 0 12px ${Social.color}40`;
-                    el.style.background = Social.color + '20';
-                    el.style.color = Social.color;
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.borderColor = 'rgba(255,255,255,0.1)';
-                    el.style.boxShadow = 'none';
-                    el.style.background = 'rgba(255,255,255,0.05)';
-                    el.style.color = '';
-                  }}
-                >
-                  <Social.icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-montserrat font-semibold text-white mb-6 text-sm uppercase tracking-wider">
+            <h4 className="font-montserrat font-semibold text-white mb-5 text-sm uppercase tracking-wider">
               Quick Links
             </h4>
             <ul className="space-y-3 font-inter text-sm text-muted-foreground">
@@ -111,6 +85,20 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       to={link.href}
+                      onClick={(e) => {
+                        if (link.href === '/') {
+                          if (window.location.pathname === '/') {
+                            e.preventDefault();
+                            const lenis = (window as any).__lenis;
+                            if (lenis) {
+                              lenis.scrollTo(0, { immediate: false });
+                            } else {
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                            window.history.pushState(null, '', '/');
+                          }
+                        }
+                      }}
                       className="hover:text-white transition-colors"
                       onMouseEnter={(e) => {
                         (e.currentTarget as HTMLElement).style.color = '#F2994A';
@@ -125,6 +113,42 @@ export default function Footer() {
                 )
               )}
             </ul>
+          </div>
+
+          {/* Connect */}
+          <div>
+            <h4 className="font-montserrat font-semibold text-white mb-5 text-sm uppercase tracking-wider">
+              Connect
+            </h4>
+            <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3">
+              {socials.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-2 px-4 py-4 rounded-xl border border-white/10 bg-white/5 transition-all duration-300 hover:scale-[1.03] min-w-[90px]"
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = social.color + '80';
+                    el.style.boxShadow = `0 0 18px ${social.color}40`;
+                    el.style.background = social.color + '15';
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.borderColor = 'rgba(255,255,255,0.1)';
+                    el.style.boxShadow = 'none';
+                    el.style.background = 'rgba(255,255,255,0.05)';
+                  }}
+                >
+                  <social.icon
+                    className="w-6 h-6"
+                    style={{ color: social.color, filter: 'brightness(1.2)' }}
+                  />
+                  <span className="font-inter text-xs font-medium text-white">{social.name}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
 

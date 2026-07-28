@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Landing.css";
 
@@ -9,15 +9,12 @@ import Hero from '@/components/sections/Hero';
 import POTD from '@/components/sections/POTD';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
 import About from '@/components/sections/About';
-import PreviousEvents from '@/components/sections/PreviousEvents';
-import Community from '@/components/sections/Community';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Trophy, BookOpen, Map } from 'lucide-react';
 
 const GALLERY_ROW1 = [
   "/images/IMG_0051.jpg",
@@ -41,14 +38,6 @@ const GALLERY_ROW2 = [
   "/images/IMG_4394.jpg",
   "/images/WhatsApp Image 2026-04-14 at 13.36.52.jpeg",
   "/images/WhatsApp Image 2026-04-14 at 15.39.56.jpeg"
-];
-
-const TEAM_MEMBERS = [
-  "Bhavya Singhal", "Parth Gandhi", "Mukund Rakholiya", "Raghunandan Jhawar",
-  "Yuvraj", "Rashi Jangid", "Mridul Trivedi", "Shubham",
-  "Aagam Jain", "Aditya Dhiman", "Akshat Agrawal", "Chiranjeev Goyal", "Devanshi Bhatt", "Dishank Viradiya",
-  "Het Shah", "Meet Van", "Pallvi", "Param Chauhan", "Prarthana",
-  "Ridhima Garg", "Saarvik Singh Suryavanshi", "Sahil Kumar", "Siddharth Kumar", "Shlok Patel"
 ];
 
 const FAQ_ITEMS = [
@@ -81,31 +70,6 @@ const FAQ_ITEMS = [
     question: "How can I contribute or take on a more active role?",
     answer:
       "Attend our events, be active on the platform, and reach out to us on social media. We're always looking for enthusiastic members to help organize initiatives, mentor peers, and lead projects.",
-  },
-];
-
-function getInitials(name: string) {
-  return name.split(" ").map(n => n[0]).join("").toUpperCase();
-}
-
-const learnGrowCards = [
-  {
-    to: "/leaderboard",
-    icon: Trophy,
-    title: "Leaderboard",
-    description: "Track top performers and see where you stand among your peers.",
-  },
-  {
-    to: "/resources",
-    icon: BookOpen,
-    title: "Resources",
-    description: "Explore collection of tools, docs, and tutorials to master new technologies.",
-  },
-  {
-    to: "/tech-guide",
-    icon: Map,
-    title: "Tech Guide",
-    description: "Step-by-step roadmaps for your software engineering journey.",
   },
 ];
 
@@ -151,10 +115,6 @@ export default function Landing() {
     });
   }
 
-  const teamHalf = Math.ceil(TEAM_MEMBERS.length / 2);
-  const teamRow1 = TEAM_MEMBERS.slice(0, teamHalf);
-  const teamRow2 = TEAM_MEMBERS.slice(teamHalf);
-
   return (
     <div
       ref={containerRef}
@@ -170,6 +130,9 @@ export default function Landing() {
         {/* Hero */}
         <Hero />
 
+        {/* About */}
+        <About />
+
         {/* Home page additions — visible only when logged in */}
         {user && (
           <>
@@ -178,11 +141,8 @@ export default function Landing() {
           </>
         )}
 
-        {/* About */}
-        <About />
-
         {/* Gallery */}
-        <section id="gallery" className="landing-section gallery-section py-20 bg-black">
+        <section id="gallery" className="landing-section gallery-section pt-16 pb-6 bg-black">
           <div className="gallery-header text-center mb-10">
             <h2
               className="section-title text-5xl md:text-6xl font-black font-montserrat mb-4"
@@ -217,7 +177,7 @@ export default function Landing() {
               <div className="scroll-track">
                 {GALLERY_ROW1.concat(GALLERY_ROW1).map((src, i) => (
                   <div className="gallery-item-wrapper" key={`g1-${i}`}>
-                    <img src={src} alt="Console Moment" className="gallery-img object-cover" />
+                    <img src={src} alt="Console Moment" className="gallery-img object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
@@ -226,119 +186,16 @@ export default function Landing() {
               <div className="scroll-track">
                 {GALLERY_ROW2.concat(GALLERY_ROW2).map((src, i) => (
                   <div className="gallery-item-wrapper" key={`g2-${i}`}>
-                    <img src={src} alt="Console Moment" className="gallery-img object-cover" />
+                    <img src={src} alt="Console Moment" className="gallery-img object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Team */}
-        <section id="team" className="landing-section team-section py-20 bg-black">
-          <div className="team-header text-center mb-10">
-            <h2 className="section-gradient-title section-title text-4xl md:text-5xl mb-4">
-              Meet Our Team
-            </h2>
-            <p className="section-subtitle text-gray-400 font-inter mb-4">
-              The minds driving the community forward
-            </p>
-            <Link
-              to="/team"
-              className="inline-flex items-center gap-1.5 font-inter font-medium text-sm transition-all duration-200 hover:scale-[1.02] hover:gap-2.5"
-              style={{ color: '#F2994A' }}
-            >
-              View all members
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.5 7H11.5M11.5 7L8 3.5M11.5 7L8 10.5" stroke="#F2994A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          </div>
-          <div className="infinite-scroller-container relative overflow-hidden">
-            <div className="scroll-row left-to-right">
-              <div className="scroll-track">
-                {teamRow1.concat(teamRow1).map((name, i) => (
-                  <div className="team-member-card glassmorphic" key={`t1-${i}`}>
-                    <div className="avatar-placeholder">{getInitials(name)}</div>
-                    <h4 className="member-name text-white font-montserrat">{name}</h4>
-                    <span className="member-role text-gray-400">Core Member</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="scroll-row right-to-left mt-6">
-              <div className="scroll-track">
-                {teamRow2.concat(teamRow2).map((name, i) => (
-                  <div className="team-member-card glassmorphic" key={`t2-${i}`}>
-                    <div className="avatar-placeholder">{getInitials(name)}</div>
-                    <h4 className="member-name text-white font-montserrat">{name}</h4>
-                    <span className="member-role text-gray-400">Core Member</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Events */}
-        <PreviousEvents />
-
-        {/* Learn & Grow */}
-        <section id="learn-grow" className="landing-section pt-4 pb-16 bg-black">
-          <div className="container mx-auto px-6 max-w-5xl text-center">
-            <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
-              Learn &amp; Grow
-            </h2>
-            <p className="text-muted-foreground font-inter mb-8">
-              Everything you need to level up your skills and career.
-            </p>
-            <div className="grid grid-cols-1 mt-12 md:grid-cols-3 gap-8">
-              {learnGrowCards.map((card) => (
-                <Link
-                  key={card.to}
-                  to={card.to}
-                  className="glassmorphic p-8 rounded-2xl flex flex-col items-center transition-all duration-300"
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.borderRadius = '1.25rem';
-                    el.style.borderColor = 'rgba(242,153,74,0.4)';
-                    el.style.background = 'rgba(255,255,255,0.10)';
-                    el.style.boxShadow = '0 0 32px rgba(242,153,74,0.28), 0 0 64px rgba(242,153,74,0.10)';
-                    el.style.transform = 'scale(1.02)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.borderRadius = '1rem';
-                    el.style.borderColor = '';
-                    el.style.background = '';
-                    el.style.boxShadow = '';
-                    el.style.transform = '';
-                  }}
-                >
-                  <card.icon
-                    className="w-10 h-10 mb-5"
-                    style={{ color: '#F2994A' }}
-                  />
-                  <h3
-                    className="text-xl font-bold font-montserrat mb-2"
-                    style={{
-                      background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                    }}
-                  >
-                    {card.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm font-inter">{card.description}</p>
-                </Link>
-              ))}
             </div>
           </div>
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="pt-14 pb-16 bg-black relative overflow-hidden">
+        <section id="faq" className="pt-8 pb-16 bg-black relative overflow-hidden">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
             style={{ background: 'rgba(242,153,74,0.06)' }}
@@ -389,9 +246,6 @@ export default function Landing() {
             </Accordion>
           </div>
         </section>
-
-        {/* Let's Connect */}
-        <Community />
       </main>
 
       <Footer />
