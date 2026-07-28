@@ -168,7 +168,7 @@ export default function UpcomingEvents() {
   }, [loading, upcomingEvents.length]);
 
   return (
-    <section id="upcoming-events" ref={sectionRef} className="py-20 bg-black relative overflow-hidden">
+    <section id="upcoming-events" ref={sectionRef} className="pt-20 pb-8 bg-black relative overflow-hidden">
       {/* Background accent */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[400px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none" />

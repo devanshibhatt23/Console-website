@@ -142,7 +142,7 @@ export default function Landing() {
         )}
 
         {/* Gallery */}
-        <section id="gallery" className="landing-section gallery-section pt-16 pb-6 bg-black">
+        <section id="gallery" className="landing-section gallery-section pt-8 pb-6 bg-black">
           <div className="gallery-header text-center mb-10">
             <h2
               className="section-title text-5xl md:text-6xl font-black font-montserrat mb-4"
@@ -201,7 +201,7 @@ export default function Landing() {
             style={{ background: 'rgba(242,153,74,0.06)' }}
           />
           <div className="container mx-auto px-6 max-w-3xl relative z-10">
-            <div className="text-center mb-14" style={{ marginTop: '200px' }}>
+            <div className="text-center mb-14" style={{ marginTop: user ? '120px' : '80px' }}>
               <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
                 Frequently Asked Questions
               </h2>
