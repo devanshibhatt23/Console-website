@@ -130,6 +130,9 @@ export default function Landing() {
         {/* Hero */}
         <Hero />
 
+        {/* About */}
+        <About />
+
         {/* Home page additions — visible only when logged in */}
         {user && (
           <>
@@ -138,11 +141,8 @@ export default function Landing() {
           </>
         )}
 
-        {/* About */}
-        <About />
-
         {/* Gallery */}
-        <section id="gallery" className="landing-section gallery-section py-20 bg-black">
+        <section id="gallery" className="landing-section gallery-section pt-16 pb-6 bg-black">
           <div className="gallery-header text-center mb-10">
             <h2
               className="section-title text-5xl md:text-6xl font-black font-montserrat mb-4"
@@ -195,7 +195,7 @@ export default function Landing() {
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="pt-14 pb-16 bg-black relative overflow-hidden">
+        <section id="faq" className="pt-8 pb-16 bg-black relative overflow-hidden">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
             style={{ background: 'rgba(242,153,74,0.06)' }}
