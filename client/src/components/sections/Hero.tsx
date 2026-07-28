@@ -225,26 +225,6 @@ export default function Hero() {
                 Join the community
               </Link>
             )}
-
-            {/* Explore Console */}
-            <a
-              href="#about"
-              className="group relative px-6 py-3 text-white font-inter font-semibold rounded-full overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02]"
-              style={{
-                background: 'linear-gradient(135deg, #F2994A, #F0405C)',
-                boxShadow: '0 4px 20px rgba(242,153,74,0.35)',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 6px 28px rgba(242,153,74,0.55)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  '0 4px 20px rgba(242,153,74,0.35)';
-              }}
-            >
-              <span>Explore Console</span>
-            </a>
           </motion.div>
         </motion.div>
       </div>
