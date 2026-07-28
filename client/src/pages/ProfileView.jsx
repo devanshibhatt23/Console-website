@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getProfile, deriveCollegeIdFromEmail } from "../services/ProfileService";
 import { getResumeUrl } from "../services/storageService";
 import "./ProfileView.css";
@@ -7,6 +7,9 @@ import "./ProfileView.css";
 export default function ProfileView() {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const staticMember = location?.state?.staticMember;
+
   const [profile, setProfile] = useState(null);
   const [resumeUrl, setResumeUrl] = useState("");
   const [loading, setLoading] = useState(true);
@@ -14,6 +17,18 @@ export default function ProfileView() {
 
   useEffect(() => {
     async function loadProfile() {
+      if (staticMember) {
+        setProfile({
+          name: staticMember.name,
+          email: staticMember.email,
+          linkedin_url: staticMember.linkedin,
+          github_url: staticMember.github,
+          image: staticMember.image
+        });
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError("");
       try {
@@ -50,9 +65,6 @@ export default function ProfileView() {
         <div className="pv-error-card">
           <h2>Error</h2>
           <p>{error || "Developer profile could not be loaded."}</p>
-          <button onClick={() => navigate("/search")} className="pv-back-to-search-btn">
-            Back to Search
-          </button>
         </div>
       </div>
     );
@@ -65,14 +77,14 @@ export default function ProfileView() {
 
   return (
     <div className="pv-page">
-      <div className="pv-topbar">
-        <button onClick={() => navigate("/search")} className="pv-back-link">
-          &larr; Back to Search
-        </button>
-      </div>
-
       <div className="pv-header">
-        <div className="pv-avatar">{profile.name ? profile.name.charAt(0).toUpperCase() : "?"}</div>
+        <div className="pv-avatar">
+          {profile.image ? (
+            <img src={profile.image} alt={profile.name} style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} />
+          ) : (
+            profile.name ? profile.name.charAt(0).toUpperCase() : "?"
+          )}
+        </div>
         <h1 className="pv-title">{profile.name || "Anonymous Member"}</h1>
         <p className="pv-subtitle">Building, learning, and growing with the community.</p>
       </div>
