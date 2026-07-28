@@ -59,6 +59,7 @@ export default function POTD() {
           { opacity: 1, scale: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' } }
         );
       }
+      setTimeout(() => ScrollTrigger.refresh(), 100);
     }, sectionRef);
     return () => ctx.revert();
   }, [loading, problem]);

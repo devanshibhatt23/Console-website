@@ -201,7 +201,7 @@ export default function Landing() {
             style={{ background: 'rgba(242,153,74,0.06)' }}
           />
           <div className="container mx-auto px-6 max-w-3xl relative z-10">
-            <div className="text-center mb-14 mt-28">
+            <div className="text-center mb-14" style={{ marginTop: '200px' }}>
               <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
                 Frequently Asked Questions
               </h2>

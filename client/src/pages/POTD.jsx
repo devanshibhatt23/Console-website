@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Tilt from "react-parallax-tilt";
 import gsap from "gsap";
-import GridGlow from "@/components/sections/GridGlow";
+
 import {
   Zap, Trophy, ExternalLink, Clock, ChevronLeft, ChevronRight,
   ChevronDown, Send, MessageSquare, Activity, Target, Crown,

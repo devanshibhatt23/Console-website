@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Calendar, MapPin, Clock, Terminal, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { getEvents } from '../../services/eventService';
+import { Link } from 'react-router-dom';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -161,6 +162,7 @@ export default function UpcomingEvents() {
           }
         );
       }
+      setTimeout(() => ScrollTrigger.refresh(), 100);
     }, sectionRef);
     return () => ctx.revert();
   }, [loading, upcomingEvents.length]);
@@ -176,6 +178,14 @@ export default function UpcomingEvents() {
           <h2 className="section-gradient-title section-title text-4xl md:text-5xl">
             Upcoming Events
           </h2>
+          <div>
+            <Link
+              to="/events"
+              className="inline-block mt-2 font-mono text-sm font-semibold text-primary transition-transform duration-300 ease-out hover:scale-[1.02] hover:drop-shadow-[0_0_12px_rgba(240,64,92,0.6)]"
+            >
+              View all events
+            </Link>
+          </div>
         </div>
 
         {loading ? (

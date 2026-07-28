@@ -4,7 +4,7 @@ import { ParticlesProvider, Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
-import GridGlow from './GridGlow';
+
 import ConstellationDraw from './ConstellationDraw';
 import { useAuth } from '../../context/AuthContext';
 
@@ -60,7 +60,7 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-32 pb-48"
     >
-      <GridGlow />
+
 
       {/* Particles */}
       <div className="absolute inset-0 z-0">
