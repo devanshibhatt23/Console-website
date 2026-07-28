@@ -58,11 +58,21 @@ export default function ConstellationDraw() {
       return { x: e.clientX - rect.left, y: e.clientY - rect.top };
     }
 
+    let isLoopRunning = false;
+    let raf = 0;
+
+    function startLoop() {
+      if (isLoopRunning) return;
+      isLoopRunning = true;
+      raf = requestAnimationFrame(draw);
+    }
+
     function onPointerDown(e: PointerEvent) {
       drawing = true;
       const p = getPoint(e);
       active = { points: [p], createdAt: performance.now(), driftSeed: Math.random() * 1000 };
       canvas!.setPointerCapture(e.pointerId);
+      startLoop();
     }
 
     function onPointerMove(e: PointerEvent) {
@@ -84,6 +94,7 @@ export default function ConstellationDraw() {
         shapes.push(shape);
         if (shapes.length > MAX_SHAPES) shapes.shift();
       }
+      startLoop();
     }
 
     canvas!.addEventListener('pointerdown', onPointerDown);
@@ -92,7 +103,6 @@ export default function ConstellationDraw() {
     canvas!.addEventListener('pointerleave', finishShape);
     canvas!.addEventListener('pointercancel', finishShape);
 
-    let raf = 0;
     function draw() {
       const now = performance.now();
       ctx.clearRect(0, 0, width, height);
@@ -102,6 +112,11 @@ export default function ConstellationDraw() {
       }
 
       const all = active ? [...shapes, active] : shapes;
+      if (all.length === 0) {
+        isLoopRunning = false;
+        return;
+      }
+
       const t = now / 1000;
 
       for (const shape of all) {
@@ -144,7 +159,6 @@ export default function ConstellationDraw() {
 
       raf = requestAnimationFrame(draw);
     }
-    raf = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(raf);
