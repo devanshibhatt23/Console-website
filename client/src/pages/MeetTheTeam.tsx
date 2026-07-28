@@ -6,55 +6,31 @@ import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
 /* ── Data ─────────────────────────────────────────────────── */
 
-const developers = [
-  {
-    name: 'Devanshi Bhatt',
-    email: 'dbhatt2310@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/devanshi-bhatt-23db/',
-    github: 'https://github.com/devanshibhatt23',
-    image: '/developers/01_devanshi-bhatt.jpeg',
-  },
-  {
-    name: 'Ridhima Garg',
-    email: 'ridhimagarg0915@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/ridhima-garg-0a3725369',
-    github: 'https://github.com/coderidhimagarg0915-pixel',
-    image: '/developers/02_ridhima-garg.jpg',
-  },
-  {
-    name: 'Prarthana',
-    email: 'prarthanasingla321@gmail.com',
-    linkedin: 'https://www.linkedin.com/in/prarthana-singla-b5b111372/',
-    github: 'https://github.com/prarthanasingla321-rgb',
-    image: '/developers/03_prarthana.jpeg',
-  },
-];
-
 const teamMembers = [
-  { name: 'Bhavya Singhal',            email: 'bhav8175@gmail.com',                linkedin: 'https://www.linkedin.com/in/bhavya-singhal-20ba6232b/',                                                                         github: 'https://github.com/Bhav-Codes' },
-  { name: 'Parth Gandhi',              email: 'parthgandhi625@gmail.com',           linkedin: 'https://www.linkedin.com/in/parth-gandhi-641320324',                                                                            github: 'https://github.com/parthgandhi22' },
-  { name: 'Mukund Rakholiya',          email: '',                                   linkedin: 'https://www.linkedin.com/in/mukundrakholiya28',                                                                                  github: 'https://github.com/mukundrakholiya28' },
-  { name: 'Raghunandan Jhawar',        email: 'raghunandanjhawar1234@gmail.com',    linkedin: 'http://linkedin.com/in/raghunandan-jhanwar-555137329',                                                                           github: '' },
-  { name: 'Yuvraj',                    email: 'work.yuvrajsv@gmail.com',            linkedin: 'https://linkedin.com/in/yuvraj-singh-verma',                                                                                     github: '' },
-  { name: 'Rashi Jangid',              email: '2024uce1173@mnit.ac.in',             linkedin: 'https://www.linkedin.com/in/rashi-jangid-47849a221',                                                                             github: '' },
-  { name: 'Mridul Trivedi',            email: 'mridultrivedi318@gmail.com',         linkedin: 'https://www.linkedin.com/in/mridul-trivedi-129b4337a/',                                                                          github: '' },
-  { name: 'Shubham',                   email: 'shubhamsinghstrides@gmail.com',      linkedin: 'https://www.linkedin.com/in/shubham-singh-bb9146316/',                                                                           github: '' },
-  { name: 'Aagam Jain',               email: 'coderaj2006@gmail.com',                linkedin: 'https://www.linkedin.com/in/aagam-jain-b38827394/',                                                                      github: 'https://github.com/coderaj2006' },
-  { name: 'Aditya Dhiman',             email: 'dhimanaditya941@gmail.com',             linkedin: 'https://www.linkedin.com/in/aditya-dhiman-37165a36b',                                                                    github: 'https://github.com/Aditya281107' },
-  { name: 'Akshat Agrawal',            email: 'agrawalakshat1407@gmail.com',           linkedin: 'https://www.linkedin.com/in/akshat-agrawal-0a66b6383',                                                                   github: 'https://github.com/agrawalakshat1407-dotcom' },
-  { name: 'Chiranjeev Goyal',          email: 'chiranjeevgoyal135@gmail.com',          linkedin: 'https://www.linkedin.com/in/chiranjeev-goyal-b7475b3b4',                                                                 github: '' },
-  { name: 'Devanshi Bhatt',            email: 'dbhatt2310@gmail.com',                  linkedin: 'https://www.linkedin.com/in/devanshi-bhatt-23db/',                                                                       github: 'https://github.com/devanshibhatt23' },
-  { name: 'Dishank Viradiya',          email: 'dlviradiya@gmail.com',                  linkedin: 'https://www.linkedin.com/in/dishank7',                                                                                    github: '' },
-  { name: 'Het Shah',                  email: 'hets1457@gmail.com',                    linkedin: 'https://www.linkedin.com/in/het-shah-8b593a369',                                                                          github: 'https://github.com/HetShah2212008' },
-  { name: 'Meet Van',                  email: '',                                       linkedin: 'https://www.linkedin.com/in/meet-van/',                                                                                   github: 'https://github.com/meet20062007' },
-  { name: 'Pallvi',                    email: 'pallvipatialavi1102@gmail.com',           linkedin: 'https://www.linkedin.com/in/pallvi-varyam-singh-739197375/',                                                              github: 'https://github.com/Pallvi2007' },
-  { name: 'Param Chauhan',             email: 'param.chauhan2006@gmail.com',            linkedin: 'https://www.linkedin.com/in/param-chauhan-a1b5aa36a/',                                                                   github: 'https://github.com/paramchauhan2006-afk' },
-  { name: 'Prarthana',                 email: 'prarthanasingla321@gmail.com',           linkedin: 'https://www.linkedin.com/in/prarthana-singla-b5b111372/',                                                                github: 'https://github.com/prarthanasingla321-rgb' },
-  { name: 'Ridhima Garg',              email: 'ridhimagarg0915@gmail.com',              linkedin: 'https://www.linkedin.com/in/ridhima-garg-0a3725369',                                                                     github: 'https://github.com/coderidhimagarg0915-pixel' },
-  { name: 'Saarvik Singh Suryavanshi', email: 'saarvikxcode@gmail.com',                linkedin: 'https://www.linkedin.com/in/saarvik-singh-suryavanshi-94315b36a',                                                        github: 'https://github.com/Saarvik-got-it' },
-  { name: 'Sahil Kumar',               email: 'sahil7667790514@gmail.com',              linkedin: 'https://www.linkedin.com/in/76sahil',                                                                                    github: 'https://github.com/2025ucp1686-sudo' },
-  { name: 'Siddharth Kumar',           email: 'siddjon07@gmail.com',                   linkedin: 'https://www.linkedin.com/in/siddharth-kumar-174738381/',                                                                  github: 'https://github.com/siddjon07-ctrl' },
-  { name: 'Shlok Patel',              email: 'shlokpatel2400@gmail.com',               linkedin: 'https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav',                                                            github: '' },
+  { name: 'Bhavya Singhal',            email: 'bhav8175@gmail.com',                linkedin: 'https://www.linkedin.com/in/bhavya-singhal-20ba6232b/',                                                                         github: 'https://github.com/Bhav-Codes', image: '/team_members/bhavya.png' },
+  { name: 'Parth Gandhi',              email: 'parthgandhi625@gmail.com',           linkedin: 'https://www.linkedin.com/in/parth-gandhi-641320324',                                                                            github: 'https://github.com/parthgandhi22', image: '/team_members/parth_gandhi.png' },
+  { name: 'Mukund Rakholiya',          email: '2024ucp1163@mnit.ac.in',             linkedin: 'https://www.linkedin.com/in/mukundrakholiya28',                                                                                  github: 'https://github.com/mukundrakholiya28', image: '/team_members/mukund_rakholiya.png' },
+  { name: 'Raghunandan Jhawar',        email: 'raghunandanjhawar1234@gmail.com',    linkedin: 'http://linkedin.com/in/raghunandan-jhanwar-555137329',                                                                           github: '', image: '/team_members/raghunandan.png' },
+  { name: 'Yuvraj',                    email: 'work.yuvrajsv@gmail.com',            linkedin: 'https://linkedin.com/in/yuvraj-singh-verma',                                                                                     github: '', image: '/team_members/yuvraj.png' },
+  { name: 'Rashi Jangid',              email: '2024uce1173@mnit.ac.in',             linkedin: 'https://www.linkedin.com/in/rashi-jangid-47849a221',                                                                             github: '', image: '/team_members/rashi_jangid.png' },
+  { name: 'Mridul Trivedi',            email: 'mridultrivedi318@gmail.com',         linkedin: 'https://www.linkedin.com/in/mridul-trivedi-050a733a8/',                                                                          github: '', image: '/team_members/mridul.png' },
+  { name: 'Shubham',                   email: 'shubhamsinghstrides@gmail.com',      linkedin: 'https://www.linkedin.com/in/shubham-singh-bb9146316/',                                                                           github: '', image: '/team_members/shubham.png' },
+  { name: 'Aagam Jain',               email: 'coderaj2006@gmail.com',                linkedin: 'https://www.linkedin.com/in/aagam-jain-b38827394/',                                                                      github: 'https://github.com/coderaj2006', image: '/team_members/aagam_jain.png' },
+  { name: 'Aditya Dhiman',             email: 'dhimanaditya941@gmail.com',             linkedin: 'https://www.linkedin.com/in/aditya-dhiman-37165a36b',                                                                    github: 'https://github.com/Aditya281107', image: '/team_members/aditya_dhiman.png' },
+  { name: 'Akshat Agrawal',            email: 'agrawalakshat1407@gmail.com',           linkedin: 'https://www.linkedin.com/in/akshat-agrawal-0a66b6383',                                                                   github: 'https://github.com/agrawalakshat1407-dotcom', image: '/team_members/akshat.png' },
+  { name: 'Chiranjeev Goyal',          email: 'chiranjeevgoyal135@gmail.com',          linkedin: 'https://www.linkedin.com/in/chiranjeev-goyal-b7475b3b4',                                                                 github: '', image: '' },
+  { name: 'Devanshi Bhatt',            email: 'dbhatt2310@gmail.com',                  linkedin: 'https://www.linkedin.com/in/devanshi-bhatt-23db/',                                                                       github: 'https://github.com/devanshibhatt23', image: '/developers/01_devanshi-bhatt.jpeg' },
+  { name: 'Dishank Viradiya',          email: 'dlviradiya@gmail.com',                  linkedin: 'https://www.linkedin.com/in/dishank7',                                                                                    github: '', image: '' },
+  { name: 'Het Shah',                  email: 'hets1457@gmail.com',                    linkedin: 'https://www.linkedin.com/in/het-shah-8b593a369',                                                                          github: 'https://github.com/HetShah2212008', image: '/team_members/het_shah.png' },
+  { name: 'Meet Van',                  email: '2025ucp1832@mnit.ac.in',                linkedin: 'https://www.linkedin.com/in/meet-van/',                                                                                   github: 'https://github.com/meet20062007', image: '/team_members/meet_van.png' },
+  { name: 'Pallvi',                    email: 'pallvipatialavi1102@gmail.com',           linkedin: 'https://www.linkedin.com/in/pallvi-varyam-singh-739197375/',                                                              github: 'https://github.com/Pallvi2007', image: '/team_members/pallvi.png' },
+  { name: 'Param Chauhan',             email: 'param.chauhan2006@gmail.com',            linkedin: 'https://www.linkedin.com/in/param-chauhan-a1b5aa36a/',                                                                   github: 'https://github.com/paramchauhan2006-afk', image: '/team_members/param.png' },
+  { name: 'Prarthana',                 email: 'prarthanasingla321@gmail.com',           linkedin: 'https://www.linkedin.com/in/prarthana-singla-b5b111372/',                                                                github: 'https://github.com/prarthanasingla321-rgb', image: '/team_members/prarthana.png' },
+  { name: 'Ridhima Garg',              email: 'ridhimagarg0915@gmail.com',              linkedin: 'https://www.linkedin.com/in/ridhima-garg-0a3725369',                                                                     github: 'https://github.com/coderidhimagarg0915-pixel', image: '/team_members/ridhima-garg.jpg' },
+  { name: 'Saarvik Singh Suryavanshi', email: 'saarvikxcode@gmail.com',                linkedin: 'https://www.linkedin.com/in/saarvik-singh-suryavanshi-94315b36a',                                                        github: 'https://github.com/Saarvik-got-it', image: '/team_members/saarvik.png' },
+  { name: 'Sahil Kumar',               email: 'sahil7667790514@gmail.com',              linkedin: 'https://www.linkedin.com/in/76sahil',                                                                                    github: 'https://github.com/2025ucp1686-sudo', image: '/team_members/sahil.png' },
+  { name: 'Siddharth Kumar',           email: 'siddjon07@gmail.com',                   linkedin: 'https://www.linkedin.com/in/siddharth-kumar-174738381/',                                                                  github: 'https://github.com/siddjon07-ctrl', image: '' },
+  { name: 'Shlok Patel',              email: 'shlokpatel2400@gmail.com',               linkedin: 'https://www.linkedin.com/in/shlok-patel-b36802396/',                                                            github: '', image: '' },
 ];
 
 /* ── Heading style (32px gradient) ─────────────────────────── */
@@ -98,21 +74,23 @@ function IconLink({ href, icon }: { href: string; icon: ReactNode }) {
   );
 }
 
-/* ── Developer card (with photo) ────────────────────────────── */
-function DevCard({ dev }: { dev: typeof developers[0] }) {
+/* ── Team member card ────────────────────────────── */
+function MemberCard({ member }: { member: typeof teamMembers[0] }) {
   const [imgError, setImgError] = useState(false);
 
   function getInitials(name: string) {
     return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
   }
 
+  const hasAnyLink = member.email || member.linkedin || member.github;
+
   return (
     <div className="flex flex-col items-center p-8 rounded-2xl border border-white/10 bg-[#0d0d0d] transition-all duration-300 hover:border-[#F2994A]/40 hover:shadow-[0_0_30px_rgba(242,153,74,0.12)] hover:-translate-y-1">
       {/* Circular photo */}
-      {!imgError ? (
+      {!imgError && member.image ? (
         <img
-          src={dev.image}
-          alt={dev.name}
+          src={member.image}
+          alt={member.name}
           onError={() => setImgError(true)}
           className="w-40 h-40 rounded-full object-cover mb-6 border-2 border-white/10"
         />
@@ -121,66 +99,26 @@ function DevCard({ dev }: { dev: typeof developers[0] }) {
           className="w-40 h-40 rounded-full mb-6 flex items-center justify-center text-white font-bold text-3xl font-montserrat"
           style={{ background: 'linear-gradient(135deg, #F2994A, #F0405C)' }}
         >
-          {getInitials(dev.name)}
-        </div>
-      )}
-
-      <h3 className="text-lg font-bold text-white font-montserrat mb-1 text-center">{dev.name}</h3>
-
-      {dev.email && (
-        <p className="text-sm text-white text-center break-all" style={{ marginBottom: '28px' }}>{dev.email}</p>
-      )}
-
-      <div className="flex gap-2" style={{ marginTop: '12px' }}>
-        {dev.email && (
-          <IconLink href={`mailto:${dev.email}`} icon={<FiMail size={16} />} />
-        )}
-        {dev.linkedin && (
-          <IconLink href={dev.linkedin} icon={<FaLinkedin size={16} />} />
-        )}
-        {dev.github && (
-          <IconLink href={dev.github} icon={<FaGithub size={16} />} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ── Team member card ───────────────────────────────────────── */
-function MemberCard({ member }: { member: typeof teamMembers[0] }) {
-  function getInitials(name: string) {
-    return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-  }
-
-  const hasAnyLink = member.email || member.linkedin || member.github;
-
-  return (
-    <div className="p-6 rounded-2xl border border-white/10 bg-[#0d0d0d] transition-all duration-300 hover:border-[#F2994A]/40 hover:shadow-[0_0_30px_rgba(242,153,74,0.12)] hover:-translate-y-1 flex flex-col">
-      {/* Avatar + name row */}
-      <div className="flex items-center gap-3 mb-4">
-        <div
-          className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white text-xs font-bold font-montserrat"
-          style={{ background: 'linear-gradient(135deg, #F2994A, #F0405C)' }}
-        >
           {getInitials(member.name)}
         </div>
-        <h3 className="text-base font-bold text-white font-montserrat leading-tight truncate w-full">{member.name}</h3>
-      </div>
+      )}
+
+      <h3 className="text-lg font-bold text-white font-montserrat mb-1 text-center">{member.name}</h3>
 
       {member.email && (
-        <p className="text-sm text-white whitespace-nowrap overflow-hidden text-ellipsis" style={{ paddingLeft: '8px', marginBottom: '24px' }}>{member.email}</p>
+        <p className="text-sm text-white text-center break-all" style={{ marginBottom: '28px' }}>{member.email}</p>
       )}
 
       {hasAnyLink && (
-        <div className="flex gap-2" style={{ marginTop: '14px' }}>
+        <div className="flex gap-2" style={{ marginTop: member.email ? '0' : '28px' }}>
           {member.email && (
-            <IconLink href={`mailto:${member.email}`} icon={<FiMail size={14} />} />
+            <IconLink href={`mailto:${member.email}`} icon={<FiMail size={16} />} />
           )}
           {member.linkedin && (
-            <IconLink href={member.linkedin} icon={<FaLinkedin size={14} />} />
+            <IconLink href={member.linkedin} icon={<FaLinkedin size={16} />} />
           )}
           {member.github && (
-            <IconLink href={member.github} icon={<FaGithub size={14} />} />
+            <IconLink href={member.github} icon={<FaGithub size={16} />} />
           )}
         </div>
       )}
@@ -205,34 +143,33 @@ export default function MeetTheTeam() {
               Ready to join the future of tech? We are here to help you grow and succeed.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {teamMembers.map((member, i) => (
-                <MemberCard key={`${member.name}-${i}`} member={member} />
-              ))}
+            {/* 3rd Year Members */}
+            <div className="mb-16">
+              <div className="text-center mb-13">
+                <h3 style={{ ...headingStyle, fontSize: 'clamp(32px, 5vw, 38px)' }} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>3rd year members</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {teamMembers.slice(0, 8).map((member, i) => (
+                  <MemberCard key={`${member.name}-${i}`} member={member} />
+                ))}
+              </div>
+            </div>
+
+            {/* 2nd Year Members */}
+            <div>
+              <div className="text-center mb-13 mt-31">
+                <h3 style={{ ...headingStyle, fontSize: 'clamp(32px, 5vw, 38px)' }} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>2nd year members</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {teamMembers.slice(8).map((member, i) => (
+                  <MemberCard key={`${member.name}-${i}`} member={member} />
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Divider */}
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-24" />
 
-        {/* ── Developers ── */}
-        <section className="w-full px-6 md:px-12 lg:px-20">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-6">
-              <h2 style={headingStyle} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>Meet the developers</h2>
-            </div>
-            <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
-              Meet the brilliant minds behind the website of CONSOLE, building the future of tech community platforms
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {developers.map((dev) => (
-                <DevCard key={dev.name} dev={dev} />
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
 
       <Footer />
