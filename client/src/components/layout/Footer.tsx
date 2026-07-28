@@ -8,7 +8,7 @@ const socials = [
 ];
 
 const quickLinks = [
-  { label: 'About', href: '/about', isHash: false },
+  { label: 'Home', href: '/', isHash: false },
   { label: 'Team', href: '/team', isHash: false },
   { label: 'Events', href: '/events', isHash: false },
   { label: 'Leaderboard', href: '/leaderboard', isHash: false },
@@ -85,6 +85,20 @@ export default function Footer() {
                   <li key={link.label}>
                     <Link
                       to={link.href}
+                      onClick={(e) => {
+                        if (link.href === '/') {
+                          if (window.location.pathname === '/') {
+                            e.preventDefault();
+                            const lenis = (window as any).__lenis;
+                            if (lenis) {
+                              lenis.scrollTo(0, { immediate: false });
+                            } else {
+                              window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
+                            window.history.pushState(null, '', '/');
+                          }
+                        }
+                      }}
                       className="hover:text-white transition-colors"
                       onMouseEnter={(e) => {
                         (e.currentTarget as HTMLElement).style.color = '#F2994A';
