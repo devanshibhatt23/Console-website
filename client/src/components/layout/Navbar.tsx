@@ -30,6 +30,62 @@ const SECTION_TO_NAV_HREF: Record<string, string> = {
   'previous-events': '/events',
 };
 
+function TypewriterLogo() {
+  const [text1, setText1] = useState('');
+  const [text2, setText2] = useState('');
+
+  useEffect(() => {
+    const target1 = "CONSOLE";
+    const target2 = "<tech_community/>";
+    let timer1: ReturnType<typeof setInterval>;
+    let timer2: ReturnType<typeof setInterval>;
+    let i = 0;
+    let j = 0;
+
+    timer1 = setInterval(() => {
+      i++;
+      setText1(target1.slice(0, i));
+      if (i >= target1.length) {
+        clearInterval(timer1);
+        timer2 = setInterval(() => {
+          j++;
+          setText2(target2.slice(0, j));
+          if (j >= target2.length) {
+            clearInterval(timer2);
+          }
+        }, 55);
+      }
+    }, 90);
+
+    return () => {
+      clearInterval(timer1);
+      clearInterval(timer2);
+    };
+  }, []);
+
+  return (
+    <div className="flex items-center gap-2.5">
+      <img
+        src="/images/console_logo.png"
+        alt="Console Logo"
+        className="h-10 md:h-12 w-auto object-contain shrink-0"
+      />
+      <div className="flex flex-col text-left justify-center leading-tight select-none">
+        <div className="font-montserrat font-black text-base md:text-lg text-white tracking-wider flex items-center">
+          <span>{text1}</span>
+          <span className="font-mono text-white ml-0.5 animate-pulse font-normal">|</span>
+        </div>
+        <div
+          className="font-mono text-[11px] md:text-xs font-bold tracking-tight"
+          style={{ color: '#F2994A' }}
+        >
+          {text2}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -293,11 +349,7 @@ export default function Navbar() {
             aria-label="Go to top"
             className="flex items-center shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
           >
-            <img
-              src="/images/console_logo.png"
-              alt="Console Logo"
-              className="h-14 w-auto object-contain"
-            />
+            <TypewriterLogo />
           </button>
         ) : (
           <Link
@@ -305,11 +357,7 @@ export default function Navbar() {
             aria-label="Go to home"
             className="flex items-center shrink-0 group hover:scale-[1.02] transition-transform duration-200"
           >
-            <img
-              src="/images/console_logo.png"
-              alt="Console Logo"
-              className="h-10 w-auto object-contain"
-            />
+            <TypewriterLogo />
           </Link>
         )}
 
