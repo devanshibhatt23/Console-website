@@ -1,11 +1,8 @@
-import { useState, useEffect, useRef, MouseEvent, FormEvent } from 'react';
-import { Menu, X, Search } from 'lucide-react';
+import { useState, useEffect, MouseEvent } from 'react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { searchProfiles, deriveCollegeIdFromEmail } from '../../services/ProfileService';
-
-type SearchResult = { id: string; name?: string; college_id?: string; email?: string };
 
 const navLinks = [
   { name: 'Home', href: '/' },
@@ -30,70 +27,10 @@ const SECTION_TO_NAV_HREF: Record<string, string> = {
   'previous-events': '/events',
 };
 
-function TypewriterLogo() {
-  const [text1, setText1] = useState('');
-  const [text2, setText2] = useState('');
-
-  useEffect(() => {
-    const target1 = "CONSOLE";
-    const target2 = "<tech_community/>";
-    let timer1: ReturnType<typeof setInterval>;
-    let timer2: ReturnType<typeof setInterval>;
-    let i = 0;
-    let j = 0;
-
-    timer1 = setInterval(() => {
-      i++;
-      setText1(target1.slice(0, i));
-      if (i >= target1.length) {
-        clearInterval(timer1);
-        timer2 = setInterval(() => {
-          j++;
-          setText2(target2.slice(0, j));
-          if (j >= target2.length) {
-            clearInterval(timer2);
-          }
-        }, 55);
-      }
-    }, 90);
-
-    return () => {
-      clearInterval(timer1);
-      clearInterval(timer2);
-    };
-  }, []);
-
-  return (
-    <div className="flex items-center gap-2.5">
-      <img
-        src="/images/console_logo.png"
-        alt="Console Logo"
-        className="h-10 md:h-12 w-auto object-contain shrink-0"
-      />
-      <div className="flex flex-col text-left justify-center leading-tight select-none">
-        <div className="font-montserrat font-black text-base md:text-lg text-white tracking-wider flex items-center">
-          <span>{text1}</span>
-          <span className="font-mono text-white ml-0.5 animate-pulse font-normal">|</span>
-        </div>
-        <div
-          className="font-mono text-[11px] md:text-xs font-bold tracking-tight"
-          style={{ color: '#F2994A' }}
-        >
-          {text2}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [searchLoading, setSearchLoading] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -123,42 +60,6 @@ export default function Navbar() {
     });
 
     return () => observers.forEach((o) => o.disconnect());
-  }, []);
-
-  // Live search — debounced lookup by name or college id, results shown in a dropdown
-  useEffect(() => {
-    const term = searchQuery.trim();
-    if (!term) {
-      setSearchResults([]);
-      setSearchLoading(false);
-      return;
-    }
-    setSearchLoading(true);
-    const timeout = window.setTimeout(async () => {
-      try {
-        const data = await searchProfiles(term);
-        setSearchResults(data || []);
-      } catch (err) {
-        console.error('Search error:', err);
-        setSearchResults([]);
-      } finally {
-        setSearchLoading(false);
-      }
-    }, 250);
-    return () => window.clearTimeout(timeout);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    const handleClick = (e: globalThis.MouseEvent) => {
-      if (
-        searchInputRef.current &&
-        !searchInputRef.current.closest('.search-wrapper')?.contains(e.target as Node)
-      ) {
-        setSearchQuery('');
-      }
-    };
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -197,57 +98,6 @@ export default function Navbar() {
       }
     }
     setMobileMenuOpen(false);
-  };
-
-  const handleSearchSubmit = (e: FormEvent) => {
-    // Results are shown live in the dropdown — submitting the form just keeps it open.
-    e.preventDefault();
-  };
-
-  const handleResultClick = (profileId: string) => {
-    setSearchQuery('');
-    setSearchResults([]);
-    setMobileMenuOpen(false);
-    navigate(`/profile/${profileId}`);
-  };
-
-  const renderSearchDropdown = () => {
-    if (!searchQuery.trim()) return null;
-    return (
-      <div className="absolute top-full left-0 mt-2 w-72 max-h-40 overflow-y-auto rounded-lg bg-black/95 border border-white/10 backdrop-blur-xl shadow-xl z-50">
-        {searchLoading ? (
-          <div className="px-4 py-3 text-xs text-muted-foreground font-mono">Searching…</div>
-        ) : searchResults.length > 0 ? (
-          searchResults.map((profile) => (
-            <button
-              key={profile.id}
-              type="button"
-              onClick={() => handleResultClick(profile.id)}
-              className="w-full flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 text-left border-b border-white/5 last:border-b-0 transition-colors"
-            >
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
-                style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
-              >
-                {profile.name ? profile.name.charAt(0).toUpperCase() : '?'}
-              </div>
-              <div className="flex flex-col overflow-hidden">
-                <span className="text-sm text-white font-medium truncate">
-                  {profile.name || 'Anonymous Member'}
-                </span>
-                {(profile.college_id || deriveCollegeIdFromEmail(profile.email || '')) && (
-                  <span className="text-xs text-muted-foreground font-mono truncate">
-                    {profile.college_id || deriveCollegeIdFromEmail(profile.email || '')}
-                  </span>
-                )}
-              </div>
-            </button>
-          ))
-        ) : (
-          <div className="px-4 py-3 text-xs text-muted-foreground font-mono">No members found.</div>
-        )}
-      </div>
-    );
   };
 
   const isActive = (link: { name: string; href: string }) => {
@@ -339,7 +189,7 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto pl-2 md:pl-4 pr-6 md:pr-10 flex items-center justify-between">
-        {/* Logo — </> + CONSOLE */}
+        {/* Logo */}
         {window.location.pathname === '/' ? (
           <button
             onClick={() => {
@@ -349,7 +199,11 @@ export default function Navbar() {
             aria-label="Go to top"
             className="flex items-center shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
           >
-            <TypewriterLogo />
+            <img
+              src="/images/console_logo.png"
+              alt="Console Logo"
+              className="h-14 w-auto object-contain"
+            />
           </button>
         ) : (
           <Link
@@ -357,7 +211,11 @@ export default function Navbar() {
             aria-label="Go to home"
             className="flex items-center shrink-0 group hover:scale-[1.02] transition-transform duration-200"
           >
-            <TypewriterLogo />
+            <img
+              src="/images/console_logo.png"
+              alt="Console Logo"
+              className="h-10 w-auto object-contain"
+            />
           </Link>
         )}
 
@@ -366,39 +224,6 @@ export default function Navbar() {
           {navLinks
             .filter((link) => user || link.href !== '/problem-of-the-day')
             .map((link) => renderNavItem(link))}
-
-          {/* Search — only for logged-in users */}
-          {user && (
-            <div className="search-wrapper relative flex items-center ml-1">
-              <form
-                onSubmit={handleSearchSubmit}
-                className="flex items-center overflow-hidden"
-                style={{ width: 105 }}
-              >
-                <div className="flex items-center gap-1 px-2 py-1 rounded bg-white/10 border border-white/15 w-full">
-                  <Search className="w-3.2 h-3 text-muted-foreground shrink-0" />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search"
-                    className="bg-transparent text-xs font-mono text-white placeholder:text-muted-foreground outline-none w-full"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery('')}
-                      className="text-muted-foreground hover:text-white shrink-0"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
-                {renderSearchDropdown()}
-              </form>
-            </div>
-          )}
 
           {/* CTA Button */}
           {user ? (
@@ -463,31 +288,6 @@ export default function Navbar() {
             exit={{ opacity: 0, y: -16 }}
             className="absolute top-full left-0 right-0 bg-black/98 backdrop-blur-xl border-b border-white/10 p-6 md:hidden flex flex-col gap-2"
           >
-            {user && (
-              <form onSubmit={handleSearchSubmit} className="mb-2 relative">
-                <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white/8 border border-white/10">
-                  <Search className="w-4 h-4 text-muted-foreground shrink-0" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search members..."
-                    className="bg-transparent text-sm font-mono text-white placeholder:text-muted-foreground outline-none w-full"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery('')}
-                      className="text-muted-foreground hover:text-white"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-                {renderSearchDropdown()}
-              </form>
-            )}
-
             {navLinks
               .filter((link) => user || link.href !== '/problem-of-the-day')
               .map((link) => renderNavItem(link, true))}
