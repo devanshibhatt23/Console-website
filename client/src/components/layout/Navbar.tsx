@@ -8,7 +8,7 @@ import { searchProfiles, deriveCollegeIdFromEmail } from '../../services/Profile
 type SearchResult = { id: string; name?: string; college_id?: string; email?: string };
 
 const navLinks = [
-  { name: 'About', href: '/about' },
+  { name: 'Home', href: '/' },
   { name: 'Team', href: '/team' },
   { name: 'Events', href: '/events' },
   { name: 'Leaderboard', href: '/leaderboard' },
@@ -17,7 +17,7 @@ const navLinks = [
   { name: 'Tech Guide', href: '/tech-guide' },
 ];
 
-const SECTION_IDS = ['hero', 'about', 'gallery', 'team', 'previous-events', 'learn-grow'];
+const SECTION_IDS = ['hero', 'about', 'gallery', 'faq'];
 
 const HASH_TO_SECTION: Record<string, string> = {
   '/#hero': 'hero',
@@ -106,7 +106,7 @@ export default function Navbar() {
   }, []);
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href === '/#hero') {
+    if (href === '/' || href === '/#hero') {
       e.preventDefault();
       setMobileMenuOpen(false);
       if (window.location.pathname !== '/') {
@@ -195,6 +195,9 @@ export default function Navbar() {
   };
 
   const isActive = (link: { name: string; href: string }) => {
+    if (link.href === '/') {
+      return window.location.pathname === '/';
+    }
     if (window.location.pathname !== '/') {
       // On a dedicated route page (e.g. /team, /events): highlight the matching nav link directly.
       return window.location.pathname === link.href;
@@ -367,7 +370,7 @@ export default function Navbar() {
                   '0 0 0 1px rgba(242,153,74,0.4)';
               }}
             >
-              profile
+              Profile
             </Link>
           ) : (
             <Link
@@ -386,7 +389,7 @@ export default function Navbar() {
                   '0 0 0 1px rgba(242,153,74,0.4)';
               }}
             >
-              login
+              Login
             </Link>
           )}
         </nav>
@@ -448,7 +451,7 @@ export default function Navbar() {
                 className="px-6 py-3 rounded-full font-mono text-center mt-3 tracking-wider text-white"
                 style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
               >
-                profile
+                Profile
               </Link>
             ) : (
               <Link
@@ -457,7 +460,7 @@ export default function Navbar() {
                 className="px-6 py-3 rounded-full font-mono text-center mt-3 tracking-wider text-white"
                 style={{ background: 'linear-gradient(90deg, #F2994A, #F0405C)' }}
               >
-                login
+                Login
               </Link>
             )}
           </motion.nav>

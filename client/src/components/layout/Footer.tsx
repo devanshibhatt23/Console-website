@@ -1,53 +1,55 @@
 import { Heart } from 'lucide-react';
 import { FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Community from '../sections/Community';
 
 const quickLinks = [
-  { label: 'about', href: '/about', isHash: false },
-  { label: 'team', href: '/team', isHash: false },
-  { label: 'events', href: '/events', isHash: false },
-  { label: 'leaderboard', href: '/leaderboard', isHash: false },
-  { label: 'resources', href: '/resources', isHash: false },
-  { label: 'tech guide', href: '/tech-guide', isHash: false },
+  { label: 'About', href: '/about', isHash: false },
+  { label: 'Team', href: '/team', isHash: false },
+  { label: 'Events', href: '/events', isHash: false },
+  { label: 'Leaderboard', href: '/leaderboard', isHash: false },
+  { label: 'Resources', href: '/resources', isHash: false },
+  { label: 'Tech Guide', href: '/tech-guide', isHash: false },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-card border-t border-white/10 pt-8 pb-5 relative overflow-hidden">
-      {/* Orange glow orb */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none blur-[120px]"
-        style={{ background: 'rgba(242,153,74,0.15)' }}
-      />
+    <>
+      <Community />
+      <footer className="bg-card border-t border-white/10 pt-8 pb-5 relative overflow-hidden">
+        {/* Orange glow orb */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none blur-[120px]"
+          style={{ background: 'rgba(242,153,74,0.15)' }}
+        />
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
-              <span
-                className="font-mono font-bold text-lg"
-                style={{
-                  background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                &lt;/&gt;
-              </span>
-              <span
-                className="font-montserrat font-black text-xl tracking-widest"
-                style={{
-                  background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >
-                CONSOLE
-              </span>
-            </div>
+            <Link
+              to="/"
+              onClick={(e) => {
+                if (window.location.pathname === '/') {
+                  e.preventDefault();
+                  const lenis = (window as any).__lenis;
+                  if (lenis) {
+                    lenis.scrollTo(0, { immediate: false });
+                  } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                  window.history.pushState(null, '', '/');
+                }
+              }}
+              aria-label="Go to home"
+              className="inline-block mb-6 group hover:scale-[1.02] transition-transform duration-200"
+            >
+              <img
+                src="/images/console_logo.png"
+                alt="Console Logo"
+                className="h-14 w-auto object-contain"
+              />
+            </Link>
             <p className="text-muted-foreground font-inter text-sm max-w-sm mb-6 leading-relaxed">
               The official tech community of MNIT. A collective of developers, hackers, and builders
               creating the future one line at a time.
@@ -141,5 +143,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
