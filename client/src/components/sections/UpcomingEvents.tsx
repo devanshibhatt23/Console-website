@@ -172,7 +172,7 @@ export default function UpcomingEvents() {
       <div className="absolute bottom-0 left-0 w-[500px] h-[400px] bg-secondary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-6">
-        <div ref={headerRef} className="text-center mb-14">
+        <div ref={headerRef} className="text-center mb-14 mt-19">
           <h2 className="section-gradient-title section-title text-4xl md:text-5xl">
             Upcoming Events
           </h2>
@@ -188,7 +188,7 @@ export default function UpcomingEvents() {
             <p className="text-muted-foreground font-mono text-sm">We're planning something exciting. Stay tuned!</p>
           </div>
         ) : (
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto mb-19">
             {upcomingEvents.map((event, i) => (
               <div key={i} ref={el => { cardsRef.current[i] = el; }}>
                 <div className="terminal-panel rounded-2xl overflow-hidden">
