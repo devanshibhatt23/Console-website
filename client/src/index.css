@@ -283,14 +283,30 @@
 }
 
 /* ── Navbar link hover gradient ── */
-.nav-link-hover:hover .nav-link-text {
+.nav-link-hover .nav-link-text,
+.nav-link-active .nav-link-text {
   background: linear-gradient(90deg, #F2994A, #F0405C);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: white;
+  -webkit-text-fill-color: white;
+  transition: -webkit-text-fill-color 0.3s ease, color 0.3s ease;
 }
 
-.nav-link-hover:hover::after {
+/* Active links show gradient by default */
+.nav-link-active .nav-link-text {
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.nav-link-hover:hover .nav-link-text,
+.nav-link-active:hover .nav-link-text {
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.nav-link-hover::after,
+.nav-link-active::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -300,6 +316,32 @@
   border-radius: 2px;
   background: linear-gradient(90deg, #F2994A, #F0405C);
   box-shadow: 0 0 8px rgba(242, 153, 74, 0.6);
+  opacity: 0;
+  transform: translateY(2px) scaleX(0.8);
+  transition: all 0.3s ease;
+}
+
+/* Active links show underline by default */
+.nav-link-active::after {
+  opacity: 1;
+  transform: translateY(0) scaleX(1);
+}
+
+.nav-link-hover:hover::after,
+.nav-link-active:hover::after {
+  opacity: 1;
+  transform: translateY(0) scaleX(1);
+}
+
+/* Group hover effect: if nav is hovered, hide active link styling unless it is specifically being hovered */
+.nav-group-hover:hover .nav-link-active:not(:hover) .nav-link-text {
+  color: white;
+  -webkit-text-fill-color: white;
+}
+
+.nav-group-hover:hover .nav-link-active:not(:hover)::after {
+  opacity: 0;
+  transform: translateY(2px) scaleX(0.8);
 }
 
 /* ── Legacy layout (non-landing pages) ── */

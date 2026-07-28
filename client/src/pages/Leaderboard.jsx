@@ -50,6 +50,14 @@ const YEAR_TABS = [
 ];
 
 const Leaderboard = () => {
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', backgroundColor: '#000', color: '#fff', textAlign: 'center', padding: '2rem' }}>
+            <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', fontWeight: 900, background: 'linear-gradient(90deg, #F2994A, #F0405C)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'Montserrat, sans-serif', padding: '0.5rem' }}>
+                Something exciting coming soon!
+            </h1>
+        </div>
+    );
+
     const [activePlatform, setActivePlatform] = useState('codeforces');
     const [activeYear, setActiveYear] = useState('all');
     const [leaderboardData, setLeaderboardData] = useState({

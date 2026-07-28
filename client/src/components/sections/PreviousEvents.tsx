@@ -155,6 +155,7 @@ export default function PreviousEvents() {
           scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' },
         }
       );
+      setTimeout(() => ScrollTrigger.refresh(), 100);
     }, sectionRef);
     return () => ctx.revert();
   }, [loading, displayEvents.length]);

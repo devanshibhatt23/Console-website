@@ -74,7 +74,7 @@ export default function About() {
         style={{ background: 'rgba(242,153,74,0.08)' }}
       />
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 mt-27">
         {/* About heading + text — centered */}
         <div ref={headerRef} className="max-w-3xl mx-auto text-center mb-20">
           <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-10">

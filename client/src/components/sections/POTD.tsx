@@ -59,6 +59,7 @@ export default function POTD() {
           { opacity: 1, scale: 1, duration: 0.9, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 70%' } }
         );
       }
+      setTimeout(() => ScrollTrigger.refresh(), 100);
     }, sectionRef);
     return () => ctx.revert();
   }, [loading, problem]);
@@ -69,7 +70,7 @@ export default function POTD() {
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-primary/8 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
 
       <div className="container mx-auto px-6 max-w-5xl">
-        <div ref={headerRef} className="text-center mb-10">
+        <div ref={headerRef} className="text-center mb-10 mt-19">
           <h2 className="section-gradient-title section-title text-4xl md:text-5xl">
             Problem of the Day
           </h2>
