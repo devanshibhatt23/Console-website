@@ -7,6 +7,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import POTD from '@/components/sections/POTD';
+import UpcomingEvents from '@/components/sections/UpcomingEvents';
 import About from '@/components/sections/About';
 import {
   Accordion,
@@ -133,6 +134,7 @@ export default function Landing() {
         {user && (
           <>
             <POTD />
+            <UpcomingEvents />
           </>
         )}
 
