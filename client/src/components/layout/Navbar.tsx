@@ -230,19 +230,6 @@ export default function Navbar() {
       );
     }
 
-    const sharedActiveContent = (
-      <>
-        <span className="font-montserrat" style={gradientText}>{link.name}</span>
-        <span
-          className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full"
-          style={{
-            background: 'linear-gradient(90deg, #F2994A, #F0405C)',
-            boxShadow: '0 0 8px rgba(242,153,74,0.8)',
-          }}
-        />
-      </>
-    );
-
     if (isHashLink) {
       return (
         <a
@@ -250,10 +237,10 @@ export default function Navbar() {
           href={link.href}
           onClick={(e) => handleNavClick(e, link.href)}
           className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-            active ? '' : 'text-white hover:scale-[1.02] nav-link-hover'
+            active ? 'nav-link-active' : 'text-white hover:scale-[1.02] nav-link-hover'
           }`}
         >
-          {active ? sharedActiveContent : <span className="nav-link-text font-montserrat">{link.name}</span>}
+          <span className="nav-link-text font-montserrat">{link.name}</span>
         </a>
       );
     }
@@ -263,10 +250,10 @@ export default function Navbar() {
         key={link.name}
         to={link.href}
         className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-          active ? '' : 'text-white hover:scale-[1.02] nav-link-hover'
+          active ? 'nav-link-active' : 'text-white hover:scale-[1.02] nav-link-hover'
         }`}
       >
-        {active ? sharedActiveContent : <span className="nav-link-text font-montserrat">{link.name}</span>}
+        <span className="nav-link-text font-montserrat">{link.name}</span>
       </Link>
     );
   };
@@ -311,7 +298,7 @@ export default function Navbar() {
         )}
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+        <nav className="hidden md:flex items-center gap-1 nav-group-hover" aria-label="Main navigation">
           {navLinks
             .filter((link) => user || link.href !== '/problem-of-the-day')
             .map((link) => renderNavItem(link))}
