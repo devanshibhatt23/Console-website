@@ -130,8 +130,8 @@ export default function Landing() {
         {/* Hero */}
         <Hero />
 
-        {/* About */}
-        <About />
+        {/* About section — for non-logged-in users, keep it here */}
+        {!user && <About />}
 
         {/* Home page additions — visible only when logged in */}
         {user && (
@@ -193,6 +193,9 @@ export default function Landing() {
             </div>
           </div>
         </section>
+
+        {/* About section — for logged-in users, render it here (above FAQ) */}
+        {user && <About />}
 
         {/* FAQ */}
         <section id="faq" className="pt-8 pb-16 bg-black relative overflow-hidden">

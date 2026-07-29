@@ -67,14 +67,14 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="py-20 relative overflow-hidden">
+    <section id="about" ref={sectionRef} className="pt-33 pb-20 relative overflow-hidden">
       {/* Background glow */}
       <div
         className="absolute top-1/2 -right-[20%] w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none"
         style={{ background: 'rgba(242,153,74,0.08)' }}
       />
 
-      <div className="container mx-auto px-6 mt-27">
+      <div className="container mx-auto px-6">
         {/* About heading + text — centered */}
         <div ref={headerRef} className="max-w-3xl mx-auto text-center mb-20">
           <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-10">
