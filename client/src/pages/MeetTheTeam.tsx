@@ -31,7 +31,7 @@ const teamMembers = [
   { name: 'Saarvik Singh Suryavanshi', email: 'saarvikxcode@gmail.com',                linkedin: 'https://www.linkedin.com/in/saarvik-singh-suryavanshi-94315b36a',                                                        github: 'https://github.com/Saarvik-got-it', image: '/team_members/saarvik.png' },
   { name: 'Sahil Kumar',               email: 'sahil7667790514@gmail.com',              linkedin: 'https://www.linkedin.com/in/76sahil',                                                                                    github: 'https://github.com/2025ucp1686-sudo', image: '/team_members/sahil.png' },
   { name: 'Siddharth Kumar',           email: 'siddjon07@gmail.com',                   linkedin: 'https://www.linkedin.com/in/siddharth-kumar-174738381/',                                                                  github: 'https://github.com/siddjon07-ctrl', image: '/team_members/siddharth.png' },
-  { name: 'Shlok Patel',              email: 'shlokpatel2400@gmail.com',               linkedin: 'https://www.linkedin.com/in/shlok-patel-b36802396/',                                                            github: '', image: '' },
+  { name: 'Shlok Patel',              email: 'shlokpatel2400@gmail.com',               linkedin: 'https://www.linkedin.com/in/shlok-patel-b36802396/',                                                            github: '', image: '/team_members/shlok.png' },
 ];
 
 /* ── Heading style (32px gradient) ─────────────────────────── */

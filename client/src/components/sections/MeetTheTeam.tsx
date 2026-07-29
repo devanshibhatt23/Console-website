@@ -16,6 +16,7 @@ type TeamMember = {
   linkedin: string;
   role?: string;
   quote?: string;
+  photoUrl?: string;
 };
 
 const team: TeamMember[] = [
@@ -91,6 +92,16 @@ const team: TeamMember[] = [
     github: '',
     linkedin: 'https://www.linkedin.com/in/shubham-singh-bb9146316/',
   },
+  {
+    name: 'Shlok',
+    avatar: 'SH',
+    avatarBg: 'bg-indigo-500/20 border-indigo-500/30',
+    hoverBorder: 'hover:border-indigo-500/30',
+    gradientFrom: 'from-indigo-500/15',
+    github: '',
+    linkedin: '',
+    photoUrl: '/team_members/shlok.png',
+  },
 ];
 
 export default function MeetTheTeam() {
@@ -144,10 +155,14 @@ export default function MeetTheTeam() {
                   <div className="relative z-10">
                     {/* Avatar */}
                     <div 
-                      className="w-16 h-16 rounded-2xl border border-white/20 flex items-center justify-center mb-5 font-mono font-bold text-xl text-white group-hover:scale-105 transition-transform duration-300"
+                      className="w-16 h-16 rounded-2xl border border-white/20 flex items-center justify-center mb-5 font-mono font-bold text-xl text-white group-hover:scale-105 transition-transform duration-300 overflow-hidden"
                       style={{ background: 'linear-gradient(135deg, #F2994A, #F0405C)' }}
                     >
-                      {member.avatar}
+                      {member.photoUrl ? (
+                        <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover" />
+                      ) : (
+                        member.avatar
+                      )}
                     </div>
 
                     <div className="mb-4">
