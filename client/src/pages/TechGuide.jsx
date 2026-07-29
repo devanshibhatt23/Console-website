@@ -158,9 +158,9 @@ const HACKATHON_STEPS = [
 
 const EVENTS = [
   { name: "Startup Mahakumbh",   tag: "startup",   desc: "India's largest startup festival",         meta: "Annual · Delhi",       color: "#f59e0b", icon: Rocket, link: "https://startupmahakumbh.org/" },
-  { name: "TiECon",              tag: "networking", desc: "Global startup ecosystem conference",      meta: "Annual · Global",      color: "#60a5fa", icon: Globe, link: "https://tiecon.org/" },
-  { name: "InnoThrone",          tag: "innovation", desc: "Local innovation showcase",                meta: "Semester · Local",     color: "#4ade80", icon: Award, link: "https://innothrone.mnit.ac.in/" },
-  { name: "DevFests",            tag: "community",  desc: "Community-driven tech events",             meta: "Year-round",           color: "#c084fc", icon: Users, link: "https://gdg.community.dev/" },
+  { name: "IIT Bombay Techfest Hackathon", tag: "hackathon", desc: "Asia's largest science and tech festival hackathon", meta: "Annual · Mumbai", color: "#60a5fa", icon: Trophy, link: "https://techfest.org/" },
+  { name: "Smart India Hackathon", tag: "hackathon",  desc: "World's biggest open innovation model",    meta: "Annual · National",    color: "#4ade80", icon: Award, link: "https://www.sih.gov.in/" },
+  { name: "Flipkart GRiD",       tag: "hackathon",  desc: "Flagship engineering campus challenge",      meta: "Annual · Online/Bengaluru", color: "#c084fc", icon: Zap, link: "https://unstop.com/awards/c/flipkart-grid-70-114547/2026" },
   { name: "Devfolio Hackathons", tag: "hackathon",  desc: "Online hackathons year-round",             meta: "Online · Monthly",     color: "#fb923c", icon: Layers, link: "https://devfolio.co/" },
   { name: "MLH Hackathons",      tag: "hackathon",  desc: "Major League Hacking events",              meta: "Online · Monthly",     color: "#f43f5e", icon: Trophy, link: "https://mlh.io/" },
 ];
@@ -247,8 +247,8 @@ const SKILL_TREE = [
       "Write about what you built (LinkedIn or a blog)",
     ],
     links: [
-      { label: "Good First Issues", url: "https://goodfirstissue.dev/", primary: true },
-      { label: "Project Ideas", url: "https://github.com/practical-tutorials/project-based-learning", primary: false },
+      { label: "Google Summer of Code", url: "https://summerofcode.withgoogle.com/", primary: true },
+      { label: "Outreachy", url: "https://www.outreachy.org/", primary: false },
     ],
   },
   {
