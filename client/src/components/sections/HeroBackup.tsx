@@ -213,7 +213,7 @@ export default function Hero() {
               className="px-8 py-4 bg-white/5 border border-white/10 text-white font-mono font-medium rounded hover:bg-white/10 transition-colors flex items-center justify-center gap-2 pointer-events-auto"
             >
               <Terminal className="w-4 h-4 text-secondary" />
-              <span>Explore Console</span>
+              <span>Explore CONSOLE</span>
             </a>
           </motion.div>
         </motion.div>

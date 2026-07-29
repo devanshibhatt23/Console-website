@@ -118,7 +118,7 @@ const Leaderboard = () => {
                 
                 {/* Header */}
                 <div className="leaderboard-header">
-                    <h1 className="leaderboard-title">Console Leaderboard</h1>
+                    <h1 className="leaderboard-title">CONSOLE Leaderboard</h1>
                     <p className="leaderboard-subtitle">
                         Track your ranking across <span className="subtitle-codeforces">Codeforces</span> and <span className="subtitle-leetcode">LeetCode</span>.
                     </p>

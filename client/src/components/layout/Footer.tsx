@@ -48,7 +48,7 @@ export default function Footer() {
             >
               <img
                 src="/images/console_logo.png"
-                alt="Console Logo"
+                alt="CONSOLE Logo"
                 className="h-14 w-auto object-contain"
               />
             </Link>
@@ -154,10 +154,10 @@ export default function Footer() {
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-mono text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Console Club. All rights reserved.
+            © {new Date().getFullYear()} CONSOLE Club. All rights reserved.
           </p>
           <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground group">
-            Built with <Heart className="w-3 h-3 text-[#F0405C]" /> by the Console Team
+            Built with <Heart className="w-3 h-3 text-[#F0405C]" /> by the CONSOLE Team
             <span className="opacity-0 group-hover:opacity-100 transition-opacity ml-2" style={{ color: '#F2994A' }}>
               [exit 0]
             </span>

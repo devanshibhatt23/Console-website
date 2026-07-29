@@ -10,7 +10,7 @@ const BOOT_LINES = [
   { text: '> Compiling runtime environment...', delay: 1760, type: 'cmd' },
   { text: '> Spawning developer processes...', delay: 2080, type: 'cmd' },
   { text: 'All systems operational.', delay: 2500, type: 'success' },
-  { text: 'Welcome to Console.', delay: 2900, type: 'welcome' },
+  { text: 'Welcome to CONSOLE.', delay: 2900, type: 'welcome' },
 ];
 
 const TOTAL_MS = 3600; // when exit animation starts

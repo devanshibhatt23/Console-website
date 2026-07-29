@@ -460,7 +460,7 @@ export default function Events() {
 
         <div className="ev-hero-inner">
           {/* Updated heading with orange-pink gradient per branding requirements */}
-          <h1 className="ev-hero-title">Console Events</h1>
+          <h1 className="ev-hero-title">CONSOLE Events</h1>
 
           {/* Updated hero description */}
           <p className="ev-hero-sub">
@@ -489,7 +489,7 @@ export default function Events() {
           <div className="ev-empty">
             <div className="ev-empty-orb" />
             <h3>No Events Yet</h3>
-            <p>Stay tuned! Console Club events will appear here.</p>
+            <p>Stay tuned! CONSOLE Club events will appear here.</p>
           </div>
         ) : (
           <>
@@ -498,7 +498,7 @@ export default function Events() {
               {/* OUR JOURNEY tag removed; timeline heading and description updated */}
               <h2 className="ev-intro-title">Timeline of Our Journey</h2>
               <p className="ev-intro-subtitle">
-                Travel with us through time - story of Console, told one event at a time.
+                Travel with us through time - story of CONSOLE, told one event at a time.
               </p>
             </div>
 

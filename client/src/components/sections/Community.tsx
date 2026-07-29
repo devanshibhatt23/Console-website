@@ -46,7 +46,7 @@ export default function Community() {
             Let's Connect
           </h2>
           <p className="text-lg text-muted-foreground font-inter mb-12">
-            Follow us and stay in the loop with everything happening at Console.
+            Follow us and stay in the loop with everything happening at CONSOLE.
           </p>
 
           <div className="flex flex-col mt-7 sm:flex-row justify-center gap-6">

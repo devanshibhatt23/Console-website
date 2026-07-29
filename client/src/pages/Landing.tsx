@@ -42,9 +42,9 @@ const GALLERY_ROW2 = [
 
 const FAQ_ITEMS = [
   {
-    question: "Who can join Console?",
+    question: "Who can join CONSOLE?",
     answer:
-      "Any student at MNIT Jaipur can join Console! We welcome students from all departments and years, from first-year freshers to final-year seniors. All you need is curiosity and a willingness to learn.",
+      "Any student at MNIT Jaipur can join CONSOLE! We welcome students from all departments and years, from first-year freshers to final-year seniors. All you need is curiosity and a willingness to learn.",
   },
   {
     question: "Do I need prior coding experience to join?",
@@ -52,7 +52,7 @@ const FAQ_ITEMS = [
       "Absolutely not. You just need to show up curious. We have resources, mentorship, and a supportive community to help you start from scratch and grow at your own pace.",
   },
   {
-    question: "What kind of events does Console organize?",
+    question: "What kind of events does CONSOLE organize?",
     answer:
       "We organize hackathons, coding contests, technical workshops, peer study sessions, and collaborative projects. Our events range from beginner-friendly sessions to competitive programming challenges, there's something for everyone.",
   },
@@ -64,7 +64,7 @@ const FAQ_ITEMS = [
   {
     question: "Is there a membership fee?",
     answer:
-      "No! Console is free to join. We believe in open access to knowledge, community, and opportunity. Just sign up and you're part of the community.",
+      "No! CONSOLE is free to join. We believe in open access to knowledge, community, and opportunity. Just sign up and you're part of the community.",
   },
   {
     question: "How can I contribute or take on a more active role?",
@@ -177,7 +177,7 @@ export default function Landing() {
               <div className="scroll-track">
                 {GALLERY_ROW1.concat(GALLERY_ROW1).map((src, i) => (
                   <div className="gallery-item-wrapper" key={`g1-${i}`}>
-                    <img src={src} alt="Console Moment" className="gallery-img object-cover" loading="lazy" />
+                    <img src={src} alt="CONSOLE Moment" className="gallery-img object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
@@ -186,7 +186,7 @@ export default function Landing() {
               <div className="scroll-track">
                 {GALLERY_ROW2.concat(GALLERY_ROW2).map((src, i) => (
                   <div className="gallery-item-wrapper" key={`g2-${i}`}>
-                    <img src={src} alt="Console Moment" className="gallery-img object-cover" loading="lazy" />
+                    <img src={src} alt="CONSOLE Moment" className="gallery-img object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
@@ -206,7 +206,7 @@ export default function Landing() {
                 Frequently Asked Questions
               </h2>
               <p className="text-muted-foreground font-inter mb-4">
-                Everything you want to know about Console.
+                Everything you want to know about CONSOLE.
               </p>
             </div>
 

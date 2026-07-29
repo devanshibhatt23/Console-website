@@ -687,7 +687,7 @@ function MotivationCard({ user }) {
         const r = await fetch(`${getApiBase()}/api/motivation-quotes/random`);
         if (r.ok) setQuote(await r.json());
       } catch {
-        setQuote({ quote: "The best way to master algorithms is to solve them consistently.", author_name: "Console Club" });
+        setQuote({ quote: "The best way to master algorithms is to solve them consistently.", author_name: "CONSOLE Club" });
       }
     };
     fetchQuote();
@@ -929,7 +929,7 @@ function POTDInner() {
         {/* Hero content */}
         <div ref={heroRef} className="relative z-10 w-full px-6 flex flex-col items-center gap-6 potd-container">
           {/* <div className="gsap-hero-item flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/[0.03] border border-white/[0.07] text-[11px] font-mono text-white/40 uppercase tracking-[0.2em] backdrop-blur-sm">
-            <LiveDot color="orange" />Console · Problem of the Day
+            <LiveDot color="orange" />CONSOLE · Problem of the Day
           </div> */}
 
           <div className="gsap-hero-item text-center select-none relative">

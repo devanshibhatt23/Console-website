@@ -129,7 +129,7 @@ export default function MeetTheTeam() {
             Meet the <span className="text-gradient-fire">People</span>
           </h2>
           <p className="text-muted-foreground font-mono leading-relaxed">
-            Driven by caffeine and curiosity. These are the humans who keep Console running.
+            Driven by caffeine and curiosity. These are the humans who keep CONSOLE running.
           </p>
         </div>
 

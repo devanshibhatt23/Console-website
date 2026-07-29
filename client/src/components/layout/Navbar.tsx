@@ -188,7 +188,7 @@ export default function Navbar() {
           >
             <img
               src="/images/console_logo.png"
-              alt="Console Logo"
+              alt="CONSOLE Logo"
               className="h-14 w-auto object-contain"
             />
           </button>
@@ -200,7 +200,7 @@ export default function Navbar() {
           >
             <img
               src="/images/console_logo.png"
-              alt="Console Logo"
+              alt="CONSOLE Logo"
               className="h-14 w-auto object-contain"
             />
           </Link>

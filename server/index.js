@@ -1409,7 +1409,7 @@ app.get('/api/motivation-quotes/random', async (req, res) => {
         if (!data || data.length === 0) {
             return res.json({
                 quote: 'The best way to master algorithms is to solve them consistently.',
-                author_name: 'Console Club',
+                author_name: 'CONSOLE Club',
             });
         }
 
@@ -1430,7 +1430,7 @@ app.get('/api/motivation-quotes/random', async (req, res) => {
         console.error('Failed to fetch random quote:', error.message);
         res.json({
             quote: 'The best way to master algorithms is to solve them consistently.',
-            author_name: 'Console Club',
+            author_name: 'CONSOLE Club',
         });
     }
 });

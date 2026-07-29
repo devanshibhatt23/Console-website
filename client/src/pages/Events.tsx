@@ -41,7 +41,7 @@ export default function Events() {
                 el.style.filter = '';
               }}
             >
-              Console <span className="text-gradient-fire">Events</span>
+              CONSOLE <span className="text-gradient-fire">Events</span>
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground font-mono leading-relaxed max-w-2xl mx-auto">
