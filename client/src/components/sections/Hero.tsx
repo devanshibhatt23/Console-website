@@ -5,7 +5,6 @@ import { loadSlim } from "@tsparticles/slim";
 import { motion } from 'framer-motion';
 import { Terminal } from 'lucide-react';
 
-import ConstellationDraw from './ConstellationDraw';
 import { useAuth } from '../../context/AuthContext';
 
 const CONSOLE_TEXT = 'CONSOLE';
@@ -115,8 +114,6 @@ export default function Hero() {
 
       {/* Radial overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/50 to-black z-0" />
-
-      <ConstellationDraw />
 
       <div className="relative z-10 container mx-auto px-6 text-center pointer-events-none">
         <motion.div
