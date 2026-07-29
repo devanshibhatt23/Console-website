@@ -132,7 +132,9 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/events" element={<Events />} />
                   <Route path="/team" element={<MeetTheTeam />} />
-
+                  <Route path="/resources" element={<Resources />} />
+                  <Route path="/resources/:domain" element={<ResourceDomain />} />
+                  <Route path="/tech-guide" element={<TechGuide />} />
 
                   {/* Protected Routes */}
                   <Route element={<ProtectedRoute />}>
@@ -141,9 +143,6 @@ function App() {
                     <Route path="/leaderboard" element={<Leaderboard />} />
                     <Route path="/problem-of-the-day" element={<POTD />} />
                     <Route path="/potd-leaderboard" element={<POTDLeaderboard />} />
-                    <Route path="/resources" element={<Resources />} />
-                    <Route path="/resources/:domain" element={<ResourceDomain />} />
-                    <Route path="/tech-guide" element={<TechGuide />} />
                     <Route path="/placement-playbook" element={<PlacementPlaybook />} />
                     <Route path="/profile/:userId" element={<ProfileView />} />
                     <Route path="/search" element={<SearchUsers />} />

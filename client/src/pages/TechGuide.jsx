@@ -347,10 +347,7 @@ export default function TechGuide() {
     return () => ctx.revert();
   }, [activeTab]);
 
-  if (!authLoading && !user) {
-    navigate("/");
-    return null;
-  }
+
 
   const handleTabChange = (tabName) => {
     setSearchParams({ tab: tabName });

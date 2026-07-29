@@ -190,10 +190,6 @@ export default function Resources() {
   const { user, loading: authLoading } = useAuth();
   const tracks = Object.values(roadmapsData);
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate("/login");
-  }, [user, authLoading, navigate]);
-
   return (
     <div className="res-page">
       <GridBg />

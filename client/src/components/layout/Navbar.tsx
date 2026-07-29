@@ -187,7 +187,7 @@ export default function Navbar() {
             className="flex items-center shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
           >
             <img
-              src="/images/console_logo.png"
+              src="/logo.png"
               alt="CONSOLE Logo"
               className="h-14 w-auto object-contain"
             />
@@ -199,7 +199,7 @@ export default function Navbar() {
             className="flex items-center shrink-0 group hover:scale-[1.02] transition-transform duration-200"
           >
             <img
-              src="/images/console_logo.png"
+              src="/logo.png"
               alt="CONSOLE Logo"
               className="h-14 w-auto object-contain"
             />

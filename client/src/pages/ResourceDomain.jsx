@@ -248,9 +248,6 @@ export default function ResourceDomain() {
   const track = roadmapsData[domainId];
   const heroRef = useRef(null);
 
-  useEffect(() => {
-    if (!authLoading && !user) navigate("/login");
-  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (!track) navigate("/resources");

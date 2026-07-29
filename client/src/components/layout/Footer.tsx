@@ -47,7 +47,7 @@ export default function Footer() {
               className="inline-block mb-6 group hover:scale-[1.02] transition-transform duration-200"
             >
               <img
-                src="/images/console_logo.png"
+                src="/logo.png"
                 alt="CONSOLE Logo"
                 className="h-14 w-auto object-contain"
               />
