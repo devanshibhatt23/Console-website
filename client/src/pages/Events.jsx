@@ -103,6 +103,8 @@ const FALLBACK_IMAGES = {
   concode: "https://gxbhswojyrlifgqhjwqv.supabase.co/storage/v1/object/public/event-images/WhatsApp%20Image%202026-04-14%20at%2012.52.18.jpeg"
 };
 
+// Returns the cover image URL, or null if no image is available.
+// Only legacy known events get a hardcoded fallback; new events return null.
 function getEventCoverImage(title, dbImageUrl) {
   if (dbImageUrl && dbImageUrl.trim() !== "") {
     return dbImageUrl;
@@ -115,7 +117,8 @@ function getEventCoverImage(title, dbImageUrl) {
   if (lower.includes("recruitment")) return FALLBACK_IMAGES.recruitment;
   if (lower.includes("concode") || lower.includes("con-code")) return FALLBACK_IMAGES.concode;
 
-  return "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=1000";
+  // No fallback for new/unknown events — caller handles null
+  return null;
 }
 
 // ── Hooks ─────────────────────────────────────────────────────────────────────
@@ -260,10 +263,18 @@ function TimelineItem({ event, index, onImageClick }) {
   const displayDate = getEventDisplayDate(event.title, event.event_date);
   const category = getEventCategory(event.title);
 
-  // Compile full gallery image array
-  const allCardImages = validImages.length > 0
-    ? validImages.map((img) => ({ url: img.image_url, title: event.title }))
-    : [{ url: coverImage, title: event.title }];
+  // Only build gallery from real uploaded images (not cover fallback)
+  const galleryImages = validImages.map((img) => ({ url: img.image_url, title: event.title }));
+  // If there's a real cover but no gallery, include the cover in the lightbox
+  const allCardImages =
+    galleryImages.length > 0
+      ? galleryImages
+      : coverImage
+      ? [{ url: coverImage, title: event.title }]
+      : [];
+
+  const hasPhoto = !!coverImage;
+  const hasGallery = galleryImages.length > 0;
 
   return (
     <div
@@ -285,10 +296,13 @@ function TimelineItem({ event, index, onImageClick }) {
 
       {/* Event Card */}
       <div className="ev-timeline-card">
-        <div className="ev-timeline-card-image" onClick={() => onImageClick(allCardImages, 0)}>
-          <img src={coverImage} alt={event.title} className="ev-card-img" loading="lazy" />
-          <div className="ev-card-img-overlay" />
-        </div>
+        {/* Only render image section when a real banner/cover exists */}
+        {hasPhoto && (
+          <div className="ev-timeline-card-image" onClick={() => allCardImages.length > 0 && onImageClick(allCardImages, 0)}>
+            <img src={coverImage} alt={event.title} className="ev-card-img" loading="lazy" />
+            <div className="ev-card-img-overlay" />
+          </div>
+        )}
 
         <div className="ev-timeline-card-content">
           <span className={`ev-card-category ev-card-category--${tagColor}`}>
@@ -296,9 +310,12 @@ function TimelineItem({ event, index, onImageClick }) {
           </span>
           <h2 className="ev-card-title">{event.title}</h2>
           <p className="ev-card-desc">{description}</p>
-          <button className="ev-card-gallery-btn" onClick={() => onImageClick(allCardImages, 0)}>
-            View Gallery <span className="ev-btn-arrow">→</span>
-          </button>
+          {/* Only show gallery button when real gallery images exist */}
+          {hasGallery && (
+            <button className="ev-card-gallery-btn" onClick={() => onImageClick(galleryImages, 0)}>
+              View Gallery <span className="ev-btn-arrow">→</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
