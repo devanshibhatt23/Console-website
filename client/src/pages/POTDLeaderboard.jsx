@@ -44,6 +44,7 @@ const POTDLeaderboard = () => {
     const [error, setError] = useState(null);
     const [lastUpdated, setLastUpdated] = useState(null);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchPOTDLeaderboard = useCallback(async (silent = false) => {
         try {
@@ -96,12 +97,27 @@ const POTDLeaderboard = () => {
         };
     }, [fetchPOTDLeaderboard]);
 
+    // Reset page when year filter changes
+    const handleYearTabChange = (yearId) => {
+        setActiveYear(yearId);
+        setCurrentPage(1);
+    };
+
     const displayData = activeYear === 'all'
         ? leaderboardData
         : leaderboardData.filter(u => u.year === activeYear);
 
     // Re-rank after year filtering
     const rankedData = displayData.map((u, i) => ({ ...u, rank: i + 1 }));
+
+    // Pagination calculations
+    const PAGE_SIZE = 10;
+    const totalPages = Math.max(1, Math.ceil(rankedData.length / PAGE_SIZE));
+    const safePage = Math.min(currentPage, totalPages);
+    const paginatedData = rankedData.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+    const goToPrev = () => setCurrentPage((p) => Math.max(1, p - 1));
+    const goToNext = () => setCurrentPage((p) => Math.min(totalPages, p + 1));
 
     const totalSolvers = leaderboardData.length;
     const topSolver = leaderboardData[0];
@@ -182,7 +198,8 @@ const POTDLeaderboard = () => {
                     {YEAR_TABS.map((year) => (
                         <button
                             key={year.id}
-                            onClick={() => setActiveYear(year.id)}
+                            type="button"
+                            onClick={() => handleYearTabChange(year.id)}
                             className={`potd-year-tab ${activeYear === year.id ? 'active' : ''}`}
                         >
                             {year.label}
@@ -224,7 +241,7 @@ const POTDLeaderboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {rankedData.map((user) => {
+                                {paginatedData.map((user) => {
                                     const r = user.rank;
                                     const isGold   = r === 1;
                                     const isSilver = r === 2;
@@ -311,6 +328,33 @@ const POTDLeaderboard = () => {
                         </table>
                     )}
                 </div>
+
+                {/* Pagination Controls */}
+                {!isLoading && !error && totalPages > 1 && (
+                    <div className="potd-lb-pagination">
+                        <button
+                            type="button"
+                            className="potd-lb-page-btn"
+                            onClick={(e) => { e.preventDefault(); goToPrev(); }}
+                            disabled={safePage === 1}
+                            aria-label="Previous page"
+                        >
+                            ←
+                        </button>
+                        <span className="potd-lb-page-indicator">
+                            {safePage} of {totalPages}
+                        </span>
+                        <button
+                            type="button"
+                            className="potd-lb-page-btn"
+                            onClick={(e) => { e.preventDefault(); goToNext(); }}
+                            disabled={safePage === totalPages}
+                            aria-label="Next page"
+                        >
+                            →
+                        </button>
+                    </div>
+                )}
 
             </div>
         </div>
