@@ -136,8 +136,8 @@ export default function Landing() {
         {/* Home page additions — visible only when logged in */}
         {user && (
           <>
-            <POTD />
             <UpcomingEvents />
+            <POTD />
           </>
         )}
 
