@@ -62,6 +62,21 @@ export default function Navbar() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
+  const handleLogoHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (window.location.pathname !== '/') {
+      navigate('/');
+    } else {
+      const lenis = (window as any).__lenis;
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: false });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      window.history.pushState(null, '', '/');
+    }
+  };
+
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href === '/' || href === '/#hero') {
       e.preventDefault();
@@ -128,7 +143,7 @@ export default function Navbar() {
 
     if (mobile) {
       const baseClass = 'text-left font-montserrat text-white hover:text-white text-base py-2 transition-colors';
-      return isHashLink ? (
+      return isHashLink || link.href === '/' ? (
         <a key={link.name} href={link.href} onClick={(e) => handleNavClick(e, link.href)} className={baseClass}>
           &gt; {link.name}
         </a>
@@ -139,7 +154,7 @@ export default function Navbar() {
       );
     }
 
-    if (isHashLink) {
+    if (isHashLink || link.href === '/') {
       return (
         <a
           key={link.name}
@@ -177,34 +192,18 @@ export default function Navbar() {
     >
       <div className="container mx-auto pl-2 md:pl-4 pr-6 md:pr-10 flex items-center justify-between">
         {/* Logo */}
-        {window.location.pathname === '/' ? (
-          <button
-            onClick={() => {
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-              window.history.pushState(null, '', '/');
-            }}
-            aria-label="Go to top"
-            className="flex items-center shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
-          >
-            <img
-              src="/logo.png"
-              alt="CONSOLE Logo"
-              className="h-14 w-auto object-contain"
-            />
-          </button>
-        ) : (
-          <Link
-            to="/"
-            aria-label="Go to home"
-            className="flex items-center shrink-0 group hover:scale-[1.02] transition-transform duration-200"
-          >
-            <img
-              src="/logo.png"
-              alt="CONSOLE Logo"
-              className="h-14 w-auto object-contain"
-            />
-          </Link>
-        )}
+        <a
+          href="/"
+          onClick={handleLogoHomeClick}
+          aria-label="Go to home"
+          className="flex items-center shrink-0 cursor-pointer bg-transparent border-0 outline-none group hover:scale-[1.02] transition-transform duration-200"
+        >
+          <img
+            src="/logo.png"
+            alt="CONSOLE Logo"
+            className="h-14 w-auto object-contain"
+          />
+        </a>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1 nav-group-hover" aria-label="Main navigation">
