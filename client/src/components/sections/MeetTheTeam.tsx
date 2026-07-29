@@ -3,6 +3,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Tilt from 'react-parallax-tilt';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,6 +16,7 @@ type TeamMember = {
   gradientFrom: string;
   github: string;
   linkedin: string;
+  email?: string;
   role?: string;
   quote?: string;
   photoUrl?: string;
@@ -28,6 +31,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-primary/20',
     github: 'https://github.com/Bhav-Codes',
     linkedin: 'https://www.linkedin.com/in/bhavya-singhal-20ba6232b/',
+    email: 'bhav8175@gmail.com',
   },
   {
     name: 'Parth Gandhi',
@@ -37,6 +41,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-secondary/20',
     github: 'https://github.com/parthgandhi22',
     linkedin: 'https://www.linkedin.com/in/parth-gandhi-641320324',
+    email: 'parthgandhi625@gmail.com',
   },
   {
     name: 'Mukund Rakholiya',
@@ -46,6 +51,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-accent/20',
     github: 'https://github.com/mukundrakholiya28',
     linkedin: 'https://www.linkedin.com/in/mukundrakholiya28',
+    email: '2024ucp1163@mnit.ac.in',
   },
   {
     name: 'Raghunandan Jhawar',
@@ -55,6 +61,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-yellow-500/15',
     github: '',
     linkedin: 'http://linkedin.com/in/raghunandan-jhanwar-555137329',
+    email: 'raghunandanjhawar1234@gmail.com',
   },
   {
     name: 'Yuvraj',
@@ -64,6 +71,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-pink-500/15',
     github: '',
     linkedin: 'https://linkedin.com/in/yuvraj-singh-verma',
+    email: 'work.yuvrajsv@gmail.com',
   },
   {
     name: 'Rashi Jangid',
@@ -73,6 +81,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-green-500/15',
     github: '',
     linkedin: 'https://www.linkedin.com/in/rashi-jangid-47849a221',
+    email: '2024uce1173@mnit.ac.in',
   },
   {
     name: 'Mridul Trivedi',
@@ -82,6 +91,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-purple-500/15',
     github: '',
     linkedin: 'https://www.linkedin.com/in/mridul-trivedi-129b4337a/',
+    email: 'mridultrivedi318@gmail.com',
   },
   {
     name: 'Shubham',
@@ -91,6 +101,7 @@ const team: TeamMember[] = [
     gradientFrom: 'from-orange-500/15',
     github: '',
     linkedin: 'https://www.linkedin.com/in/shubham-singh-bb9146316/',
+    email: 'shubhamsinghstrides@gmail.com',
   },
   {
     name: 'Shlok',
@@ -101,6 +112,7 @@ const team: TeamMember[] = [
     github: '',
     linkedin: '',
     photoUrl: '/team_members/shlok.png',
+    email: 'shlokpatel2400@gmail.com',
   },
 ];
 
@@ -108,6 +120,7 @@ export default function MeetTheTeam() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -125,6 +138,27 @@ export default function MeetTheTeam() {
     }, sectionRef);
     return () => ctx.revert();
   }, []);
+
+  const handleCardClick = async (member: TeamMember) => {
+    try {
+      if (member.email) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('email', member.email)
+          .single();
+        
+        if (data?.id) {
+          navigate(`/profile/${data.id}`);
+          return;
+        }
+      }
+      navigate(`/profile/team-${member.name.replace(/\s+/g, '-').toLowerCase()}`, { state: { staticMember: member } });
+    } catch (err) {
+      console.error("Profile not found or error:", err);
+      navigate(`/profile/team-${member.name.replace(/\s+/g, '-').toLowerCase()}`, { state: { staticMember: member } });
+    }
+  };
 
   return (
     <section id="team" ref={sectionRef} className="py-32 bg-black relative overflow-hidden">
@@ -148,7 +182,10 @@ export default function MeetTheTeam() {
           {team.map((member, i) => (
             <div key={i} ref={el => { cardsRef.current[i] = el; }}>
               <Tilt tiltMaxAngleX={6} tiltMaxAngleY={6} glareEnable glareMaxOpacity={0.08} className="h-full">
-                <div className={`relative h-full p-7 rounded-2xl bg-card border border-white/5 ${member.hoverBorder} transition-all duration-500 overflow-hidden group cursor-default`}>
+                <div 
+                  onClick={() => handleCardClick(member)}
+                  className={`relative h-full p-7 rounded-2xl bg-card border border-white/5 ${member.hoverBorder} transition-all duration-500 overflow-hidden group cursor-pointer`}
+                >
                   {/* Gradient bg reveal */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${member.gradientFrom} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
 
@@ -193,6 +230,7 @@ export default function MeetTheTeam() {
                           rel="noopener noreferrer"
                           aria-label={label}
                           className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-white/40"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           <Icon className="w-4 h-4" />
                         </a>
