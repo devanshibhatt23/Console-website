@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -54,6 +54,38 @@ function ScrollToTop() {
   }, [pathname]);
 
   return null;
+}
+
+function ScrollProgressBar() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const el = document.documentElement;
+      const scrolled = el.scrollTop || document.body.scrollTop;
+      const total = el.scrollHeight - el.clientHeight;
+      setProgress(total > 0 ? (scrolled / total) * 100 : 0);
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        height: '3px',
+        width: `${progress}%`,
+        background: 'linear-gradient(90deg, #F2994A, #F0405C)',
+        zIndex: 9999,
+        transition: 'width 0.1s linear',
+        boxShadow: '0 0 8px rgba(242,153,74,0.6)',
+        pointerEvents: 'none',
+      }}
+    />
+  );
 }
 
 function App() {
@@ -122,6 +154,7 @@ function App() {
               className="min-h-screen"
             >
               <BrowserRouter>
+                <ScrollProgressBar />
                 <ScrollToTop />
                 <Navbar />
                 <Routes>
