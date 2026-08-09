@@ -46,21 +46,12 @@ export default function Hero() {
     },
   };
 
-  const gradientTextStyle = {
-    background: 'linear-gradient(90deg, #F2994A 0%, #F0405C 100%)',
-    WebkitBackgroundClip: 'text' as const,
-    WebkitTextFillColor: 'transparent' as const,
-    backgroundClip: 'text' as const,
-  };
-
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-32 pb-48"
+      className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-32 pb-48 bg-[#06060c]"
     >
-
-      {/* ✨ Puzzle Image Assembly — replaces static background image */}
-      {/* Each piece shows a real fragment of IMG_1590.jpg; GSAP animates scatter→assembly→shatter loop */}
+      {/* ✨ 3D Floating Puzzle Image Assembly Stage */}
       <PuzzleImageBackground />
 
       {/* Particles */}
@@ -82,7 +73,7 @@ export default function Hero() {
                   color: '#F0405C',
                   distance: 150,
                   enable: true,
-                  opacity: 0.15,
+                  opacity: 0.18,
                   width: 1,
                 },
                 move: {
@@ -95,11 +86,11 @@ export default function Hero() {
                 },
                 number: {
                   density: { enable: true, width: 800 },
-                  value: 40,
+                  value: 45,
                 },
-                opacity: { value: 0.25 },
+                opacity: { value: 0.3 },
                 shape: { type: 'circle' },
-                size: { value: { min: 1, max: 2 } },
+                size: { value: { min: 1, max: 2.5 } },
               },
               detectRetina: true,
             }}
@@ -108,51 +99,55 @@ export default function Hero() {
         </ParticlesProvider>
       </div>
 
-      {/* Background Image — removed; puzzle animation reveals image instead */}
-
       {/* 3D Perspective Floor Grid */}
-      <div className="hero-perspective-container">
+      <div className="hero-perspective-container opacity-40">
         <div className="hero-perspective-grid" />
       </div>
 
-      {/* Dual Glowing Orbs */}
+      {/* Dual Glowing Ambient Orbs */}
       <div className="ambient-orb-orange" />
       <div className="ambient-orb-pink" />
 
-      {/* Radial overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/50 to-black z-0" />
+      {/* High-Contrast Backdrop Scrim for 100% Pristine Text Visibility */}
+      <div className="absolute inset-0 z-[5] pointer-events-none flex items-center justify-center">
+        <div className="w-full max-w-4xl h-[450px] bg-radial from-black/80 via-black/50 to-transparent blur-2xl opacity-90" />
+      </div>
 
       <div className="relative z-10 container mx-auto px-6 text-center pointer-events-none">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-5xl mx-auto flex flex-col items-center"
+          className="max-w-4xl mx-auto flex flex-col items-center"
         >
-          {/* Eyebrow label — bigger, clean */}
-          <motion.p
-            variants={itemVariants}
-            className="font-mono text-lg sm:text-xl md:text-2xl tracking-[0.2em] uppercase text-white/60 mb-3 select-none"
-          >
-            Welcome to
-          </motion.p>
+          {/* Eyebrow Label — Glass Badge Pill */}
+          <motion.div variants={itemVariants} className="mb-4">
+            <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-white/[0.07] border border-white/15 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.6)] select-none">
+              <span className="w-2 h-2 rounded-full bg-[#F2994A] animate-pulse shadow-[0_0_10px_#F2994A]" />
+              <span className="font-mono text-xs sm:text-sm tracking-[0.28em] uppercase text-white/95 font-bold">
+                WELCOME TO
+              </span>
+            </div>
+          </motion.div>
 
-          {/* CONSOLE — Montserrat bold gradient, scramble on hover + glow */}
-          <div className="relative flex flex-col items-center w-full" style={{ marginTop: '12px', marginBottom: '24px' }}>
+          {/* CONSOLE — Montserrat Bold High-Contrast Title */}
+          <div className="relative flex flex-col items-center w-full my-2">
             <h1
-              className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center"
+              className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center tracking-tighter"
               style={{
-                fontSize: 'clamp(56px, 13vw, 130px)',
+                fontSize: 'clamp(64px, 14vw, 140px)',
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
                 lineHeight: '0.88',
                 letterSpacing: '-4px',
                 margin: '0',
                 padding: '0',
-                ...gradientTextStyle,
+                background: 'linear-gradient(135deg, #FFFFFF 0%, #F2994A 55%, #F0405C 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
                 filter: isHoveringConsole
-                  ? 'drop-shadow(0 0 50px rgba(242,153,74,0.75)) drop-shadow(0 0 100px rgba(240,64,92,0.5))'
-                  : 'drop-shadow(0 4px 16px rgba(0,0,0,0.8))',
+                  ? 'drop-shadow(0 10px 40px rgba(0,0,0,0.95)) drop-shadow(0 0 60px rgba(242,153,74,0.85)) drop-shadow(0 0 100px rgba(240,64,92,0.6))'
+                  : 'drop-shadow(0 12px 30px rgba(0,0,0,0.95)) drop-shadow(0 0 40px rgba(242,153,74,0.35))',
               }}
               onMouseEnter={() => setIsHoveringConsole(true)}
               onMouseLeave={() => setIsHoveringConsole(false)}
@@ -173,12 +168,12 @@ export default function Hero() {
               )}
             </h1>
 
-            {/* Glow orb behind CONSOLE on hover */}
+            {/* Glowing Aura Behind Text */}
             <div
               className="absolute inset-0 -z-10 blur-3xl rounded-full transition-opacity duration-500 pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse at center, rgba(242,153,74,0.25) 0%, rgba(240,64,92,0.15) 50%, transparent 70%)',
-                opacity: isHoveringConsole ? 1 : 0,
+                background: 'radial-gradient(ellipse at center, rgba(242,153,74,0.3) 0%, rgba(240,64,92,0.2) 50%, transparent 75%)',
+                opacity: isHoveringConsole ? 1 : 0.4,
               }}
             />
           </div>
@@ -186,8 +181,7 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 tracking-wide"
-            style={{ marginBottom: '40px' }}
+            className="text-lg sm:text-xl md:text-2xl font-inter font-semibold text-white/95 tracking-wide drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] mt-2 mb-10"
           >
             Tech Community of MNIT
           </motion.p>
@@ -197,25 +191,24 @@ export default function Hero() {
             variants={itemVariants}
             className="flex flex-col sm:flex-row justify-center gap-5 w-full sm:w-auto pointer-events-auto"
           >
-            {/* Join the community — hidden when logged in */}
             {!user && (
               <Link
                 to="/login"
-                className="group relative px-6 py-3 text-white font-inter font-semibold rounded-full overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02]"
+                className="group relative px-8 py-3.5 text-white font-inter font-semibold rounded-full overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.03]"
                 style={{
                   background: 'linear-gradient(135deg, #F2994A, #F0405C)',
-                  boxShadow: '0 4px 20px rgba(242,153,74,0.35)',
+                  boxShadow: '0 6px 28px rgba(242,153,74,0.45), 0 0 20px rgba(240,64,92,0.2)',
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLElement).style.boxShadow =
-                    '0 6px 28px rgba(242,153,74,0.55)';
+                    '0 8px 36px rgba(242,153,74,0.65), 0 0 30px rgba(240,64,92,0.4)';
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLElement).style.boxShadow =
-                    '0 4px 20px rgba(242,153,74,0.35)';
+                    '0 6px 28px rgba(242,153,74,0.45), 0 0 20px rgba(240,64,92,0.2)';
                 }}
               >
-                Join the community
+                Join the community &rarr;
               </Link>
             )}
           </motion.div>

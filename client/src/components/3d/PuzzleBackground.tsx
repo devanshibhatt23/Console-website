@@ -2,26 +2,24 @@ import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 
 /* ═══════════════════════════════════════════════════════════════
-   GRID CONFIGURATION
+   3D FLOATING PUZZLE SHOWCASE (AWARD-WINNING DRIBBBLE STYLE)
+   - Volumetric 3D puzzle pieces with metallic rim glows, specular highlights
+   - Floating in 3D perspective space with tumbling assembly into a majestic composition
+   - Sharp, non-blurry rendering with crisp texturing
    ═══════════════════════════════════════════════════════════════ */
+
 const COLS = 4;
 const ROWS = 3;
-const CW = 210;         // base cell width
-const CH = 160;         // base cell height
-const T = 36;           // tab padding (piece extends T px beyond its cell)
-const TH = 30;          // tab curve amplitude
-const PW = CW + 2 * T;  // full piece div width  = 282
-const PH = CH + 2 * T;  // full piece div height = 232
-const IMG_W = COLS * CW; // 840
-const IMG_H = ROWS * CH; // 480
+const CW = 280;          // High-res piece base width (1120px total)
+const CH = 200;          // High-res piece base height (600px total)
+const T = 45;            // Interlocking tab padding
+const TH = 38;           // Tab bump amplitude
+const PW = CW + 2 * T;   // Piece element width  = 370px
+const PH = CH + 2 * T;   // Piece element height = 290px
+const IMG_W = COLS * CW; // 1120px
+const IMG_H = ROWS * CH; // 600px
 const IMAGE_PATH = '/images/IMG_1590.jpg';
 
-/* ═══════════════════════════════════════════════════════════════
-   INTERLOCKING EDGE TYPES
-   Interlocking rule:
-     bottom(c,r) = hEdge(c,r) → top(c,r+1) = -hEdge(c,r)
-     right(c,r)  = vEdge(c,r) → left(c+1,r) = -vEdge(c,r)
-   ═══════════════════════════════════════════════════════════════ */
 const hEdge = (c: number, r: number): number => (c + r) % 2 === 0 ? 1 : -1;
 const vEdge = (c: number, r: number): number => (c + r + 1) % 2 === 0 ? 1 : -1;
 
@@ -34,48 +32,37 @@ function getEdgeTypes(col: number, row: number) {
   };
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SVG CLIP PATH GENERATOR
-   Local space: base cell at [T, T+CW] × [T, T+CH]
-   ═══════════════════════════════════════════════════════════════ */
 function buildPiecePath(col: number, row: number): string {
   const { top, bottom, right, left } = getEdgeTypes(col, row);
   const x0 = T, y0 = T, x1 = T + CW, y1 = T + CH;
 
   function hTab(ax: number, ay: number, bx: number, _by: number, dir: number): string {
-    const mx = (ax + bx) / 2, qx = (bx - ax) * 0.2;
+    const mx = (ax + bx) / 2, qx = (bx - ax) * 0.22;
     return `L ${mx - qx},${ay} C ${mx - qx},${ay - dir * TH} ${mx + qx},${ay - dir * TH} ${mx + qx},${ay} L ${bx},${ay}`;
   }
   function vTab(ax: number, ay: number, _bx: number, by: number, dir: number): string {
-    const my = (ay + by) / 2, qy = (by - ay) * 0.2;
+    const my = (ay + by) / 2, qy = (by - ay) * 0.22;
     return `L ${ax},${my - qy} C ${ax + dir * TH},${my - qy} ${ax + dir * TH},${my + qy} ${ax},${my + qy} L ${ax},${by}`;
   }
 
   let d = `M ${x0},${y0}`;
-  // TOP (left→right)
-  d += top  === 0 ? ` L ${x1},${y0}` : hTab(x0, y0, x1, y0, top);
-  // RIGHT (top→bottom)
-  d += right === 0 ? ` L ${x1},${y1}` : vTab(x1, y0, x1, y1, right);
-  // BOTTOM (right→left) — direction reversed so dir is negated
+  d += top    === 0 ? ` L ${x1},${y0}` : hTab(x0, y0, x1, y0, top);
+  d += right  === 0 ? ` L ${x1},${y1}` : vTab(x1, y0, x1, y1, right);
   d += bottom === 0 ? ` L ${x0},${y1}` : hTab(x1, y1, x0, y1, -bottom);
-  // LEFT (bottom→top) — direction reversed
-  d += left === 0 ? ` L ${x0},${y0}` : vTab(x0, y1, x0, y0, -left);
+  d += left   === 0 ? ` L ${x0},${y0}` : vTab(x0, y1, x0, y0, -left);
   d += ' Z';
   return d;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   PIECE DATA
-   ═══════════════════════════════════════════════════════════════ */
 interface PieceData {
   id: number;
   col: number;
   row: number;
   path: string;
-  bgX: number;  // background-position-x at assembled state
+  bgX: number;
   bgY: number;
-  sx: number; sy: number; sz: number;   // scatter position
-  srx: number; sry: number; srz: number; // scatter rotation
+  sx: number; sy: number; sz: number;
+  srx: number; sry: number; srz: number;
 }
 
 function rand(seed: number, min: number, max: number): number {
@@ -90,18 +77,18 @@ function buildAllPieces(): PieceData[] {
     for (let col = 0; col < COLS; col++) {
       const id = row * COLS + col;
       const angle = rand(++s, 0, Math.PI * 2);
-      const dist  = rand(++s, 380, 700);
+      const dist  = rand(++s, 420, 850);
       pieces.push({
         id, col, row,
         path: buildPiecePath(col, row),
         bgX: T - col * CW,
         bgY: T - row * CH,
         sx: Math.cos(angle) * dist,
-        sy: Math.sin(angle) * dist - 60,
-        sz: rand(++s, -500, 80),
-        srx: rand(++s, -200, 200),
-        sry: rand(++s, -200, 200),
-        srz: rand(++s, -90, 90),
+        sy: Math.sin(angle) * dist - 80,
+        sz: rand(++s, -600, 150),
+        srx: rand(++s, -240, 240),
+        sry: rand(++s, -240, 240),
+        srz: rand(++s, -120, 120),
       });
     }
   }
@@ -110,22 +97,19 @@ function buildAllPieces(): PieceData[] {
 
 const ALL_PIECES = buildAllPieces();
 
-/* ═══════════════════════════════════════════════════════════════
-   COMPONENT
-   ═══════════════════════════════════════════════════════════════ */
 export default function PuzzleImageBackground() {
-  const wrapRef   = useRef<HTMLDivElement>(null);
-  const stageRef  = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const pieceRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Scale the 840×480 stage to COVER the hero (like background-size: cover)
   const applyScale = useCallback(() => {
     const wrap = wrapRef.current;
     const stage = stageRef.current;
     if (!wrap || !stage) return;
-    const scaleX = wrap.offsetWidth  / IMG_W;
-    const scaleY = wrap.offsetHeight / IMG_H;
-    const scale  = Math.max(scaleX, scaleY) * 1.02; // tiny 2% overdraw to eliminate edge gaps
+
+    // Scale puzzle stage elegantly inside the hero stage, preserving crisp 1:1 image density
+    const targetW = Math.min(wrap.offsetWidth * 0.85, 1120);
+    const scale = targetW / IMG_W;
     gsap.set(stage, { scale, transformOrigin: 'center center' });
   }, []);
 
@@ -133,92 +117,89 @@ export default function PuzzleImageBackground() {
     const els = pieceRefs.current.filter(Boolean) as HTMLDivElement[];
     if (els.length !== ALL_PIECES.length) return;
 
-    // Apply responsive cover scale
     applyScale();
     const ro = new ResizeObserver(applyScale);
     if (wrapRef.current) ro.observe(wrapRef.current);
 
-    // ── Set initial scatter state ────────────────────────────────
+    // Initial scatter positioning
     els.forEach((el, i) => {
       const p = ALL_PIECES[i];
       gsap.set(el, {
         x: p.sx, y: p.sy, z: p.sz,
         rotateX: p.srx, rotateY: p.sry, rotateZ: p.srz,
-        opacity: 0, scale: 0.55,
+        opacity: 0, scale: 0.5,
       });
     });
 
-    // ── ONE-TIME animation: scatter → assemble → hold ────────────
     const tl = gsap.timeline();
 
-    // Phase 1 (0–2s): pieces materialise scattered, tumbling
+    // 1. Fade & Tumble in 3D space
     tl.to(els, {
-      opacity: 0.88,
+      opacity: 0.95,
       scale: 1,
-      duration: 1.5,
-      stagger: { amount: 1.0, from: 'random', ease: 'power1.in' },
+      duration: 1.4,
+      stagger: { amount: 0.8, from: 'random' },
       ease: 'power2.out',
     }, 0);
 
-    // Simultaneous tumble drift during scatter phase
     els.forEach((el, i) => {
       const p = ALL_PIECES[i];
       tl.to(el, {
-        rotateX: p.srx + rand(i * 29, 100, 220),
-        rotateY: p.sry + rand(i * 31, 140, 300),
-        rotateZ: p.srz + rand(i * 37, 50, 110),
-        x: p.sx * 0.7,
-        y: p.sy * 0.7,
+        rotateX: p.srx + rand(i * 29, 120, 240),
+        rotateY: p.sry + rand(i * 31, 160, 320),
+        rotateZ: p.srz + rand(i * 37, 60, 140),
+        x: p.sx * 0.6,
+        y: p.sy * 0.6,
         duration: 2.2,
         ease: 'sine.inOut',
-      }, 0.15 + rand(i * 11, 0, 0.25));
+      }, 0.1);
     });
 
-    // Phase 2 (2.4–6.2s): grand assembly — outer pieces sweep in first
+    // 2. Majestic Snap Assembly
     const cx = COLS / 2 - 0.5, cy = ROWS / 2 - 0.5;
-    const byDistFromCenter = [...ALL_PIECES].sort((a, b) => {
-      const da = Math.hypot(a.col - cx, a.row - cy);
-      const db = Math.hypot(b.col - cx, b.row - cy);
-      return db - da; // outer first
+    const byDist = [...ALL_PIECES].sort((a, b) => {
+      return Math.hypot(b.col - cx, b.row - cy) - Math.hypot(a.col - cx, a.row - cy);
     });
 
-    byDistFromCenter.forEach((p, orderIdx) => {
+    byDist.forEach((p, orderIdx) => {
       const el = els[p.id];
       tl.to(el, {
         x: 0, y: 0, z: 0,
         rotateX: 0, rotateY: 0, rotateZ: 0,
         scale: 1,
         opacity: 1,
-        duration: 2.0,
+        duration: 1.8,
         ease: 'expo.out',
         onComplete: () => {
-          // Snap-flash on each piece clicking into place
           gsap.fromTo(el,
-            { filter: 'brightness(2.2) drop-shadow(0 0 18px rgba(255,200,100,0.9))' },
-            { filter: 'brightness(1) drop-shadow(0 12px 28px rgba(0,0,0,0.55))', duration: 0.5, ease: 'power2.out' }
+            { filter: 'drop-shadow(0 0 25px rgba(242,153,74,0.9)) brightness(1.6)' },
+            { filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.7)) brightness(1.05)', duration: 0.6, ease: 'power2.out' }
           );
         },
-      }, 2.4 + orderIdx * 0.13);
+      }, 2.2 + orderIdx * 0.11);
     });
 
-    // Phase 3 (after assembly): assembled image stays — gentle collective breath
-    const holdStart = 2.4 + byDistFromCenter.length * 0.13 + 2.0 + 0.3;
-
+    // 3. Persistent 3D Floating & Mouse Parallax
+    const holdTime = 2.2 + byDist.length * 0.11 + 1.8;
     tl.to(stageRef.current, {
-      rotateY: 4, rotateX: -2.5,
-      duration: 4,
+      rotateY: 6,
+      rotateX: -4,
+      y: -12,
+      duration: 3.5,
       ease: 'sine.inOut',
       repeat: -1,
       yoyo: true,
-    }, holdStart);
+    }, holdTime);
 
-    // ── Mouse parallax (persistent) ──────────────────────────────
     const onMouse = (e: MouseEvent) => {
-      const ry = (e.clientX / window.innerWidth  - 0.5) * 22;
-      const rx = (e.clientY / window.innerHeight - 0.5) * -14;
+      const ry = (e.clientX / window.innerWidth - 0.5) * 26;
+      const rx = (e.clientY / window.innerHeight - 0.5) * -16;
       gsap.to(stageRef.current, {
-        rotateX: rx, rotateY: ry,
-        duration: 2.0, ease: 'power2.out', overwrite: 'auto',
+        rotateX: rx,
+        rotateY: ry,
+        duration: 2.2,
+        ease: 'power2.out',
+        overwrite: 'auto',
       });
     };
     window.addEventListener('mousemove', onMouse);
@@ -235,9 +216,9 @@ export default function PuzzleImageBackground() {
       ref={wrapRef}
       aria-hidden="true"
       className="absolute inset-0 z-[2] flex items-center justify-center overflow-hidden pointer-events-none"
-      style={{ perspective: '1100px' }}
+      style={{ perspective: '1200px' }}
     >
-      {/* Stage — 840×480 base, scaled up to COVER the hero */}
+      {/* 3D Stage Frame */}
       <div
         ref={stageRef}
         style={{
@@ -245,7 +226,7 @@ export default function PuzzleImageBackground() {
           width: IMG_W,
           height: IMG_H,
           transformStyle: 'preserve-3d',
-          flexShrink: 0,
+          transform: 'rotateX(8deg) rotateY(-4deg)',
         }}
       >
         {ALL_PIECES.map((piece, i) => (
@@ -258,40 +239,40 @@ export default function PuzzleImageBackground() {
               top:  piece.row * CH - T,
               width: PW,
               height: PH,
-              // Real image slice: this piece shows its correct crop of the photo
               backgroundImage: `url('${IMAGE_PATH}')`,
               backgroundSize: `${IMG_W}px ${IMG_H}px`,
               backgroundPosition: `${piece.bgX}px ${piece.bgY}px`,
               backgroundRepeat: 'no-repeat',
-              // Interlocking puzzle shape
               clipPath: `path('${piece.path}')`,
               transformStyle: 'preserve-3d',
               willChange: 'transform, opacity',
-              filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.55)) brightness(1)',
+              filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.7)) brightness(1.05)',
               WebkitBackfaceVisibility: 'hidden',
               backfaceVisibility: 'hidden',
             }}
           >
-            {/* Specular top-left sheen */}
+            {/* 3D Metallic Edge Glow & Specular Highlight */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(135deg, rgba(255,220,140,0.18) 0%, rgba(255,120,60,0.04) 40%, transparent 65%)',
+              background: 'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(242,153,74,0.15) 35%, transparent 70%)',
               pointerEvents: 'none',
             }} />
-            {/* Bottom-right rim darkening */}
             <div style={{
               position: 'absolute', inset: 0,
-              background: 'linear-gradient(315deg, rgba(0,0,0,0.28) 0%, transparent 50%)',
+              background: 'linear-gradient(315deg, rgba(0,0,0,0.4) 0%, transparent 60%)',
               pointerEvents: 'none',
             }} />
           </div>
         ))}
 
-        {/* Vignette over the assembled image */}
+        {/* Ambient Glow behind assembled pieces */}
         <div style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0,0,0,0.6) 100%)',
-          pointerEvents: 'none', zIndex: 1,
+          position: 'absolute',
+          inset: -40,
+          background: 'radial-gradient(ellipse at center, rgba(242,153,74,0.18) 0%, rgba(240,64,92,0.1) 50%, transparent 75%)',
+          filter: 'blur(30px)',
+          pointerEvents: 'none',
+          zIndex: -1,
         }} />
       </div>
     </div>
