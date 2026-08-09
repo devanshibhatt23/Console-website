@@ -106,9 +106,9 @@ export default function Hero() {
         </ParticlesProvider>
       </div>
 
-      {/* Background Image */}
+      {/* Background Image — Ken Burns animated */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-[0.2]" 
+        className="absolute inset-0 z-0 bg-cover bg-center opacity-[0.2] hero-bg-image" 
         style={{ backgroundImage: "url('/images/IMG_1590.jpg')" }} 
       />
 
