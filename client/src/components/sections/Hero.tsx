@@ -122,41 +122,30 @@ export default function Hero() {
           animate="visible"
           className="max-w-5xl mx-auto flex flex-col items-center"
         >
-          {/* Welcome to — Montserrat bold white */}
-          <motion.h2
+          {/* Eyebrow label — small, clean */}
+          <motion.p
             variants={itemVariants}
-            className="font-montserrat cursor-default select-none w-full text-center"
-            style={{
-              fontSize: 'clamp(22px, 4vw, 42px)',
-              fontFamily: "'Montserrat', sans-serif",
-              fontWeight: 900,
-              color: '#ffffff',
-              lineHeight: '0.85',
-              letterSpacing: '-2px',
-              margin: '0',
-              padding: '0',
-              marginTop: '40px',
-            }}
+            className="font-mono text-xs sm:text-sm tracking-[0.25em] uppercase text-white/50 mb-3 select-none"
           >
             Welcome to
-          </motion.h2>
+          </motion.p>
 
           {/* CONSOLE — Montserrat bold gradient, scramble on hover + glow */}
           <div className="relative flex flex-col items-center w-full" style={{ marginTop: '12px', marginBottom: '24px' }}>
             <h1
               className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center"
               style={{
-                fontSize: 'clamp(30px, 6.5vw, 64px)',
+                fontSize: 'clamp(56px, 13vw, 130px)',
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
-                lineHeight: '0.95',
-                letterSpacing: '-2px',
+                lineHeight: '0.88',
+                letterSpacing: '-4px',
                 margin: '0',
                 padding: '0',
                 ...gradientTextStyle,
                 filter: isHoveringConsole
-                  ? 'drop-shadow(0 0 40px rgba(242,153,74,0.7)) drop-shadow(0 0 80px rgba(240,64,92,0.5))'
-                  : 'drop-shadow(0 4px 12px rgba(0,0,0,0.8))',
+                  ? 'drop-shadow(0 0 50px rgba(242,153,74,0.75)) drop-shadow(0 0 100px rgba(240,64,92,0.5))'
+                  : 'drop-shadow(0 4px 16px rgba(0,0,0,0.8))',
               }}
               onMouseEnter={() => setIsHoveringConsole(true)}
               onMouseLeave={() => setIsHoveringConsole(false)}
