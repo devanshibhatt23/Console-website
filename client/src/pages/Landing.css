@@ -523,13 +523,19 @@ html {
 
 .gallery-item-wrapper:hover {
   transform: scale(1.04);
-  border-color: rgba(251, 146, 60, 0.4);
+  border-color: rgba(242, 153, 74, 0.55);
+  box-shadow: 0 8px 32px rgba(242,153,74,0.18), 0 0 0 1px rgba(242,153,74,0.15);
 }
 
 .gallery-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item-wrapper:hover .gallery-img {
+  transform: scale(1.08);
 }
 
 /* Team cards */
