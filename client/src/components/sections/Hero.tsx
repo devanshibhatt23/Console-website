@@ -122,10 +122,10 @@ export default function Hero() {
           animate="visible"
           className="max-w-5xl mx-auto flex flex-col items-center"
         >
-          {/* Eyebrow label — small, clean */}
+          {/* Eyebrow label — bigger, clean */}
           <motion.p
             variants={itemVariants}
-            className="font-mono text-xs sm:text-sm tracking-[0.25em] uppercase text-white/50 mb-3 select-none"
+            className="font-mono text-lg sm:text-xl md:text-2xl tracking-[0.2em] uppercase text-white/60 mb-3 select-none"
           >
             Welcome to
           </motion.p>
