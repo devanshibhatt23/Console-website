@@ -4,7 +4,7 @@ import { ParticlesProvider, Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import PuzzleBackground from '../3d/PuzzleBackground';
+import PuzzleImageBackground from '../3d/PuzzleBackground';
 
 const CONSOLE_TEXT = 'CONSOLE';
 
@@ -59,8 +59,9 @@ export default function Hero() {
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-32 pb-48"
     >
 
-      {/* 3D Floating Puzzle Piece Background */}
-      <PuzzleBackground />
+      {/* ✨ Puzzle Image Assembly — replaces static background image */}
+      {/* Each piece shows a real fragment of IMG_1590.jpg; GSAP animates scatter→assembly→shatter loop */}
+      <PuzzleImageBackground />
 
       {/* Particles */}
       <div className="absolute inset-0 z-0">
@@ -107,11 +108,7 @@ export default function Hero() {
         </ParticlesProvider>
       </div>
 
-      {/* Background Image — Ken Burns animated */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-[0.2] hero-bg-image" 
-        style={{ backgroundImage: "url('/images/IMG_1590.jpg')" }} 
-      />
+      {/* Background Image — removed; puzzle animation reveals image instead */}
 
       {/* 3D Perspective Floor Grid */}
       <div className="hero-perspective-container">

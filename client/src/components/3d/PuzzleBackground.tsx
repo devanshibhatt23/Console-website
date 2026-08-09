@@ -1,305 +1,395 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Real SVG puzzle piece paths — 100×100 coordinate space
-// Each side is either a tab (bump out) or a socket (indent in)
-// ─────────────────────────────────────────────────────────────────────────────
-const PIECE_PATHS = [
-  // A: top-tab, right-tab, bottom-socket, left-socket
-  'M 0,0 L 33,0 C 33,-22 67,-22 67,0 L 100,0 L 100,33 C 122,33 122,67 100,67 L 100,100 L 67,100 C 67,78 33,78 33,100 L 0,100 L 0,67 C 22,67 22,33 0,33 Z',
-  // B: top-socket, right-tab, bottom-tab, left-socket
-  'M 0,0 L 33,0 C 33,22 67,22 67,0 L 100,0 L 100,33 C 122,33 122,67 100,67 L 100,100 L 67,100 C 67,122 33,122 33,100 L 0,100 L 0,67 C 22,67 22,33 0,33 Z',
-  // C: top-tab, right-socket, bottom-tab, left-tab
-  'M 0,0 L 33,0 C 33,-22 67,-22 67,0 L 100,0 L 100,33 C 78,33 78,67 100,67 L 100,100 L 67,100 C 67,122 33,122 33,100 L 0,100 L 0,67 C -22,67 -22,33 0,33 Z',
-  // D: top-socket, right-socket, bottom-socket, left-tab
-  'M 0,0 L 33,0 C 33,22 67,22 67,0 L 100,0 L 100,33 C 78,33 78,67 100,67 L 100,100 L 67,100 C 67,78 33,78 33,100 L 0,100 L 0,67 C -22,67 -22,33 0,33 Z',
-  // E: top-tab, right-tab, bottom-tab, left-tab (all tabs)
-  'M 0,0 L 33,0 C 33,-22 67,-22 67,0 L 100,0 L 100,33 C 122,33 122,67 100,67 L 100,100 L 67,100 C 67,122 33,122 33,100 L 0,100 L 0,67 C -22,67 -22,33 0,33 Z',
-  // F: all sockets
-  'M 0,0 L 33,0 C 33,22 67,22 67,0 L 100,0 L 100,33 C 78,33 78,67 100,67 L 100,100 L 67,100 C 67,78 33,78 33,100 L 0,100 L 0,67 C 22,67 22,33 0,33 Z',
-];
+/* ═══════════════════════════════════════════════════════════════
+   CONFIGURATION
+   ═══════════════════════════════════════════════════════════════ */
+const COLS = 4;
+const ROWS = 3;
+const CW = 210;         // base cell width  (4 × 210 = 840)
+const CH = 160;         // base cell height (3 × 160 = 480)
+const T = 36;           // tab padding — piece extends T px beyond its cell on all sides
+const TH = 30;          // tab curve height (amplitude of the bezier bump)
+const PW = CW + 2 * T;  // full piece div width  = 282
+const PH = CH + 2 * T;  // full piece div height = 232
+const IMG_W = COLS * CW; // 840
+const IMG_H = ROWS * CH; // 480
+const IMAGE_PATH = '/images/IMG_1590.jpg';
 
-// Brand palette — warm oranges, crimsons, ambers; plus a couple of accent cooler tones for depth
-const PIECE_COLORS: [string, string, string][] = [
-  ['#F2994A', '#D97B35', '#FF8C42'],
-  ['#F0405C', '#C8203C', '#FF5B72'],
-  ['#FFB347', '#E89A30', '#FFC764'],
-  ['#E85D26', '#C44015', '#FF7040'],
-  ['#FF6B6B', '#E53935', '#FF9494'],
-  ['#F2994A', '#F0405C', '#FFA65E'],
-  ['#FFAA33', '#D97B35', '#FFC05A'],
-  ['#F0405C', '#A01535', '#FF5B72'],
-  ['#E07B35', '#B85520', '#F2994A'],
-];
+/* ═══════════════════════════════════════════════════════════════
+   INTERLOCKING EDGE TYPES
+   hEdge(c,r) → sign for horizontal boundary between row r and r+1 at col c
+   vEdge(c,r) → sign for vertical boundary between col c and c+1 at row r
+   +1 = tab protrudes forward (down / right)
+   -1 = socket (receiving the tab)
+   Interlocking rule: bottom of piece(c,r) = hEdge(c,r), top of piece(c,r+1) = -hEdge(c,r)
+   ═══════════════════════════════════════════════════════════════ */
+const hEdge = (c: number, r: number): number => (c + r) % 2 === 0 ? 1 : -1;
+const vEdge = (c: number, r: number): number => (c + r + 1) % 2 === 0 ? 1 : -1;
 
-interface Piece {
-  id: number;
-  path: string;
-  size: number;
-  colors: [string, string, string];
-  opacity: number;
-  blur: number;
-  // scatter start (from center in px)
-  sx: number;
-  sy: number;
-  sz: number;
-  srx: number;
-  sry: number;
-  srz: number;
-  // assembly target
-  tx: number;
-  ty: number;
-  tz: number;
-  trz: number;
-}
-
-function buildPieces(): Piece[] {
-  const count = 20;
-  const arr: Piece[] = [];
-  const assemblyRadius = 140;
-
-  // Seeded-ish deterministic values for SSR safety
-  const rng = (seed: number, min: number, max: number) => {
-    const x = Math.sin(seed * 9301 + 49297) * 233280;
-    return min + ((x - Math.floor(x)) * (max - min));
+function getEdgeTypes(col: number, row: number) {
+  return {
+    top:    row === 0        ? 0 : -hEdge(col, row - 1),   // opposite of bottom above
+    bottom: row === ROWS - 1 ? 0 :  hEdge(col, row),
+    right:  col === COLS - 1 ? 0 :  vEdge(col, row),
+    left:   col === 0        ? 0 : -vEdge(col - 1, row),   // opposite of right of neighbour
   };
-
-  for (let i = 0; i < count; i++) {
-    const angle = (i / count) * Math.PI * 2;
-    const scatterAngle = rng(i * 3 + 1, 0, Math.PI * 2);
-    const scatterDist = rng(i * 7 + 2, 350, 700);
-
-    arr.push({
-      id: i,
-      path: PIECE_PATHS[i % PIECE_PATHS.length],
-      size: rng(i * 5 + 3, 55, 130),
-      colors: PIECE_COLORS[i % PIECE_COLORS.length],
-      opacity: rng(i * 11 + 4, 0.45, 0.88),
-      blur: i % 5 === 0 ? rng(i, 1, 2.5) : 0,
-      sx: Math.cos(scatterAngle) * scatterDist,
-      sy: Math.sin(scatterAngle) * scatterDist - 80,
-      sz: rng(i * 13 + 5, -700, 150),
-      srx: rng(i * 17 + 6, 0, 360),
-      sry: rng(i * 19 + 7, 0, 360),
-      srz: rng(i * 23 + 8, 0, 360),
-      // Assembly: loose ellipse, slightly off-center to feel natural
-      tx: Math.cos(angle) * assemblyRadius * (1 + rng(i, -0.25, 0.25)),
-      ty: Math.sin(angle) * assemblyRadius * 0.7 * (1 + rng(i * 2, -0.2, 0.2)),
-      tz: rng(i * 3, -60, 60),
-      trz: rng(i * 4, -25, 25),
-    });
-  }
-  return arr;
 }
 
-const PIECES = buildPieces();
+/* ═══════════════════════════════════════════════════════════════
+   SVG PATH GENERATOR
+   Coordinates are in the piece div's local space.
+   Base cell occupies: x ∈ [T, T+CW], y ∈ [T, T+CH]
+   ═══════════════════════════════════════════════════════════════ */
+function buildPiecePath(col: number, row: number): string {
+  const { top, bottom, right, left } = getEdgeTypes(col, row);
 
-export default function PuzzleBackground() {
-  const wrapRef = useRef<HTMLDivElement>(null);
+  // Cubic bezier tab helper:
+  //   edge: the axis-aligned coordinate of the edge
+  //   mid1/mid2: the range along the perpendicular axis where the tab sits
+  //   dir: +1 = bump outward, -1 = bump inward
+  //   axis: 'x' or 'y'
+  function tab(
+    startX: number, startY: number,
+    endX: number, endY: number,
+    dir: number, axis: 'h' | 'v'
+  ): string {
+    if (axis === 'h') {
+      // horizontal edge: tab goes up/down (y-axis variation)
+      const mx = (startX + endX) / 2;
+      const qx = (endX - startX) * 0.2;
+      return (
+        `L ${mx - qx},${startY}` +
+        ` C ${mx - qx},${startY - dir * TH} ${mx + qx},${startY - dir * TH} ${mx + qx},${startY}` +
+        ` L ${endX},${endY}`
+      );
+    } else {
+      // vertical edge: tab goes left/right (x-axis variation)
+      const my = (startY + endY) / 2;
+      const qy = (endY - startY) * 0.2;
+      return (
+        `L ${startX},${my - qy}` +
+        ` C ${startX + dir * TH},${my - qy} ${startX + dir * TH},${my + qy} ${startX},${my + qy}` +
+        ` L ${endX},${endY}`
+      );
+    }
+  }
+
+  const x0 = T, y0 = T;
+  const x1 = T + CW, y1 = T + CH;
+
+  let d = `M ${x0},${y0}`;
+
+  // TOP (left → right)
+  d += top === 0
+    ? ` L ${x1},${y0}`
+    : tab(x0, y0, x1, y0, top, 'h');
+
+  // RIGHT (top → bottom)
+  d += right === 0
+    ? ` L ${x1},${y1}`
+    : tab(x1, y0, x1, y1, right, 'v');
+
+  // BOTTOM (right → left)
+  d += bottom === 0
+    ? ` L ${x0},${y1}`
+    : tab(x1, y1, x0, y1, -bottom, 'h');  // reversed direction: dir flipped
+
+  // LEFT (bottom → top)
+  d += left === 0
+    ? ` L ${x0},${y0}`
+    : tab(x0, y1, x0, y0, -left, 'v');   // reversed direction
+
+  d += ' Z';
+  return d;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PIECE DATA
+   ═══════════════════════════════════════════════════════════════ */
+interface PieceData {
+  id: number;
+  col: number;
+  row: number;
+  path: string;
+  // Background offset so the image aligns perfectly when assembled
+  bgX: number;
+  bgY: number;
+  // Scatter-state (what GSAP animates FROM on scatter, animates TO on assembly from)
+  scatterX: number;
+  scatterY: number;
+  scatterZ: number;
+  scatterRX: number;
+  scatterRY: number;
+  scatterRZ: number;
+  // Stagger order for assembly — pieces closer to center assemble first
+  assemblyDelay: number;
+}
+
+function deterministicRand(seed: number, min: number, max: number): number {
+  const s = Math.sin(seed * 127.1 + 311.7) * 43758.5453123;
+  return min + (s - Math.floor(s)) * (max - min);
+}
+
+function buildAllPieces(): PieceData[] {
+  const pieces: PieceData[] = [];
+  const cx = COLS / 2 - 0.5;
+  const cy = ROWS / 2 - 0.5;
+
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const id = row * COLS + col;
+      const angle = deterministicRand(id * 3, 0, Math.PI * 2);
+      const dist = deterministicRand(id * 7, 380, 680);
+      // Pieces closer to centre assemble slightly earlier
+      const distFromCenter = Math.hypot(col - cx, row - cy);
+      const maxDist = Math.hypot(cx, cy);
+
+      pieces.push({
+        id,
+        col,
+        row,
+        path: buildPiecePath(col, row),
+        // The background-position that makes this piece show the correct image slice
+        bgX: T - col * CW,
+        bgY: T - row * CH,
+        scatterX: Math.cos(angle) * dist,
+        scatterY: Math.sin(angle) * dist - 60,
+        scatterZ: deterministicRand(id * 13, -500, 80),
+        scatterRX: deterministicRand(id * 17, -200, 200),
+        scatterRY: deterministicRand(id * 19, -200, 200),
+        scatterRZ: deterministicRand(id * 23, -90, 90),
+        assemblyDelay: (1 - distFromCenter / maxDist) * 0.4,
+      });
+    }
+  }
+  return pieces;
+}
+
+// Pre-compute piece data at module level (stable across renders)
+const ALL_PIECES = buildAllPieces();
+
+/* ═══════════════════════════════════════════════════════════════
+   COMPONENT
+   ═══════════════════════════════════════════════════════════════ */
+export default function PuzzleImageBackground() {
+  const perspectiveRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const elRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const pieceRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
 
-  useEffect(() => {
-    const els = elRefs.current.filter(Boolean) as HTMLDivElement[];
-    if (!els.length) return;
-
-    // ── Set initial scatter positions ────────────────────────────────────────
+  const setScatter = useCallback((els: HTMLDivElement[]) => {
     els.forEach((el, i) => {
-      const p = PIECES[i];
+      const p = ALL_PIECES[i];
       gsap.set(el, {
-        x: p.sx,
-        y: p.sy,
-        z: p.sz,
-        rotateX: p.srx,
-        rotateY: p.sry,
-        rotateZ: p.srz,
+        x: p.scatterX,
+        y: p.scatterY,
+        z: p.scatterZ,
+        rotateX: p.scatterRX,
+        rotateY: p.scatterRY,
+        rotateZ: p.scatterRZ,
         opacity: 0,
-        scale: 0.4,
+        scale: 0.55,
       });
     });
+    gsap.set(stageRef.current, { rotateX: 0, rotateY: 0 });
+  }, []);
 
-    // ── Master looping timeline ──────────────────────────────────────────────
-    const tl = gsap.timeline({ repeat: -1, defaults: { ease: 'none' } });
+  useEffect(() => {
+    const els = pieceRefs.current.filter(Boolean) as HTMLDivElement[];
+    if (els.length !== ALL_PIECES.length) return;
 
-    // PHASE 1 — 0..2.5s: fade in & tumble in scatter
+    // Initial state: pieces scattered, invisible
+    setScatter(els);
+
+    /* ─── MAIN TIMELINE ──────────────────────────────────── */
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0 });
+    tlRef.current = tl;
+
+    // PHASE 1 ── 0..2.4s: Pieces materialise scattered, tumbling in 3D
     tl.to(els, {
-      opacity: (i) => PIECES[i]?.opacity ?? 0.6,
+      opacity: 0.9,
       scale: 1,
-      duration: 1.4,
-      stagger: 0.07,
+      duration: 1.6,
+      stagger: { amount: 1.0, from: 'random', ease: 'power1.in' },
       ease: 'power2.out',
     }, 0);
 
+    // While materialising, start rotating (continuous tumble)
     els.forEach((el, i) => {
-      const p = PIECES[i];
+      const p = ALL_PIECES[i];
       tl.to(el, {
-        rotateX: `+=${180 + (i % 3) * 60}`,
-        rotateY: `+=${240 + (i % 4) * 45}`,
-        rotateZ: `+=${120 + (i % 2) * 80}`,
-        x: p.sx * 0.65,
-        y: p.sy * 0.65,
-        duration: 2.4,
-        ease: 'power1.inOut',
-      }, 0.1 + i * 0.04);
+        rotateX: p.scatterRX + deterministicRand(i * 29, 120, 240),
+        rotateY: p.scatterRY + deterministicRand(i * 31, 160, 320),
+        rotateZ: p.scatterRZ + deterministicRand(i * 37, 60, 120),
+        x: p.scatterX * 0.72,
+        y: p.scatterY * 0.72,
+        duration: 2.5,
+        ease: 'sine.inOut',
+      }, 0.1 + deterministicRand(i * 11, 0, 0.3));
     });
 
-    // PHASE 2 — 2.5..5.2s: assemble into ellipse
-    tl.to(els, {
-      x: (i) => PIECES[i]?.tx ?? 0,
-      y: (i) => PIECES[i]?.ty ?? 0,
-      z: (i) => PIECES[i]?.tz ?? 0,
-      rotateX: (i) => (i % 3 - 1) * 18,
-      rotateY: (i) => (i % 2 === 0 ? 1 : -1) * 12,
-      rotateZ: (i) => PIECES[i]?.trz ?? 0,
-      duration: 2.4,
-      stagger: { amount: 0.7, from: 'random' },
-      ease: 'power3.inOut',
-    }, 2.6);
+    // PHASE 2 ── 2.5..5.8s: Grand assembly — pieces fly home
+    // Outer pieces first (more dramatic sweeping motion)
+    const assemblyOrder = [...ALL_PIECES].sort((a, b) => b.assemblyDelay - a.assemblyDelay);
 
-    // PHASE 3 — 5.2..7.5s: hold assembled, slow collective drift
+    assemblyOrder.forEach((p, orderIdx) => {
+      const el = els[p.id];
+      tl.to(el, {
+        x: 0, y: 0, z: 0,
+        rotateX: 0, rotateY: 0, rotateZ: 0,
+        scale: 1,
+        opacity: 1,
+        duration: 2.2,
+        ease: 'expo.out',
+        onComplete: () => {
+          // Brief bright flash as piece snaps home
+          gsap.fromTo(el, { filter: 'brightness(2.5)' }, {
+            filter: 'brightness(1)',
+            duration: 0.4,
+            ease: 'power2.out',
+          });
+        },
+      }, 2.5 + orderIdx * 0.12);
+    });
+
+    // PHASE 3 ── 6.2..10s: Image assembled — gentle collective float + parallax breathing
     tl.to(stageRef.current, {
-      rotateY: '+=6',
-      rotateX: '-=4',
-      duration: 2.2,
+      rotateY: 5,
+      rotateX: -3,
+      duration: 1.8,
       ease: 'sine.inOut',
-    }, 5.3);
+    }, 6.2);
+    tl.to(stageRef.current, {
+      rotateY: -4,
+      rotateX: 2,
+      duration: 2.4,
+      ease: 'sine.inOut',
+    }, 8.0);
 
-    // PHASE 4 — 7.5..9.8s: scatter out + fade
-    tl.to(els, {
-      x: (i) => PIECES[i]?.sx ?? 0,
-      y: (i) => PIECES[i]?.sy ?? 0,
-      z: (i) => PIECES[i]?.sz ?? 0,
-      rotateX: (i) => (PIECES[i]?.srx ?? 0) + 360,
-      rotateY: (i) => (PIECES[i]?.sry ?? 0) + 360,
-      rotateZ: (i) => (PIECES[i]?.srz ?? 0) + 180,
-      opacity: 0,
-      scale: 0.4,
-      duration: 2.2,
-      stagger: { amount: 0.9, from: 'random' },
-      ease: 'power2.in',
-    }, 7.6);
+    // PHASE 4 ── 10.5..13s: Image shatters — pieces explode outward
+    // Center pieces blow out first
+    const shatterOrder = [...ALL_PIECES].sort((a, b) => a.assemblyDelay - b.assemblyDelay);
+    shatterOrder.forEach((p, orderIdx) => {
+      const el = els[p.id];
+      tl.to(el, {
+        x: p.scatterX,
+        y: p.scatterY,
+        z: p.scatterZ,
+        rotateX: p.scatterRX + 360,
+        rotateY: p.scatterRY + 360,
+        rotateZ: p.scatterRZ + 180,
+        opacity: 0,
+        scale: 0.55,
+        duration: 1.6,
+        ease: 'power3.in',
+      }, 10.5 + orderIdx * 0.07);
+    });
 
-    // Reset for next loop
+    // Reset for loop
     tl.call(() => {
-      els.forEach((el, i) => {
-        const p = PIECES[i];
-        gsap.set(el, {
-          x: p.sx, y: p.sy, z: p.sz,
-          rotateX: p.srx, rotateY: p.sry, rotateZ: p.srz,
-          opacity: 0, scale: 0.4,
-        });
-      });
-      gsap.set(stageRef.current, { rotateY: 0, rotateX: 0 });
-    }, [], 9.7);
+      setScatter(els);
+    }, [], 13.0);
 
-    // ── Mouse parallax on the stage ──────────────────────────────────────────
-    const onMouseMove = (e: MouseEvent) => {
-      const rx = ((e.clientY / window.innerHeight) - 0.5) * -22;
-      const ry = ((e.clientX / window.innerWidth) - 0.5) * 32;
+    /* ─── MOUSE PARALLAX ─────────────────────────────────── */
+    const onMouse = (e: MouseEvent) => {
+      if (!stageRef.current) return;
+      const ry = (e.clientX / window.innerWidth - 0.5) * 28;
+      const rx = (e.clientY / window.innerHeight - 0.5) * -18;
       gsap.to(stageRef.current, {
         rotateX: rx,
         rotateY: ry,
-        duration: 2,
+        duration: 2.2,
         ease: 'power2.out',
         overwrite: 'auto',
       });
     };
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mousemove', onMouse);
 
     return () => {
       tl.kill();
-      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousemove', onMouse);
     };
-  }, []);
+  }, [setScatter]);
 
   return (
     <div
-      ref={wrapRef}
+      ref={perspectiveRef}
       aria-hidden="true"
-      className="absolute inset-0 z-[2] overflow-hidden pointer-events-none"
+      className="absolute inset-0 z-[2] flex items-center justify-center overflow-visible pointer-events-none"
       style={{ perspective: '1100px' }}
     >
+      {/* Stage — the assembled image reference frame */}
       <div
         ref={stageRef}
-        className="absolute inset-0 flex items-center justify-center"
-        style={{ transformStyle: 'preserve-3d' }}
+        style={{
+          position: 'relative',
+          width: IMG_W,
+          height: IMG_H,
+          transformStyle: 'preserve-3d',
+          // Slight 3D tilt so assembled image sits naturally
+          transform: 'rotateX(6deg)',
+        }}
       >
-        {PIECES.map((piece, i) => (
+        {ALL_PIECES.map((piece, i) => (
           <div
             key={piece.id}
-            ref={(el) => { elRefs.current[i] = el; }}
-            className="absolute"
+            ref={(el) => { pieceRefs.current[i] = el; }}
             style={{
-              width: piece.size,
-              height: piece.size,
+              position: 'absolute',
+              left: piece.col * CW - T,
+              top: piece.row * CH - T,
+              width: PW,
+              height: PH,
+              // Image fragment: correct slice of background photo
+              backgroundImage: `url('${IMAGE_PATH}')`,
+              backgroundSize: `${IMG_W}px ${IMG_H}px`,
+              backgroundPosition: `${piece.bgX}px ${piece.bgY}px`,
+              backgroundRepeat: 'no-repeat',
+              // Clip to interlocking puzzle piece shape
+              clipPath: `path('${piece.path}')`,
+              // 3D transform inheritance
               transformStyle: 'preserve-3d',
               willChange: 'transform, opacity',
-              filter: [
-                piece.blur > 0 ? `blur(${piece.blur.toFixed(1)}px)` : '',
-                `drop-shadow(0 6px 18px ${piece.colors[0]}55)`,
-              ].filter(Boolean).join(' '),
+              // Depth effect: drop-shadow follows the clip-path contour
+              filter: 'drop-shadow(0 12px 28px rgba(0,0,0,0.55)) brightness(1)',
+              // Tiny border-radius on the piece div (doesn't affect clip-path but softens any AA)
+              WebkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden',
             }}
           >
-            <svg
-              width="100%"
-              height="100%"
-              viewBox="-28 -28 156 156"
-              style={{ overflow: 'visible' }}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <linearGradient
-                  id={`pg-${piece.id}`}
-                  x1="0%" y1="0%" x2="100%" y2="100%"
-                >
-                  <stop offset="0%" stopColor={piece.colors[0]} stopOpacity="0.92" />
-                  <stop offset="100%" stopColor={piece.colors[1]} stopOpacity="0.72" />
-                </linearGradient>
-                <linearGradient
-                  id={`ps-${piece.id}`}
-                  x1="0%" y1="0%" x2="40%" y2="80%"
-                >
-                  <stop offset="0%" stopColor="rgba(255,255,255,0.45)" />
-                  <stop offset="55%" stopColor="rgba(255,255,255,0.08)" />
-                  <stop offset="100%" stopColor="rgba(255,255,255,0)" />
-                </linearGradient>
-              </defs>
-
-              {/* Soft shadow offset */}
-              <path
-                d={piece.path}
-                fill={piece.colors[1]}
-                opacity={0.35}
-                transform="translate(4,5)"
-              />
-
-              {/* Main gradient face */}
-              <path d={piece.path} fill={`url(#pg-${piece.id})`} />
-
-              {/* Specular sheen */}
-              <path d={piece.path} fill={`url(#ps-${piece.id})`} />
-
-              {/* Crisp edge highlight */}
-              <path
-                d={piece.path}
-                fill="none"
-                stroke="rgba(255,255,255,0.28)"
-                strokeWidth="1.8"
-              />
-
-              {/* Inner edge (rim light effect) */}
-              <path
-                d={piece.path}
-                fill="none"
-                stroke={piece.colors[2]}
-                strokeWidth="0.8"
-                opacity="0.5"
-                transform="translate(0.5,0.5)"
-              />
-            </svg>
+            {/* Specular sheen overlay — warm top-left highlight */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(135deg, rgba(255,220,150,0.18) 0%, rgba(255,120,60,0.05) 40%, transparent 65%)',
+                pointerEvents: 'none',
+              }}
+            />
+            {/* Bottom-right rim darkening (gives physical depth illusion) */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(315deg, rgba(0,0,0,0.3) 0%, transparent 50%)',
+                pointerEvents: 'none',
+              }}
+            />
           </div>
         ))}
+
+        {/* Assembled image vignette — only visible when pieces are together */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.65) 100%)',
+            pointerEvents: 'none',
+            zIndex: 1,
+          }}
+        />
       </div>
     </div>
   );
