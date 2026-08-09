@@ -3,9 +3,8 @@ import { Link } from 'react-router-dom';
 import { ParticlesProvider, Particles } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import { motion } from 'framer-motion';
-import { Terminal } from 'lucide-react';
-
 import { useAuth } from '../../context/AuthContext';
+import PuzzleBackground from '../3d/PuzzleBackground';
 
 const CONSOLE_TEXT = 'CONSOLE';
 
@@ -60,6 +59,8 @@ export default function Hero() {
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden pt-32 pb-48"
     >
 
+      {/* 3D Floating Puzzle Piece Background */}
+      <PuzzleBackground />
 
       {/* Particles */}
       <div className="absolute inset-0 z-0">
@@ -189,7 +190,7 @@ export default function Hero() {
           <motion.p
             variants={itemVariants}
             className="text-lg md:text-xl lg:text-2xl font-inter font-medium text-white/80 tracking-wide"
-            style={{ marginBottom: '48px' }}
+            style={{ marginBottom: '40px' }}
           >
             Tech Community of MNIT
           </motion.p>
