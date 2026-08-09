@@ -107,9 +107,10 @@ export default function PuzzleImageBackground() {
     const stage = stageRef.current;
     if (!wrap || !stage) return;
 
-    // Scale puzzle stage elegantly inside the hero stage, preserving crisp 1:1 image density
-    const targetW = Math.min(wrap.offsetWidth * 0.85, 1120);
-    const scale = targetW / IMG_W;
+    // Cover scale calculation — scales the puzzle assembly to fit 100% completely across full hero viewport
+    const scaleX = wrap.offsetWidth / IMG_W;
+    const scaleY = wrap.offsetHeight / IMG_H;
+    const scale = Math.max(scaleX, scaleY) * 1.02;
     gsap.set(stage, { scale, transformOrigin: 'center center' });
   }, []);
 
