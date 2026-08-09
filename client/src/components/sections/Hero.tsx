@@ -112,6 +112,15 @@ export default function Hero() {
         style={{ backgroundImage: "url('/images/IMG_1590.jpg')" }} 
       />
 
+      {/* 3D Perspective Floor Grid */}
+      <div className="hero-perspective-container">
+        <div className="hero-perspective-grid" />
+      </div>
+
+      {/* Dual Glowing Orbs */}
+      <div className="ambient-orb-orange" />
+      <div className="ambient-orb-pink" />
+
       {/* Radial overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/50 to-black z-0" />
 

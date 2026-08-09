@@ -77,8 +77,9 @@ export default function About() {
       <div className="container mx-auto px-6">
         {/* About heading + text — centered */}
         <div ref={headerRef} className="max-w-3xl mx-auto text-center mb-20">
+          <div className="code-section-tag">// ABOUT.CONSOLE</div>
           <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-10">
-            About
+            About Us
           </h2>
 
           <div className="space-y-5 text-center">
@@ -112,31 +113,36 @@ export default function About() {
             <div key={index} ref={(el) => { cardsRef.current[index] = el; }}>
               <Tilt
                 glareEnable={true}
-                glareMaxOpacity={0.12}
+                glareMaxOpacity={0.15}
                 glareColor="#ffffff"
                 glarePosition="all"
-                tiltMaxAngleX={8}
-                tiltMaxAngleY={8}
+                tiltMaxAngleX={10}
+                tiltMaxAngleY={10}
                 className="h-full"
               >
                 <div
-                  className="h-full p-8 rounded-xl border border-white/5 transition-all duration-500 relative overflow-hidden group cursor-default"
-                  style={{ background: 'rgba(10,10,10,0.6)' }}
+                  className="h-full p-8 rounded-xl border border-white/10 backdrop-blur-md transition-all duration-500 relative overflow-hidden group cursor-default"
+                  style={{ background: 'rgba(12, 16, 26, 0.7)' }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor = pillar.borderHover;
                     el.style.background = pillar.hoverBg;
-                    el.style.boxShadow = `0 0 32px ${pillar.hoverBg}, 0 0 64px ${pillar.hoverBg}`;
+                    el.style.boxShadow = `0 10px 40px ${pillar.hoverBg}, 0 0 60px ${pillar.hoverBg}`;
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLElement;
-                    el.style.borderColor = 'rgba(255,255,255,0.05)';
-                    el.style.background = 'rgba(10,10,10,0.6)';
+                    el.style.borderColor = 'rgba(255,255,255,0.1)';
+                    el.style.background = 'rgba(12, 16, 26, 0.7)';
                     el.style.boxShadow = 'none';
                   }}
                 >
+                  {/* Large background number label */}
+                  <span className="absolute top-3 right-5 font-mono font-black text-6xl text-white/[0.04] group-hover:text-white/[0.08] transition-colors pointer-events-none select-none">
+                    0{index + 1}
+                  </span>
+
                   <div className="relative z-10">
-                    <div className="w-14 h-14 rounded-lg bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                    <div className="w-14 h-14 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:border-white/20 transition-all duration-500">
                       <pillar.icon className="w-7 h-7 text-white" />
                     </div>
                     <h3

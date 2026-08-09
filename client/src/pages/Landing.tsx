@@ -144,6 +144,7 @@ export default function Landing() {
         {/* Gallery */}
         <section id="gallery" className="landing-section gallery-section pt-8 pb-6 bg-black">
           <div className="gallery-header text-center mb-10">
+            <div className="code-section-tag">// GALLERY.CONSOLE</div>
             <h2
               className="section-title text-5xl md:text-6xl font-black font-montserrat mb-4"
               style={{
@@ -172,7 +173,13 @@ export default function Landing() {
               Moments from our coding sessions, hackathons, and meetups
             </p>
           </div>
-          <div className="infinite-scroller-container relative overflow-hidden">
+          <div 
+            className="infinite-scroller-container relative overflow-hidden"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+            }}
+          >
             <div className="scroll-row left-to-right">
               <div className="scroll-track">
                 {GALLERY_ROW1.concat(GALLERY_ROW1).map((src, i) => (
@@ -205,6 +212,7 @@ export default function Landing() {
           />
           <div className="container mx-auto px-6 max-w-3xl relative z-10">
             <div className="text-center mb-14" style={{ marginTop: user ? '120px' : '80px' }}>
+              <div className="code-section-tag">// FAQ.CONSOLE</div>
               <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
                 Frequently Asked Questions
               </h2>
@@ -218,13 +226,13 @@ export default function Landing() {
                 <AccordionItem
                   key={i}
                   value={`faq-${i}`}
-                  className="border border-white/10 rounded-xl px-6 bg-white/[0.02] transition-all duration-300"
+                  className="border border-white/10 rounded-xl px-6 bg-white/[0.02] backdrop-blur-sm transition-all duration-300"
                   style={{ borderRadius: '0.75rem' }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor = 'rgba(242,153,74,0.4)';
                     el.style.boxShadow = '0 0 24px rgba(242,153,74,0.18), 0 0 48px rgba(242,153,74,0.07)';
-                    el.style.transform = 'scale(1.02)';
+                    el.style.transform = 'scale(1.01)';
                     el.style.background = 'rgba(242,153,74,0.05)';
                   }}
                   onMouseLeave={(e) => {
@@ -236,10 +244,11 @@ export default function Landing() {
                   }}
                 >
                   <AccordionTrigger
-                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-5 text-base"
+                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-5 text-base flex items-center gap-2"
                     style={{ color: '#fff' }}
                   >
-                    {item.question}
+                    <span className="font-mono text-[#F2994A] font-bold text-lg select-none">&gt;</span>
+                    <span>{item.question}</span>
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground font-inter leading-relaxed pb-5 text-sm">
                     {item.answer}
