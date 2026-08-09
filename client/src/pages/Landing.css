@@ -19,6 +19,38 @@ html {
   will-change: transform;
 }
 
+/* ── Shimmer sweep across gradient text ── */
+@keyframes shimmerSweep {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.console-title-shimmer {
+  background: linear-gradient(
+    90deg,
+    #F2994A 0%,
+    #F0405C 30%,
+    #ffd580 50%,
+    #F0405C 70%,
+    #F2994A 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmerSweep 4s linear infinite;
+}
+
+/* ── Scroll indicator bounce ── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%       { transform: translateY(8px); opacity: 1; }
+}
+
+.scroll-indicator {
+  animation: scrollBounce 1.8s ease-in-out infinite;
+}
+
 /* ============================================================
    LAYOUT & VARIABLES
    ============================================================ */

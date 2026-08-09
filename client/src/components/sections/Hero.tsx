@@ -144,16 +144,15 @@ export default function Hero() {
           {/* CONSOLE — Montserrat bold gradient, scramble on hover + glow */}
           <div className="relative flex flex-col items-center w-full" style={{ marginTop: '12px', marginBottom: '24px' }}>
             <h1
-              className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center"
+              className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 w-full text-center console-title-shimmer"
               style={{
-                fontSize: 'clamp(42px, 12vw, 110px)',
+                fontSize: 'clamp(36px, 8.5vw, 82px)',
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
                 lineHeight: '0.9',
                 letterSpacing: '-3px',
                 margin: '0',
                 padding: '0',
-                ...gradientTextStyle,
                 filter: isHoveringConsole
                   ? 'drop-shadow(0 0 40px rgba(242,153,74,0.7)) drop-shadow(0 0 80px rgba(240,64,92,0.5))'
                   : 'drop-shadow(0 4px 12px rgba(0,0,0,0.8))',
@@ -224,6 +223,13 @@ export default function Hero() {
             )}
           </motion.div>
         </motion.div>
+      </div>
+      {/* Scroll-down indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 pointer-events-none scroll-indicator">
+        <span className="font-mono text-[10px] tracking-widest text-white/40 uppercase">Scroll</span>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 7l6 6 6-6" stroke="#F2994A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
       </div>
     </section>
   );
