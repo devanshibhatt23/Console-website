@@ -85,7 +85,7 @@ export default function Hero() {
             variants={itemVariants}
             className="font-montserrat cursor-default select-none text-left"
             style={{
-              fontSize: 'clamp(32px, 8vw, 72px)',
+              fontSize: 'clamp(32px, 8vw, 79px)',
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 800,
               color: '#ffffff',
@@ -152,7 +152,7 @@ export default function Hero() {
             {!user && (
               <Link
                 to="/login"
-                className="group relative px-6 py-2.5 text-white font-inter font-semibold rounded overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] mt-2"
+                className="group relative px-4 py-2.5 text-sm text-white font-inter font-medium rounded overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] mt-3"
                 style={{
                   background: 'linear-gradient(135deg, #F2994A, #F0405C)',
                   boxShadow: '0 4px 14px rgba(242,153,74,0.25)',
