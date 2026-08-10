@@ -189,8 +189,21 @@ export default function UpcomingEvents() {
         </div>
 
         {loading ? (
-          <div className="flex justify-center items-center h-32">
-            <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="max-w-5xl mx-auto mb-19 animate-pulse">
+            <div className="terminal-panel rounded-2xl overflow-hidden opacity-50">
+              <div className="terminal-header px-5 py-3.5 flex items-center gap-3 bg-white/5">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-white/10" />
+                  <div className="w-3 h-3 rounded-full bg-white/10" />
+                  <div className="w-3 h-3 rounded-full bg-white/10" />
+                </div>
+              </div>
+              <div className="p-6 md:p-8 bg-black/30 h-48 flex flex-col gap-4">
+                <div className="h-6 w-1/4 bg-white/5 rounded" />
+                <div className="h-8 w-3/4 bg-white/5 rounded" />
+                <div className="h-4 w-1/2 bg-white/5 rounded" />
+              </div>
+            </div>
           </div>
         ) : upcomingEvents.length === 0 ? (
           <div className="text-center py-20 border border-white/10 rounded-2xl bg-white/5 border-dashed">
