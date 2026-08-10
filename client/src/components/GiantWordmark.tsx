@@ -2,72 +2,61 @@ import { useRef, useState, useCallback } from 'react';
 
 const WORD = 'CONSOLE';
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const SCRAMBLE_MS = 360; // total scramble duration per letter
-const TICK_MS = 40; // how often a scrambling letter changes
-
-interface LetterState {
-  display: string;
-  scrambling: boolean;
-}
+const SCRAMBLE_MS = 500; // total scramble duration for the whole word
+const TICK_MS = 45; // how often scrambling letters change
 
 /**
  * Full-width giant "CONSOLE" wordmark rendered in the display font.
- * Hovering a letter scrambles it through random characters (~360ms),
- * coloured orange while animating, then resolves back to the real letter.
- * Rapid re-hovering is debounced per letter via an "active" guard.
+ * Hovering anywhere on the word scrambles every letter at once through
+ * random characters (~500ms), coloured orange while animating, then all
+ * letters resolve back to the real word. Re-hovering while active is
+ * debounced via the `active` guard.
  */
 export default function GiantWordmark() {
-  const [letters, setLetters] = useState<LetterState[]>(
-    WORD.split('').map((ch) => ({ display: ch, scrambling: false }))
-  );
+  const [display, setDisplay] = useState<string[]>(WORD.split(''));
+  const [scrambling, setScrambling] = useState(false);
 
-  // Per-letter timers so we can guard against overlapping scrambles.
-  const intervals = useRef<Record<number, ReturnType<typeof setInterval>>>({});
-  const timeouts = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
-  const active = useRef<Record<number, boolean>>({});
+  const interval = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const active = useRef(false);
 
-  const scramble = useCallback((index: number) => {
-    const finalChar = WORD[index];
-    // Debounce: ignore re-hover while this letter is still animating.
-    if (active.current[index]) return;
-    active.current[index] = true;
+  const scrambleAll = useCallback(() => {
+    if (active.current) return;
+    active.current = true;
+    setScrambling(true);
 
-    const start = Date.now();
-
-    intervals.current[index] = setInterval(() => {
-      setLetters((prev) => {
-        const next = [...prev];
-        next[index] = {
-          display: CHARS[Math.floor(Math.random() * CHARS.length)],
-          scrambling: true,
-        };
-        return next;
-      });
+    interval.current = setInterval(() => {
+      setDisplay(
+        WORD.split('').map(
+          () => CHARS[Math.floor(Math.random() * CHARS.length)]
+        )
+      );
     }, TICK_MS);
 
-    timeouts.current[index] = setTimeout(() => {
-      clearInterval(intervals.current[index]);
-      setLetters((prev) => {
-        const next = [...prev];
-        next[index] = { display: finalChar, scrambling: false };
-        return next;
-      });
-      active.current[index] = false;
-    }, Math.max(SCRAMBLE_MS, Date.now() - start));
+    timeout.current = setTimeout(() => {
+      if (interval.current) clearInterval(interval.current);
+      setDisplay(WORD.split(''));
+      setScrambling(false);
+      active.current = false;
+    }, SCRAMBLE_MS);
   }, []);
 
   return (
-    <div className="giant-wordmark" aria-label={WORD} role="img">
-      {letters.map((letter, i) => (
+    <div
+      className="giant-wordmark"
+      aria-label={WORD}
+      role="img"
+      onMouseEnter={scrambleAll}
+    >
+      {display.map((ch, i) => (
         <span
           key={i}
           aria-hidden="true"
-          onMouseEnter={() => scramble(i)}
           className={`giant-wordmark__letter${
-            letter.scrambling ? ' is-scrambling' : ''
+            scrambling ? ' is-scrambling' : ''
           }`}
         >
-          {letter.display}
+          {ch}
         </span>
       ))}
     </div>
