@@ -1,4 +1,3 @@
-import { FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const ORANGE = '#f2994a';
@@ -6,23 +5,19 @@ const ORANGE = '#f2994a';
 const socials = [
   {
     name: 'Instagram',
-    icon: FaInstagram,
     href: 'https://www.instagram.com/console.comm',
   },
   {
     name: 'LinkedIn',
-    icon: FaLinkedin,
     href: 'https://www.linkedin.com/company/consolecommunity/',
   },
   {
     name: 'Whatsapp',
-    icon: FaWhatsapp,
     href: 'https://www.whatsapp.com/',
   },
 ];
 
 const quickLinks = [
-  { label: 'Home', href: '/' },
   { label: 'Team', href: '/team' },
   { label: 'Events', href: '/events' },
   { label: 'Leaderboard', href: '/leaderboard' },
@@ -63,11 +58,10 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 transition-colors duration-200"
+                  className="inline-flex items-center transition-colors duration-200"
                   onMouseEnter={hoverOrange}
                   onMouseLeave={resetColor}
                 >
-                  <social.icon className="w-4 h-4" style={{ color: ORANGE }} />
                   {social.name}
                 </a>
               </li>
