@@ -54,7 +54,10 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex items-center overflow-hidden bg-[#050505] pt-32 pb-48"
+      className="relative min-h-screen w-full flex items-center overflow-hidden pt-32 pb-48"
+      style={{
+        background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(242,100,60,0.18) 0%, rgba(240,64,92,0.10) 40%, #050505 75%)',
+      }}
     >
       {/* Background GlitterWrap component */}
       <div className="absolute inset-0 z-0 opacity-85">
