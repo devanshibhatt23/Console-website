@@ -216,7 +216,7 @@
 }
 
 .res-hero-subtitle {
-  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-size: clamp(0.95rem, 2vw, 0.8rem);
   line-height: 1.7;
   color: var(--res-muted-2);
   margin: 0;
@@ -326,7 +326,7 @@
 
 .res-card-term-label {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 10px;
   color: var(--res-muted);
   flex: 1;
   text-align: center;
@@ -366,7 +366,7 @@
 
 .res-card-index {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--tc);
   letter-spacing: 1px;
@@ -374,8 +374,8 @@
 }
 
 .res-card-icon-wrap {
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   border-radius: 10px;
   background: color-mix(in srgb, var(--tc) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--tc) 25%, transparent);
@@ -392,8 +392,8 @@
 
 .res-card-icon {
   color: var(--tc);
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 }
 
 .res-card-titles {
@@ -404,7 +404,7 @@
 
 .res-card-name {
   font-family: var(--font-title);
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--res-text);
   line-height: 1.2;
@@ -418,7 +418,7 @@
 }
 
 .res-card-sub {
-  font-size: 13px;
+  font-size: 10px;
   color: var(--res-muted);
   margin: 0;
   font-family: var(--font-mono);
@@ -426,7 +426,7 @@
 }
 
 .res-card-desc {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--res-muted-2);
   line-height: 1.65;
   margin: 0;
@@ -443,7 +443,7 @@
 
 .res-card-scope {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 9px;
   color: var(--res-muted);
   padding: 3px 10px;
   border-radius: 100px;
@@ -553,7 +553,7 @@
   border-radius: 6px;
   border: 1px solid;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 2px;
   width: fit-content;
@@ -561,7 +561,7 @@
 
 .rd-title {
   font-family: var(--font-title);
-  font-size: clamp(40px, 6vw, 72px);
+  font-size: clamp(40px, 6vw, 50px);
   font-weight: 800;
   letter-spacing: -2px;
   line-height: 1.05;
@@ -570,7 +570,7 @@
 }
 
 .rd-intro {
-  font-size: 18px;
+  font-size: 14px;
   color: var(--res-muted-2);
   line-height: 1.7;
   margin: 0;
@@ -609,7 +609,7 @@
 
 .rd-ring-done {
   font-family: var(--font-title);
-  font-size: 33px;
+  font-size: 25px;
   font-weight: 800;
   line-height: 1;
 }
@@ -629,7 +629,7 @@
 
 .rd-ring-hint {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 10px;
   color: var(--res);
   text-align: center;
   max-width: 120px;
@@ -662,7 +662,7 @@
 
 .rd-info-key {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -676,7 +676,7 @@
 }
 
 .rd-info-val {
-  font-size: 16px;
+  font-size: 12px;
   color: var(--res);
   line-height: 1.6;
 }
@@ -693,7 +693,7 @@
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-color: rgba(255,255,255,0.18);
-  font-size: 16px;
+  font-size: 12px;
   transition: color 0.15s, text-decoration-color 0.15s;
 }
 
@@ -743,8 +743,8 @@
 
 /* ─── Module node ────────────────────────────────────────── */
 .rd-node {
-  width: 48px;
-  height: 48px;
+  width: 25px;
+  height: 25px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--res-surface);
@@ -818,7 +818,7 @@
 
 .rd-mod-index {
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -827,7 +827,7 @@
 
 .rd-mod-title {
   font-family: var(--font-title);
-  font-size: 27px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.4px;
   color: var(--res-text);
@@ -866,7 +866,7 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -887,7 +887,7 @@
   display: flex;
   align-items: baseline;
   gap: 10px;
-  font-size: 19px;
+  font-size: 13px;
   color: var(--res-muted-2);
   line-height: 1.6;
 }
@@ -949,7 +949,7 @@
   align-items: center;
   gap: 4px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -973,7 +973,7 @@
 
 .rd-res-text {
   flex: 1;
-  font-size: 17px;
+  font-size: 12px;
   color: var(--res-muted-2);
   line-height: 1.4;
   min-width: 0;
@@ -1008,7 +1008,7 @@
 }
 
 .rd-practice-text {
-  font-size: 17px;
+  font-size: 12px;
   color: var(--res-muted-2);
   line-height: 1.65;
   margin: 0;
@@ -1030,7 +1030,7 @@
   align-items: center;
   gap: 5px;
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -1038,7 +1038,7 @@
 }
 
 .rd-checkpoint-text {
-  font-size: 17px;
+  font-size: 12px;
   color: var(--res-muted-2);
   line-height: 1.6;
   margin: 0;

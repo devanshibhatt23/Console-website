@@ -30,3 +30,4 @@ dist-ssr
 client/supabase/.temp/
 client/supabase/.temp/
 client/supabase/.temp/
+.originkit/
