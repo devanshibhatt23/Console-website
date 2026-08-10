@@ -7,6 +7,8 @@ import "./Landing.css";
 
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import SectionDivider from '@/components/SectionDivider';
+import GiantWordmark from '@/components/GiantWordmark';
 import Hero from '@/components/sections/Hero';
 import POTD from '@/components/sections/POTD';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
@@ -269,7 +271,15 @@ export default function Landing() {
         </section>
       </main>
 
+      {/* Divider draws in above the footer */}
+      <SectionDivider />
+
       <Footer />
+
+      {/* Giant scrambling CONSOLE wordmark below the footer */}
+      <div className="bg-card overflow-hidden pb-10 pt-2">
+        <GiantWordmark />
+      </div>
     </div>
   );
 }
