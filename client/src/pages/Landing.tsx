@@ -124,6 +124,7 @@ export default function Landing() {
     };
   }, []);
 
+
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const x = e.clientX;
     const y = e.clientY;
