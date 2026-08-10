@@ -1,6 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { getEvents } from "../services/eventService";
+import { getPOTD } from "../services/problemService";
 import "./Landing.css";
 
 import Navbar from '@/components/layout/Navbar';
@@ -79,6 +81,22 @@ export default function Landing() {
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
 
+  // Pre-fetch data for logged-in users immediately so sections render without loading states
+  const [prefetchedEvents, setPrefetchedEvents] = useState<any[] | undefined>(undefined);
+  const [prefetchedProblem, setPrefetchedProblem] = useState<any | undefined>(undefined);
+
+  useEffect(() => {
+    if (!user) return;
+    // Fire both requests in parallel as soon as user is confirmed
+    Promise.all([
+      getEvents().catch(() => null),
+      getPOTD().catch(() => null),
+    ]).then(([events, potd]) => {
+      if (events) setPrefetchedEvents(events);
+      if (potd) setPrefetchedProblem(potd);
+    });
+  }, [user]);
+
   useEffect(() => {
     if (location.hash) {
       const targetId = location.hash.substring(1);
@@ -136,8 +154,8 @@ export default function Landing() {
         {/* Home page additions — visible only when logged in */}
         {user && (
           <>
-            <UpcomingEvents />
-            <POTD />
+            <UpcomingEvents prefetchedEvents={prefetchedEvents} />
+            <POTD prefetchedProblem={prefetchedProblem} />
           </>
         )}
 

@@ -95,43 +95,51 @@ function sortEvents(events: any[]) {
   });
 }
 
-export default function UpcomingEvents() {
+export default function UpcomingEvents({ prefetchedEvents }: { prefetchedEvents?: any[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!prefetchedEvents);
 
+  function processEvents(allEvents: any[]) {
+    const now = new Date();
+    const futureEvents = allEvents.filter((e: any) => getEventActualDate(e.title, e.event_date) >= now);
+    const sortedData = sortEvents(futureEvents).slice(0, 1);
+    const mapped = sortedData.map((evt: any) => {
+      const evDate = getEventActualDate(evt.title, evt.event_date);
+      const daysLeft = Math.ceil((evDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
+      const isHack = evt.title.toLowerCase().includes('hack');
+      return {
+        title: evt.title,
+        date: formatEventDisplayDate(evt.title, evt.event_date),
+        time: evDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+        location: evt.venue || 'TBA',
+        type: isHack ? 'Hackathon' : evt.title.toLowerCase().includes('ctf') ? 'Competition' : 'Event',
+        status: daysLeft <= 7 ? 'Registration Open' : 'Upcoming',
+        statusColor: daysLeft <= 7 ? 'text-green-400 border-green-400/30 bg-green-400/10' : 'text-yellow-400 border-yellow-400/30 bg-yellow-400/10',
+        typeColor: isHack ? 'text-primary border-primary/30 bg-primary/10' : 'text-secondary border-secondary/30 bg-secondary/10',
+        description: evt.description || 'Join us for this exciting upcoming event!',
+        daysLeft: daysLeft
+      };
+    });
+    return mapped;
+  }
+
+  // If pre-fetched data is provided, use it directly (no loading needed)
   useEffect(() => {
+    if (prefetchedEvents) {
+      setUpcomingEvents(processEvents(prefetchedEvents));
+      setLoading(false);
+      return;
+    }
+    // Otherwise fetch independently
     async function fetchUpcoming() {
       try {
         const allEvents = await getEvents();
         if (allEvents) {
-          const now = new Date();
-          const futureEvents = allEvents.filter((e: any) => getEventActualDate(e.title, e.event_date) >= now);
-          // Only the single nearest upcoming event
-          const sortedData = sortEvents(futureEvents).slice(0, 1);
-          
-          const mapped = sortedData.map((evt: any) => {
-            const evDate = getEventActualDate(evt.title, evt.event_date);
-            const daysLeft = Math.ceil((evDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
-            const isHack = evt.title.toLowerCase().includes('hack');
-            
-            return {
-              title: evt.title,
-              date: formatEventDisplayDate(evt.title, evt.event_date),
-              time: evDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
-              location: evt.venue || 'TBA',
-              type: isHack ? 'Hackathon' : evt.title.toLowerCase().includes('ctf') ? 'Competition' : 'Event',
-              status: daysLeft <= 7 ? 'Registration Open' : 'Upcoming',
-              statusColor: daysLeft <= 7 ? 'text-green-400 border-green-400/30 bg-green-400/10' : 'text-yellow-400 border-yellow-400/30 bg-yellow-400/10',
-              typeColor: isHack ? 'text-primary border-primary/30 bg-primary/10' : 'text-secondary border-secondary/30 bg-secondary/10',
-              description: evt.description || 'Join us for this exciting upcoming event!',
-              daysLeft: daysLeft
-            };
-          });
-          setUpcomingEvents(mapped);
+          setUpcomingEvents(processEvents(allEvents));
         }
       } catch (err) {
         console.error("Failed to fetch upcoming events:", err);
@@ -140,7 +148,7 @@ export default function UpcomingEvents() {
       }
     }
     fetchUpcoming();
-  }, []);
+  }, [prefetchedEvents]);
 
   useEffect(() => {
     if (loading) return;

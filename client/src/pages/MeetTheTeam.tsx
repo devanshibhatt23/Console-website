@@ -1,6 +1,5 @@
-import { useState, CSSProperties, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { useState } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import Footer from '@/components/layout/Footer';
 import { FiMail } from 'react-icons/fi';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
@@ -79,28 +78,6 @@ function IconLink({ href, icon }: { href: string; icon: ReactNode }) {
 /* ── Team member card ────────────────────────────── */
 function MemberCard({ member }: { member: typeof teamMembers[0] }) {
   const [imgError, setImgError] = useState(false);
-  const navigate = useNavigate();
-
-  const handleCardClick = async () => {
-    try {
-      if (member.email) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('id')
-          .eq('email', member.email)
-          .single();
-        
-        if (data?.id) {
-          navigate(`/profile/${data.id}`);
-          return;
-        }
-      }
-      navigate(`/profile/team-${member.name.replace(/\s+/g, '-').toLowerCase()}`, { state: { staticMember: member } });
-    } catch (err) {
-      console.error("Profile not found or error:", err);
-      navigate(`/profile/team-${member.name.replace(/\s+/g, '-').toLowerCase()}`, { state: { staticMember: member } });
-    }
-  };
 
   function getInitials(name: string) {
     return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
@@ -110,8 +87,7 @@ function MemberCard({ member }: { member: typeof teamMembers[0] }) {
 
   return (
     <div 
-      className="flex flex-col items-center p-8 rounded-2xl border border-white/10 bg-[#0d0d0d] transition-all duration-300 hover:border-[#F2994A]/40 hover:shadow-[0_0_30px_rgba(242,153,74,0.12)] hover:-translate-y-1 cursor-pointer"
-      onClick={handleCardClick}
+      className="flex flex-col items-center p-8 rounded-2xl border border-white/10 bg-[#0d0d0d] transition-all duration-300 hover:border-[#F2994A]/40 hover:shadow-[0_0_30px_rgba(242,153,74,0.12)]"
     >
       {/* Circular photo */}
       {!imgError && member.image ? (

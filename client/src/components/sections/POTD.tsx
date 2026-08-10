@@ -7,35 +7,42 @@ import { getPOTD } from '../../services/problemService';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function POTD() {
+function mapProblem(data: any) {
+  return {
+    id: data.id ? data.id.substring(0, 8) : 'P001',
+    title: data.title,
+    platform: data.platform === 'leetcode' ? 'LeetCode' : data.platform === 'codeforces' ? 'Codeforces' : 'Custom',
+    platformColor: data.platform === 'leetcode' ? 'text-yellow-400' : 'text-blue-400',
+    difficulty: data.difficulty,
+    diffColor: data.difficulty === 'Easy' ? 'text-green-400 border-green-400/30 bg-green-400/10' :
+               data.difficulty === 'Hard' ? 'text-red-400 border-red-400/30 bg-red-400/10' :
+               'text-yellow-400 border-yellow-400/30 bg-yellow-400/10',
+    tags: ['POTD', data.platform || 'General'],
+    acceptance: 'N/A',
+    link: data.solution || '#',
+    description: data.description,
+    hint: 'Focus on the constraints and try to find a pattern. Check the platform for official hints.',
+  };
+}
+
+export default function POTD({ prefetchedProblem }: { prefetchedProblem?: any }) {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   
-  const [problem, setProblem] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [problem, setProblem] = useState<any | null>(prefetchedProblem ? mapProblem(prefetchedProblem) : null);
+  const [loading, setLoading] = useState(!prefetchedProblem);
 
   useEffect(() => {
+    if (prefetchedProblem) {
+      setProblem(mapProblem(prefetchedProblem));
+      setLoading(false);
+      return;
+    }
     async function fetchTodayProblem() {
       try {
         const data = await getPOTD();
-        if (data) {
-          setProblem({
-            id: data.id ? data.id.substring(0, 8) : 'P001',
-            title: data.title,
-            platform: data.platform === 'leetcode' ? 'LeetCode' : data.platform === 'codeforces' ? 'Codeforces' : 'Custom',
-            platformColor: data.platform === 'leetcode' ? 'text-yellow-400' : 'text-blue-400',
-            difficulty: data.difficulty,
-            diffColor: data.difficulty === 'Easy' ? 'text-green-400 border-green-400/30 bg-green-400/10' : 
-                       data.difficulty === 'Hard' ? 'text-red-400 border-red-400/30 bg-red-400/10' : 
-                       'text-yellow-400 border-yellow-400/30 bg-yellow-400/10',
-            tags: ['POTD', data.platform || 'General'],
-            acceptance: 'N/A', // Not in DB
-            link: data.solution || '#',
-            description: data.description,
-            hint: 'Focus on the constraints and try to find a pattern. Check the platform for official hints.',
-          });
-        }
+        if (data) setProblem(mapProblem(data));
       } catch (err) {
         console.error("Failed to fetch POTD:", err);
       } finally {
@@ -43,7 +50,7 @@ export default function POTD() {
       }
     }
     fetchTodayProblem();
-  }, []);
+  }, [prefetchedProblem]);
 
   useEffect(() => {
     if (loading) return;
