@@ -256,12 +256,12 @@ export default function Landing() {
                   }}
                 >
                   <AccordionTrigger
-                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-5 text-base"
+                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-4 text-sm"
                     style={{ color: '#fff' }}
                   >
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground font-inter leading-relaxed pb-5 text-sm">
+                  <AccordionContent className="text-muted-foreground font-inter leading-relaxed pb-4 text-xs">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>

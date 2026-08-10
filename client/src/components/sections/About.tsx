@@ -81,23 +81,23 @@ export default function About() {
             About
           </h2>
 
-          <div className="space-y-5 text-center">
-            <p className="text-lg md:text-xl text-white font-inter leading-relaxed font-medium">
+          <div className="space-y-4 text-center">
+            <p className="text-sm md:text-base text-white font-inter leading-relaxed font-medium">
               A tech community to learn and grow, together.
             </p>
-            <p className="text-base md:text-lg text-muted-foreground font-inter leading-relaxed">
+            <p className="text-xs md:text-sm text-muted-foreground font-inter leading-relaxed">
               A place where people brainstorm, build and push each other forward.
             </p>
-            <p className="text-base md:text-lg text-muted-foreground font-inter leading-relaxed">
+            <p className="text-xs md:text-sm text-muted-foreground font-inter leading-relaxed">
               We aim at developing skills that actually shape careers, not just DSA, but teamwork,
               problem-solving, networking, and the ability to take an idea from concept to execution.
             </p>
-            <p className="text-base md:text-lg text-muted-foreground font-inter leading-relaxed">
+            <p className="text-xs md:text-sm text-muted-foreground font-inter leading-relaxed">
               We keep the community up with what's next in tech, and offer mentorship, provide resources
               and a platform to grow alongside your peers.
             </p>
             <p
-              className="text-base md:text-lg font-inter font-semibold leading-relaxed"
+              className="text-xs md:text-sm font-inter font-semibold leading-relaxed"
               style={{ color: '#F2994A' }}
             >
               You think you need any experience to join? You don't! Just show up curious. We will take
@@ -150,7 +150,7 @@ export default function About() {
                     >
                       {pillar.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed font-inter">
+                    <p className="text-xs text-muted-foreground leading-relaxed font-inter">
                       {pillar.description}
                     </p>
                   </div>
