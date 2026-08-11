@@ -21,7 +21,7 @@ export default function Hero() {
 
         <div className="console-terminal-content">
           <h1>Welcome to CONSOLE</h1>
-          <p>Technical Community of MNIT<span className="console-terminal-cursor" aria-hidden="true">_</span></p>
+          <p>Technical Community of MNIT</p>
         </div>
       </div>
     </section>

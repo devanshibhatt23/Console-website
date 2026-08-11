@@ -62,21 +62,11 @@ export default function Loader({ onComplete }: LoaderProps) {
 
             <div className="console-terminal-content">
               <h1>Welcome to CONSOLE</h1>
-              <p>
-                Technical Community of MNIT
-                <span className="console-terminal-cursor" aria-hidden="true">_</span>
-              </p>
+              <p>Technical Community of MNIT</p>
             </div>
-
-            <div className="console-terminal-loading" aria-label={`Loading ${Math.round(progress)} percent`}>
-              <span>loading..{Math.round(progress)}%</span>
-              <div className="console-terminal-progress-track" aria-hidden="true">
-                <motion.div
-                  className="console-terminal-progress"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
+          </div>
+          <div className="console-terminal-loading" aria-label={`Loading ${Math.round(progress)} percent`}>
+            loading..{Math.round(progress)}%
           </div>
         </motion.div>
       ) : (
