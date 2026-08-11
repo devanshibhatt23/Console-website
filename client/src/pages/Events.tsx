@@ -1,5 +1,3 @@
-
-import Footer from '@/components/layout/Footer';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
 import PreviousEvents from '@/components/sections/PreviousEvents';
 import { Calendar } from 'lucide-react';
@@ -56,8 +54,6 @@ export default function Events() {
         {/* Previous Events Section */}
         <PreviousEvents />
       </main>
-
-      <Footer />
     </div>
   );
 }

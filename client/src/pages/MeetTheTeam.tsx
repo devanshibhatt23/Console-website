@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import Footer from '@/components/layout/Footer';
 import { FiMail } from 'react-icons/fi';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
 
@@ -174,8 +173,6 @@ export default function MeetTheTeam() {
 
 
       </main>
-
-      <Footer />
     </div>
   );
 }
