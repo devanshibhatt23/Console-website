@@ -278,7 +278,10 @@ export default function Landing() {
       <Footer />
 
       {/* Giant scrambling CONSOLE wordmark below the footer */}
-      <div className="bg-card overflow-hidden pb-5">
+      <div className="bg-card overflow-hidden pt-4 text-center">
+        <p className="text-xs text-zinc-400 font-inter tracking-wide">
+          Built by the 2026 web dev team at CONSOLE
+        </p>
         <GiantWordmark />
       </div>
     </div>

@@ -552,14 +552,16 @@ html.custom-cursor-active * {
   justify-content: center;
   align-items: center;
   width: 100%;
-  line-height: 0.8;
+  line-height: 1;
+  padding: 0.5rem 0;
+  box-sizing: border-box;
   user-select: none;
 }
 .giant-wordmark__letter {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(4rem, 15vw, 12rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(3.5rem, 18.2vw, 18rem);
+  letter-spacing: -0.05em;
   color: hsl(0 0% 88%);
   display: inline-block;
   transition: color 0.35s ease, transform 0.35s ease;

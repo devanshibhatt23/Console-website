@@ -14,16 +14,18 @@ const TICK_MS = 45; // how often scrambling letters change
  */
 export default function GiantWordmark() {
   const [display, setDisplay] = useState<string[]>(WORD.split(''));
+  const [isHovered, setIsHovered] = useState(false);
   const [scrambling, setScrambling] = useState(false);
 
   const interval = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const active = useRef(false);
 
-  const scrambleAll = useCallback(() => {
-    if (active.current) return;
-    active.current = true;
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
     setScrambling(true);
+
+    if (interval.current) clearInterval(interval.current);
+    if (timeout.current) clearTimeout(timeout.current);
 
     interval.current = setInterval(() => {
       setDisplay(
@@ -37,8 +39,11 @@ export default function GiantWordmark() {
       if (interval.current) clearInterval(interval.current);
       setDisplay(WORD.split(''));
       setScrambling(false);
-      active.current = false;
     }, SCRAMBLE_MS);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
   }, []);
 
   return (
@@ -46,14 +51,15 @@ export default function GiantWordmark() {
       className="giant-wordmark"
       aria-label={WORD}
       role="img"
-      onMouseEnter={scrambleAll}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {display.map((ch, i) => (
         <span
           key={i}
           aria-hidden="true"
           className={`giant-wordmark__letter${
-            scrambling ? ' is-scrambling' : ''
+            isHovered || scrambling ? ' is-scrambling' : ''
           }`}
         >
           {ch}

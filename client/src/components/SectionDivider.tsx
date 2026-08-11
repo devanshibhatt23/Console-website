@@ -22,15 +22,6 @@ export default function SectionDivider() {
           className="h-px w-full"
           style={{ background: 'rgba(242, 153, 74, 0.4)' }}
         />
-        {/* Glowing dot pinned to the center of the line */}
-        <span
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-2 w-2 rounded-full"
-          style={{
-            background: '#f2994a',
-            boxShadow:
-              '0 0 10px 2px rgba(242,153,74,0.8), 0 0 20px 4px rgba(242,153,74,0.4)',
-          }}
-        />
       </motion.div>
     </div>
   );

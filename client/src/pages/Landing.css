@@ -58,7 +58,6 @@ html {
     #F0405C 25%,
     transparent 60%
   );
-  transition: background 0.15s ease-out;
   will-change: background;
 }
 

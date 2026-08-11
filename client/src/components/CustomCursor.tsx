@@ -63,10 +63,10 @@ export default function CustomCursor() {
       glow.style.opacity = '1';
     };
 
-    // Smoothly ease the glow toward the pointer (lerp) at 60fps.
+    // Snap the glow directly to pointer coordinates for 1:1 speed.
     const tick = () => {
-      glowPos.current.x += (target.current.x - glowPos.current.x) * 0.15;
-      glowPos.current.y += (target.current.y - glowPos.current.y) * 0.15;
+      glowPos.current.x = target.current.x;
+      glowPos.current.y = target.current.y;
       glow.style.transform = `translate3d(${glowPos.current.x}px, ${glowPos.current.y}px, 0)`;
       rafRef.current = requestAnimationFrame(tick);
     };
