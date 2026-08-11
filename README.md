@@ -19,7 +19,7 @@ We use Supabase for authentication and our database. The Leaderboard now uses a 
    brew install supabase/tap/supabase
    # Or npm install -g supabase
    ```
-
+ 
 2. **Authenticate the CLI**:
    - Go to [supabase.com](https://supabase.com), log in, go to Account Settings > Access Tokens.
    - Generate a new token and copy it.
