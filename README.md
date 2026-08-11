@@ -10,7 +10,7 @@ The project now consists of three main parts:
 
 ---
 
-## 🚀 Step 1: Supabase Setup (Database)
+## Step 1: Supabase Setup (Database)
 
 We use Supabase for authentication and our database. The Leaderboard now uses a `leaderboard_cache` table to prevent external API rate limits.
 
@@ -43,7 +43,7 @@ We use Supabase for authentication and our database. The Leaderboard now uses a 
 
 ---
 
-## 🚀 Step 2: Backend Setup (`/server`)
+## Step 2: Backend Setup (`/server`)
 
 The backend is required to fetch live Codeforces and LeetCode ratings without hitting rate limits.
 
@@ -71,7 +71,7 @@ The backend is required to fetch live Codeforces and LeetCode ratings without hi
 
 ---
 
-## 🚀 Step 3: Frontend Setup (`/client`)
+## Step 3: Frontend Setup (`/client`)
 
 1. **Navigate and install dependencies**:
    ```bash
@@ -93,7 +93,7 @@ The backend is required to fetch live Codeforces and LeetCode ratings without hi
 
 ---
 
-## 🚀 Step 4: POTD Leaderboard Setup & Local Testing
+## Step 4: POTD Leaderboard Setup & Local Testing
 
 To run and test the new Problem of the Day (POTD) Leaderboard locally:
 
@@ -126,7 +126,7 @@ To run and test the new Problem of the Day (POTD) Leaderboard locally:
 
 ---
 
-## 📝 Recent Major Changes
+## Recent Major Changes
 
 1. **Premium Leaderboard UI**: Completely redesigned `/leaderboard` with dark mode, glassmorphism, glowing text, and smooth staggering animations.
 2. **College ID Field**: Added a required **College ID** field (e.g. `2026BTCS001`) to the Dashboard profile section. This is used by the backend to automatically filter students into "First Year", "Second Year", etc., tabs on the leaderboard.
