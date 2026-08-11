@@ -1,4 +1,4 @@
-# Console Website - Developer Setup Guide
+# Console Website - Developer Setup Guide 
 
 This guide covers everything you need to know to run the Console Website locally, including the newly added Node.js backend (for the Leaderboard) and Supabase caching.
 
