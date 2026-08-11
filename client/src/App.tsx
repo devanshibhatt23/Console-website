@@ -28,6 +28,7 @@ import ProfileView from "./pages/ProfileView";
 import SearchUsers from "./pages/SearchUsers";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/layout/Navbar";
+import CustomCursor from "./components/CustomCursor";
 
 import Loader from '@/components/layout/Loader';
 
@@ -109,6 +110,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        {/* Global custom cursor (auto-disables on touch / reduced-motion) */}
+        <CustomCursor />
+
         {/* Loader — always mounted first, unmounts after exit animation */}
         {loading && <Loader onComplete={handleLoaderComplete} />}
 

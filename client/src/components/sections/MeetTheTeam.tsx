@@ -178,13 +178,12 @@ export default function MeetTheTeam() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {team.map((member, i) => (
             <div key={i} ref={el => { cardsRef.current[i] = el; }}>
               <Tilt tiltMaxAngleX={6} tiltMaxAngleY={6} glareEnable glareMaxOpacity={0.08} className="h-full">
                 <div 
-                  onClick={() => handleCardClick(member)}
-                  className={`relative h-full p-7 rounded-2xl bg-card border border-white/5 ${member.hoverBorder} transition-all duration-500 overflow-hidden group cursor-pointer`}
+                  className={`relative h-full p-4 rounded-xl bg-card border border-white/5 ${member.hoverBorder} transition-all duration-500 overflow-hidden group cursor-default`}
                 >
                   {/* Gradient bg reveal */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${member.gradientFrom} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
@@ -192,7 +191,7 @@ export default function MeetTheTeam() {
                   <div className="relative z-10">
                     {/* Avatar */}
                     <div 
-                      className="w-16 h-16 rounded-2xl border border-white/20 flex items-center justify-center mb-5 font-mono font-bold text-xl text-white group-hover:scale-105 transition-transform duration-300 overflow-hidden"
+                      className="w-12 h-12 rounded-xl border border-white/20 flex items-center justify-center mb-3 font-mono font-bold text-sm text-white group-hover:scale-105 transition-transform duration-300 overflow-hidden"
                       style={{ background: 'linear-gradient(135deg, #F2994A, #F0405C)' }}
                     >
                       {member.photoUrl ? (
@@ -202,8 +201,8 @@ export default function MeetTheTeam() {
                       )}
                     </div>
 
-                    <div className="mb-4">
-                      <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
+                    <div className="mb-3">
+                      <h3 className="text-sm font-bold text-white mb-1">{member.name}</h3>
                       {member.role && (
                         <span className="font-mono text-xs text-primary px-2 py-0.5 rounded bg-primary/10 border border-primary/20">
                           {member.role}
@@ -218,7 +217,7 @@ export default function MeetTheTeam() {
                     )}
 
                     {/* Social links */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                    <div className="flex items-center gap-2 pt-3 border-t border-white/5">
                       {[
                         { href: member.github, Icon: FaGithub, label: 'GitHub' },
                         { href: member.linkedin, Icon: FaLinkedin, label: 'LinkedIn' },
@@ -229,10 +228,10 @@ export default function MeetTheTeam() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={label}
-                          className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-white/40"
+                          className="w-7 h-7 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-colors text-white/40"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <Icon className="w-4 h-4" />
+                          <Icon className="w-3.5 h-3.5" />
                         </a>
                       ))}
                     </div>

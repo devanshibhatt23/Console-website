@@ -137,9 +137,9 @@ export default function MeetTheTeam() {
 
       <main className="pt-24 pb-20 w-full">
         {/* ── Team members ── */}
-        <section className="w-full px-6 md:px-12 lg:px-20 pt-12 mb-24">
+        <section className="w-full px-6 md:px-12 lg:px-20 pt-3 mb-24">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-6">
+            <div className="text-center mb-3">
               <h2 style={headingStyle} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>Meet the team</h2>
             </div>
             <p className="text-center text-gray-400 font-inter text-base" style={{ marginBottom: '64px' }}>
@@ -151,7 +151,7 @@ export default function MeetTheTeam() {
               <div className="text-center mb-13">
                 <h3 style={{ ...headingStyle, fontSize: 'clamp(32px, 5vw, 38px)' }} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>3rd year members</h3>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {teamMembers.slice(0, 8).map((member, i) => (
                   <MemberCard key={`${member.name}-${i}`} member={member} />
                 ))}
@@ -163,7 +163,7 @@ export default function MeetTheTeam() {
               <div className="text-center mb-13 mt-31">
                 <h3 style={{ ...headingStyle, fontSize: 'clamp(32px, 5vw, 38px)' }} onMouseEnter={headingHoverOn} onMouseLeave={headingHoverOff}>2nd year members</h3>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {teamMembers.slice(8).map((member, i) => (
                   <MemberCard key={`${member.name}-${i}`} member={member} />
                 ))}

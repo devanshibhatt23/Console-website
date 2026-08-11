@@ -7,6 +7,8 @@ import "./Landing.css";
 
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import SectionDivider from '@/components/SectionDivider';
+import GiantWordmark from '@/components/GiantWordmark';
 import Hero from '@/components/sections/Hero';
 import POTD from '@/components/sections/POTD';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
@@ -122,6 +124,7 @@ export default function Landing() {
     };
   }, []);
 
+
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const x = e.clientX;
     const y = e.clientY;
@@ -222,7 +225,7 @@ export default function Landing() {
             style={{ background: 'rgba(242,153,74,0.06)' }}
           />
           <div className="container mx-auto px-6 max-w-3xl relative z-10">
-            <div className="text-center mb-14" style={{ marginTop: user ? '120px' : '80px' }}>
+            <div className="text-center mb-16" style={{ marginTop: user ? '120px' : '80px' }}>
               <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
                 Frequently Asked Questions
               </h2>
@@ -254,12 +257,12 @@ export default function Landing() {
                   }}
                 >
                   <AccordionTrigger
-                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-5 text-base"
+                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-4 text-sm"
                     style={{ color: '#fff' }}
                   >
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground font-inter leading-relaxed pb-5 text-sm">
+                  <AccordionContent className="text-muted-foreground font-inter leading-relaxed pb-4 text-xs">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -269,7 +272,15 @@ export default function Landing() {
         </section>
       </main>
 
+      {/* Divider draws in above the footer */}
+      <SectionDivider />
+
       <Footer />
+
+      {/* Giant scrambling CONSOLE wordmark below the footer */}
+      <div className="bg-card overflow-hidden pb-5">
+        <GiantWordmark />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import 'tailwindcss';
+
+/* ── Menseal display font (custom) ──
+   Drop the font files into /public/fonts/ and they load automatically.
+   Until then, headings gracefully fall back to Space Grotesk. */
+@font-face {
+  font-family: 'Menseal';
+  src: url('/fonts/Menseal-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Menseal';
+  src: url('/fonts/Menseal-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -54,6 +73,8 @@
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
   --font-mono: var(--app-font-mono);
+  --font-display: var(--app-font-display);
+  --font-body: var(--app-font-body);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -97,7 +118,13 @@
   --chart-4: 349 100% 62%;
   --chart-5: 280 80% 60%;
 
-  --app-font-sans: 'Inter', sans-serif;
+  /* ── Type system ──
+     --font-display  → Menseal (headings, logo, nav, giant wordmark)
+     --font-body     → Space Grotesk (paragraphs, labels, footer links)
+     Swap either value here and it propagates everywhere. */
+  --app-font-display: 'Menseal', 'Space Grotesk', sans-serif;
+  --app-font-body: 'Space Grotesk', 'Inter', sans-serif;
+  --app-font-sans: var(--app-font-body);
   --app-font-serif: Georgia, serif;
   --app-font-mono: 'JetBrains Mono', monospace;
   --radius: 0.5rem;
@@ -211,7 +238,7 @@
 
 /* ── Section heading gradient (brand orange→pink) ── */
 .section-gradient-title {
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: var(--font-display) !important;
   font-weight: 900 !important;
   font-size: 40px !important;
   background: linear-gradient(90deg, #F2994A, #F0405C) !important;
@@ -273,13 +300,18 @@
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* ── Font helpers ── */
-.font-montserrat {
-  font-family: 'Montserrat', sans-serif;
+/* ── Font helpers ──
+   The site routes all headings through .font-montserrat and all body
+   copy through .font-inter, so repointing these two classes swaps the
+   type system everywhere at once. */
+.font-montserrat,
+.font-display {
+  font-family: var(--font-display);
 }
 
-.font-inter {
-  font-family: 'Inter', sans-serif;
+.font-inter,
+.font-body {
+  font-family: var(--font-body);
 }
 
 /* ── Navbar link hover gradient ── */
@@ -446,4 +478,101 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+/* ── Custom cursor ──
+   Only hide the native cursor when the JS cursor is active (non-touch,
+   pointer devices). Touch and reduced-motion users keep the default. */
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Small solid dot */
+.custom-cursor__dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 9999px;
+  background: #f2994a;
+  z-index: 100000;
+  pointer-events: none;
+  will-change: transform;
+  transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* Soft radial glow that trails the dot */
+.custom-cursor__glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 360px;
+  height: 360px;
+  margin: -180px 0 0 -180px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgba(242, 153, 74, 0.18) 0%,
+    rgba(242, 153, 74, 0.09) 35%,
+    rgba(242, 153, 74, 0) 70%
+  );
+  z-index: 99999;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 0.25s ease, transform 0.15s ease;
+}
+
+/* Enlarged / intensified state over interactive elements */
+.custom-cursor__dot.is-hovering {
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  background: #f2994a;
+}
+.custom-cursor__glow.is-hovering {
+  opacity: 1.15;
+}
+
+/* ── Giant CONSOLE wordmark ── */
+.giant-wordmark {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  line-height: 0.8;
+  user-select: none;
+}
+.giant-wordmark__letter {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(4rem, 15vw, 12rem);
+  letter-spacing: -0.02em;
+  color: hsl(0 0% 88%);
+  display: inline-block;
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+.giant-wordmark__letter.is-scrambling {
+  color: #f2994a;
+  text-shadow: 0 0 24px rgba(242, 153, 74, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor,
+  .custom-cursor__dot,
+  .custom-cursor__glow {
+    transition: none !important;
+  }
 }
