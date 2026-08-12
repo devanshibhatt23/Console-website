@@ -158,8 +158,14 @@ export default function Landing() {
         {/* Hero */}
         <Hero />
 
+        {/* Gap after Hero for signed-out users */}
+        {!user && <div className="h-24" />}
+
         {/* About section — for non-logged-in users, keep it here */}
         {!user && <About />}
+
+        {/* Gap after About for signed-out users */}
+        {!user && <div className="h-24" />}
 
         {/* Home page additions — visible only when logged in */}
         {user && (
@@ -221,6 +227,9 @@ export default function Landing() {
             </div>
           </div>
         </section>
+
+        {/* Gap after Gallery for signed-out users */}
+        {!user && <div className="h-24" />}
 
         {/* About section — for logged-in users, render it here (above FAQ) */}
         {user && <About />}
