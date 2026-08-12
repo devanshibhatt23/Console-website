@@ -79,7 +79,7 @@ const FAQ_ITEMS = [
 ];
 
 export default function Landing() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const location = useLocation();
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -89,16 +89,22 @@ export default function Landing() {
   const [prefetchedProblem, setPrefetchedProblem] = useState<any | undefined>(undefined);
 
   useEffect(() => {
-    if (!user) return;
-    // Fire both requests in parallel as soon as user is confirmed
+    if (authLoading || !user) return;
+    // Fire both requests in parallel as soon as user is confirmed and auth initialized
     Promise.all([
-      getEvents().catch(() => null),
-      getPOTD().catch(() => null),
+      getEvents().catch((err) => {
+        console.warn("Unable to prefetch events:", err);
+        return null;
+      }),
+      getPOTD().catch((err) => {
+        console.warn("Unable to prefetch POTD:", err);
+        return null;
+      }),
     ]).then(([events, potd]) => {
       if (events) setPrefetchedEvents(events);
       if (potd) setPrefetchedProblem(potd);
     });
-  }, [user]);
+  }, [user, authLoading]);
 
   useEffect(() => {
     if (location.hash) {
