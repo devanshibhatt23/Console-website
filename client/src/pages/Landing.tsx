@@ -79,7 +79,7 @@ const FAQ_ITEMS = [
 ];
 
 export default function Landing() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const location = useLocation();
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -89,16 +89,22 @@ export default function Landing() {
   const [prefetchedProblem, setPrefetchedProblem] = useState<any | undefined>(undefined);
 
   useEffect(() => {
-    if (!user) return;
-    // Fire both requests in parallel as soon as user is confirmed
+    if (authLoading || !user) return;
+    // Fire both requests in parallel as soon as user is confirmed and auth initialized
     Promise.all([
-      getEvents().catch(() => null),
-      getPOTD().catch(() => null),
+      getEvents().catch((err) => {
+        console.warn("Unable to prefetch events:", err);
+        return null;
+      }),
+      getPOTD().catch((err) => {
+        console.warn("Unable to prefetch POTD:", err);
+        return null;
+      }),
     ]).then(([events, potd]) => {
       if (events) setPrefetchedEvents(events);
       if (potd) setPrefetchedProblem(potd);
     });
-  }, [user]);
+  }, [user, authLoading]);
 
   useEffect(() => {
     if (location.hash) {
@@ -152,8 +158,14 @@ export default function Landing() {
         {/* Hero */}
         <Hero />
 
+        {/* Gap after Hero for signed-out users */}
+        {!user && <div className="h-24" />}
+
         {/* About section — for non-logged-in users, keep it here */}
         {!user && <About />}
+
+        {/* Gap after About for signed-out users */}
+        {!user && <div className="h-24" />}
 
         {/* Home page additions — visible only when logged in */}
         {user && (
@@ -215,6 +227,9 @@ export default function Landing() {
             </div>
           </div>
         </section>
+
+        {/* Gap after Gallery for signed-out users */}
+        {!user && <div className="h-24" />}
 
         {/* About section — for logged-in users, render it here (above FAQ) */}
         {user && <About />}
