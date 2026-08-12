@@ -3,19 +3,19 @@ import { getEventsWithImages } from "../services/eventService";
 import "./Events.css";
 
 // ── Ordering (Chronological) ──────────────────────────────────────────────────
-const EVENT_ORDER = [
-  "orientation",
-  "ai x programming",
-  "confluence",
-  "git",
-  "recruitment",
-  "concode",
+const LEGACY_EXACT_EVENTS = [
+  ["orientation"],
+  ["ai x programming", "ai × programming"],
+  ["confluence"],
+  ["git-wars"],
+  ["recruitment"],
+  ["concode"],
 ];
 
 function getOrderIndex(title) {
-  const lower = title.toLowerCase();
-  const idx = EVENT_ORDER.findIndex((k) => lower.includes(k));
-  return idx === -1 ? EVENT_ORDER.length : idx;
+  const lower = (title || "").toLowerCase().trim();
+  const idx = LEGACY_EXACT_EVENTS.findIndex((aliases) => aliases.includes(lower));
+  return idx === -1 ? LEGACY_EXACT_EVENTS.length : idx;
 }
 
 function sortEvents(events) {
@@ -24,7 +24,7 @@ function sortEvents(events) {
     const idxB = getOrderIndex(b.title);
     
     // If both are predefined legacy events, keep their requested order
-    if (idxA < EVENT_ORDER.length && idxB < EVENT_ORDER.length) {
+    if (idxA < LEGACY_EXACT_EVENTS.length && idxB < LEGACY_EXACT_EVENTS.length) {
       return idxA - idxB;
     }
     
@@ -49,29 +49,30 @@ function cleanText(text) {
 
 // Map events to display date format requested
 function getEventDisplayDate(title, eventDate) {
-  const lower = title.toLowerCase();
-  if (lower.includes("orientation")) {
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === "orientation") {
     return { day: "06", month: "SEP", year: "2025" };
   }
-  if (lower.includes("ai x programming") || lower.includes("ai × programming")) {
+  if (lower === "ai x programming" || lower === "ai × programming") {
     return { day: "13", month: "OCT", year: "2025" };
   }
-  if (lower.includes("confluence")) {
+  if (lower === "confluence") {
     return { day: "17", month: "JAN", year: "2026" };
   }
-  if (lower.includes("git")) {
+  if (lower === "git-wars") {
     return { day: "14", month: "FEB", year: "2026" };
   }
-  if (lower.includes("recruitment")) {
+  if (lower === "recruitment") {
     return { day: "MAR", month: "APR", year: "2026" };
   }
-  if (lower.includes("concode") || lower.includes("con-code")) {
+  if (lower === "concode") {
     return { day: "11", month: "APR", year: "2026" };
   }
 
   if (!eventDate) return { day: "?", month: "???", year: "????" };
   try {
     const d = new Date(eventDate);
+    if (isNaN(d.getTime())) return { day: "??", month: "???", year: "????" };
     const day = String(d.getDate()).padStart(2, "0");
     const month = d.toLocaleString("default", { month: "short" }).toUpperCase();
     const year = String(d.getFullYear());
@@ -83,7 +84,7 @@ function getEventDisplayDate(title, eventDate) {
 
 // Get event category pill text
 function getEventCategory(title) {
-  const lower = title.toLowerCase();
+  const lower = (title || "").toLowerCase().trim();
   if (lower.includes("orientation")) return "ORIENTATION";
   if (lower.includes("ai x programming") || lower.includes("ai × programming")) return "WORKSHOP";
   if (lower.includes("confluence")) return "EVENT";
@@ -109,13 +110,13 @@ function getEventCoverImage(title, dbImageUrl) {
   if (dbImageUrl && dbImageUrl.trim() !== "") {
     return dbImageUrl;
   }
-  const lower = title.toLowerCase();
-  if (lower.includes("orientation")) return FALLBACK_IMAGES.orientation;
-  if (lower.includes("ai x programming") || lower.includes("ai × programming")) return FALLBACK_IMAGES.aixprogramming;
-  if (lower.includes("confluence")) return FALLBACK_IMAGES.confluence;
-  if (lower.includes("git")) return FALLBACK_IMAGES.gitwars;
-  if (lower.includes("recruitment")) return FALLBACK_IMAGES.recruitment;
-  if (lower.includes("concode") || lower.includes("con-code")) return FALLBACK_IMAGES.concode;
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === "orientation") return FALLBACK_IMAGES.orientation;
+  if (lower === "ai x programming" || lower === "ai × programming") return FALLBACK_IMAGES.aixprogramming;
+  if (lower === "confluence") return FALLBACK_IMAGES.confluence;
+  if (lower === "git-wars") return FALLBACK_IMAGES.gitwars;
+  if (lower === "recruitment") return FALLBACK_IMAGES.recruitment;
+  if (lower === "concode") return FALLBACK_IMAGES.concode;
 
   // No fallback for new/unknown events — caller handles null
   return null;
