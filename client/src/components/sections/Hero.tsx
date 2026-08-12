@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import GlitterWrap from '@/components/originkit/ui/glitterwrap';
 import { useAuth } from '../../context/AuthContext';
@@ -54,11 +53,24 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen w-full flex items-center overflow-hidden pt-32 pb-48"
+      className="relative min-h-[100svh] w-full flex items-center overflow-hidden pt-24 pb-24 md:pt-32 md:pb-48"
       style={{
         background: 'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(242,100,60,0.18) 0%, rgba(240,64,92,0.10) 40%, #050505 75%)',
       }}
     >
+      {/* Mobile override styles — inline style props can't be targeted by Tailwind responsive classes */}
+      <style>{`
+        @media (max-width: 640px) {
+          .hero-welcome-text { font-size: 28px !important; letter-spacing: -0.5px !important; }
+          .hero-console-text  { font-size: 52px !important; letter-spacing: -1px !important; }
+          .hero-subtitle-text { font-size: 9px !important; }
+        }
+        @media (max-width: 400px) {
+          .hero-welcome-text { font-size: 22px !important; }
+          .hero-console-text  { font-size: 44px !important; }
+          .hero-subtitle-text { font-size: 8px !important; }
+        }
+      `}</style>
       {/* Background GlitterWrap component */}
       <div className="absolute inset-0 z-0 opacity-85">
         <GlitterWrap 
@@ -76,24 +88,24 @@ export default function Hero() {
       {/* Light overlay — only darkens right edge to keep text legible */}
       <div className="absolute inset-0 z-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.05) 100%)' }} />
 
-      <div className="relative z-10 container mx-auto px-12 md:px-24 text-left pointer-events-none mt-18">
+      <div className="relative z-10 container mx-auto px-5 sm:px-8 md:px-16 text-left pointer-events-none mt-10 md:mt-18">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl flex flex-col items-start"
+          className="w-full max-w-3xl flex flex-col items-start"
         >
           {/* Welcome to — Montserrat bold white */}
           <motion.h2
             variants={itemVariants}
-            className="font-montserrat cursor-default select-none text-left"
+            className="hero-welcome-text font-montserrat cursor-default select-none text-left"
             style={{
-              fontSize: 'clamp(32px, 8vw, 79px)',
+              fontSize: 'clamp(26px, 7vw, 79px)',
               fontFamily: "'Montserrat', sans-serif",
               fontWeight: 800,
               color: '#ffffff',
               lineHeight: '1.0',
-              letterSpacing: '-2px',
+              letterSpacing: 'clamp(-1px, -0.2vw, -2px)',
               margin: '0',
               padding: '0',
             }}
@@ -104,13 +116,13 @@ export default function Hero() {
           {/* CONSOLE — Montserrat bold gradient, scramble on hover + glow */}
           <div className="relative flex flex-col items-start w-full" style={{ marginTop: '4px', marginBottom: '16px' }}>
             <h1
-              className="font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 text-left"
+              className="hero-console-text font-montserrat cursor-default pointer-events-auto select-none transition-all duration-300 text-left"
               style={{
-                fontSize: 'clamp(48px, 11vw, 120px)',
+                fontSize: 'clamp(38px, 10vw, 120px)',
                 fontFamily: "'Montserrat', sans-serif",
                 fontWeight: 900,
                 lineHeight: '1.0',
-                letterSpacing: '-3px',
+                letterSpacing: 'clamp(-1px, -0.3vw, -3px)',
                 margin: '0',
                 padding: '0',
                 ...gradientTextStyle,
@@ -141,39 +153,12 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-base md:text-[13px] font-minecraft text-gray-400 tracking-wide mb-8 max-w-lg"
+            className="hero-subtitle-text font-minecraft text-gray-400 tracking-wide mb-6 max-w-lg"
+            style={{ fontSize: 'clamp(9px, 2.2vw, 11px)' }}
           >
             Your coding arc begins here
           </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row justify-start gap-4 w-full sm:w-auto pointer-events-auto"
-          >
-            {/* Join the community — hidden when logged in */}
-            {!user && (
-              <Link
-                to="/login"
-                className="group relative px-4 py-2.5 text-sm text-white font-inter font-medium rounded overflow-hidden flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] mt-3"
-                style={{
-                  background: 'linear-gradient(135deg, #F2994A, #F0405C)',
-                  boxShadow: '0 4px 14px rgba(242,153,74,0.25)',
-                  borderRadius: '6px',
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow =
-                    '0 6px 20px rgba(242,153,74,0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow =
-                    '0 4px 14px rgba(242,153,74,0.25)';
-                }}
-              >
-                Join the community
-              </Link>
-            )}
-          </motion.div>
         </motion.div>
       </div>
     </section>

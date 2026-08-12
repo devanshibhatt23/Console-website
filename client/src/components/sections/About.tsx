@@ -6,7 +6,7 @@ export default function About() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-black text-white">
+    <section id="about" className="py-14 md:py-24 relative overflow-hidden bg-black text-white">
       {/* Subtle background radial glow */}
       <div
         className="absolute top-1/2 right-0 w-[500px] h-[500px] rounded-full blur-[140px] pointer-events-none"
@@ -14,13 +14,13 @@ export default function About() {
       />
 
       <div className="container mx-auto px-6 md:px-12 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-end">
           {/* Left Column: Interactive "About Us" giant title */}
           <div className="lg:col-span-7 relative">
             <h2
               className="font-black tracking-tight leading-none select-none flex flex-wrap items-baseline"
               style={{
-                fontSize: 'clamp(5.5rem, 10vw, 13rem)',
+                fontSize: 'clamp(2.5rem, 10vw, 13rem)',
                 fontFamily: "'Menseal', var(--font-display), sans-serif",
               }}
             >

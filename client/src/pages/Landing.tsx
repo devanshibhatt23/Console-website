@@ -159,13 +159,13 @@ export default function Landing() {
         <Hero />
 
         {/* Gap after Hero for signed-out users */}
-        {!user && <div className="h-24" />}
+        {!user && <div className="h-12 md:h-24" />}
 
         {/* About section — for non-logged-in users, keep it here */}
         {!user && <About />}
 
         {/* Gap after About for signed-out users */}
-        {!user && <div className="h-24" />}
+        {!user && <div className="h-12 md:h-24" />}
 
         {/* Home page additions — visible only when logged in */}
         {user && (
@@ -176,10 +176,10 @@ export default function Landing() {
         )}
 
         {/* Gallery */}
-        <section id="gallery" className="landing-section gallery-section pt-8 pb-6 bg-black">
+        <section id="gallery" className="gallery-section pt-6 pb-4 bg-black">
           <div className="gallery-header text-center mb-10">
             <h2
-              className="section-title text-5xl md:text-6xl font-black font-montserrat mb-4"
+              className="section-title text-4xl sm:text-5xl md:text-6xl font-black font-montserrat mb-4"
               style={{
                 background: 'linear-gradient(90deg, #F2994A, #F0405C)',
                 WebkitBackgroundClip: 'text',
@@ -202,7 +202,7 @@ export default function Landing() {
             >
               Life at CONSOLE
             </h2>
-            <p className="section-subtitle text-gray-400 font-inter">
+            <p className="section-subtitle text-sm md:text-base text-gray-400 font-inter">
               Moments from our coding sessions, hackathons, and meetups
             </p>
           </div>
@@ -229,7 +229,7 @@ export default function Landing() {
         </section>
 
         {/* Gap after Gallery for signed-out users */}
-        {!user && <div className="h-24" />}
+        {!user && <div className="h-12 md:h-24" />}
 
         {/* About section — for logged-in users, render it here (above FAQ) */}
         {user && <About />}
@@ -238,14 +238,14 @@ export default function Landing() {
         <OurJourney />
 
         {/* FAQ */}
-        <section id="faq" className="pt-8 pb-16 bg-black relative overflow-hidden">
+        <section id="faq" className="pt-6 pb-12 md:pt-8 md:pb-16 bg-black relative overflow-hidden">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] rounded-full pointer-events-none blur-[120px]"
             style={{ background: 'rgba(242,153,74,0.06)' }}
           />
-          <div className="container mx-auto px-6 max-w-3xl relative z-10">
+          <div className="container mx-auto px-4 md:px-6 max-w-3xl relative z-10">
             <div className="text-center mb-16" style={{ marginTop: user ? '120px' : '80px' }}>
-              <h2 className="section-gradient-title text-4xl md:text-5xl tracking-tight mb-4">
+              <h2 className="section-gradient-title text-3xl sm:text-4xl md:text-5xl tracking-tight mb-4">
                 Frequently Asked Questions
               </h2>
               <p className="text-muted-foreground font-inter mb-4">
@@ -264,19 +264,17 @@ export default function Landing() {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor = 'rgba(242,153,74,0.4)';
                     el.style.boxShadow = '0 0 24px rgba(242,153,74,0.18), 0 0 48px rgba(242,153,74,0.07)';
-                    el.style.transform = 'scale(1.02)';
                     el.style.background = 'rgba(242,153,74,0.05)';
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLElement;
                     el.style.borderColor = 'rgba(255,255,255,0.1)';
                     el.style.boxShadow = 'none';
-                    el.style.transform = 'scale(1)';
                     el.style.background = 'rgba(255,255,255,0.02)';
                   }}
                 >
                   <AccordionTrigger
-                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-4 text-sm"
+                    className="text-left font-montserrat font-semibold text-white hover:no-underline py-4 text-xs md:text-sm"
                     style={{ color: '#fff' }}
                   >
                     {item.question}
