@@ -141,9 +141,9 @@ export default function Hero() {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-base md:text-lg font-inter text-gray-400 tracking-wide mb-8 max-w-lg"
+            className="text-base md:text-[13px] font-minecraft text-gray-400 tracking-wide mb-8 max-w-lg"
           >
-            Tech Community of MNIT
+            Your coding arc begins here
           </motion.p>
 
           {/* CTA Buttons */}
