@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 // Real CONSOLE Event History Data (directly synced with Events Page)
+// Removed Recruitment card and replaced it with CONCODE as the final (5th) card at 130vw.
 const CONSOLE_JOURNEY_DATA = [
   {
     id: 'e1',
@@ -12,7 +13,7 @@ const CONSOLE_JOURNEY_DATA = [
     textColor: '#000000',
     clipPosition: 'left',
     rotation: '-4deg',
-    leftPos: '8vw',
+    leftPos: '10vw',
     topPos: '16%',
   },
   {
@@ -24,7 +25,7 @@ const CONSOLE_JOURNEY_DATA = [
     textColor: '#FFFFFF',
     clipPosition: 'right',
     rotation: '3deg',
-    leftPos: '42vw',
+    leftPos: '40vw',
     topPos: '60%',
   },
   {
@@ -36,7 +37,7 @@ const CONSOLE_JOURNEY_DATA = [
     textColor: '#000000',
     clipPosition: 'left',
     rotation: '-3deg',
-    leftPos: '76vw',
+    leftPos: '70vw',
     topPos: '16%',
   },
   {
@@ -48,32 +49,20 @@ const CONSOLE_JOURNEY_DATA = [
     textColor: '#FFFFFF',
     clipPosition: 'right',
     rotation: '4deg',
-    leftPos: '110vw',
+    leftPos: '100vw',
     topPos: '60%',
   },
   {
     id: 'e5',
-    date: 'MAR 2026',
-    title: 'Recruitments & Mentorship',
-    desc: 'Annual recruitment drive & peer-mentorship onboarding for technical dev teams.',
-    bgColor: '#8B5CF6', // Minecraft Amethyst Violet
-    textColor: '#FFFFFF',
-    clipPosition: 'left',
-    rotation: '-4deg',
-    leftPos: '144vw',
-    topPos: '16%',
-  },
-  {
-    id: 'e6',
     date: 'APR 11, 2026',
     title: 'CONCODE',
-    desc: "CONSOLE's flagship coding competition featuring algorithmic challenges, system design, and live coding with the best minds in MNIT.",
+    desc: "Console Club's flagship 24-hour hackathon, bringing together passionate first-year students to innovate, collaborate, and build impactful projects.",
     bgColor: '#F2994A', // Minecraft Blaze Orange
     textColor: '#000000',
-    clipPosition: 'right',
-    rotation: '3deg',
-    leftPos: '178vw',
-    topPos: '60%',
+    clipPosition: 'left',
+    rotation: '-3deg',
+    leftPos: '130vw',
+    topPos: '16%',
   },
 ];
 
@@ -120,8 +109,8 @@ export default function OurJourney() {
     offset: ['start start', 'end end'],
   });
 
-  // Direct, smooth horizontal translation
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-67%']);
+  // Direct, smooth horizontal translation - completes translation earlier (at 0.88 progress) to bypass page-end scroll limits
+  const x = useTransform(scrollYProgress, [0, 0.88], ['0%', '-64%']);
 
   return (
     <section ref={sectionRef} className="relative h-[280vh] bg-black select-none">
@@ -142,20 +131,9 @@ export default function OurJourney() {
         
         {/* Floating Top-Left Minecraft Badge */}
         <div className="absolute top-8 left-8 z-30 pointer-events-none">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded bg-orange-500/10 border-2 border-orange-500/40 text-orange-400 font-minecraft text-[10px] md:text-xs tracking-wider uppercase shadow-xl backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded bg-orange-500/10 border-2 border-orange-500/40 text-orange-400 font-minecraft text-[10px] md:text-xs tracking-wider uppercase shadow-xl backdrop-blur-md mb-5">
             <span className="w-2.5 h-2.5 rounded-none bg-orange-400 animate-pulse" />
             CONSOLE ARCHIVES
-          </div>
-        </div>
-
-        {/* Bottom Scroll Progress Bar */}
-        <div className="absolute bottom-6 left-8 right-8 z-30 pointer-events-none flex items-center gap-4">
-          <span className="font-minecraft text-[10px] text-zinc-500 uppercase tracking-wider">SCROLL TO EXPLORE TIMELINE</span>
-          <div className="flex-1 h-[4px] bg-white/10 rounded-none overflow-hidden border border-white/20">
-            <motion.div
-              className="h-full bg-gradient-to-r from-orange-500 via-rose-500 to-cyan-500 origin-left"
-              style={{ scaleX: scrollYProgress, transformOrigin: 'left' }}
-            />
           </div>
         </div>
 
@@ -166,21 +144,19 @@ export default function OurJourney() {
         />
 
         {/* Horizontally Animated Track */}
-        <motion.div style={{ x }} className="flex items-center relative w-[230vw] h-full will-change-transform pr-[15vw]">
+        <motion.div style={{ x }} className="flex items-center relative w-[190vw] h-full will-change-transform pr-[15vw]">
           
-          {/* Timeline Center Guideline */}
-          <div className="absolute top-1/2 left-0 right-0 h-[3px] bg-gradient-to-r from-orange-500/40 via-white/30 to-cyan-500/40 border-t-2 border-dashed border-white/30 -translate-y-1/2 pointer-events-none z-0" />
-
-          {/* Giant "OUR JOURNEY!" Background Typography in Minecraft Pixel Font */}
+          {/* Giant "OUR JOURNEY" Background Typography in Menseal Font */}
           <div
-            className="absolute top-1/2 left-[5vw] -translate-y-1/2 flex items-center leading-none pointer-events-none font-minecraft font-bold tracking-tight whitespace-nowrap text-[12vw] md:text-[13vw] text-transparent bg-clip-text z-0 select-none uppercase"
+            className="absolute top-1/2 left-[5vw] -translate-y-1/2 flex items-center leading-none pointer-events-none font-bold tracking-tight whitespace-nowrap text-[17.5vw] md:text-[21.5vw] text-transparent bg-clip-text z-0 select-none uppercase"
             style={{
+              fontFamily: "'Menseal', sans-serif",
               backgroundImage: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(140,140,140,0.55) 100%)',
               filter: 'drop-shadow(0 0 35px rgba(255,255,255,0.15))',
               lineHeight: 1,
             }}
           >
-            OUR JOURNEY!
+            OUR JOURNEY
           </div>
 
           {/* Milestone Clipped Minecraft Tags */}
@@ -189,7 +165,7 @@ export default function OurJourney() {
               key={item.id}
               whileHover={{ scale: 1.06, zIndex: 40, y: -4 }}
               transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-              className="absolute z-20 p-3.5 md:p-4 rounded-lg shadow-2xl cursor-pointer w-[230px] md:w-[265px] border-2 md:border-3 border-black/40 backdrop-blur-sm"
+              className="absolute z-20 p-2.5 md:p-3 rounded-lg shadow-2xl cursor-pointer w-[170px] md:w-[190px] border-2 border-black/40 backdrop-blur-sm"
               style={{
                 backgroundColor: item.bgColor,
                 color: item.textColor,
@@ -203,17 +179,17 @@ export default function OurJourney() {
               <Paperclip isRight={item.clipPosition === 'right'} />
 
               {/* Date Header */}
-              <div className="font-minecraft text-[9px] md:text-[10px] font-bold tracking-wider opacity-90 underline decoration-black/40 mb-1.5 uppercase">
+              <div className="font-minecraft text-[6px] md:text-[7px] font-bold tracking-wider opacity-90 underline decoration-black/40 mb-1.5 uppercase">
                 {item.date}
               </div>
 
               {/* Milestone Title */}
-              <div className="font-minecraft text-[11px] md:text-xs font-bold leading-snug uppercase mb-1.5">
+              <div className="font-minecraft text-[8px] md:text-[9px] font-bold leading-snug uppercase mb-1.5">
                 {item.title}
               </div>
 
               {/* Description */}
-              <div className="font-minecraft-body text-sm md:text-base leading-snug opacity-95 font-medium">
+              <div className="font-minecraft-body text-xs md:text-xs leading-snug opacity-95 font-medium">
                 {item.desc}
               </div>
             </motion.div>
@@ -223,9 +199,3 @@ export default function OurJourney() {
     </section>
   );
 }
-
-
-
-
-
-
