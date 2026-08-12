@@ -12,20 +12,21 @@ gsap.registerPlugin(ScrollTrigger);
 const SHOWN_EVENTS = ['concode', 'git', 'confluence'];
 
 function getOrderIndex(title: string) {
-  const lower = title.toLowerCase();
-  if (lower.includes('concode') || lower.includes('con-code')) return 0;
-  if (lower.includes('git')) return 1;
-  if (lower.includes('confluence')) return 2;
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === 'concode') return 0;
+  if (lower === 'git-wars') return 1;
+  if (lower === 'confluence') return 2;
   return 99;
 }
 
 function formatEventDisplayDate(title: string, eventDate: string): string {
-  const lower = title.toLowerCase();
-  if (lower.includes('confluence')) return 'Jan 17, 2026';
-  if (lower.includes('git')) return 'Feb 14, 2026';
-  if (lower.includes('concode') || lower.includes('con-code')) return 'Apr 11, 2026';
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === 'confluence') return 'Jan 17, 2026';
+  if (lower === 'git-wars') return 'Feb 14, 2026';
+  if (lower === 'concode') return 'Apr 11, 2026';
   try {
     const d = new Date(eventDate);
+    if (isNaN(d.getTime())) return 'TBA';
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   } catch {
     return 'TBA';
@@ -33,7 +34,7 @@ function formatEventDisplayDate(title: string, eventDate: string): string {
 }
 
 function getEventType(title: string): string {
-  const lower = title.toLowerCase();
+  const lower = (title || "").toLowerCase().trim();
   if (lower.includes('concode') || lower.includes('con-code')) return 'Hackathon';
   if (lower.includes('git')) return 'Workshop';
   if (lower.includes('confluence')) return 'Event';
@@ -41,10 +42,10 @@ function getEventType(title: string): string {
 }
 
 function getEventVenue(title: string, venue: string): string {
-  const lower = title.toLowerCase();
-  if (lower.includes('confluence')) return 'NIT Jaipur Campus';
-  if (lower.includes('git')) return 'Computer Lab';
-  if (lower.includes('concode') || lower.includes('con-code')) return 'NIT Jaipur Campus';
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === 'confluence') return 'NIT Jaipur Campus';
+  if (lower === 'git-wars') return 'Computer Lab';
+  if (lower === 'concode') return 'NIT Jaipur Campus';
   return venue || 'TBA';
 }
 
