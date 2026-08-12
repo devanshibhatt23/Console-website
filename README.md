@@ -1,6 +1,6 @@
 <div align="center">
 
-**The official web platform of CONSOLE — Tech Community**
+**The official web platform of CONSOLE - Tech Community**
 
 *Your coding arc begins here.*
 
@@ -121,7 +121,7 @@ Browser  ──→  Vercel (React/Vite)  ──→  Supabase (Auth + DB)
 
 ---
 
-### Step 1 — Clone the Repository
+### Step 1 - Clone the Repository
 
 ```bash
 git clone https://github.com/devanshibhatt23/Console-website.git
@@ -130,7 +130,7 @@ cd Console-website
 
 ---
 
-### Step 2 — Supabase Setup (Database)
+### Step 2 - Supabase Setup (Database)
 
 1. **Install the Supabase CLI:**
    ```bash
@@ -159,7 +159,7 @@ cd Console-website
 
 ---
 
-### Step 3 — Backend Setup (`/server`)
+### Step 3 - Backend Setup (`/server`)
 
 The Express server acts as a CORS proxy and caching layer for the Codeforces and LeetCode APIs.
 
@@ -185,7 +185,7 @@ The Express server acts as a CORS proxy and caching layer for the Codeforces and
 
 ---
 
-### Step 4 — Frontend Setup (`/client`)
+### Step 4 - Frontend Setup (`/client`)
 
 1. **Install dependencies:**
    ```bash
@@ -208,7 +208,7 @@ The Express server acts as a CORS proxy and caching layer for the Codeforces and
 
 ---
 
-### Step 5 — Apply Database Migrations
+### Step 5 - Apply Database Migrations
 
 Open Supabase Studio → SQL Editor, run each file in `supabase/migrations/` chronologically, or reset everything:
 
@@ -244,7 +244,7 @@ Speed Bonus  :  Up to 50 pts, linearly decreasing over 24h from problem publish 
 
 Tiebreakers  :  1. Total score       (descending)
                 2. Total POTDs solved (descending)
-                3. Last solve time   (ascending — earliest wins)
+                3. Last solve time   (ascending - earliest wins)
 ```
 
 ---
@@ -253,7 +253,7 @@ Tiebreakers  :  1. Total score       (descending)
 
 | File | Purpose |
 |---|---|
-| `client/src/pages/Landing.tsx` | Home page — hero, about, events, gallery, timeline |
+| `client/src/pages/Landing.tsx` | Home page - hero, about, events, gallery, timeline |
 | `client/src/components/sections/Hero.tsx` | Animated hero with ASCII logo and glitch effect |
 | `client/src/components/sections/OurJourney.tsx` | Horizontal scroll event timeline |
 | `client/src/pages/Dashboard.jsx` | Member developer hub |
@@ -277,7 +277,7 @@ Please follow existing code style. TypeScript is preferred for new components. N
 
 ## License
 
-This project is the property of **CONSOLE — Tech Community**.  
+This project is the property of **CONSOLE - Tech Community**.  
 All rights reserved © 2026–27 CONSOLE.
 
 ---
