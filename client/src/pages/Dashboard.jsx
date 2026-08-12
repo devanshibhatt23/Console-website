@@ -398,7 +398,7 @@ export default function Dashboard() {
                 className="dp-banner dp-banner-warn"
                 initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
               >
-                Complete your profile: You must verify and connect at least one platform handle (Codeforces or LeetCode) to unlock the rest of the site.
+                Complete your profile: You must verify and connect at least one platform handle (Codeforces or LeetCode) to unlock leaderboard and POTD page.
               </motion.div>
             )}
             {successMsg && (
