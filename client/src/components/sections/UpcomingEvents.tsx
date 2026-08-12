@@ -9,67 +9,68 @@ import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EVENT_ORDER = [
-  "orientation",
-  "ai x programming",
-  "confluence",
-  "git",
-  "recruitment",
-  "concode",
+const LEGACY_EXACT_EVENTS = [
+  ["orientation"],
+  ["ai x programming", "ai × programming"],
+  ["confluence"],
+  ["git-wars"],
+  ["recruitment"],
+  ["concode"],
 ];
 
 function getOrderIndex(title: string) {
-  const lower = title.toLowerCase();
-  const idx = EVENT_ORDER.findIndex((k) => lower.includes(k));
-  return idx === -1 ? EVENT_ORDER.length : idx;
+  const lower = (title || "").toLowerCase().trim();
+  const idx = LEGACY_EXACT_EVENTS.findIndex((aliases) => aliases.includes(lower));
+  return idx === -1 ? LEGACY_EXACT_EVENTS.length : idx;
 }
 
 function getEventActualDate(title: string, dbDate: string): Date {
-  const lower = title.toLowerCase();
-  if (lower.includes("orientation")) {
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === "orientation") {
     return new Date("2025-09-06T17:19:01Z");
   }
-  if (lower.includes("ai x programming") || lower.includes("ai × programming")) {
+  if (lower === "ai x programming" || lower === "ai × programming") {
     return new Date("2025-10-13T17:23:28Z");
   }
-  if (lower.includes("confluence")) {
+  if (lower === "confluence") {
     return new Date("2026-01-17T20:03:40Z");
   }
-  if (lower.includes("git")) {
+  if (lower === "git-wars") {
     return new Date("2026-02-14T17:16:36Z");
   }
-  if (lower.includes("recruitment")) {
+  if (lower === "recruitment") {
     return new Date("2026-04-01T16:22:01Z");
   }
-  if (lower.includes("concode") || lower.includes("con-code")) {
+  if (lower === "concode") {
     return new Date("2026-04-11T17:15:00Z");
   }
   return new Date(dbDate);
 }
 
 function formatEventDisplayDate(title: string, eventDate: string): string {
-  const lower = title.toLowerCase();
-  if (lower.includes("orientation")) {
+  const lower = (title || "").toLowerCase().trim();
+  if (lower === "orientation") {
     return "Sep 6, 2025";
   }
-  if (lower.includes("ai x programming") || lower.includes("ai × programming")) {
+  if (lower === "ai x programming" || lower === "ai × programming") {
     return "Oct 13, 2025";
   }
-  if (lower.includes("confluence")) {
+  if (lower === "confluence") {
     return "Jan 17, 2026";
   }
-  if (lower.includes("git")) {
+  if (lower === "git-wars") {
     return "Feb 14, 2026";
   }
-  if (lower.includes("recruitment")) {
+  if (lower === "recruitment") {
     return "Mar–Apr 2026";
   }
-  if (lower.includes("concode") || lower.includes("con-code")) {
+  if (lower === "concode") {
     return "Apr 11, 2026";
   }
 
   try {
     const d = new Date(eventDate);
+    if (isNaN(d.getTime())) return "TBA";
     return d.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
@@ -85,7 +86,7 @@ function sortEvents(events: any[]) {
     const idxA = getOrderIndex(a.title);
     const idxB = getOrderIndex(b.title);
     
-    if (idxA < EVENT_ORDER.length && idxB < EVENT_ORDER.length) {
+    if (idxA < LEGACY_EXACT_EVENTS.length && idxB < LEGACY_EXACT_EVENTS.length) {
       return idxA - idxB;
     }
     
