@@ -27,3 +27,10 @@ dist-ssr
 
 # Supabase
 supabase/.temp/
+
+# Temporary directories
+scratch/
+replit-temp/
+code-nexus-temp/
+client/scratch/
+client/replit-temp/

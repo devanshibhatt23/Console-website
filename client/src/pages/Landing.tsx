@@ -13,6 +13,7 @@ import Hero from '@/components/sections/Hero';
 import POTD from '@/components/sections/POTD';
 import UpcomingEvents from '@/components/sections/UpcomingEvents';
 import About from '@/components/sections/About';
+import OurJourney from '@/components/sections/OurJourney';
 import {
   Accordion,
   AccordionContent,
@@ -139,7 +140,7 @@ export default function Landing() {
   return (
     <div
       ref={containerRef}
-      className="bg-black min-h-screen text-foreground overflow-hidden selection:bg-primary/30 selection:text-white"
+      className="bg-black min-h-screen text-foreground overflow-x-clip selection:bg-primary/30 selection:text-white"
       onMouseMove={handleMouseMove}
     >
       {/* Spotlight cursor effect — sits above content, below navbar */}
@@ -217,6 +218,9 @@ export default function Landing() {
 
         {/* About section — for logged-in users, render it here (above FAQ) */}
         {user && <About />}
+
+        {/* Our Journey section */}
+        <OurJourney />
 
         {/* FAQ */}
         <section id="faq" className="pt-8 pb-16 bg-black relative overflow-hidden">
