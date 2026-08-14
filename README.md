@@ -31,8 +31,7 @@
 
 | Feature | Description |
 |---|---|
-| **Hero Section** | Animated terminal-style intro with RGB glitch hover effect on the CONSOLE title |
-| **ASCII Logo** | Hand-crafted `</>` ASCII art with wave & glow hover effects |
+| **Hero Section** | Animated terminal-style intro |
 | **About Us** | Club mission, values, and community overview |
 | **Life at CONSOLE** | Photo gallery showcasing events and club culture |
 | **Console Archive** | Horizontal scroll timeline of all past CONSOLE events with Minecraft-style cards |
@@ -56,7 +55,6 @@
 ### Admin Panel
 
 - Manage events (create, edit, delete, toggle registration)
-- Approve/reject member registrations
 - Set the active Problem of the Day
 - View and manage all member profiles
 
@@ -110,114 +108,6 @@ Browser  ──→  Vercel (React/Vite)  ──→  Supabase (Auth + DB)
 
 ---
 
-## Local Development Setup
-
-### Prerequisites
-
-- Node.js v18+
-- npm or yarn
-- [Supabase CLI](https://supabase.com/docs/guides/cli)
-- Access to the CONSOLE Supabase project *(ask a team lead)*
-
----
-
-### Step 1 - Clone the Repository
-
-```bash
-git clone https://github.com/devanshibhatt23/Console-website.git
-cd Console-website
-```
-
----
-
-### Step 2 - Supabase Setup (Database)
-
-1. **Install the Supabase CLI:**
-   ```bash
-   brew install supabase/tap/supabase
-   # or: npm install -g supabase
-   ```
-
-2. **Authenticate:**
-   ```bash
-   supabase login
-   ```
-   *(Generate an access token at supabase.com → Account → Access Tokens)*
-
-3. **Link to the CONSOLE project:**
-   ```bash
-   supabase link --project-ref <project-ref>
-   ```
-   *(Ask a team lead for the project ref and database password)*
-
-4. **Pull migrations and start locally:**
-   ```bash
-   supabase db pull
-   supabase start
-   ```
-   *Supabase Studio will be at `http://localhost:54323`*
-
----
-
-### Step 3 - Backend Setup (`/server`)
-
-The Express server acts as a CORS proxy and caching layer for the Codeforces and LeetCode APIs.
-
-1. **Install dependencies:**
-   ```bash
-   cd server
-   npm install
-   ```
-
-2. **Create `server/.env`:**
-   ```env
-   VITE_SUPABASE_URL=http://localhost:54321
-   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-   PORT=5000
-   ```
-   > Note: The server uses the **Service Role Key** to bypass Row Level Security when writing leaderboard cache to the DB.
-
-3. **Start the server:**
-   ```bash
-   node index.js
-   ```
-   You should see: *"Fetching fresh leaderboard data from external APIs..."*
-
----
-
-### Step 4 - Frontend Setup (`/client`)
-
-1. **Install dependencies:**
-   ```bash
-   cd client
-   npm install
-   ```
-
-2. **Create `client/.env`:**
-   ```env
-   VITE_SUPABASE_URL=http://localhost:54321
-   VITE_SUPABASE_ANON_KEY=your-anon-key
-   VITE_API_BASE_URL=http://localhost:5000
-   ```
-
-3. **Start the dev server:**
-   ```bash
-   npm run dev
-   ```
-   App runs at `http://localhost:5173`
-
----
-
-### Step 5 - Apply Database Migrations
-
-Open Supabase Studio → SQL Editor, run each file in `supabase/migrations/` chronologically, or reset everything:
-
-```bash
-supabase db reset
-```
-
----
-
 ## Key API Endpoints
 
 | Method | Endpoint | Description |
@@ -254,7 +144,6 @@ Tiebreakers  :  1. Total score       (descending)
 | File | Purpose |
 |---|---|
 | `client/src/pages/Landing.tsx` | Home page - hero, about, events, gallery, timeline |
-| `client/src/components/sections/Hero.tsx` | Animated hero with ASCII logo and glitch effect |
 | `client/src/components/sections/OurJourney.tsx` | Horizontal scroll event timeline |
 | `client/src/pages/Dashboard.jsx` | Member developer hub |
 | `client/src/pages/POTD.jsx` | Problem of the Day with auto solve verification |
@@ -264,20 +153,9 @@ Tiebreakers  :  1. Total score       (descending)
 
 ---
 
-## Contributing
-
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Commit with a clear message: `git commit -m 'feat: add your feature'`
-4. Push and open a Pull Request against `main`
-
-Please follow existing code style. TypeScript is preferred for new components. New pages go in `client/src/pages/`, reusable UI in `client/src/components/`.
-
----
-
 ## License
 
-This project is the property of **CONSOLE - Tech Community**.  
+This project is the property of **CONSOLE Web dev team**.  
 All rights reserved © 2026–27 CONSOLE.
 
 ---
@@ -286,6 +164,6 @@ All rights reserved © 2026–27 CONSOLE.
 
 Star this repo if you're part of the CONSOLE community.
 
-`< / >` &nbsp;·&nbsp; [console.net.in](https://console.net.in) &nbsp;·&nbsp; CONSOLE
+[console.net.in](https://console.net.in) &nbsp;·&nbsp; CONSOLE
 
 </div>
