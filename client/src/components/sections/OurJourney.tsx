@@ -32,7 +32,7 @@ const CONSOLE_JOURNEY_DATA = [
     id: 'e3',
     date: 'JAN 17, 2026',
     title: 'Confluence 2026',
-    desc: 'Our annual tech fest bringing together developers, designers, and innovators for a day of learning, networking, and collaboration.',
+    desc: 'Building the foundation of thoughtful learning where teams solved challenges through discussion, reasoning, and key mindset pillars.',
     bgColor: '#0EA5E9', // Minecraft Diamond Cyan
     textColor: '#000000',
     clipPosition: 'left',
