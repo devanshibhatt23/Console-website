@@ -57,7 +57,7 @@ const fallbackEvents = [
     type: 'Event',
     participants: '200+',
     description:
-      'Our annual tech fest bringing together developers, designers, and innovators for a day of learning, networking, and collaboration.',
+      'Building the foundation of thoughtful learning where teams solved challenges through discussion, reasoning, and key mindset pillars.',
     image_url: 'https://gxbhswojyrlifgqhjwqv.supabase.co/storage/v1/object/public/event-images/IMG_20260117_134333116_HDR.jpg',
   },
   {
