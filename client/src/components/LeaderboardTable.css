@@ -100,8 +100,8 @@
                 border-color 0.25s ease,
                 background 0.25s ease;
 
-    opacity: 0;
-    transform: translateY(16px);
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .lb-row[data-in='true'] {
