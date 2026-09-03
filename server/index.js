@@ -772,8 +772,10 @@ const refreshPOTDLeaderboardCache = async () => {
 app.get('/api/leaderboard', async (req, res) => {
     try {
         const now = Date.now();
-        // 1. If memory cache is valid, return instantly (<5ms)
-        if (memoryLeaderboardCache && (now - memoryLeaderboardLastUpdated) < CACHE_TTL_MS) {
+        const forceRefresh = req.query.refresh === 'true';
+
+        // 1. If memory cache is valid (and not force-refreshing), return instantly (<5ms)
+        if (!forceRefresh && memoryLeaderboardCache && (now - memoryLeaderboardLastUpdated) < CACHE_TTL_MS) {
             return res.json(memoryLeaderboardCache);
         }
 
@@ -784,7 +786,9 @@ app.get('/api/leaderboard', async (req, res) => {
             memoryLeaderboardLastUpdated = Date.now();
             
             // If cache was stale (>12h), trigger background refresh without delaying the user
-            refreshLeaderboardCache().catch(err => console.error('Background leaderboard refresh error:', err.message));
+            if (!forceRefresh) {
+                refreshLeaderboardCache().catch(err => console.error('Background leaderboard refresh error:', err.message));
+            }
 
             return res.json(supabaseCached);
         }

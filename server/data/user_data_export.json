@@ -1,0 +1,2148 @@
+{
+  "exportDate": "2026-07-15T17:55:47.008Z",
+  "source": "Console Platform (console.net.in) - Data Migration Export",
+  "users": [
+    {
+      "name": "Divyansh Pokharna",
+      "email": "2023uai1804@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "divyanshpokharna" },
+      "codeforces": { "handle": "divy19905" }
+    },
+    {
+      "name": "Rishabh Kumar Patel",
+      "email": "2023uai1803@mnit.ac.in",
+      "branch": "AIDE",
+      "leetcode": { "handle": "RK_Patel" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PRITAM BARMAN",
+      "email": "2023ucp1608@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "pritamzzziscoding" },
+      "codeforces": { "handle": "pritamzzziscoding" }
+    },
+    {
+      "name": "MAAHIR TANEJA",
+      "email": "2023ucp1587@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "maahirtaneja" },
+      "codeforces": { "handle": "maahirtaneja" }
+    },
+    {
+      "name": "ROHAN BHATI",
+      "email": "2023uai1809@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Rohan_Bhati13" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Simran",
+      "email": "2023ucp1610@mnit.ac.in",
+      "branch": "CSE",
+      "leetcode": { "handle": "simran_123456" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHIVAM KUNTAL",
+      "email": "2023uai1888@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "uv5xQVMkNR" },
+      "codeforces": { "handle": "shivamkuntal0802" }
+    },
+    {
+      "name": "RATHOD PRATHAM BHARAT",
+      "email": "2023uai1794@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Pratham_Rathod" },
+      "codeforces": { "handle": "pR67" }
+    },
+    {
+      "name": "Parth Gandhi",
+      "email": "2024ucp1094@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "parthgandhi_22" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ANAS PARWEZ",
+      "email": "2024uec1771@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": "anas_07_" },
+      "codeforces": { "handle": "Anas_07_" }
+    },
+    {
+      "name": "MANGLESH PATIDAR",
+      "email": "2024uai1472@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "mangalpatel01" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "RAMANI LAKSHIT",
+      "email": "2023ucp1611@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Lakshit_Ramani" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "MAHAK AGRAWAL",
+      "email": "2023uai1801@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "mahak_agrawal12" },
+      "codeforces": { "handle": "Mahak_20" }
+    },
+    {
+      "name": "Akshat Agrawal",
+      "email": "2025uee1073@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "akshat6935" }
+    },
+    {
+      "name": "ANURAG PANWAR",
+      "email": "2023uai1812@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "anuragpm214" },
+      "codeforces": { "handle": "anuragpm214" }
+    },
+    {
+      "name": "VIKAS SINGH",
+      "email": "2023ucp1582@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Raghunandan Jhanwar",
+      "email": "2024ucp1307@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "RACHIT MITTAL",
+      "email": "2023ucp1634@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "rachitmittal1634" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "MEHUL GOYAL",
+      "email": "2023ucp1603@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Mehul_Goyal" },
+      "codeforces": { "handle": "Mehul_Goyal" }
+    },
+    {
+      "name": "AKSHAYPAL BHADU",
+      "email": "2023ucp1651@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "akshaypal_bishnoi" },
+      "codeforces": { "handle": "akshay_20_9_e" }
+    },
+    {
+      "name": "RAJAT KHEDAR",
+      "email": "2023uai1821@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "rajatkhedar123" },
+      "codeforces": { "handle": "rajatkhedar123" }
+    },
+    {
+      "name": "Hardik Kumawat",
+      "email": "2024uai1500@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "hardik05k" }
+    },
+    {
+      "name": "SHUBHRATI PATEL",
+      "email": "2023ucp1624@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "_Progan_0309" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHAH MEET",
+      "email": "2023ucp1631@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Meetshah_3111" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHALVIN DIDWANIYA",
+      "email": "2023uai1811@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "ShalvinDidwaniya" },
+      "codeforces": { "handle": "Shalvin" }
+    },
+    {
+      "name": "TANVI AGGARWAL",
+      "email": "2023ucp1600@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Tanvi001" },
+      "codeforces": { "handle": "tanviaggarwal0097" }
+    },
+    {
+      "name": "VINIT KHORWAL",
+      "email": "2023ucp1683@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "ViNiT-72" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "DHRUV PARASHAR",
+      "email": "2023uai1820@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "dhruv_parashar673" },
+      "codeforces": { "handle": "2023uai1820" }
+    },
+    {
+      "name": "PALAPARTHI DINESH KUMAR",
+      "email": "2024uai1458@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Aashu6837" },
+      "codeforces": { "handle": "DineshPalaparthi" }
+    },
+    {
+      "name": "JOSHI KRUPABEN PRAHALADBHAI",
+      "email": "2024ucp1220@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "krupa99136" },
+      "codeforces": { "handle": "Krupa17" }
+    },
+    {
+      "name": "MADHWAN SAINI",
+      "email": "2024uai1441@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "madhwan.saini" }
+    },
+    {
+      "name": "LAKSHYA DHAKAD",
+      "email": "2024uai1174@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "_Lakshya" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Deepansu Singh Bora",
+      "email": "2024uee1471@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": "usnpd" },
+      "codeforces": { "handle": "Deepansu" }
+    },
+    {
+      "name": "KASHVI GUPTA",
+      "email": "2023ucp1581@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "CHAINY JAIN",
+      "email": "2023ucp1630@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "chainy_jain" },
+      "codeforces": { "handle": "chainy_jain" }
+    },
+    {
+      "name": "ANKIT",
+      "email": "2023ucp1594@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "_Ankit___" },
+      "codeforces": { "handle": "_Ankit___" }
+    },
+    {
+      "name": "KAVYANSH BAGDI",
+      "email": "2023ucp1701@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "kavyanshbagdi" },
+      "codeforces": { "handle": "Kavyansh-Bagdi" }
+    },
+    {
+      "name": "LOKESH SAINI",
+      "email": "2024ucp1505@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "JMM7LerFHR" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ABHISHEK MEENA",
+      "email": "2023uai1802@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Thanwal" },
+      "codeforces": { "handle": "Thanwal" }
+    },
+    {
+      "name": "AMIPARA UDAYAN KISHORBHAI",
+      "email": "2024ucp1310@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Udayan_amipara0808" },
+      "codeforces": { "handle": "2024ucp1310" }
+    },
+    {
+      "name": "Neel Shah",
+      "email": "2024uai1139@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "neelsshah2006" },
+      "codeforces": { "handle": "neelsshah2006" }
+    },
+    {
+      "name": "Amit Kumar",
+      "email": "2024ucp1562@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "amit6217" },
+      "codeforces": { "handle": "Amit6217" }
+    },
+    {
+      "name": "Shivam singh",
+      "email": "2023uai1819@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "user2633T" },
+      "codeforces": { "handle": "theskylighter" }
+    },
+    {
+      "name": "Shivam Jat",
+      "email": "2024ucp1103@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "shivamjat07" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PRANAV INANI",
+      "email": "2023uai1824@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "pranavinani" },
+      "codeforces": { "handle": "pranavinani" }
+    },
+    {
+      "name": "RAMESHWAR SAHU",
+      "email": "2024uai1388@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "TANMAY KUMAR KESHARI",
+      "email": "2024ucp1489@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "savagedude713" },
+      "codeforces": { "handle": "tanmay.cse" }
+    },
+    {
+      "name": "RIYA VERMA",
+      "email": "2023ucp1638@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Riya_verma02" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Amit Kumar",
+      "email": "2024ucp1597@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Amit_choudhary16" },
+      "codeforces": { "handle": "amitchoudhary16" }
+    },
+    {
+      "name": "NIKHIL",
+      "email": "2024ucp1273@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Nikhil3537" },
+      "codeforces": { "handle": "Nikhil_Dagar_3537" }
+    },
+    {
+      "name": "TANNU VIJAY",
+      "email": "2023ucp1620@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "tannuvijay" },
+      "codeforces": { "handle": "tannu_vijay" }
+    },
+    {
+      "name": "Mahek Patel",
+      "email": "2024ucp1837@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "pjmahek2006" }
+    },
+    {
+      "name": "Prateek Kumar",
+      "email": "2024ucp1751@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "isthisprateekk" },
+      "codeforces": { "handle": "2024ucp1751" }
+    },
+    {
+      "name": "Shivam Pareek",
+      "email": "2024ucp1346@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "BinaryDosa" }
+    },
+    {
+      "name": "TUSHAR DHAKAD",
+      "email": "2023ucp1977@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "tushardhakad355" },
+      "codeforces": { "handle": "tusharscamer" }
+    },
+    {
+      "name": "SUHIT KHANDELWAL",
+      "email": "2025umt1783@mnit.ac.in",
+      "branch": "Metallurgical Engineering",
+      "leetcode": { "handle": "suhit_29" },
+      "codeforces": { "handle": "suhit_744" }
+    },
+    {
+      "name": "MS. SANJANA MEENA",
+      "email": "2023uai1830@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2023uai1830" }
+    },
+    {
+      "name": "ABHINAV DATTATRAY UKHARDE",
+      "email": "2023ucp1808@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "abhinav_021" },
+      "codeforces": { "handle": "abhi021" }
+    },
+    {
+      "name": "Vishvkumar Jain",
+      "email": "2024uec1296@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": "Y21y40i3cH" },
+      "codeforces": { "handle": "invincible_11" }
+    },
+    {
+      "name": "Deepankar Singh",
+      "email": "2024ucp1854@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "KASHISH GARG",
+      "email": "2023uai1805@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "kashishgarg_15" },
+      "codeforces": { "handle": "Kashishgarg_15" }
+    },
+    {
+      "name": "MOHAMMAD SHEHZAN",
+      "email": "2023uai1827@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "LOKESH",
+      "email": "2024ucp1236@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "ScoobySolver" },
+      "codeforces": { "handle": "ScoobySolver" }
+    },
+    {
+      "name": "RONAK",
+      "email": "2024ucp1538@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Sgg4650lzh" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "KRISHNA DEVANSHU",
+      "email": "2024ucp1217@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "kri7781" }
+    },
+    {
+      "name": "Yash khatri",
+      "email": "2025uee1872@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": "endlessyash" },
+      "codeforces": { "handle": "endlessyash" }
+    },
+    {
+      "name": "shlok patel",
+      "email": "2025ucp1556@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ANSHUMAN SINGH RAJAWAT",
+      "email": "2024uai1185@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "anshuman_2210" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "TANIKA GOYAL",
+      "email": "2023ucp1626@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "tanikagoyal_" },
+      "codeforces": { "handle": "taniikaaaa" }
+    },
+    {
+      "name": "JAPNEET SINGH KOHLI",
+      "email": "2024ucp1112@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "MEHUL MAHESHWARI",
+      "email": "2023uai1828@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Mehul9024" },
+      "codeforces": { "handle": "Mehul11" }
+    },
+    {
+      "name": "Mukund Rakholiya",
+      "email": "2024ucp1163@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "mukund28" },
+      "codeforces": { "handle": "mukundrakholiya.28" }
+    },
+    {
+      "name": "PRASHANT CHAUDHARY",
+      "email": "2024uec1764@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "greypilgrim36" }
+    },
+    {
+      "name": "ASHISH ROLANIYA",
+      "email": "2023uai1825@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "ashishrolaniya" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "VARDHAN BHATI",
+      "email": "2024uai1196@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Vardhan_Bhati" },
+      "codeforces": { "handle": "vardhan_bhati" }
+    },
+    {
+      "name": "JAYANT SINGH",
+      "email": "2024ucp1806@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "JAI_CODES" },
+      "codeforces": { "handle": "JAI_CODES" }
+    },
+    {
+      "name": "PRANAV KUMAR",
+      "email": "2023ucp1686@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "pranav_1686" },
+      "codeforces": { "handle": "pranav1620kumar" }
+    },
+    {
+      "name": "DHANRAJ CHOUDHARY",
+      "email": "2024ucp1603@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "DhanrajAnil" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "HIMANSHU SAINI",
+      "email": "2024uec1788@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": "himanshu_05_" },
+      "codeforces": { "handle": "himanshu_05_" }
+    },
+    {
+      "name": "Rakshit Jain",
+      "email": "2024ucp1335@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "1GT5KSISV9" },
+      "codeforces": { "handle": "RJ20Legend" }
+    },
+    {
+      "name": "CHIMMULA SRINIDHI",
+      "email": "2024ucp1394@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "srinidhi_286" }
+    },
+    {
+      "name": "Saarvik Singh Suryavanshi",
+      "email": "2025ucp1681@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "RecursiveMonk" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "VANSH BANSAL",
+      "email": "2023ucp1585@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "vansh_bansal__" },
+      "codeforces": { "handle": "bansalv832007" }
+    },
+    {
+      "name": "GARV SRIVASTAVA",
+      "email": "2024ucp1153@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "GarvSrivastava" },
+      "codeforces": { "handle": "GarvSrivastava" }
+    },
+    {
+      "name": "DIKSHIT RAO",
+      "email": "2023ucp1685@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "dikshit_rao" },
+      "codeforces": { "handle": "dikshit_789" }
+    },
+    {
+      "name": "GUTTULA POOJA",
+      "email": "2024ucp1717@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "pooja10205" },
+      "codeforces": { "handle": "pooja10205" }
+    },
+    {
+      "name": "VIVEK KUMAR",
+      "email": "2023uai1996@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "vivekupadhyay06" },
+      "codeforces": { "handle": "vivekkumarupadhyay05" }
+    },
+    {
+      "name": "cheris",
+      "email": "2024ucp1634@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "SJek3toIqy" },
+      "codeforces": { "handle": "cherispoonia2021" }
+    },
+    {
+      "name": "AYUSH KUMAR",
+      "email": "2023ucp1974@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "ayushkumar85371" },
+      "codeforces": { "handle": "ayushkumar85371" }
+    },
+    {
+      "name": "KAMBHAMPATI TEJA SWAROOP",
+      "email": "2024ucp1289@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "tejaswaroop20" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SARAIYA ARYAN MIRAL",
+      "email": "2025ucp1712@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "l7t1fX0a67" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ISHAAN PRASHANT JANI",
+      "email": "2024ucp1058@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "ISHAAN_7806" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "TARISH GUPTA",
+      "email": "2024uai1160@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Tarish_Gupta" },
+      "codeforces": { "handle": "tarishgupta" }
+    },
+    {
+      "name": "NAMAN SAWNANI",
+      "email": "2024uec1609@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": "FDlHKPou4U" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Akash Kumar",
+      "email": "2024ucp1444@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "nitianakash" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "NANDANA MANOJ",
+      "email": "2024ucp1909@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "nandanam" }
+    },
+    {
+      "name": "PAYAL KUMARI",
+      "email": "2024uai1414@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "payalyadav77" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "RISHI",
+      "email": "2024ucp1566@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "the_sage_00" }
+    },
+    {
+      "name": "SOUMYA BALIHARA",
+      "email": "2024uai1517@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "somaybalihara" },
+      "codeforces": { "handle": "balihara1209" }
+    },
+    {
+      "name": "DHANI SHARMA",
+      "email": "2024uai1373@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "sharma_dhani01" }
+    },
+    {
+      "name": "RAVINDER SIDH",
+      "email": "2023ucp1722@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Ravi_36" }
+    },
+    {
+      "name": "Priyanshu Kumar",
+      "email": "2024ucp1579@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "priyanshu10082" },
+      "codeforces": { "handle": "Priyanshu10082" }
+    },
+    {
+      "name": "MANISH",
+      "email": "2024umt1411@mnit.ac.in",
+      "branch": "Metallurgical Engineering",
+      "leetcode": { "handle": "manish_jatav" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "AYUSHMAN GHOSAL",
+      "email": "2024uai1215@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "ayushman2203" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PARTH AGRAWAL",
+      "email": "2023uai1892@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "parth_ag" }
+    },
+    {
+      "name": "Divyanshu Solanki",
+      "email": "2025umt1278@mnit.ac.in",
+      "branch": "Metallurgical Engineering",
+      "leetcode": { "handle": "divyanshusolanki84" },
+      "codeforces": { "handle": "divyanshusolanki84" }
+    },
+    {
+      "name": "Arnav Goel",
+      "email": "2025ucp1138@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "arnav_001" }
+    },
+    {
+      "name": "TANMAY JAIN",
+      "email": "2024ucp1083@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "GURRAPU KARTHIKEYA",
+      "email": "2024ucp1512@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SIDDHI AGARWAL",
+      "email": "2024ucp1385@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "siddhii15" },
+      "codeforces": { "handle": "siddhinonuagarwal" }
+    },
+    {
+      "name": "ASTIK KUMAR JHA",
+      "email": "2024ucp1375@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHREYA VIKRAM BAID",
+      "email": "2024uai1304@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "SHREYA_BAID1" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "HARSHVARDHAN SHARMA",
+      "email": "2024uai1207@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Harshvardhan_Sharma" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ATUL KUMAR MEGHWAL",
+      "email": "2024ucp1756@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Divyanshu Tomar",
+      "email": "2024ucp1194@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "DIVI_FAEX" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PRIYAM NILESH BHATT",
+      "email": "2025uai1605@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "pnb2916" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Aditya goel",
+      "email": "2025ucp1047@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "adityagoel07" }
+    },
+    {
+      "name": "Ridhima Garg",
+      "email": "2025ucp1648@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "coder_Ridhima" }
+    },
+    {
+      "name": "Shivang Thakur",
+      "email": "2025ucp1735@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Shivang_1000" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "BHUWAN GUPTA",
+      "email": "2024uee1536@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PULKIT GUPTA",
+      "email": "2024uai1146@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "pulkit21gupta" },
+      "codeforces": { "handle": "pulkit21gupta" }
+    },
+    {
+      "name": "Krish",
+      "email": "2025ucp1415@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Krish_Jain_000" }
+    },
+    {
+      "name": "ARCHANA CHHOLAK",
+      "email": "2024ucp1874@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "archana_chholak" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "VIVEK KUMAR",
+      "email": "2024ucp1572@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "vivek_mnit_jaipur" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "RIYANSH ARORA",
+      "email": "2024ucp1319@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "riyansh_arora" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ABHA SINGH BAGHELA",
+      "email": "2025ucp1022@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Abhasinghbaghela" },
+      "codeforces": { "handle": "Abha_singh_baghela" }
+    },
+    {
+      "name": "RISHIKA VIJAY",
+      "email": "2024ucp1398@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "rishikavj" }
+    },
+    {
+      "name": "KULDEEP BISHNOI",
+      "email": "2025uee1427@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": "K_code42" },
+      "codeforces": { "handle": "K_Code42" }
+    },
+    {
+      "name": "NIMESH KUMAR",
+      "email": "2024uec1917@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "AASTHA WADJIKAR",
+      "email": "2024ucp1888@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Aastha_W" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ANIRUDH SANKER",
+      "email": "2023ucp1844@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Shubham Singh",
+      "email": "2024ume1772@mnit.ac.in",
+      "branch": "Mechanical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "knightShub" }
+    },
+    {
+      "name": "SABHYA SINGH",
+      "email": "2024uai1555@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Kush Pambhar",
+      "email": "2024uec1576@mnit.ac.in",
+      "branch": "ECE",
+      "leetcode": { "handle": "kush_mnit" },
+      "codeforces": { "handle": "Kush_mnit" }
+    },
+    {
+      "name": "Anshav Ayush",
+      "email": "2025ucp1114@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "DARSHIL SAINI",
+      "email": "2024ucp1627@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Akash Wadhvani",
+      "email": "2024ucp1090@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Wadhvani26_18" },
+      "codeforces": { "handle": "akashwadhvani15" }
+    },
+    {
+      "name": "SACHIN KUMAR",
+      "email": "2025uec1682@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "RAKESH",
+      "email": "2024uee1820@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Bionic0Bruste" }
+    },
+    {
+      "name": "Van Meet",
+      "email": "2025ucp1832@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "meetvan200607" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "KARTIK MANETHIYA",
+      "email": "2025ucp1387@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "kartikmanethiya" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "VAIBHAV GARG",
+      "email": "2023ucp1659@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "vaibhavcodess" },
+      "codeforces": { "handle": "vaibhavcodess" }
+    },
+    {
+      "name": "Ibrahim Attarwala",
+      "email": "2025ucp1352@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "DAKSH SEN",
+      "email": "2025uee1225@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "dakshsen555" }
+    },
+    {
+      "name": "Darsh Wala",
+      "email": "2025ucp1867@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "cranky_piston" },
+      "codeforces": { "handle": "cranky_piston" }
+    },
+    {
+      "name": "Arnav Rohilla",
+      "email": "2023ucp1832@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ANKUSH KUMAR",
+      "email": "2024uai1578@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "ankushlunia" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ABHISHEK SAINI",
+      "email": "2024ucp1622@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "abhishek_9941_saini" }
+    },
+    {
+      "name": "PALLVI",
+      "email": "2025ucp1547@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "PALLVI" }
+    },
+    {
+      "name": "PRAJAPATI HARSHIL SHAILESHKUMAR",
+      "email": "2024ucp1459@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Harshil_777" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "JASWANT ARORA",
+      "email": "2023uai1890@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "jaswant08" }
+    },
+    {
+      "name": "SEETHALA SAI SIDHARTH",
+      "email": "2024ucp1823@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Paridhi Parakh",
+      "email": "2024ucp1237@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "paridhiparakh3" }
+    },
+    {
+      "name": "LAKSHAY AHUJA",
+      "email": "2024ucp1157@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Mayank Gandhi",
+      "email": "2025ucp1468@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2025ucp1468" }
+    },
+    {
+      "name": "MUDITA KALSAN",
+      "email": "2024uai1583@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "mudita_kalsan" },
+      "codeforces": { "handle": "mudita_kalsan" }
+    },
+    {
+      "name": "SIDHARTH KASNIYA",
+      "email": "2024uai1487@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "AKSHAY KUMAR MINA",
+      "email": "2023ucp1661@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "OptimalPrime" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Bhawni Jain",
+      "email": "2025ucp1199@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Bhawni" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "UJJWAL JAIN",
+      "email": "2024ucp1330@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Ujjwal_jain0602" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "DAKSH MITTAL",
+      "email": "2023ucp1592@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ABHINAV KUMAR SINGH",
+      "email": "2024ucp1212@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "aks.peace1904" }
+    },
+    {
+      "name": "OMESH GARG",
+      "email": "2025ucp1542@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "WANKHEDE PRATIK PREMANAND",
+      "email": "2024ucp1780@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Abhinav",
+      "email": "2024ucp1761@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Dushyant Dagi",
+      "email": "2025ucp1283@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "DushyantX" },
+      "codeforces": { "handle": "DushyantX" }
+    },
+    {
+      "name": "Aayush Pupalwad",
+      "email": "2025ucp1019@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Jatin",
+      "email": "2024ucp1497@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "LAKSHAY KUMAR",
+      "email": "2024ucp1282@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "lakshay_dhankhar" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "JatishNarula",
+      "email": "2025uai1362@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "jatishnarula8" }
+    },
+    {
+      "name": "aman meena",
+      "email": "2025uai1085@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "aman077_0" }
+    },
+    {
+      "name": "Aditya",
+      "email": "2025ucp1043@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Aditya2811" },
+      "codeforces": { "handle": "Aditya2811" }
+    },
+    {
+      "name": "Kartik Gupta",
+      "email": "2025uec1385@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Shivani Singh",
+      "email": "2025uai1736@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Ravi Drolia",
+      "email": "2025uai1639@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Codenplay" },
+      "codeforces": { "handle": "Codenplay" }
+    },
+    {
+      "name": "Avaneesh Pandey",
+      "email": "2025uec1173@mnit.ac.in",
+      "branch": "ECE",
+      "leetcode": { "handle": "stormr" },
+      "codeforces": { "handle": "stormr" }
+    },
+    {
+      "name": "SANSKRITI AGRAWAL",
+      "email": "2024ucp1252@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "sansu_18" }
+    },
+    {
+      "name": "Param Chauhan",
+      "email": "2025ucp1211@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Mayank Kumawat",
+      "email": "2025uai1471@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "mayankcode369" }
+    },
+    {
+      "name": "VALIYA PARTHKUMAR RAMESHBHAI",
+      "email": "2024ucp1073@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "valiyaparthr" }
+    },
+    {
+      "name": "SUBHESH KUMAR",
+      "email": "2024uai1571@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "NIDHI PANCHAL",
+      "email": "2025ucp1548@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Nidhi_Panchal" },
+      "codeforces": { "handle": "Nidhi_Panchal" }
+    },
+    {
+      "name": "PUVVALA CHARAN SAI NAGA LAXMAN",
+      "email": "2024ucp1168@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "GreedyAlgo" }
+    },
+    {
+      "name": "ABHIJEET UDGATA",
+      "email": "2024ucp1889@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Shubhangi goyal",
+      "email": "2025uai1755@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2025uai1755" }
+    },
+    {
+      "name": "Tarun konde",
+      "email": "2025ucp1811@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Tarun_konde" },
+      "codeforces": { "handle": "Tarun_konde" }
+    },
+    {
+      "name": "SHIVPRATAP SINGH",
+      "email": "2023ucp1655@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Shiv7297" },
+      "codeforces": { "handle": "Shiv7297" }
+    },
+    {
+      "name": "SAMARTH MUNJE",
+      "email": "2024uai1233@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "zzzmosnter" }
+    },
+    {
+      "name": "NIDHI",
+      "email": "2023uai1817@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Nidhi_2311" }
+    },
+    {
+      "name": "Adityaraj Shyamsundar Bhandari",
+      "email": "2024ucp1639@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "adityarajam665" }
+    },
+    {
+      "name": "Bhavya",
+      "email": "2024ucp1064@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "YASH BAROR",
+      "email": "2024ucp1831@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "yash-baror_30" },
+      "codeforces": { "handle": "Yash_baror77" }
+    },
+    {
+      "name": "SANDEEP KHACHARIYA",
+      "email": "2023ucp1628@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Ansh Sharma",
+      "email": "2025ucp1113@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "4nsh_sharma" }
+    },
+    {
+      "name": "Bhaavya Dimri",
+      "email": "2025ucp1188@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "bd_2808" }
+    },
+    {
+      "name": "Avi Verma",
+      "email": "2025uai1174@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "avi_verma121" },
+      "codeforces": { "handle": "Avi_Verma121" }
+    },
+    {
+      "name": "MUKUL FAUJDAR",
+      "email": "2024ucp1116@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Sudhir kaswan",
+      "email": "2025ucp1780@mnit.ac.in",
+      "branch": "CSE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Vishesh",
+      "email": "2025ucp1861@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "CHENNAKESAVULA PAVAN TEJA",
+      "email": "2024uai1264@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHREEJA UBHARE",
+      "email": "2025ucp1947@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "ShreejaMahesh" },
+      "codeforces": { "handle": "ShreejaMahesh" }
+    },
+    {
+      "name": "RISHI YADAV",
+      "email": "2024ucp1601@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Rishiyadav4u" }
+    },
+    {
+      "name": "sandeep kala",
+      "email": "2024uec1765@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "MANISH",
+      "email": "2024uai1329@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "manish.kaswa" }
+    },
+    {
+      "name": "SNEHA BOHARA",
+      "email": "2024uai1606@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Sneha_1624" },
+      "codeforces": { "handle": "Sneha_1624" }
+    },
+    {
+      "name": "RUDRESHWAR RAJENDRA GADHARI",
+      "email": "2025uai1678@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Mohd Aman Ali",
+      "email": "2025ucp1488@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SALONI KHANDELWAL",
+      "email": "2025ucp1697@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "salcoder21" },
+      "codeforces": { "handle": "salcoder21" }
+    },
+    {
+      "name": "Sarvesh Datey",
+      "email": "2025uai1229@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Mahak Jain",
+      "email": "2025uec1449@mnit.ac.in",
+      "branch": "ECE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2025uec1449" }
+    },
+    {
+      "name": "ROHIT MINA",
+      "email": "2024uai1573@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Sachin Meena",
+      "email": "2025umt1683@mnit.ac.in",
+      "branch": "Metallurgical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "KADAMANCHI JATIN",
+      "email": "2024ucp1903@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "jatinkadamanchi" },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "NEEV JAIN",
+      "email": "2024uai1278@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Niharika Sharma",
+      "email": "2025ucp1531@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Vaibhav Kumar",
+      "email": "2025uec1829@mnit.ac.in",
+      "branch": "Electronics & Communication Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Aryan Sharma",
+      "email": "2025ucp1156@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SUJAL MAURYA",
+      "email": "2024ucp1786@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Suzieecode" }
+    },
+    {
+      "name": "BHAWANA KUMARI",
+      "email": "2024ucp1558@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "bhawana_55" }
+    },
+    {
+      "name": "NAMAN AGARWAL",
+      "email": "2025ucp1510@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "NISHANT",
+      "email": "2024ucp1773@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Nishant_3005" }
+    },
+    {
+      "name": "ABHISHEK YADAV",
+      "email": "2025ucp1035@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Abhi_mlrk" }
+    },
+    {
+      "name": "PRARTHANA",
+      "email": "2025ucp1580@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "_Prarthana_Singla786" }
+    },
+    {
+      "name": "JOYECE GAJRAJ",
+      "email": "2024ucp1829@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2024ucp1829" }
+    },
+    {
+      "name": "Ritvik",
+      "email": "2025ucp1657@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "AlgoRitvik" },
+      "codeforces": { "handle": "AlgoRitvik" }
+    },
+    {
+      "name": "AKHIL RAJ",
+      "email": "2025uee1069@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PRATEEK MEENA",
+      "email": "2024ucp1862@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "GAURAV AHUJA",
+      "email": "2025ucp1292@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "gauravahuja5935" }
+    },
+    {
+      "name": "Yug menpara",
+      "email": "2025uai1480@mnit.ac.in",
+      "branch": "AIDE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ARYAN TAKALKAR",
+      "email": "2025ucp1907@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "GANGANI JAIMIN KISHORBHAI",
+      "email": "2024ucp1302@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "JAIMIN1" }
+    },
+    {
+      "name": "TEJAS SUNIL SALUNKE",
+      "email": "2024ucp1279@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2024ucp1279" }
+    },
+    {
+      "name": "YASHWANT KHATIK",
+      "email": "2024uai1561@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": "Yash_Khatik" },
+      "codeforces": { "handle": "Yash_Khatik" }
+    },
+    {
+      "name": "MITHILESH ILANGO",
+      "email": "2024ucp1906@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Swapnil joshirao",
+      "email": "2025ucp1367@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Swapnil_11" }
+    },
+    {
+      "name": "Ishu Jangid",
+      "email": "2025ucp1359@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "JANAGONDA MANJUNATH",
+      "email": "2024uai1401@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "KRISHNA YADAV",
+      "email": "2024ucp1417@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "umed harwani",
+      "email": "2025ucp1959@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "AAYUSH RAJ NIRALA",
+      "email": "2025ucp1020@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "aryan",
+      "email": "2025ucp1154@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Vivek Jangir",
+      "email": "2025uec1862@mnit.ac.in",
+      "branch": "ECE",
+      "leetcode": { "handle": "vivekjangir51" },
+      "codeforces": { "handle": "vivekjangir51" }
+    },
+    {
+      "name": "Nidhi Bansal",
+      "email": "2025ucp1527@mnit.ac.in",
+      "branch": "CSE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ANKIT VERMA",
+      "email": "2024ucp1794@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "verma_ankit921" },
+      "codeforces": { "handle": "verma_ankit921" }
+    },
+    {
+      "name": "SOJITRA SHREYKUMAR BHARATBHAI",
+      "email": "2023ucp1969@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Shrey_819" },
+      "codeforces": { "handle": "Shrey_819" }
+    },
+    {
+      "name": "AJAY KUMAR YADAV",
+      "email": "2024ucp1533@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Sonu Choudhary",
+      "email": "2025uch1772@mnit.ac.in",
+      "branch": "CHE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ROHAN RAVINDRA JOSHI",
+      "email": "2025ucp1941@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "rohanj07" }
+    },
+    {
+      "name": "RAJESH CHAVAN",
+      "email": "2024ucp1475@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Prince",
+      "email": "2025ucp1592@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "Prince001_9685" },
+      "codeforces": { "handle": "Prince001_9685" }
+    },
+    {
+      "name": "HITESH NAGAR",
+      "email": "2024ucp1426@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "hitesh197" }
+    },
+    {
+      "name": "Suraj pathak",
+      "email": "2025ucp1792@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "suraj_pathak12" },
+      "codeforces": { "handle": "Suraj_pathak12" }
+    },
+    {
+      "name": "Himanshu Shah",
+      "email": "2025uee1347@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": "himanshu-celestial" },
+      "codeforces": { "handle": "himanshu-celestial" }
+    },
+    {
+      "name": "RANVEER SINGH",
+      "email": "2024ucp1137@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2024ucp1137" }
+    },
+    {
+      "name": "ABHISHEK RATHOD BHUKYA",
+      "email": "2024ucp1868@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHREEYA SODANI",
+      "email": "2025uai1948@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "VISHAL PRAJAPATI",
+      "email": "2024umt1321@mnit.ac.in",
+      "branch": "Metallurgical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ABHISHEK",
+      "email": "2025ucp1029@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "KRISHANA VIJAY IPAR",
+      "email": "2025uce1418@mnit.ac.in",
+      "branch": "Civil Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "LAXANE PRANAV SUNIL",
+      "email": "2025uee1443@mnit.ac.in",
+      "branch": "Electrical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Dev Singh",
+      "email": "2025ucp1236@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Dev_Singh2026" }
+    },
+    {
+      "name": "Harshil Sandhu",
+      "email": "2025uai1327@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHREYAS SURESH WAGHMARE",
+      "email": "2025ucp1949@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Mankesh meena",
+      "email": "2025ucp1463@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ARVIND BADERA",
+      "email": "2024ucp1859@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Arvind_111" }
+    },
+    {
+      "name": "ANKIT SARAN",
+      "email": "2024ucp1433@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "CuleXVXoid" },
+      "codeforces": { "handle": "CuleXVXoid" }
+    },
+    {
+      "name": "Vemulapally Lokesh",
+      "email": "2025uai1849@mnit.ac.in",
+      "branch": "AIDE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Lokesh1849" }
+    },
+    {
+      "name": "ARCHIT CHAUHAN",
+      "email": "2024ucp1918@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Prateek Parasar",
+      "email": "2025uch1585@mnit.ac.in",
+      "branch": "CHE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "ANANYA KUMAR SRIVASTAVA",
+      "email": "2025uce1093@mnit.ac.in",
+      "branch": "Civil Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Ananya_Kumar_Srivastava" }
+    },
+    {
+      "name": "Vikram Mehra",
+      "email": "2025ucp1852@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Rudra Pratap Singh",
+      "email": "2025uai1674@mnit.ac.in",
+      "branch": "AIDE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "SHWETA CHOUDHARY",
+      "email": "2024ucp1229@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "shweta_nehra" }
+    },
+    {
+      "name": "KOPPISETTI CHARAN RAMANA",
+      "email": "2024ucp1525@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Yogendra Meena",
+      "email": "2025ucp1884@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "yogimeenaiitian95" }
+    },
+    {
+      "name": "DELWIN BINU LUKE",
+      "email": "2025ucp1910@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": "delwinbinu" },
+      "codeforces": { "handle": "delwinbinu" }
+    },
+    {
+      "name": "Sujeet Sandeep Bade",
+      "email": "2025ucp1185@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Siddhi Tibrewal",
+      "email": "2025ucp1950@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "siddhi_0810" }
+    },
+    {
+      "name": "Shubham Chahar",
+      "email": "2025umt1748@mnit.ac.in",
+      "branch": "META",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Sam_0212" }
+    },
+    {
+      "name": "Pinisetti VN Ajitha",
+      "email": "2025uai1560@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Kamal Prajapat",
+      "email": "2025uai1372@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "kamalprajapat" }
+    },
+    {
+      "name": "Tharun Sathish",
+      "email": "2025ucp1958@mnit.ac.in",
+      "branch": "CSE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Pavan Gowda",
+      "email": "2025ucp1937@mnit.ac.in",
+      "branch": "CSE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "PRIYA",
+      "email": "2024ucp1481@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Priyapoonia" }
+    },
+    {
+      "name": "Manan Malik",
+      "email": "2025uee1455@mnit.ac.in",
+      "branch": "EE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "RUCHI BAIRWA",
+      "email": "2024ucp1843@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "VISHWASINGH PRAKASHSINGH RAJPUROHIT",
+      "email": "2024ucp1118@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Vishwasingh" }
+    },
+    {
+      "name": "Yuvraj Tak",
+      "email": "2025ucp1890@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Vansh Kasliwal",
+      "email": "2025ume1836@mnit.ac.in",
+      "branch": "Mechanical Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "VanshKasliwal" }
+    },
+    {
+      "name": "devadi  nikhil",
+      "email": "2025ucp1238@mnit.ac.in",
+      "branch": "CSE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "nikhil_0725" }
+    },
+    {
+      "name": "KIRAN THAKUR",
+      "email": "2024ucp1270@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Sita Arun",
+      "email": "2025uec1766@mnit.ac.in",
+      "branch": "ECE",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "nezuko27" }
+    },
+    {
+      "name": "Ankit Gupta",
+      "email": "2025ucp1102@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "2523ankitgupta" }
+    },
+    {
+      "name": "ANUKRAT BAMNAVATH",
+      "email": "2025ucp1126@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "JATAVATH MAHENDAR",
+      "email": "2024ucp1870@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": null }
+    },
+    {
+      "name": "Devansh Jain",
+      "email": "2025uai1239@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "devanshjain2007" }
+    },
+    {
+      "name": "siddharth kumar",
+      "email": "2025ucp1759@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "sidd0022" }
+    },
+    {
+      "name": "Purti",
+      "email": "2025ucp1615@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Purti029" }
+    },
+    {
+      "name": "KRISHNA MAHESHWARI",
+      "email": "2025ucp1422@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "unhingedsquad" }
+    },
+    {
+      "name": "KODEM JYOTHESH KUMAR DORA",
+      "email": "2023uai1807@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "humblemeetup" }
+    },
+    {
+      "name": "Ketan Sharma",
+      "email": "2025ucp1398@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Ketan-Sharma" }
+    },
+    {
+      "name": "TANVI SINHA",
+      "email": "2024ucp1260@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "sinhatanvi" }
+    },
+    {
+      "name": "KULDEEP SINGH",
+      "email": "2025ucp1428@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "kuldeep_singh89" }
+    },
+    {
+      "name": "NAGOTHA DHRUVIK HADABHAI",
+      "email": "2023ucp1653@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "Aiden_D" }
+    },
+    {
+      "name": "BHUPENDRA JANGIR",
+      "email": "2023uai1813@mnit.ac.in",
+      "branch": "UAI",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "bhupendra...." }
+    },
+    {
+      "name": "SNEHA MUNDOTIYA",
+      "email": "2024ucp1849@mnit.ac.in",
+      "branch": "Computer Science Engineering",
+      "leetcode": { "handle": null },
+      "codeforces": { "handle": "SnehaMundotiya" }
+    }
+  ]
+}
