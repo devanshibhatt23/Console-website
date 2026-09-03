@@ -772,31 +772,37 @@ const refreshPOTDLeaderboardCache = async () => {
 app.get('/api/leaderboard', async (req, res) => {
     try {
         const now = Date.now();
+        // 1. If memory cache is valid, return instantly (<5ms)
         if (memoryLeaderboardCache && (now - memoryLeaderboardLastUpdated) < CACHE_TTL_MS) {
             return res.json(memoryLeaderboardCache);
         }
 
+        // 2. Otherwise try reading persistent cache from Supabase (~50ms)
+        const supabaseCached = await readFromSupabaseCache();
+        if (supabaseCached && Object.keys(supabaseCached).length > 0) {
+            memoryLeaderboardCache = supabaseCached;
+            memoryLeaderboardLastUpdated = Date.now();
+            
+            // If cache was stale (>12h), trigger background refresh without delaying the user
+            refreshLeaderboardCache().catch(err => console.error('Background leaderboard refresh error:', err.message));
+
+            return res.json(supabaseCached);
+        }
+
+        // 3. Fallback: if no cache exists in Supabase at all, fetch fresh data
         const freshData = await refreshLeaderboardCache();
         if (freshData) {
             memoryLeaderboardCache = freshData;
             memoryLeaderboardLastUpdated = Date.now();
             return res.json(freshData);
         }
+
         if (memoryLeaderboardCache) {
             return res.json(memoryLeaderboardCache);
         }
-
+        res.status(500).json({ error: 'Leaderboard data unavailable' });
     } catch (error) {
-        // Fallback to old memory cache or Supabase
         if (memoryLeaderboardCache) return res.json(memoryLeaderboardCache);
-        
-        console.error('Falling back to stale Supabase cache...');
-        const { data } = await supabase.from('leaderboard_cache').select('platform, data');
-        if (data && data.length > 0) {
-            const staleLeaderboards = {};
-            data.forEach(row => { staleLeaderboards[row.platform] = row.data; });
-            return res.json(staleLeaderboards);
-        }
         res.status(500).json({ error: 'Failed to fetch leaderboard data' });
     }
 });
@@ -837,20 +843,14 @@ const maybeRefreshPOTDSubmissions = async () => {
             .eq('platform', 'potd')
             .single();
 
-        if (error) {
-            // If cache entry missing, we should refresh.
-            await refreshPOTDLeaderboardCache();
-            return;
-        }
-
         const last = data?.last_updated ? new Date(data.last_updated).getTime() : 0;
         const age = Date.now() - last;
 
-        // Refresh when POTD cache is older than a small window.
-        // (Short window to make "accepted" show up quickly.)
+        // Refresh in background when POTD cache is older than STALE_WINDOW_MS
+        // so the user's request returns instantly without waiting for external API scraping.
         const STALE_WINDOW_MS = 3 * 60 * 1000; // 3 minutes
         if (!last || age > STALE_WINDOW_MS) {
-            await refreshPOTDLeaderboardCache();
+            refreshPOTDLeaderboardCache().catch(err => console.error('Background POTD refresh error:', err.message));
         }
     } catch (e) {
         console.error('maybeRefreshPOTDSubmissions failed:', e.message);

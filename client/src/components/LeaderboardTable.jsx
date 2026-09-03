@@ -33,7 +33,7 @@ const StandardRankIcon = () => (
 
 const RankIcon = ({ rank }) => (rank <= 3 ? <MedalIcon rank={rank} /> : <StandardRankIcon />);
 
-const LeaderboardRow = ({ user, index, scoreKey, platformId, started, delay }) => {
+const LeaderboardRow = ({ user, index, scoreKey, platformId, started = true, delay }) => {
     const rank = index + 1;
     const rankTierClass = rank === 1 ? 'rank-gold' : rank === 2 ? 'rank-silver' : rank === 3 ? 'rank-bronze' : '';
     const rawScore = user[scoreKey] || 0;
