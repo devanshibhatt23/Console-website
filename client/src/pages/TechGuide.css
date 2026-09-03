@@ -221,7 +221,7 @@
 .tg-layout {
   position: relative;
   z-index: 1;
-  max-width: 900px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 0 24px;
   display: flex;
@@ -246,7 +246,7 @@
 }
 
 .tg-section-head {
-  max-width: 680px;
+  max-width: 780px;
 }
 
 .tg-section-badge {
@@ -288,7 +288,7 @@
 .tg-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 49px;
+  gap: 24px;
 }
 
 .tg-vertical-stack {
@@ -296,13 +296,13 @@
   flex-direction: column;
   gap: 28px;
   width: 100%;
-  max-width: 860px;
+  max-width: 980px;
 }
 
 .tg-hack-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
+  gap: 16px;
 }
 
 /* ── Base Card ── */
@@ -775,7 +775,7 @@
   font-family: 'Inter', system-ui, sans-serif;
   line-height: 1.75;
   margin: 0 0 8px;
-  max-width: 640px;
+  max-width: 760px;
 }
 
 /* ── Reveal animation target ── */

@@ -16,7 +16,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SU
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // --- CACHE CONFIG ---
-const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const CACHE_TTL_MS = 12 * 60 * 60 * 1000; // 12 hours
 let isFetching = false;
 let isFetchingPOTD = false;
 
@@ -777,9 +777,14 @@ app.get('/api/leaderboard', async (req, res) => {
         }
 
         const freshData = await refreshLeaderboardCache();
-        memoryLeaderboardCache = freshData;
-        memoryLeaderboardLastUpdated = Date.now();
-        res.json(freshData);
+        if (freshData) {
+            memoryLeaderboardCache = freshData;
+            memoryLeaderboardLastUpdated = Date.now();
+            return res.json(freshData);
+        }
+        if (memoryLeaderboardCache) {
+            return res.json(memoryLeaderboardCache);
+        }
 
     } catch (error) {
         // Fallback to old memory cache or Supabase
@@ -1484,6 +1489,11 @@ app.post('/api/motivation-quotes/:id/review', async (req, res) => {
     }
 });
 
+// Health check endpoint for keep-alive pings
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime() });
+});
+
 app.listen(port, () => {
     console.log(`Leaderboard server running on port ${port}`);
     // Warm up the cache on startup
@@ -1491,10 +1501,21 @@ app.listen(port, () => {
     refreshPOTDLeaderboardCache().catch(console.error);
 });
 
-// Background interval to refresh POTD leaderboard cache every 60 seconds
+// Background interval: refresh main leaderboard cache every 12 hours
 setInterval(() => {
-    console.log('Background POTD submissions check...');
-    refreshPOTDLeaderboardCache().catch(err => {
-        console.error('Background POTD check failed:', err.message);
+    console.log('Background main leaderboard refresh...');
+    refreshLeaderboardCache().catch(err => {
+        console.error('Background main leaderboard refresh failed:', err.message);
     });
-}, 60000);
+}, 12 * 60 * 60 * 1000);
+
+// Keep-alive ping: Render free tier spins down after ~15 min of inactivity.
+// This self-pings the server every 10 minutes to prevent cold starts.
+const SELF_URL = process.env.RENDER_EXTERNAL_URL || null;
+if (SELF_URL) {
+    setInterval(() => {
+        fetch(`${SELF_URL}/health`)
+            .then(() => console.log('Keep-alive ping sent.'))
+            .catch(err => console.warn('Keep-alive ping failed:', err.message));
+    }, 10 * 60 * 1000); // every 10 minutes
+}
