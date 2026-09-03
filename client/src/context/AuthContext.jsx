@@ -16,7 +16,30 @@ export function AuthProvider({ children }) {
       .eq("id", userId)
       .single();
 
-    // Auto-sync name from metadata if it is currently blank in profiles
+    // If no profile found by ID, check if an imported profile exists with the same
+    // email (created by admin import script under a different auth ID).
+    // If found, migrate it to this Google auth ID to prevent duplicates.
+    if (!data && email) {
+      try {
+        const { data: linked } = await supabase.rpc("link_profile_by_email", {
+          new_user_id: userId,
+          user_email: email,
+        });
+        if (linked) {
+          // Profile was successfully migrated — fetch it under the new ID
+          const { data: migratedData } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", userId)
+            .single();
+          data = migratedData;
+        }
+      } catch (err) {
+        console.warn("Unable to link imported profile by email:", err.message);
+      }
+    }
+
+    // Auto-sync name from Google metadata if profile name is blank
     const metaName = userMetadata?.full_name || userMetadata?.name || "";
     if (data && (!data.name || data.name.trim() === "") && metaName) {
       try {
